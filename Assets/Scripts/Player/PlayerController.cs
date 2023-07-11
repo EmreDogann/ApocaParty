@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
@@ -32,7 +33,6 @@ namespace Player
             {
                 _agent.destination = _mainCamera.ScreenToWorldPoint(Mouse.current.position.value);
                 marker.transform.position = _agent.destination;
-                marker.gameObject.SetActive(true);
             }
 
             if (Vector3.Distance(transform.position, marker.position) < 0.1f)
@@ -45,6 +45,12 @@ namespace Player
                 var path = _agent.path;
                 pathRenderer.positionCount = path.corners.Length;
                 pathRenderer.SetPositions(path.corners);
+                if (_agent.hasPath) marker.gameObject.SetActive(true);
+            }
+            else
+            {
+                pathRenderer.positionCount = 0;
+                marker.gameObject.SetActive(false);
             }
         }
     }
