@@ -2,7 +2,7 @@
 Summer Slow Jams 2023 Submission
 
 # Controls
-Point and click to move Cthulu to a location.
+Movement - Point and click to move
 
 # Authors
 ayperosia -> https://ayperosia.itch.io/  
