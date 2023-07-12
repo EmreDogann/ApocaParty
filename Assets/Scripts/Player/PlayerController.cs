@@ -27,6 +27,11 @@ namespace Player
 
         void Update()
         {
+            if (Time.timeScale == 0.0f)
+            {
+                return;
+            }
+            
             _blackboard.IsMoving = _agent.hasPath;
 
             if (Mouse.current.leftButton.wasPressedThisFrame)
