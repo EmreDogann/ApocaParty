@@ -1,4 +1,5 @@
 ﻿using System;
+using UI.Views;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
@@ -33,13 +34,16 @@ namespace UI
 
         public void OnCancel(InputAction.CallbackContext ctx)
         {
-            if (Time.timeScale > 0.0f)
+            View view = UIManager.instance.GetCurrentView();
+            OnCancelEvent?.Invoke(view);
+
+            if (!view)
             {
-                OnCancelEvent?.Invoke(true);
+                UIManager.instance.Show<PauseMenuView>();
             }
             else
             {
-                OnCancelEvent?.Invoke(false);
+                UIManager.instance.Back();
             }
         }
     }

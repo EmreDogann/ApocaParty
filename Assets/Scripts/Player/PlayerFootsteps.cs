@@ -1,4 +1,4 @@
-using System.Collections;
+using Audio;
 using LlamAcademy.Spring.Runtime;
 using UnityEngine;
 
@@ -12,15 +12,17 @@ namespace Player
         public SpringToScale scaleSpring;
         public float footstepForce = 1.0f;
         public float footstepStride = 1.5f;
-        public float currentStrideDistance = 0.0f;
-        
+        public float currentStrideDistance;
+
+        public SoundEffectSO footstepSoundEffect;
+
         private PlayerBlackboard _blackboard;
 
         private float _prevPlayerStride;
         private Vector3 _prevTransformPos = Vector3.zero;
 
         // private RaycastHit _hit;
-        
+
         private void Awake()
         {
             _blackboard = GetComponent<PlayerBlackboard>();
@@ -53,9 +55,11 @@ namespace Player
             {
                 return;
             }
-            
+
             currentStrideDistance = 0;
             _blackboard.OnStride?.Invoke();
+
+            AudioManager.Instance.PlayEffectOneShot(footstepSoundEffect);
         }
 
         private void InteractSurface()

@@ -36,7 +36,7 @@ namespace Player
 
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
-                _agent.destination = _mainCamera.ScreenToWorldPoint(Mouse.current.position.value);
+                _agent.SetDestination(_mainCamera.ScreenToWorldPoint(Mouse.current.position.value));
                 marker.transform.position = _agent.destination;
             }
 
