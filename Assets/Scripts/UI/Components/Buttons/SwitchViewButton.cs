@@ -22,13 +22,13 @@ namespace UI.Components.Buttons
                 case SwitcherMode.None:
                     break;
                 case SwitcherMode.Back:
-                    UIManager.instance.Back();
+                    UIManager.Instance.Back();
                     break;
                 case SwitcherMode.Replace:
-                    UIManager.instance.Show(targetView, false);
+                    UIManager.Instance.Show(targetView, false);
                     break;
                 case SwitcherMode.Add:
-                    UIManager.instance.Show(targetView);
+                    UIManager.Instance.Show(targetView);
                     break;
             }
         }

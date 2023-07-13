@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UI.Views.Transitions;
 using UnityEngine;
 
 namespace UI.Views
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class View : MonoBehaviour
+    public class View : MonoBehaviour, IViewable
     {
         [SerializeField] private MenuTransitionFactory menuTransitionFactory;
         protected Coroutine _coroutine;
@@ -13,6 +14,9 @@ namespace UI.Views
         protected bool _isActive;
         private MenuTransition _menuTransition;
         public CanvasGroup CanvasGroup { get; private set; }
+
+        public Action<View> OnViewOpen;
+        public Action<View> OnViewClose;
 
         public virtual void Initialize()
         {
@@ -27,6 +31,7 @@ namespace UI.Views
         {
             _isActive = true;
             gameObject.SetActive(_isActive);
+            OnViewOpen?.Invoke(this);
 
             if (_coroutine != null)
             {
@@ -43,12 +48,19 @@ namespace UI.Views
                 return;
             }
 
+            OnViewClose?.Invoke(this);
+
             if (_coroutine != null)
             {
                 StopCoroutine(_coroutine);
             }
 
             _coroutine = StartCoroutine(Hide());
+        }
+
+        public bool IsActive()
+        {
+            return _isActive;
         }
 
         protected virtual IEnumerator Show()

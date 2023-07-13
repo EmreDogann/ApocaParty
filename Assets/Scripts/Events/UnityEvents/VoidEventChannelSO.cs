@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DeepDreams.ScriptableObjects.Events.UnityEvents
+namespace Events.UnityEvents
 {
     [CreateAssetMenu(fileName = "New Void Event", menuName = "Game Event/Unity Event/Void Event", order = 3)]
     public class VoidEventChannelSO : ScriptableObject

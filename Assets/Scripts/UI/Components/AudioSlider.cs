@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 namespace UI.Components
 {
@@ -13,19 +14,47 @@ namespace UI.Components
     {
         public MixerGroup mixer;
         public AudioMixer audioMixer;
+        private Slider slider;
 
-        public void SetVolume(float volume)
+        private void Start()
         {
+            slider = GetComponent<Slider>();
+
+            float dbVolume = -80.0f;
             switch (mixer)
             {
                 case MixerGroup.Master:
-                    audioMixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20);
+                    audioMixer.GetFloat("MasterVolume", out dbVolume);
                     break;
                 case MixerGroup.SFX:
-                    audioMixer.SetFloat("SFXVolume", Mathf.Log10(volume) * 20);
+                    audioMixer.GetFloat("SFXVolume", out dbVolume);
                     break;
                 case MixerGroup.Music:
-                    audioMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20);
+                    audioMixer.GetFloat("MusicVolume", out dbVolume);
+                    break;
+            }
+
+            slider.SetValueWithoutNotify(Mathf.Pow(10, dbVolume / 20.0f));
+        }
+
+        public void SetVolume(float volume)
+        {
+            float dbVolume = Mathf.Log10(volume) * 20;
+            if (volume == 0.0f)
+            {
+                dbVolume = -80.0f;
+            }
+
+            switch (mixer)
+            {
+                case MixerGroup.Master:
+                    audioMixer.SetFloat("MasterVolume", dbVolume);
+                    break;
+                case MixerGroup.SFX:
+                    audioMixer.SetFloat("SFXVolume", dbVolume);
+                    break;
+                case MixerGroup.Music:
+                    audioMixer.SetFloat("MusicVolume", dbVolume);
                     break;
             }
         }

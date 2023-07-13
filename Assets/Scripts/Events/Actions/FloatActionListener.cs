@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace DeepDreams.ScriptableObjects.Events.Actions
+namespace Events.Actions
 {
     public class FloatActionListener : MonoBehaviour
     {

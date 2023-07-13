@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DeepDreams.ScriptableObjects.Events.Actions
+namespace Events.Actions
 {
     [CreateAssetMenu(fileName = "New Float Event", menuName = "Game Event/Actions/Float Event", order = 1)]
     public class FloatActionChannelSO : ScriptableObject

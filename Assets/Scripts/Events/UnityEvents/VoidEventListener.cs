@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace DeepDreams.ScriptableObjects.Events.UnityEvents
+namespace Events.UnityEvents
 {
     public class VoidEventListener : MonoBehaviour
     {

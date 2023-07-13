@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
-using DeepDreams.ScriptableObjects.Events.UnityEvents;
+﻿using System;
+using System.Collections.Generic;
+using Events.UnityEvents;
+using MyBox;
 using UI.Views;
 using UnityEngine;
 
@@ -7,22 +9,27 @@ namespace UI
 {
     public class UIManager : MonoBehaviour
     {
-        [SerializeField] private View inGameView;
+        // [SerializeField] private View inGameView;
 
         [SerializeField] private View startingView;
         [SerializeField] private bool dontRemoveStartingView;
 
-        [SerializeField] private BoolEventChannelSO onGamePauseSOEvent;
         private readonly Stack<View> _history = new Stack<View>();
 
         private View _currentView;
         private View[] _views;
 
-        public static UIManager instance { get; private set; }
+        public static UIManager Instance { get; private set; }
+
+        [OverrideLabel("On Game Pause Event")] [SerializeField] private BoolEventChannelSO onGamePauseSOEvent;
+
+        public static Action<View, View> OnViewShow;
+        public static Action<View> OnViewOpen;
+        public static Action<View> OnViewClose;
 
         private void Awake()
         {
-            instance = this;
+            Instance = this;
             // HideCursor();
 
             _views = FindObjectsOfType(typeof(View), true) as View[];
@@ -43,13 +50,13 @@ namespace UI
                 Show(startingView);
                 // ShowCursor();
             }
-            else
-            {
-                if (instance.inGameView != null)
-                {
-                    instance.inGameView.Open();
-                }
-            }
+            // else
+            // {
+            //     if (Instance.inGameView != null)
+            //     {
+            //         Instance.inGameView.Open();
+            //     }
+            // }
         }
 
         private void ShowCursor()
@@ -64,26 +71,26 @@ namespace UI
             Cursor.visible = false;
         }
 
-        private bool IsOnlyView()
+        public bool IsOnlyView()
         {
-            return instance._history.Count == 0;
+            return Instance._history.Count == 0;
         }
 
-        private bool IsStartingView(View view)
+        public bool IsStartingView(View view)
         {
             return view == startingView;
         }
 
         public View GetCurrentView()
         {
-            return instance._currentView;
+            return Instance._currentView;
         }
 
         public T GetView<T>() where T : View
         {
-            for (int i = 0; i < instance._views.Length; i++)
+            for (int i = 0; i < Instance._views.Length; i++)
             {
-                if (instance._views[i] is T tView)
+                if (Instance._views[i] is T tView)
                 {
                     return tView;
                 }
@@ -95,35 +102,32 @@ namespace UI
 
         public void Show<T>(bool remember = true) where T : View
         {
-            for (int i = 0; i < instance._views.Length; i++)
+            for (int i = 0; i < Instance._views.Length; i++)
             {
-                if (instance._views[i] is not T)
+                if (Instance._views[i] is not T)
                 {
                     continue;
                 }
 
-                if (instance._currentView != null)
+                if (Instance._currentView != null)
                 {
                     if (remember)
                     {
-                        instance._history.Push(instance._currentView);
+                        Instance._history.Push(Instance._currentView);
                     }
 
-                    instance._currentView.Close();
-                }
-                else
-                {
-                    if (instance.inGameView != null)
-                    {
-                        instance.inGameView.Close();
-                    }
-
-                    Time.timeScale = 0.0f;
-                    onGamePauseSOEvent.Raise(true);
+                    Instance._currentView.Close();
                 }
 
-                instance._views[i].Open();
-                instance._currentView = instance._views[i];
+                // if (Instance.inGameView != null)
+                // {
+                //     Instance.inGameView.Close();
+                // }
+                // Time.timeScale = 0.0f;
+                // onGamePauseSOEvent.Raise(true);
+                OnViewShow?.Invoke(Instance._currentView, Instance._views[i]);
+                Instance._views[i].Open();
+                Instance._currentView = Instance._views[i];
             }
 
             // ShowCursor();
@@ -131,45 +135,43 @@ namespace UI
 
         public void Show(View view, bool remember = true)
         {
-            if (instance._currentView != null)
+            if (Instance._currentView != null)
             {
                 if (remember)
                 {
-                    instance._history.Push(instance._currentView);
+                    Instance._history.Push(Instance._currentView);
                 }
 
-                instance._currentView.Close();
-            }
-            else
-            {
-                if (instance.inGameView != null)
-                {
-                    instance.inGameView.Close();
-                }
-
-                Time.timeScale = 0.0f;
-                onGamePauseSOEvent.Raise(true);
+                Instance._currentView.Close();
             }
 
+            // if (Instance.inGameView != null)
+            // {
+            //     Instance.inGameView.Close();
+            // }
+            // Time.timeScale = 0.0f;
+            // onGamePauseSOEvent.Raise(true);
+            OnViewShow?.Invoke(Instance._currentView, view);
             view.Open();
-            instance._currentView = view;
+            Instance._currentView = view;
 
             // ShowCursor();
         }
 
         public void Back()
         {
-            if (IsStartingView(instance._currentView) && dontRemoveStartingView)
+            if (IsStartingView(Instance._currentView) && dontRemoveStartingView)
             {
                 return;
             }
 
             if (IsOnlyView())
             {
-                instance._currentView.Close();
-                instance.inGameView.Open();
+                OnViewClose?.Invoke(Instance._currentView);
+                Instance._currentView.Close();
+                // Instance.inGameView.Open();
 
-                instance._currentView = null;
+                Instance._currentView = null;
 
                 Time.timeScale = 1.0f;
                 onGamePauseSOEvent.Raise(false);
@@ -178,7 +180,8 @@ namespace UI
                 return;
             }
 
-            Show(instance._history.Pop(), false);
+            Show(Instance._history.Peek(), false);
+            Instance._history.Pop();
         }
     }
 }

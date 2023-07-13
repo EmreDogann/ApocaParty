@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace DeepDreams.ScriptableObjects.Events.UnityEvents
+namespace Events.UnityEvents
 {
     /// <summary>
     ///     To use a generic UnityEvent type you must override the generic type.

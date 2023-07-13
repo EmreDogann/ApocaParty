@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DeepDreams.ScriptableObjects.Events.UnityEvents
+namespace Events.UnityEvents
 {
     [CreateAssetMenu(fileName = "New Bool Event", menuName = "Game Event/Unity Event/Bool Event", order = 2)]
     public class BoolEventChannelSO : ScriptableObject

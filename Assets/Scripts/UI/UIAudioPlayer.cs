@@ -36,13 +36,13 @@ namespace UI
             // _onGamePausedEvent.Response.RemoveListener(OnGamePaused);
         }
 
-        // private void OnCancel(bool isPaused)
-        // {
-        //     if (isPaused)
-        //     {
-        //         AudioManager.Instance.PlayOneShot(backAudio);
-        //     }
-        // }
+        private void OnCancel(bool isPaused)
+        {
+            if (isPaused)
+            {
+                AudioManager.Instance.PlayEffectOneShot(backAudio);
+            }
+        }
 
         // private void OnGamePaused(bool isPaused)
         // {
