@@ -9,12 +9,16 @@ namespace UI.Views.Transitions
         public enum MenuTransitionType
         {
             Simple,
-            Fade
+            Fade,
+            Slide,
+            SlideFade
         }
         public MenuTransitionType TransitionType = MenuTransitionType.Simple;
 
         [SerializeField] private SimpleMenuTransition SimpleMenuTransition = new SimpleMenuTransition();
         [SerializeField] private FadeMenuTransition FadeMenuTransition = new FadeMenuTransition();
+        [SerializeField] private SlideMenuTransition SlideMenuTransition = new SlideMenuTransition();
+        [SerializeField] private SlideFadeMenuTransition SlideFadeMenuTransition = new SlideFadeMenuTransition();
 
         public MenuTransition CreateTransition()
         {
@@ -39,6 +43,10 @@ namespace UI.Views.Transitions
                     return SimpleMenuTransition;
                 case MenuTransitionType.Fade:
                     return FadeMenuTransition;
+                case MenuTransitionType.Slide:
+                    return SlideMenuTransition;
+                case MenuTransitionType.SlideFade:
+                    return SlideFadeMenuTransition;
                 default:
                     return SimpleMenuTransition;
             }
