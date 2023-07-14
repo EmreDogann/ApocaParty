@@ -6,7 +6,7 @@ using UnityEngine;
 namespace UI.Views
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class View : MonoBehaviour, IViewable
+    public class View : MonoBehaviour
     {
         [SerializeField] private MenuTransitionFactory menuTransitionFactory;
         protected Coroutine _coroutine;

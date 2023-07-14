@@ -9,7 +9,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Interactable
   - Water
   - UI
   - 
@@ -39,6 +39,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Level
+    uniqueID: 377990771
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Paths&Markers
+    uniqueID: 1162151981
+    locked: 0
+  - name: Characters
+    uniqueID: 4265035355
     locked: 0

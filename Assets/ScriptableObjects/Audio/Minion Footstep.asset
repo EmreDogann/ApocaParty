@@ -10,21 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 68d6c0431815f3d4c87073fbdb5bca34, type: 3}
-  m_Name: Footstep
+  m_Name: Minion Footstep
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: 45bfcc6da66ce2a4aa32a238d0a644d0, type: 3}
-  - {fileID: 8300000, guid: 45bfcc6da66ce2a4aa32a238d0a644d0, type: 3}
   - {fileID: 8300000, guid: 45bfcc6da66ce2a4aa32a238d0a644d0, type: 3}
   volume:
     Min: 0.2844214
     Max: 0.2844214
   useSemitones: 0
   semitones:
-    Min: -6
-    Max: -4
+    Min: 5
+    Max: 6
   pitch:
-    Min: 0.694936
-    Max: 0.804759
+    Min: 1.3172666
+    Max: 1.4270893
   playOrder: 1
   playIndex: 0
