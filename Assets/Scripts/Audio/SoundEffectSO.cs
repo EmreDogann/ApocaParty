@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Audio
 {
-    [CreateAssetMenu(fileName = "NewSoundEffect", menuName = "Audio/New Sound Effect")]
+    [CreateAssetMenu(fileName = "New Sound Effect", menuName = "Audio/New Sound Effect")]
     public class SoundEffectSO : ScriptableObject
     {
         #region config

@@ -73,3 +73,6 @@ crashlytics-build.properties
 
 # JetBrains Rider files
 /.idea/*
+
+# Ignore Art assets for now (temporary)
+/[Aa]ssets/[Aa]rt/*

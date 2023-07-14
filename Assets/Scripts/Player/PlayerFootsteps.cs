@@ -12,12 +12,12 @@ namespace Player
         public SpringToScale scaleSpring;
         public float footstepForce = 1.0f;
         public float footstepStride = 1.5f;
-        public float currentStrideDistance;
 
         public SoundEffectSO footstepSoundEffect;
 
         private PlayerBlackboard _blackboard;
 
+        private float _currentStrideDistance;
         private float _prevPlayerStride;
         private Vector3 _prevTransformPos = Vector3.zero;
 
@@ -44,19 +44,19 @@ namespace Player
 
         private void HandleStride()
         {
-            currentStrideDistance += Vector3.Magnitude(transform.position - _prevTransformPos);
+            _currentStrideDistance += Vector3.Magnitude(transform.position - _prevTransformPos);
 
             if (!_blackboard.IsMoving)
             {
-                currentStrideDistance = footstepStride - 0.2f;
+                _currentStrideDistance = footstepStride - 0.2f;
             }
 
-            if (currentStrideDistance < footstepStride)
+            if (_currentStrideDistance < footstepStride)
             {
                 return;
             }
 
-            currentStrideDistance = 0;
+            _currentStrideDistance = 0;
             _blackboard.OnStride?.Invoke();
 
             AudioManager.Instance.PlayEffectOneShot(footstepSoundEffect);
@@ -83,7 +83,7 @@ namespace Player
             // Keep the same percentage distance to the target from the previous stride to the new stride.
             float amountOfChange = newStride / _prevPlayerStride;
             _prevPlayerStride = newStride;
-            currentStrideDistance *= amountOfChange;
+            _currentStrideDistance *= amountOfChange;
         }
     }
 }
