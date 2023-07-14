@@ -1,4 +1,5 @@
-﻿using Events.UnityEvents;
+﻿using Dialogue;
+using Events.UnityEvents;
 using MyBox;
 using UI.Views;
 using UnityEngine;
@@ -48,14 +49,36 @@ namespace UI
             }
             else
             {
+                bool viewAvailable = UIManager.Instance.IsOnlyView();
                 UIManager.Instance.Back();
 
-                // View viewAvailable = UIManager.Instance.GetCurrentView();
-                // if (!viewAvailable)
-                // {
-                //     Time.timeScale = 1.0f;
-                //     onGamePauseSOEvent.Raise(false);
-                // }
+                if (viewAvailable)
+                {
+                    if (!DialogueManager.Instance.DialogueIsPlaying)
+                    {
+                        Time.timeScale = 1.0f;
+                    }
+
+                    onGamePauseSOEvent.Raise(false);
+                }
+            }
+        }
+
+        public void GamePause(bool pause)
+        {
+            if (pause)
+            {
+                Time.timeScale = 0.0f;
+                onGamePauseSOEvent.Raise(true);
+            }
+            else
+            {
+                if (!DialogueManager.Instance.DialogueIsPlaying)
+                {
+                    Time.timeScale = 1.0f;
+                }
+
+                onGamePauseSOEvent.Raise(false);
             }
         }
     }

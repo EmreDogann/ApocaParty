@@ -15,12 +15,6 @@ namespace Dialogue
         }
     }
 
-    // public enum ActorType
-    // {
-    //     CthUwU,
-    //     Azathoth
-    // }
-
     [Serializable]
     public class Message
     {

@@ -34,29 +34,10 @@ namespace UI.Views
 
         public void ViewOpened(View viewToOpen)
         {
-            // if (IsActive())
-            // {
-            //     return;
-            // }
-
             if (!IsActive())
             {
                 Open();
             }
-
-            // bool allInactive = true;
-            // foreach (View view in linkedViews)
-            // {
-            //     if (view == viewToOpen)
-            //     {
-            //         if (!IsActive())
-            //         {
-            //             Open();
-            //         }
-            //
-            //         return;
-            //     }
-            // }
         }
 
         public void ViewClosed(View viewToClose)
@@ -78,7 +59,7 @@ namespace UI.Views
                     break;
                 }
 
-                if (view != viewToClose && view.IsActive())
+                if (view != viewToClose && !view.IsActive())
                 {
                     keepOpen = false;
                 }

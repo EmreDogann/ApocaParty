@@ -173,8 +173,8 @@ namespace UI
 
                 Instance._currentView = null;
 
-                Time.timeScale = 1.0f;
-                onGamePauseSOEvent.Raise(false);
+                // Time.timeScale = 1.0f;
+                // onGamePauseSOEvent.Raise(false);
 
                 // HideCursor();
                 return;

@@ -1,3 +1,5 @@
+using System.Collections;
+using Events.UnityEvents;
 using MyBox;
 using TMPro;
 using UI.Views;
@@ -18,11 +20,14 @@ namespace Dialogue
         [Separator("Controls")]
         public InputActionReference confirmAction;
 
-        private Message[] currentMessages;
-        private int messageIndex;
+        private Message[] _currentMessages;
+        private int _messageIndex;
 
         public static DialogueManager Instance;
-        public static bool isActive;
+        public bool DialogueIsPlaying { get; private set; }
+        private bool _dialogueIsPaused;
+
+        private BoolEventListener _listener;
 
         private void Awake()
         {
@@ -34,13 +39,26 @@ namespace Dialogue
             {
                 Destroy(gameObject);
             }
+
+            _listener = GetComponent<BoolEventListener>();
+        }
+
+        private void OnEnable()
+        {
+            _listener.Response.AddListener(OnGamePaused);
+        }
+
+        private void OnDisable()
+        {
+            _listener.Response.RemoveListener(OnGamePaused);
         }
 
         public void OpenDialogue(Message[] messages)
         {
-            currentMessages = messages;
-            messageIndex = 0;
-            isActive = true;
+            _currentMessages = messages;
+            _messageIndex = 0;
+            DialogueIsPlaying = true;
+            Time.timeScale = 0.0f;
 
             dialogueView.Open();
             DisplayMessage();
@@ -48,7 +66,7 @@ namespace Dialogue
 
         private void DisplayMessage()
         {
-            Message messageToDisplay = currentMessages[messageIndex];
+            Message messageToDisplay = _currentMessages[_messageIndex];
             messageText.text = messageToDisplay.message;
 
             ActorSO actorToDisplay = messageToDisplay.actor;
@@ -58,23 +76,45 @@ namespace Dialogue
 
         public void NextMessage()
         {
-            messageIndex++;
-            if (messageIndex < currentMessages.Length)
+            _messageIndex++;
+            if (_messageIndex < _currentMessages.Length)
             {
                 DisplayMessage();
             }
             else
             {
-                dialogueView.Close();
-                isActive = false;
+                StartCoroutine(ExitDialogue());
             }
         }
 
-        private void Start() {}
+        private IEnumerator ExitDialogue()
+        {
+            yield return new WaitForSecondsRealtime(0.1f);
+            dialogueView.Close();
+            Time.timeScale = 1.0f;
+            DialogueIsPlaying = false;
+        }
+
+        private void OnGamePaused(bool isPaused)
+        {
+            if (!DialogueIsPlaying)
+            {
+                return;
+            }
+
+            if (isPaused)
+            {
+                _dialogueIsPaused = true;
+            }
+            else
+            {
+                _dialogueIsPaused = false;
+            }
+        }
 
         private void Update()
         {
-            if (confirmAction.action.WasPressedThisFrame())
+            if (confirmAction.action.WasPressedThisFrame() && DialogueIsPlaying && !_dialogueIsPaused)
             {
                 NextMessage();
             }
