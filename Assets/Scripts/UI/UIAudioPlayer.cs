@@ -1,4 +1,5 @@
 ﻿using Audio;
+using Events.UnityEvents;
 using MyBox;
 using UI.Components.Buttons;
 using UnityEngine;
@@ -13,27 +14,27 @@ namespace UI
         [SerializeField] private SoundEffectSO backAudio;
         [SerializeField] private SoundEffectSO pauseAudio;
 
-        // private BoolEventListener _onGamePausedEvent;
+        private BoolEventListener _onGamePausedEvent;
 
         private void Awake()
         {
-            // _onGamePausedEvent = GetComponent<BoolEventListener>();
+            _onGamePausedEvent = GetComponent<BoolEventListener>();
         }
 
         private void OnEnable()
         {
             MenuButton.OnButtonHover += OnUIHover;
             MenuButton.OnButtonClick += OnUIClick;
-            // UIInputManager.OnCancelEvent += OnCancel;
-            // _onGamePausedEvent.Response.AddListener(OnGamePaused);
+            UIInputManager.OnCancelEvent += OnCancel;
+            _onGamePausedEvent.Response.AddListener(OnGamePaused);
         }
 
         private void OnDisable()
         {
             MenuButton.OnButtonHover -= OnUIHover;
             MenuButton.OnButtonClick -= OnUIClick;
-            // UIInputManager.OnCancelEvent -= OnCancel;
-            // _onGamePausedEvent.Response.RemoveListener(OnGamePaused);
+            UIInputManager.OnCancelEvent -= OnCancel;
+            _onGamePausedEvent.Response.RemoveListener(OnGamePaused);
         }
 
         private void OnCancel(bool isPaused)
@@ -44,14 +45,14 @@ namespace UI
             }
         }
 
-        // private void OnGamePaused(bool isPaused)
-        // {
-        //     if (isPaused)
-        //     {
-        //         _audioManager.StopAllEvents(masterBus, false);
-        //         _audioManager.PlayOneShot(pauseAudio);
-        //     }
-        // }
+        private void OnGamePaused(bool isPaused)
+        {
+            if (isPaused)
+            {
+                // _audioManager.StopAllEvents(masterBus, false);
+                AudioManager.Instance.PlayEffectOneShot(pauseAudio);
+            }
+        }
 
         private void OnUIHover()
         {

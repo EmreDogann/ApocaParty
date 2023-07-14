@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Events.UnityEvents;
-using MyBox;
 using UI.Views;
 using UnityEngine;
 
@@ -12,7 +10,7 @@ namespace UI
         // [SerializeField] private View inGameView;
 
         [SerializeField] private View startingView;
-        [SerializeField] private bool dontRemoveStartingView;
+        [SerializeField] private bool lockStartingView;
 
         private readonly Stack<View> _history = new Stack<View>();
 
@@ -21,7 +19,7 @@ namespace UI
 
         public static UIManager Instance { get; private set; }
 
-        [OverrideLabel("On Game Pause Event")] [SerializeField] private BoolEventChannelSO onGamePauseSOEvent;
+        // [OverrideLabel("On Game Pause Event")] [SerializeField] private BoolEventChannelSO onGamePauseSOEvent;
 
         public static Action<View, View> OnViewShow;
         public static Action<View> OnViewOpen;
@@ -160,7 +158,7 @@ namespace UI
 
         public void Back()
         {
-            if (IsStartingView(Instance._currentView) && dontRemoveStartingView)
+            if (IsStartingView(Instance._currentView) && lockStartingView)
             {
                 return;
             }

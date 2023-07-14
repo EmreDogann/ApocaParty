@@ -1,9 +1,9 @@
-﻿using Dialogue;
+﻿using System;
+using Dialogue;
 using Events.UnityEvents;
 using MyBox;
 using UI.Views;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 
@@ -11,7 +11,7 @@ namespace UI
 {
     public class UIInputManager : MonoBehaviour
     {
-        public UnityEvent OnCancelEvent;
+        public static Action<bool> OnCancelEvent;
         [OverrideLabel("On Game Pause Event")] [SerializeField] private BoolEventChannelSO onGamePauseSOEvent;
         private InputAction _cancel;
         private InputSystemUIInputModule _uiInputModule;
@@ -39,7 +39,7 @@ namespace UI
         public void OnCancel(InputAction.CallbackContext ctx)
         {
             View viewActive = UIManager.Instance.GetCurrentView();
-            OnCancelEvent?.Invoke();
+            OnCancelEvent?.Invoke(viewActive);
 
             if (!viewActive)
             {
