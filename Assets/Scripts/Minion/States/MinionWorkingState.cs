@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace Minion.States
 {
-    public class MinionTravellingState : MinionState
+    public class MinionWorkingState : MinionState
     {
-        public MinionTravellingState(Minion minion, MinionStateMachine stateMachine) : base(minion, stateMachine) {}
+        public MinionWorkingState(MinionAI minion, MinionStateMachine stateMachine) : base(minion, stateMachine) {}
 
         public override MinionStateID GetID()
         {
-            return MinionStateID.Travelling;
+            return MinionStateID.Working;
         }
 
         public override void Enter() {}

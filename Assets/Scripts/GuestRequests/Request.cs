@@ -10,7 +10,7 @@ namespace GuestRequests
     {
         public float TotalDuration { get; }
 
-        protected readonly List<Job> _jobs = new List<Job>();
+        [SerializeReference] protected List<Job> _jobs = new List<Job>();
         protected float _totalProgressPercentage;
         protected float _currentTime;
 
@@ -44,7 +44,7 @@ namespace GuestRequests
 
             if (_jobs[_currentJobIndex].GetProgressPercentage() >= 1.0f)
             {
-                Debug.Log("Job: " + _jobs[_currentJobIndex].name + " Completed!");
+                Debug.Log("Job: " + _jobs[_currentJobIndex].JobName + " Completed!");
                 _currentJobIndex++;
                 _totalProgressPercentage += 1.0f / _jobs.Count;
             }
@@ -61,6 +61,11 @@ namespace GuestRequests
             return _totalProgressPercentage >= 1.0f;
         }
 
+        public float GetCurrentJobProgress()
+        {
+            return _jobs[_currentJobIndex].GetProgressPercentage();
+        }
+
         public float GetProgressPercentage()
         {
             return _totalProgressPercentage + _jobs[_currentJobIndex].GetProgressPercentage();
@@ -75,7 +80,7 @@ namespace GuestRequests
         [ButtonMethod]
         protected virtual void CurrentJob()
         {
-            Debug.Log(_jobs[_currentJobIndex].name);
+            Debug.Log(_jobs[_currentJobIndex].JobName);
         }
 
         [ButtonMethod]

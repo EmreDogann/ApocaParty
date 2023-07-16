@@ -1,19 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace GuestRequests
 {
-    public class Job
+    [Serializable]
+    public abstract class Job : MonoBehaviour
     {
-        // private readonly List<Action> _actions = new List<Action>();
-        // private Minion
-        public string name { get; private set; }
+        [field: SerializeReference] public string JobName { get; private set; }
         public float duration = 1.0f;
         protected float _currentTime;
 
-        public Job(string name)
+        protected Job(string name)
         {
-            this.name = name;
-            // Debug.Log("New job: " + name);
+            JobName = name;
         }
 
         public void UpdateJob(float deltaTime)

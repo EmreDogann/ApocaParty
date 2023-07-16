@@ -1,18 +1,12 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Minion
 {
     public class MinionStateMachine
     {
-        public MinionState[] states;
+        public List<MinionState> states = new List<MinionState>();
         private MinionStateID _currentState;
-
-        public MinionStateMachine()
-        {
-            int numStates = Enum.GetNames(typeof(MinionStateID)).Length;
-            states = new MinionState[numStates];
-        }
 
         public void RegisterState(MinionState state)
         {
