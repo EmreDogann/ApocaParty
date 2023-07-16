@@ -648,7 +648,7 @@ GameObject:
   - component: {fileID: 148236948}
   - component: {fileID: 148236950}
   - component: {fileID: 148236949}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2842,7 +2842,7 @@ GameObject:
   - component: {fileID: 754063271}
   - component: {fileID: 754063273}
   - component: {fileID: 754063272}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Chef
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3565,7 +3565,7 @@ GameObject:
   m_Component:
   - component: {fileID: 930755228}
   - component: {fileID: 930755229}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: DestinationMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4474,7 +4474,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1253425799}
   - component: {fileID: 1253425800}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: DestinationMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5157,7 +5157,7 @@ GameObject:
   - component: {fileID: 1330924618}
   - component: {fileID: 1330924617}
   - component: {fileID: 1330924621}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: EventPlanner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5273,7 +5273,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1370957209}
   - component: {fileID: 1370957210}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: PathRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5648,7 +5648,7 @@ GameObject:
   - component: {fileID: 1522357475}
   - component: {fileID: 1522357477}
   - component: {fileID: 1522357476}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6635,7 +6635,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1883652751}
   - component: {fileID: 1883652752}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: PathRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
