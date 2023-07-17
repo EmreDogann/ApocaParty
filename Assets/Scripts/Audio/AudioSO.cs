@@ -25,6 +25,9 @@ namespace Audio
         [ConditionalField(nameof(useSemitones), true)]
         [MinMaxRange(0, 3)] public RangedFloat pitch = new RangedFloat(1.0f, 1.0f);
 
+        [Tooltip("Should the audio allow being paused/resumed when the game is paused/resumed.")]
+        [SerializeField] private bool CanBePaused;
+
         [Separator("Playback Order")]
         [SerializeField] private SoundClipPlayOrder playOrder;
 
@@ -156,6 +159,7 @@ namespace Audio
             audioEventData.Pitch = useSemitones
                 ? Mathf.Pow(SEMITONES_TO_PITCH_CONVERSION_UNIT, Random.Range(semitones.Min, semitones.Max))
                 : Random.Range(pitch.Min, pitch.Max);
+            audioEventData.CanPause = CanBePaused;
 
             _audioHandle = audioEvent.RaisePlayEvent(this, audioEventData, positionWorldSpace);
         }
@@ -173,6 +177,7 @@ namespace Audio
             audioEventData.Pitch = useSemitones
                 ? Mathf.Pow(SEMITONES_TO_PITCH_CONVERSION_UNIT, Random.Range(semitones.Min, semitones.Max))
                 : Random.Range(pitch.Min, pitch.Max);
+            audioEventData.CanPause = CanBePaused;
 
             _audioHandle = audioEvent.RaisePlayAttachedEvent(this, audioEventData, gameObject);
         }

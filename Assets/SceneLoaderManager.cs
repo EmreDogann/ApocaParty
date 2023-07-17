@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class SceneLoaderManager : MonoBehaviour
 {
     public static SceneLoaderManager Instance { get; private set; }
+    public AudioListener loadingAudioListener;
 
     private void Awake()
     {
@@ -19,6 +20,8 @@ public class SceneLoaderManager : MonoBehaviour
 
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnload;
+
+        loadingAudioListener.enabled = false;
     }
 
     private void OnDestroy()
@@ -26,6 +29,7 @@ public class SceneLoaderManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.sceneUnloaded -= OnSceneUnload;
     }
+
 
 #if UNITY_STANDALONE && !UNITY_EDITOR
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -94,7 +98,10 @@ public class SceneLoaderManager : MonoBehaviour
         yield return null;
 
         yield return SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene(), UnloadSceneOptions.None);
+        loadingAudioListener.enabled = true;
         yield return SceneManager.LoadSceneAsync(scenePath, LoadSceneMode.Additive);
+        loadingAudioListener.enabled = false;
+
         yield return Resources.UnloadUnusedAssets();
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByPath(scenePath));

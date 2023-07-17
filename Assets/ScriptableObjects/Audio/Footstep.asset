@@ -25,6 +25,7 @@ MonoBehaviour:
   pitch:
     Min: 0.694936
     Max: 0.804759
+  CanBePaused: 1
   playOrder: 1
   currentPlayIndex: 0
   audioEvent: {fileID: 11400000, guid: 6c5f128f58f1e1946b9be8d4fcd88dbf, type: 2}

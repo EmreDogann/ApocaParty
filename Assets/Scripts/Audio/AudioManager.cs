@@ -5,6 +5,13 @@ using UnityEngine;
 
 namespace Audio
 {
+    public class AudioEmitter
+    {
+        public bool CanPause;
+        public bool IsPaused;
+        public AudioSource Source;
+    }
+
     public class AudioManager : MonoBehaviour
     {
         [Separator("Pooling")]
@@ -14,8 +21,9 @@ namespace Audio
         [Separator("Event Channels")]
         [SerializeField] private AudioEventChannelSO sfxAudioChannel;
         [SerializeField] private AudioEventChannelSO musicAudioChannel;
+        [SerializeField] private BoolEventListener onPauseEvent;
 
-        private List<AudioSource> _audioSources;
+        private List<AudioEmitter> _audioEmitters;
         private List<AudioHandle> _audioHandles;
         private int _currentAudioSourceIndex;
 
@@ -28,18 +36,25 @@ namespace Audio
                 return;
             }
 
-            _audioSources = new List<AudioSource>();
+            _audioEmitters = new List<AudioEmitter>();
             _audioHandles = new List<AudioHandle>();
 
             for (int i = 0; i < audioSourcePoolSize; i++)
             {
                 GameObject obj = Instantiate(audioSourcePrefab, transform);
-                _audioSources.Add(obj.GetComponent<AudioSource>());
+
+                AudioEmitter emitter = new AudioEmitter();
+                emitter.Source = obj.GetComponent<AudioSource>();
+                emitter.CanPause = false;
+                emitter.IsPaused = false;
+
+                _audioEmitters.Add(emitter);
             }
         }
 
         private void OnEnable()
         {
+            onPauseEvent.Response.AddListener(OnPauseEvent);
             sfxAudioChannel.OnAudioPlay += PlaySoundEffect;
             // sfxAudioChannel.OnAudioCueStopRequested += StopAudioCue;
             // sfxAudioChannel.OnAudioCueFinishRequested += FinishAudioCue;
@@ -54,6 +69,7 @@ namespace Audio
 
         private void OnDestroy()
         {
+            onPauseEvent.Response.RemoveListener(OnPauseEvent);
             sfxAudioChannel.OnAudioPlay -= PlaySoundEffect;
             // _SFXEventChannel.OnAudioCuePlayRequested -= PlayAudioCue;
             // _SFXEventChannel.OnAudioCueStopRequested -= StopAudioCue;
@@ -66,54 +82,108 @@ namespace Audio
             // _masterVolumeEventChannel.OnEventRaised -= ChangeMasterVolume;
         }
 
-        public AudioHandle PlaySoundEffect(AudioSO audio, AudioEventData audioEventData,
-            Vector2 positionInSpace)
+        public AudioHandle PlaySoundEffect(AudioSO audio, AudioEventData audioEventData, Vector2 positionInSpace)
         {
-            AudioSource source = RequestAudioSource();
-            source.outputAudioMixerGroup = audio.audioMixer;
-            source.clip = audio.GetAudioClip();
-            source.volume = audioEventData.Volume;
-            source.pitch = audioEventData.Pitch;
-            source.loop = audioEventData.ShouldLoop;
-            source.time =
-                0f; //Reset in case this AudioSource is being reused for a short SFX after being used for a long music track
-            source.Play();
+            AudioEmitter emitter = RequestAudioEmitter();
+            emitter.CanPause = audioEventData.CanPause;
 
-            return new AudioHandle(_currentAudioSourceIndex, audio);
+            emitter.Source.outputAudioMixerGroup = audio.audioMixer;
+            emitter.Source.clip = audio.GetAudioClip();
+            emitter.Source.volume = audioEventData.Volume;
+            emitter.Source.pitch = audioEventData.Pitch;
+            emitter.Source.loop = audioEventData.ShouldLoop;
+            //Reset in case this AudioSource is being reused for a short SFX after being used for a long music track
+            emitter.Source.time = 0f;
+            emitter.Source.Play();
+
+            AudioHandle handle = new AudioHandle(_currentAudioSourceIndex, audio);
+            _audioHandles.Add(handle);
+
+            return handle;
         }
 
-        private AudioSource RequestAudioSource()
+        public bool StopSoundEffect(AudioHandle handle)
         {
-            AudioSource source = TryGetAvailableSource();
-            if (source == null)
-            {
-                source = Instantiate(audioSourcePrefab, transform).GetComponent<AudioSource>();
-                _audioSources.Add(source);
+            int handleIndex = _audioHandles.FindIndex(x => x == handle);
 
-                _currentAudioSourceIndex = _audioSources.Count - 1;
+            if (handleIndex < 0)
+            {
+                return false;
             }
 
-            return source;
+            AudioHandle foundHandle = _audioHandles[handleIndex];
+
+            _audioEmitters[foundHandle.ID].Source.Stop();
+            _audioEmitters[foundHandle.ID].IsPaused = false;
+
+            _audioHandles.RemoveAt(foundHandle.ID);
+            return true;
         }
 
-        private AudioSource TryGetAvailableSource()
+        private void OnPauseEvent(bool isPaused)
         {
-            if (!_audioSources[_currentAudioSourceIndex].isPlaying)
+            if (isPaused)
             {
-                _currentAudioSourceIndex += 1 % _audioSources.Count;
-                return _audioSources[_currentAudioSourceIndex];
+                foreach (AudioEmitter emitter in _audioEmitters)
+                {
+                    if (emitter.CanPause && emitter.Source.isPlaying)
+                    {
+                        emitter.Source.Pause();
+                        emitter.IsPaused = true;
+                    }
+                }
+            }
+            else
+            {
+                foreach (AudioEmitter emitter in _audioEmitters)
+                {
+                    if (emitter.CanPause && emitter.IsPaused)
+                    {
+                        emitter.Source.Play();
+                        emitter.IsPaused = false;
+                    }
+                }
+            }
+        }
+
+        private AudioEmitter RequestAudioEmitter()
+        {
+            int emitterIndex = TryGetAvailableEmitter();
+
+            if (emitterIndex < 0)
+            {
+                AudioEmitter emitter = new AudioEmitter();
+                emitter.Source = Instantiate(audioSourcePrefab, transform).GetComponent<AudioSource>();
+                emitter.CanPause = false;
+                emitter.IsPaused = false;
+
+                _audioEmitters.Add(emitter);
+
+                _currentAudioSourceIndex = _audioEmitters.Count - 1;
+                return emitter;
             }
 
-            for (int i = 0; i < _audioSources.Count; i++)
+            return _audioEmitters[emitterIndex];
+        }
+
+        private int TryGetAvailableEmitter()
+        {
+            AudioEmitter emitter = _audioEmitters[_currentAudioSourceIndex];
+            if (!emitter.IsPaused && !emitter.Source.isPlaying)
             {
-                if (!_audioSources[i].isPlaying)
+                return _currentAudioSourceIndex;
+            }
+
+            for (int i = 0; i < _audioEmitters.Count; i++)
+            {
+                if (!_audioEmitters[i].IsPaused && !_audioEmitters[i].Source.isPlaying)
                 {
                     _currentAudioSourceIndex = i;
-                    return _audioSources[i];
+                    return _currentAudioSourceIndex;
                 }
             }
 
-            return null;
+            return -1;
         }
     }
 }
