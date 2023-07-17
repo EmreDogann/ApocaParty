@@ -1,7 +1,7 @@
 using Audio;
 using UnityEngine;
 
-namespace Events.UnityEvents
+namespace Events
 {
     [CreateAssetMenu(fileName = "New Audio Event", menuName = "Game Event/Unity Event/Audio Event", order = 4)]
     public class AudioEventChannelSO : ScriptableObject
@@ -50,13 +50,13 @@ namespace Events.UnityEvents
             return audioHandle;
         }
 
-        public bool RaiseStopEvent(AudioHandle audioCueKey)
+        public bool RaiseStopEvent(AudioHandle audioKey)
         {
             bool requestSucceed = false;
 
             if (OnAudioStop != null)
             {
-                requestSucceed = OnAudioStop.Invoke(audioCueKey);
+                requestSucceed = OnAudioStop.Invoke(audioKey);
             }
             else
             {

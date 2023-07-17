@@ -5,27 +5,27 @@
         public static AudioHandle Invalid = new AudioHandle(-1, null);
 
         internal int ID;
-        internal AudioSO AudioCue;
+        internal AudioSO Audio;
 
         public AudioHandle(int id, AudioSO audioCue)
         {
             ID = id;
-            AudioCue = audioCue;
+            Audio = audioCue;
         }
 
         public override bool Equals(object obj)
         {
-            return obj is AudioHandle x && ID == x.ID && AudioCue == x.AudioCue;
+            return obj is AudioHandle x && ID == x.ID && Audio == x.Audio;
         }
 
         public override int GetHashCode()
         {
-            return ID.GetHashCode() ^ AudioCue.GetHashCode();
+            return ID.GetHashCode() ^ Audio.GetHashCode();
         }
 
         public static bool operator ==(AudioHandle x, AudioHandle y)
         {
-            return x.ID == y.ID && x.AudioCue == y.AudioCue;
+            return x.ID == y.ID && x.Audio == y.Audio;
         }
 
         public static bool operator !=(AudioHandle x, AudioHandle y)

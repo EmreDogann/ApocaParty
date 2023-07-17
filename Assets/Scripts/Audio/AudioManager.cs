@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Events;
 using Events.UnityEvents;
 using MyBox;
 using UnityEngine;
@@ -56,6 +57,7 @@ namespace Audio
         {
             onPauseEvent.Response.AddListener(OnPauseEvent);
             sfxAudioChannel.OnAudioPlay += PlaySoundEffect;
+            sfxAudioChannel.OnAudioStop += StopSoundEffect;
             // sfxAudioChannel.OnAudioCueStopRequested += StopAudioCue;
             // sfxAudioChannel.OnAudioCueFinishRequested += FinishAudioCue;
 
@@ -71,6 +73,7 @@ namespace Audio
         {
             onPauseEvent.Response.RemoveListener(OnPauseEvent);
             sfxAudioChannel.OnAudioPlay -= PlaySoundEffect;
+            sfxAudioChannel.OnAudioStop -= StopSoundEffect;
             // _SFXEventChannel.OnAudioCuePlayRequested -= PlayAudioCue;
             // _SFXEventChannel.OnAudioCueStopRequested -= StopAudioCue;
 
@@ -116,7 +119,7 @@ namespace Audio
             _audioEmitters[foundHandle.ID].Source.Stop();
             _audioEmitters[foundHandle.ID].IsPaused = false;
 
-            _audioHandles.RemoveAt(foundHandle.ID);
+            _audioHandles.RemoveAt(handleIndex);
             return true;
         }
 

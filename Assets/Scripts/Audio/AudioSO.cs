@@ -1,4 +1,5 @@
-using Events.UnityEvents;
+using System.Collections.Generic;
+using Events;
 using MyBox;
 using UnityEditor;
 using UnityEngine;
@@ -36,7 +37,7 @@ namespace Audio
         [Separator("Audio Events")]
         [Tooltip("The Audio Event to trigger when trying to play the audio.")]
         [OverrideLabel("Play Trigger Event")] [SerializeField] private AudioEventChannelSO audioEvent;
-        private AudioHandle _audioHandle;
+        private readonly List<AudioHandle> _audioHandle = new List<AudioHandle>();
 
         #region PreviewCode
 
@@ -161,7 +162,47 @@ namespace Audio
                 : Random.Range(pitch.Min, pitch.Max);
             audioEventData.CanPause = CanBePaused;
 
-            _audioHandle = audioEvent.RaisePlayEvent(this, audioEventData, positionWorldSpace);
+            _audioHandle.Add(audioEvent.RaisePlayEvent(this, audioEventData, positionWorldSpace));
+        }
+
+        public void StopAll()
+        {
+            if (_audioHandle.Count < 1)
+            {
+                Debug.LogWarning($"Cannot stop audio {name}. No audio is playing.");
+                return;
+            }
+
+            foreach (AudioHandle handle in _audioHandle)
+            {
+                bool handleFound = audioEvent.RaiseStopEvent(handle);
+
+                if (!handleFound)
+                {
+                    Debug.LogWarning($"Audio {handle.Audio.name} could not be stopped. Handle is stale.");
+                }
+            }
+
+            _audioHandle.Clear();
+        }
+
+        public void StopLast()
+        {
+            if (_audioHandle.Count < 1)
+            {
+                Debug.LogWarning($"Cannot stop audio {name}. No audio is playing.");
+                return;
+            }
+
+            AudioHandle handle = _audioHandle[_audioHandle.Count - 1];
+            bool handleFound = audioEvent.RaiseStopEvent(handle);
+
+            if (!handleFound)
+            {
+                Debug.LogWarning($"Audio {handle.Audio.name} could not be stopped. Handle is stale.");
+            }
+
+            _audioHandle.RemoveAt(_audioHandle.Count - 1);
         }
 
         public void PlayAttached(GameObject gameObject)
@@ -179,7 +220,7 @@ namespace Audio
                 : Random.Range(pitch.Min, pitch.Max);
             audioEventData.CanPause = CanBePaused;
 
-            _audioHandle = audioEvent.RaisePlayAttachedEvent(this, audioEventData, gameObject);
+            _audioHandle.Add(audioEvent.RaisePlayAttachedEvent(this, audioEventData, gameObject));
         }
 
         private enum SoundClipPlayOrder
