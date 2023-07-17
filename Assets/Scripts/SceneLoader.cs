@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Utils;
 
 public class SceneLoader : MonoBehaviour
@@ -9,7 +8,7 @@ public class SceneLoader : MonoBehaviour
     public void LoadScene()
     {
         // Maybe can trigger transition here, and then load scene? (e.g. looney toons circle)
-        SceneManager.LoadScene(sceneToLoad.ScenePath, LoadSceneMode.Single);
+        SceneLoaderManager.Instance.SwapActiveScene(sceneToLoad.ScenePath);
     }
 
     public void Unpause(float timeScale = 1.0f)

@@ -9,10 +9,10 @@ namespace UI
     public class UIAudioPlayer : MonoBehaviour
     {
         [Separator("UI Audio Effects")]
-        [SerializeField] private SoundEffectSO clickAudio;
-        [SerializeField] private SoundEffectSO hoverAudio;
-        [SerializeField] private SoundEffectSO backAudio;
-        [SerializeField] private SoundEffectSO pauseAudio;
+        [SerializeField] private AudioSO clickAudio;
+        [SerializeField] private AudioSO hoverAudio;
+        [SerializeField] private AudioSO backAudio;
+        [SerializeField] private AudioSO pauseAudio;
 
         private BoolEventListener _onGamePausedEvent;
 
@@ -41,7 +41,7 @@ namespace UI
         {
             if (isPaused)
             {
-                AudioManager.Instance.PlayEffectOneShot(backAudio);
+                backAudio.Play();
             }
         }
 
@@ -50,18 +50,18 @@ namespace UI
             if (isPaused)
             {
                 // _audioManager.StopAllEvents(masterBus, false);
-                AudioManager.Instance.PlayEffectOneShot(pauseAudio);
+                pauseAudio.Play();
             }
         }
 
         private void OnUIHover()
         {
-            AudioManager.Instance.PlayEffectOneShot(hoverAudio);
+            hoverAudio.Play();
         }
 
         private void OnUIClick()
         {
-            AudioManager.Instance.PlayEffectOneShot(clickAudio);
+            clickAudio.Play();
         }
     }
 }

@@ -95,6 +95,15 @@ namespace Interactions
 
         private void RaycastForInteractable()
         {
+            if (_mainCamera == null)
+            {
+                _mainCamera = Camera.main;
+                if (_mainCamera == null)
+                {
+                    return;
+                }
+            }
+
             // Send ray out from cursor position.
             _hit = Physics2D.Raycast(_mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue()),
                 Vector2.zero, 1, mask);

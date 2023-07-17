@@ -54,7 +54,7 @@ namespace UI
 
                 if (viewAvailable)
                 {
-                    if (!DialogueManager.Instance.DialogueIsPlaying)
+                    if (DialogueManager.Instance && !DialogueManager.Instance.DialogueIsPlaying)
                     {
                         Time.timeScale = 1.0f;
                     }
