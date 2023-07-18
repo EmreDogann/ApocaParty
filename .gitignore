@@ -76,3 +76,4 @@ crashlytics-build.properties
 
 # Ignore Art assets for now (temporary)
 /[Aa]ssets/[Aa]rt/*
+/[Aa]ssets/[Aa]udio/*
