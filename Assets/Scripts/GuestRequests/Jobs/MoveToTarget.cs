@@ -1,18 +1,56 @@
-﻿using UnityEngine;
+﻿using MyBox;
+using UnityEngine;
 
 namespace GuestRequests.Jobs
 {
     public class MoveToTarget : Job
     {
         public Transform target;
+        // [Space]
+        public SpriteRenderer followerSprite;
+        [SpriteLayer] [SerializeField] private int followerSortingLayer;
+
+        // [Space]
+        // ReSharper disable once FieldCanBeMadeReadOnly.Local
         [SerializeField] private float distanceThreshold = 0.1f;
         private float _enterTargetDistance;
+        private Transform _followerTransform;
+        private int _prevFollowerSpriteSL;
 
         public override void Enter(IRequestOwner owner)
         {
             base.Enter(owner);
+
+            _followerTransform = followerSprite.GetComponent<Transform>();
+            _prevFollowerSpriteSL = followerSprite.sortingLayerID;
+
             owner.SetDestination(target.position);
             _enterTargetDistance = Vector3.SqrMagnitude(owner.GetPosition() - target.position);
+
+            if (followerSprite)
+            {
+                followerSprite.sortingLayerID = followerSortingLayer;
+            }
+        }
+
+        public override void Tick(float deltaTime, IRequestOwner owner)
+        {
+            if (!followerSprite)
+            {
+                return;
+            }
+
+            Transform holder = owner.GetHoldingPosition();
+            _followerTransform.position = holder.position;
+        }
+
+        public override void Exit(IRequestOwner owner)
+        {
+            base.Exit(owner);
+            if (followerSprite)
+            {
+                followerSprite.sortingLayerID = _prevFollowerSpriteSL;
+            }
         }
 
         public override float GetProgressPercentage(IRequestOwner owner)

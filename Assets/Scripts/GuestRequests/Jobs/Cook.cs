@@ -3,8 +3,9 @@ using UnityEngine;
 
 namespace GuestRequests.Jobs
 {
-    public class CookJob : Job
+    public class Cook : Job
     {
+        [SerializeField] private Transform transform;
         [SerializeField] private AudioSO cookingAudio;
         public float duration = 1.0f;
 

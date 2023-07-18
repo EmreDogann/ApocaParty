@@ -4,13 +4,13 @@ using UnityEngine;
 namespace GuestRequests
 {
     [Serializable]
-    public abstract class Job : MonoBehaviour
+    public abstract class Job
     {
         [field: SerializeReference] public string JobName { get; protected set; }
         protected float _currentTime;
 
 #if UNITY_EDITOR
-        private void Reset()
+        public Job()
         {
             JobName = GetType().Name;
         }

@@ -16,6 +16,7 @@ namespace Minion
         public bool showPath;
         public Transform marker;
         public LineRenderer pathRenderer;
+        [SerializeField] private Transform holderTransform;
 
         public Camera _mainCamera { get; private set; }
 
@@ -27,7 +28,7 @@ namespace Minion
         private MinionWorkingState _minionWorkingState;
         private CharacterBlackboard _blackboard;
 
-        public Request currentRequest;
+        [HideInInspector] public Request currentRequest;
 
         private void Start()
         {
@@ -87,6 +88,11 @@ namespace Minion
         public Vector3 GetPosition()
         {
             return transform.position;
+        }
+
+        public Transform GetHoldingPosition()
+        {
+            return holderTransform;
         }
     }
 }
