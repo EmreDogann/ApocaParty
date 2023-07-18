@@ -1,5 +1,4 @@
 ﻿using System;
-using Dialogue;
 using Events.UnityEvents;
 using MyBox;
 using UI.Views;
@@ -39,46 +38,24 @@ namespace UI
         public void OnCancel(InputAction.CallbackContext ctx)
         {
             View viewActive = UIManager.Instance.GetCurrentView();
-            OnCancelEvent?.Invoke(viewActive);
+            if (viewActive is not DialogueView)
+            {
+                OnCancelEvent?.Invoke(viewActive);
+            }
 
             if (!viewActive)
             {
-                Time.timeScale = 0.0f;
-                onGamePauseSOEvent.Raise(true);
                 UIManager.Instance.Show<PauseMenuView>();
             }
             else
             {
-                bool viewAvailable = UIManager.Instance.IsOnlyView();
+                if (viewActive is DialogueView)
+                {
+                    UIManager.Instance.Show<PauseMenuView>();
+                    return;
+                }
+
                 UIManager.Instance.Back();
-
-                if (viewAvailable)
-                {
-                    if (DialogueManager.Instance && !DialogueManager.Instance.DialogueIsPlaying)
-                    {
-                        Time.timeScale = 1.0f;
-                    }
-
-                    onGamePauseSOEvent.Raise(false);
-                }
-            }
-        }
-
-        public void GamePause(bool pause)
-        {
-            if (pause)
-            {
-                Time.timeScale = 0.0f;
-                onGamePauseSOEvent.Raise(true);
-            }
-            else
-            {
-                if (!DialogueManager.Instance.DialogueIsPlaying)
-                {
-                    Time.timeScale = 1.0f;
-                }
-
-                onGamePauseSOEvent.Raise(false);
             }
         }
     }

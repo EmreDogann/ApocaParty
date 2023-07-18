@@ -2,6 +2,7 @@ using System.Collections;
 using Events.UnityEvents;
 using MyBox;
 using TMPro;
+using UI;
 using UI.Views;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -57,10 +58,10 @@ namespace Dialogue
         {
             _currentMessages = messages;
             _messageIndex = 0;
+            _listener.Event.Raise(true);
             DialogueIsPlaying = true;
-            Time.timeScale = 0.0f;
 
-            dialogueView.Open();
+            UIManager.Instance.Show(dialogueView);
             DisplayMessage();
         }
 
@@ -90,9 +91,9 @@ namespace Dialogue
         private IEnumerator ExitDialogue()
         {
             yield return new WaitForSecondsRealtime(0.1f);
-            dialogueView.Close();
-            Time.timeScale = 1.0f;
+            UIManager.Instance.Back();
             DialogueIsPlaying = false;
+            _listener.Event.Raise(false);
         }
 
         private void OnGamePaused(bool isPaused)
@@ -102,19 +103,12 @@ namespace Dialogue
                 return;
             }
 
-            if (isPaused)
-            {
-                _dialogueIsPaused = true;
-            }
-            else
-            {
-                _dialogueIsPaused = false;
-            }
+            _dialogueIsPaused = isPaused;
         }
 
         private void Update()
         {
-            if (confirmAction.action.WasPressedThisFrame() && DialogueIsPlaying && !_dialogueIsPaused)
+            if (confirmAction.action.WasPressedThisFrame() && UIManager.Instance.GetCurrentView() == dialogueView)
             {
                 NextMessage();
             }

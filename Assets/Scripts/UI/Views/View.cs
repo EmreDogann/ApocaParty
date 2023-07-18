@@ -8,6 +8,9 @@ namespace UI.Views
     [RequireComponent(typeof(CanvasGroup))]
     public class View : MonoBehaviour
     {
+        [Tooltip("Don't hide this view when other views are added ontop.")]
+        [SerializeField] private bool alwaysShow;
+
         [SerializeField] private MenuTransitionFactory menuTransitionFactory;
         protected Coroutine _coroutine;
 
@@ -27,7 +30,12 @@ namespace UI.Views
             _menuTransition.Initialize(this);
         }
 
-        public virtual void Open()
+        public void OpenView()
+        {
+            Open(false);
+        }
+
+        internal virtual void Open(bool beingReopened)
         {
             _isActive = true;
             gameObject.SetActive(_isActive);
@@ -41,7 +49,12 @@ namespace UI.Views
             _coroutine = StartCoroutine(Show());
         }
 
-        public virtual void Close()
+        public void CloseView()
+        {
+            Close();
+        }
+
+        internal virtual void Close()
         {
             if (!_isActive)
             {
@@ -61,6 +74,11 @@ namespace UI.Views
         public bool IsActive()
         {
             return _isActive;
+        }
+
+        public bool ShouldAlwaysShow()
+        {
+            return alwaysShow;
         }
 
         protected virtual IEnumerator Show()

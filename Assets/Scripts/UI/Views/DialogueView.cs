@@ -2,10 +2,10 @@
 {
     public class DialogueView : View
     {
-        public override void Open()
+        internal override void Open(bool beingSwapped)
         {
             transform.parent.gameObject.SetActive(true);
-            base.Open();
+            base.Open(beingSwapped);
         }
     }
 }

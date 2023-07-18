@@ -106,7 +106,7 @@ namespace Interactions
 
             // Send ray out from cursor position.
             _hit = Physics2D.Raycast(_mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue()),
-                Vector2.zero, 1, mask);
+                Vector2.zero, Mathf.Infinity, mask);
             InteractableBase newTarget = null;
 
             if (_hit.collider)

@@ -1,11 +1,31 @@
-﻿namespace UI.Views
+﻿using Events.UnityEvents;
+using UnityEngine;
+
+namespace UI.Views
 {
     public class PauseMenuView : View
     {
-        public override void Open()
+        [SerializeField] private BoolEventChannelSO OnGamePauseEvent;
+
+        internal override void Open(bool beingSwapped)
         {
             transform.parent.gameObject.SetActive(true);
-            base.Open();
+            if (!beingSwapped)
+            {
+                OnGamePauseEvent.Raise(true);
+            }
+
+            base.Open(beingSwapped);
+        }
+
+        internal override void Close()
+        {
+            if (UIManager.Instance.IsOnlyView())
+            {
+                OnGamePauseEvent.Raise(false);
+            }
+
+            base.Close();
         }
     }
 }

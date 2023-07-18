@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Interactions
 {
@@ -21,6 +22,12 @@ namespace Interactions
         {
             foreach (IInteractionHandler handler in _interactionHandlers)
             {
+                // Don't check for interactions is the mouse is over a UI element.
+                if (EventSystem.current.IsPointerOverGameObject())
+                {
+                    return;
+                }
+
                 InteractableBase interactable = handler.CheckForInteraction();
                 if (!handler.WasInteractedThisFrame())
                 {

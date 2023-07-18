@@ -16,8 +16,7 @@ namespace UI.Views
                 view.OnViewClose += ViewClosed;
             }
 
-            // UIManager.OnViewOpen += ViewOpened;
-            UIManager.OnViewShow += ViewShown;
+            UIManager.OnViewSwap += ViewShown;
         }
 
         public void OnDestroy()
@@ -28,15 +27,14 @@ namespace UI.Views
                 view.OnViewClose -= ViewClosed;
             }
 
-            // UIManager.OnViewOpen -= ViewOpened;
-            UIManager.OnViewShow -= ViewShown;
+            UIManager.OnViewSwap -= ViewShown;
         }
 
         public void ViewOpened(View viewToOpen)
         {
             if (!IsActive())
             {
-                Open();
+                Open(false);
             }
         }
 
