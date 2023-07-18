@@ -6,23 +6,33 @@ namespace GuestRequests
     [Serializable]
     public abstract class Job : MonoBehaviour
     {
-        [field: SerializeReference] public string JobName { get; private set; }
-        public float duration = 1.0f;
+        [field: SerializeReference] public string JobName { get; protected set; }
         protected float _currentTime;
 
-        protected Job(string name)
+#if UNITY_EDITOR
+        private void Reset()
         {
-            JobName = name;
+            JobName = GetType().Name;
+        }
+#endif
+
+        public virtual void Enter(IRequestOwner owner)
+        {
+            Debug.Log($"Entered job: {JobName}");
+            _currentTime = 0.0f;
         }
 
-        public void UpdateJob(float deltaTime)
+        public virtual void Tick(float deltaTime, IRequestOwner owner)
         {
             _currentTime += deltaTime;
         }
 
-        public float GetProgressPercentage()
+        public virtual void Exit(IRequestOwner owner)
         {
-            return Mathf.Clamp01(_currentTime / duration);
+            Debug.Log($"Exited job: {JobName}");
         }
+
+        public abstract float GetProgressPercentage(IRequestOwner owner);
+        public abstract float GetTotalDuration(IRequestOwner owner);
     }
 }
