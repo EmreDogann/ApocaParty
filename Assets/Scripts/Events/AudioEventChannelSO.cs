@@ -7,11 +7,12 @@ namespace Events
     public class AudioEventChannelSO : ScriptableObject
     {
         public AudioPlayAction OnAudioPlay;
+        public AudioPlay2DAction OnAudioPlay2D;
         public AudioPlayAttachedAction OnAudioPlayAttached;
         public AudioStopAction OnAudioStop;
 
         public AudioHandle RaisePlayEvent(AudioSO audio, AudioEventData audioEventData,
-            Vector2 positionInSpace = default)
+            Vector3 positionInSpace = default)
         {
             AudioHandle audioHandle = AudioHandle.Invalid;
 
@@ -22,6 +23,25 @@ namespace Events
             else
             {
                 Debug.LogWarning("An AudioPlay event was requested for " + audio.name +
+                                 ", but nobody picked it up. " +
+                                 "Check why there is no AudioManager already loaded, " +
+                                 "and make sure it's listening on this Audio Event channel.");
+            }
+
+            return audioHandle;
+        }
+
+        public AudioHandle RaisePlay2DEvent(AudioSO audio, AudioEventData audioEventData)
+        {
+            AudioHandle audioHandle = AudioHandle.Invalid;
+
+            if (OnAudioPlay != null)
+            {
+                audioHandle = OnAudioPlay2D.Invoke(audio, audioEventData);
+            }
+            else
+            {
+                Debug.LogWarning("An AudioPlay2D event was requested for " + audio.name +
                                  ", but nobody picked it up. " +
                                  "Check why there is no AudioManager already loaded, " +
                                  "and make sure it's listening on this Audio Event channel.");
@@ -70,7 +90,9 @@ namespace Events
     }
 
     public delegate AudioHandle AudioPlayAction(AudioSO audio, AudioEventData audioEventData,
-        Vector2 positionInSpace);
+        Vector3 positionInSpace);
+
+    public delegate AudioHandle AudioPlay2DAction(AudioSO audio, AudioEventData audioEventData);
 
     public delegate AudioHandle AudioPlayAttachedAction(AudioSO audio, AudioEventData audioEventData,
         GameObject gameObject);

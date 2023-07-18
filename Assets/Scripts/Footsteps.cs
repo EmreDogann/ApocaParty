@@ -57,7 +57,7 @@ public class Footsteps : MonoBehaviour
         _currentStrideDistance = 0;
         _blackboard.OnStride?.Invoke();
 
-        footstepSoundEffect.Play();
+        footstepSoundEffect.Play(transform.position);
     }
 
     private void InteractSurface()

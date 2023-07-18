@@ -26,6 +26,9 @@ namespace Audio
         [ConditionalField(nameof(useSemitones), true)]
         [MinMaxRange(0, 3)] public RangedFloat pitch = new RangedFloat(1.0f, 1.0f);
 
+        [Tooltip("Should the audio loop until specified to stop?")]
+        [SerializeField] private bool Looping;
+
         [Tooltip("Should the audio allow being paused/resumed when the game is paused/resumed.")]
         [SerializeField] private bool CanBePaused;
 
@@ -147,11 +150,11 @@ namespace Audio
             return clip;
         }
 
-        public void Play(Vector2 positionWorldSpace = default)
+        public void Play(Vector3 positionWorldSpace = default)
         {
             if (clips.Length == 0)
             {
-                Debug.Log($"No sound clips for {name}");
+                Debug.LogWarning($"No sound clips for {name}");
                 return;
             }
 
@@ -160,9 +163,48 @@ namespace Audio
             audioEventData.Pitch = useSemitones
                 ? Mathf.Pow(SEMITONES_TO_PITCH_CONVERSION_UNIT, Random.Range(semitones.Min, semitones.Max))
                 : Random.Range(pitch.Min, pitch.Max);
+            audioEventData.ShouldLoop = Looping;
             audioEventData.CanPause = CanBePaused;
 
             _audioHandle.Add(audioEvent.RaisePlayEvent(this, audioEventData, positionWorldSpace));
+        }
+
+        public void Play2D()
+        {
+            if (clips.Length == 0)
+            {
+                Debug.LogWarning($"No sound clips for {name}");
+                return;
+            }
+
+            AudioEventData audioEventData = new AudioEventData();
+            audioEventData.Volume = Random.Range(volume.Min, volume.Max);
+            audioEventData.Pitch = useSemitones
+                ? Mathf.Pow(SEMITONES_TO_PITCH_CONVERSION_UNIT, Random.Range(semitones.Min, semitones.Max))
+                : Random.Range(pitch.Min, pitch.Max);
+            audioEventData.ShouldLoop = Looping;
+            audioEventData.CanPause = CanBePaused;
+
+            _audioHandle.Add(audioEvent.RaisePlay2DEvent(this, audioEventData));
+        }
+
+        public void PlayAttached(GameObject gameObject)
+        {
+            if (clips.Length == 0)
+            {
+                Debug.LogWarning($"No sound clips for {name}");
+                return;
+            }
+
+            AudioEventData audioEventData = new AudioEventData();
+            audioEventData.Volume = Random.Range(volume.Min, volume.Max);
+            audioEventData.Pitch = useSemitones
+                ? Mathf.Pow(SEMITONES_TO_PITCH_CONVERSION_UNIT, Random.Range(semitones.Min, semitones.Max))
+                : Random.Range(pitch.Min, pitch.Max);
+            audioEventData.ShouldLoop = Looping;
+            audioEventData.CanPause = CanBePaused;
+
+            _audioHandle.Add(audioEvent.RaisePlayAttachedEvent(this, audioEventData, gameObject));
         }
 
         public void StopAll()
@@ -203,24 +245,6 @@ namespace Audio
             }
 
             _audioHandle.RemoveAt(_audioHandle.Count - 1);
-        }
-
-        public void PlayAttached(GameObject gameObject)
-        {
-            if (clips.Length == 0)
-            {
-                Debug.Log($"No sound clips for {name}");
-                return;
-            }
-
-            AudioEventData audioEventData = new AudioEventData();
-            audioEventData.Volume = Random.Range(volume.Min, volume.Max);
-            audioEventData.Pitch = useSemitones
-                ? Mathf.Pow(SEMITONES_TO_PITCH_CONVERSION_UNIT, Random.Range(semitones.Min, semitones.Max))
-                : Random.Range(pitch.Min, pitch.Max);
-            audioEventData.CanPause = CanBePaused;
-
-            _audioHandle.Add(audioEvent.RaisePlayAttachedEvent(this, audioEventData, gameObject));
         }
 
         private enum SoundClipPlayOrder

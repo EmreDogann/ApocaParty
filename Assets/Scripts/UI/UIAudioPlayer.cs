@@ -41,7 +41,7 @@ namespace UI
         {
             if (isPaused)
             {
-                backAudio.Play();
+                backAudio.Play2D();
             }
         }
 
@@ -50,18 +50,18 @@ namespace UI
             if (isPaused)
             {
                 // _audioManager.StopAllEvents(masterBus, false);
-                pauseAudio.Play();
+                pauseAudio.Play2D();
             }
         }
 
         private void OnUIHover()
         {
-            hoverAudio.Play();
+            hoverAudio.Play2D();
         }
 
         private void OnUIClick()
         {
-            clickAudio.Play();
+            clickAudio.Play2D();
         }
     }
 }
