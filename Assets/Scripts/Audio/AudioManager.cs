@@ -28,6 +28,8 @@ namespace Audio
 
         private List<AudioEmitter> _audioEmitters;
         private List<AudioHandle> _audioHandles;
+        private AudioEmitter _musicEmitter;
+
         private int _currentAudioSourceIndex;
 
         private void Awake()
@@ -41,6 +43,7 @@ namespace Audio
 
             _audioEmitters = new List<AudioEmitter>();
             _audioHandles = new List<AudioHandle>();
+            _musicEmitter = null;
 
             for (int i = 0; i < audioSourcePoolSize; i++)
             {
@@ -58,12 +61,9 @@ namespace Audio
             sfxAudioChannel.OnAudioPlayAttached += PlaySoundEffectAttached;
             sfxAudioChannel.OnAudioStop += StopSoundEffect;
 
-            // _musicEventChannel.OnAudioCuePlayRequested += PlayMusicTrack;
-            // _musicEventChannel.OnAudioCueStopRequested += StopMusic;
-
-            // _masterVolumeEventChannel.OnEventRaised += ChangeMasterVolume;
-            // _musicVolumeEventChannel.OnEventRaised += ChangeMusicVolume;
-            // _SFXVolumeEventChannel.OnEventRaised += ChangeSFXVolume;
+            musicAudioChannel.OnAudioPlay += PlayMusic;
+            musicAudioChannel.OnAudioPlay2D += PlayMusic2D;
+            musicAudioChannel.OnAudioStop += StopMusic;
         }
 
         private void OnDestroy()
@@ -75,12 +75,9 @@ namespace Audio
             sfxAudioChannel.OnAudioPlayAttached -= PlaySoundEffectAttached;
             sfxAudioChannel.OnAudioStop -= StopSoundEffect;
 
-            // _SFXEventChannel.OnAudioCueFinishRequested -= FinishAudioCue;
-            // _musicEventChannel.OnAudioCuePlayRequested -= PlayMusicTrack;
-
-            // _musicVolumeEventChannel.OnEventRaised -= ChangeMusicVolume;
-            // _SFXVolumeEventChannel.OnEventRaised -= ChangeSFXVolume;
-            // _masterVolumeEventChannel.OnEventRaised -= ChangeMasterVolume;
+            musicAudioChannel.OnAudioPlay += PlayMusic;
+            musicAudioChannel.OnAudioPlay2D += PlayMusic2D;
+            musicAudioChannel.OnAudioStop += StopMusic;
         }
 
         private void Update()
@@ -94,15 +91,15 @@ namespace Audio
             }
         }
 
-        public AudioHandle PlaySoundEffect2D(AudioSO audio, AudioEventData audioEventData)
+        public AudioHandle PlaySoundEffect2D(AudioSO audioObj, AudioEventData audioEventData)
         {
             AudioEmitter emitter = RequestAudioEmitter();
             emitter.CanPause = audioEventData.CanPause;
             emitter.AttachedGameObject = null;
 
-            emitter.Source.outputAudioMixerGroup = audio.audioMixer;
+            emitter.Source.outputAudioMixerGroup = audioObj.GetAudioMixer();
             emitter.Source.transform.position = Vector3.zero;
-            emitter.Source.clip = audio.GetAudioClip();
+            emitter.Source.clip = audioObj.GetAudioClip();
             emitter.Source.volume = audioEventData.Volume;
             emitter.Source.pitch = audioEventData.Pitch;
             emitter.Source.spatialBlend = 0;
@@ -111,21 +108,21 @@ namespace Audio
             emitter.Source.time = 0f;
             emitter.Source.Play();
 
-            AudioHandle handle = new AudioHandle(_currentAudioSourceIndex, audio);
+            AudioHandle handle = new AudioHandle(_currentAudioSourceIndex, audioObj);
             _audioHandles.Add(handle);
 
             return handle;
         }
 
-        public AudioHandle PlaySoundEffect(AudioSO audio, AudioEventData audioEventData, Vector3 positionInSpace)
+        public AudioHandle PlaySoundEffect(AudioSO audioObj, AudioEventData audioEventData, Vector3 positionInSpace)
         {
             AudioEmitter emitter = RequestAudioEmitter();
             emitter.CanPause = audioEventData.CanPause;
             emitter.AttachedGameObject = null;
 
-            emitter.Source.outputAudioMixerGroup = audio.audioMixer;
+            emitter.Source.outputAudioMixerGroup = audioObj.GetAudioMixer();
             emitter.Source.transform.position = positionInSpace;
-            emitter.Source.clip = audio.GetAudioClip();
+            emitter.Source.clip = audioObj.GetAudioClip();
             emitter.Source.volume = audioEventData.Volume;
             emitter.Source.pitch = audioEventData.Pitch;
             emitter.Source.spatialBlend = emitter.DefaultSpatialBlend;
@@ -134,21 +131,21 @@ namespace Audio
             emitter.Source.time = 0f;
             emitter.Source.Play();
 
-            AudioHandle handle = new AudioHandle(_currentAudioSourceIndex, audio);
+            AudioHandle handle = new AudioHandle(_currentAudioSourceIndex, audioObj);
             _audioHandles.Add(handle);
 
             return handle;
         }
 
-        public AudioHandle PlaySoundEffectAttached(AudioSO audio, AudioEventData audioEventData, GameObject gameObject)
+        public AudioHandle PlaySoundEffectAttached(AudioSO audioObj, AudioEventData audioEventData, GameObject gameObj)
         {
             AudioEmitter emitter = RequestAudioEmitter();
             emitter.CanPause = audioEventData.CanPause;
-            emitter.AttachedGameObject = gameObject;
+            emitter.AttachedGameObject = gameObj;
 
-            emitter.Source.outputAudioMixerGroup = audio.audioMixer;
-            emitter.Source.transform.position = gameObject.transform.position;
-            emitter.Source.clip = audio.GetAudioClip();
+            emitter.Source.outputAudioMixerGroup = audioObj.GetAudioMixer();
+            emitter.Source.transform.position = gameObj.transform.position;
+            emitter.Source.clip = audioObj.GetAudioClip();
             emitter.Source.volume = audioEventData.Volume;
             emitter.Source.pitch = audioEventData.Pitch;
             emitter.Source.loop = audioEventData.ShouldLoop;
@@ -156,10 +153,64 @@ namespace Audio
             emitter.Source.time = 0f;
             emitter.Source.Play();
 
-            AudioHandle handle = new AudioHandle(_currentAudioSourceIndex, audio);
+            AudioHandle handle = new AudioHandle(_currentAudioSourceIndex, audioObj);
             _audioHandles.Add(handle);
 
             return handle;
+        }
+
+        public AudioHandle PlayMusic2D(AudioSO audioObj, AudioEventData audioEventData)
+        {
+            if (_musicEmitter != null && _musicEmitter.Source.isPlaying)
+            {
+                // Maybe can do fancy things here like fade out audio instead of a hard stop.
+                _musicEmitter.Source.Stop();
+            }
+
+            AudioEmitter emitter = RequestAudioEmitter();
+            emitter.CanPause = audioEventData.CanPause;
+            emitter.AttachedGameObject = null;
+
+            emitter.Source.outputAudioMixerGroup = audioObj.GetAudioMixer();
+            emitter.Source.transform.position = Vector3.zero;
+            emitter.Source.clip = audioObj.GetAudioClip();
+            emitter.Source.volume = audioEventData.Volume;
+            emitter.Source.pitch = audioEventData.Pitch;
+            emitter.Source.spatialBlend = 0;
+            emitter.Source.loop = audioEventData.ShouldLoop;
+            //Reset in case this AudioSource is being reused for a short SFX after being used for a long music track
+            emitter.Source.time = 0f;
+            emitter.Source.Play();
+
+            _musicEmitter = emitter;
+            return AudioHandle.Invalid;
+        }
+
+        public AudioHandle PlayMusic(AudioSO audioObj, AudioEventData audioEventData, Vector3 positionInSpace)
+        {
+            if (_musicEmitter != null && _musicEmitter.Source.isPlaying)
+            {
+                // Maybe can do fancy things here like fade out audio instead of a hard stop.
+                _musicEmitter.Source.Stop();
+            }
+
+            AudioEmitter emitter = RequestAudioEmitter();
+            emitter.CanPause = audioEventData.CanPause;
+            emitter.AttachedGameObject = null;
+
+            emitter.Source.outputAudioMixerGroup = audioObj.GetAudioMixer();
+            emitter.Source.transform.position = positionInSpace;
+            emitter.Source.clip = audioObj.GetAudioClip();
+            emitter.Source.volume = audioEventData.Volume;
+            emitter.Source.pitch = audioEventData.Pitch;
+            emitter.Source.spatialBlend = emitter.DefaultSpatialBlend;
+            emitter.Source.loop = audioEventData.ShouldLoop;
+            //Reset in case this AudioSource is being reused for a short SFX after being used for a long music track
+            emitter.Source.time = 0f;
+            emitter.Source.Play();
+
+            _musicEmitter = emitter;
+            return AudioHandle.Invalid;
         }
 
         public bool StopSoundEffect(AudioHandle handle)
@@ -180,11 +231,23 @@ namespace Audio
             return true;
         }
 
+        public bool StopMusic(AudioHandle handle)
+        {
+            if (_musicEmitter != null && _musicEmitter.Source.isPlaying)
+            {
+                // Maybe can do fancy things here like fade out audio instead of a hard stop.
+                _musicEmitter.Source.Stop();
+                return true;
+            }
+
+            return false;
+        }
+
         private void OnPauseEvent(bool isPaused)
         {
-            if (isPaused)
+            foreach (AudioEmitter emitter in _audioEmitters)
             {
-                foreach (AudioEmitter emitter in _audioEmitters)
+                if (isPaused)
                 {
                     if (emitter.CanPause && emitter.Source.isPlaying)
                     {
@@ -192,17 +255,28 @@ namespace Audio
                         emitter.IsPaused = true;
                     }
                 }
-            }
-            else
-            {
-                foreach (AudioEmitter emitter in _audioEmitters)
+                else
                 {
-                    if (emitter.CanPause && emitter.IsPaused)
+                    if (emitter.IsPaused)
                     {
                         emitter.Source.Play();
                         emitter.IsPaused = false;
                     }
                 }
+            }
+
+            if (_musicEmitter != null && _musicEmitter.CanPause && _musicEmitter.Source.isPlaying)
+            {
+                if (isPaused)
+                {
+                    _musicEmitter.Source.Pause();
+                }
+                else
+                {
+                    _musicEmitter.Source.Play();
+                }
+
+                _musicEmitter.IsPaused = isPaused;
             }
         }
 
