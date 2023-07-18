@@ -1,13 +1,12 @@
 using GuestRequests;
-using GuestRequests.Requests;
 using Minion;
 using UnityEngine;
 
 namespace Interactions.Interactables
 {
-    public class FoodInteractable : InteractableBase, IInteractableRequest
+    public class RequestInteractable : InteractableBase, IInteractableRequest
     {
-        [SerializeField] private FoodRequest request;
+        [SerializeField] private Request request;
 
         public override void OnStartHover()
         {

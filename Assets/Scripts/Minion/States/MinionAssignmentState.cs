@@ -1,4 +1,5 @@
 using System;
+using GuestRequests.Requests;
 using Interactions;
 using UnityEngine;
 
@@ -43,9 +44,27 @@ namespace Minion.States
             switch (interactable)
             {
                 case IInteractableRequest requestInteractable:
+
                     minion.navMeshAgent.SetDestination(interactable.transform.position);
                     minion.currentRequest = requestInteractable.GetRequest();
                     minion.currentRequest.AssignOwner(minion);
+
+                    switch (minion.currentRequest)
+                    {
+                        case FoodRequest _:
+                            minion.image.sprite = minion.actorData.kitchenIcon;
+                            break;
+                        case MusicRequest _:
+                            Debug.Log("hey!");
+                            minion.image.sprite = minion.actorData.musicIcon;
+                            break;
+                        case EventRequest _:
+                            minion.image.sprite = minion.actorData.eventIcon;
+                            break;
+                        default:
+                            minion.image.sprite = minion.actorData.defaultIcon;
+                            break;
+                    }
 
                     _stateMachine.ChangeState(MinionStateID.Moving);
                     break;

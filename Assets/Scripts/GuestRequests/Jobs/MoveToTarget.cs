@@ -6,13 +6,10 @@ namespace GuestRequests.Jobs
     public class MoveToTarget : Job
     {
         public Transform target;
-        // [Space]
         public SpriteRenderer followerSprite;
         [SpriteLayer] [SerializeField] private int followerSortingLayer;
 
-        // [Space]
-        // ReSharper disable once FieldCanBeMadeReadOnly.Local
-        [SerializeField] private float distanceThreshold = 0.1f;
+        [SerializeField] private readonly float distanceThreshold = 0.1f;
         private float _enterTargetDistance;
         private Transform _followerTransform;
         private int _prevFollowerSpriteSL;
@@ -21,14 +18,13 @@ namespace GuestRequests.Jobs
         {
             base.Enter(owner);
 
-            _followerTransform = followerSprite.GetComponent<Transform>();
-            _prevFollowerSpriteSL = followerSprite.sortingLayerID;
-
             owner.SetDestination(target.position);
             _enterTargetDistance = Vector3.SqrMagnitude(owner.GetPosition() - target.position);
 
             if (followerSprite)
             {
+                _followerTransform = followerSprite.GetComponent<Transform>();
+                _prevFollowerSpriteSL = followerSprite.sortingLayerID;
                 followerSprite.sortingLayerID = followerSortingLayer;
             }
         }

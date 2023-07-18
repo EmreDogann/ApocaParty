@@ -16,7 +16,8 @@ public class JobsGenericDrawer : PropertyDrawer
         None,
         MoveToTarget,
         PlaceAtTarget,
-        Cook
+        Cook,
+        ChangeMusic
     }
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
@@ -41,7 +42,7 @@ public class JobsGenericDrawer : PropertyDrawer
             }
         }
 
-        return height;
+        return height + 12.0f;
     }
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
@@ -59,7 +60,13 @@ public class JobsGenericDrawer : PropertyDrawer
         if (newType != currentType)
         {
             // If the user changes the field type, assign a new instance of that type.
-            property.managedReferenceValue = MakeDefault(newType);
+            Job job = MakeDefault(newType);
+            job.GetType().GetProperty(nameof(Job.JobName))
+                ?.SetValue(job, ObjectNames.NicifyVariableName(job.GetType().Name));
+
+            property.isExpanded = true;
+
+            property.managedReferenceValue = job;
             property.serializedObject.ApplyModifiedProperties();
         }
 
@@ -86,7 +93,7 @@ public class JobsGenericDrawer : PropertyDrawer
         int indent = EditorGUI.indentLevel;
         EditorGUI.indentLevel++;
 
-        position.y += EditorGUIUtility.singleLineHeight + SINGLE_LINE_PADDING;
+        position.y += EditorGUIUtility.singleLineHeight + SINGLE_LINE_PADDING + 3.0f;
         position.height = EditorGUIUtility.singleLineHeight;
 
         // Note where this property ends and the next one begins.
@@ -194,6 +201,7 @@ public class JobsGenericDrawer : PropertyDrawer
             case FieldType.MoveToTarget: return new MoveToTarget();
             case FieldType.PlaceAtTarget: return new PlaceAtTarget();
             case FieldType.Cook: return new Cook();
+            case FieldType.ChangeMusic: return new ChangeMusic();
             case FieldType.None: return null;
             default:
                 Debug.Log($"Unknown field type {fieldType}.");

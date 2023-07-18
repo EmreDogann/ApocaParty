@@ -9,12 +9,9 @@ namespace GuestRequests
         [field: SerializeReference] public string JobName { get; protected set; }
         protected float _currentTime;
 
-#if UNITY_EDITOR
-        public Job()
-        {
-            JobName = GetType().Name;
-        }
-#endif
+        internal virtual void Initialize() {}
+
+        internal virtual void OnDestroy() {}
 
         public virtual void Enter(IRequestOwner owner)
         {

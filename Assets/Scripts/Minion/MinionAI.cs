@@ -1,3 +1,4 @@
+using Actors;
 using GuestRequests;
 using Interactions.Interactables;
 using Minion.States;
@@ -16,6 +17,7 @@ namespace Minion
         public bool showPath;
         public Transform marker;
         public LineRenderer pathRenderer;
+        public SpriteRenderer image;
         [SerializeField] private Transform holderTransform;
 
         public Camera _mainCamera { get; private set; }
@@ -29,6 +31,7 @@ namespace Minion
         private CharacterBlackboard _blackboard;
 
         [HideInInspector] public Request currentRequest;
+        public MinionActorSO actorData;
 
         private void Start()
         {

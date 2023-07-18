@@ -11,7 +11,10 @@ namespace Minion.States
             return MinionStateID.Idle;
         }
 
-        public override void Enter() {}
+        public override void Enter()
+        {
+            minion.image.sprite = minion.actorData.defaultIcon;
+        }
 
         public override void Tick()
         {
