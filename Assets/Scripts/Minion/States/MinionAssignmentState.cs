@@ -55,7 +55,6 @@ namespace Minion.States
                             minion.image.sprite = minion.actorData.kitchenIcon;
                             break;
                         case MusicRequest _:
-                            Debug.Log("hey!");
                             minion.image.sprite = minion.actorData.musicIcon;
                             break;
                         case EventRequest _:
