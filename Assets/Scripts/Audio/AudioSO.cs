@@ -7,29 +7,29 @@ using UnityEngine.Audio;
 
 namespace Audio
 {
-    [CreateAssetMenu(fileName = "New Sound Effect", menuName = "Audio/New Sound Effect")]
+    [CreateAssetMenu(fileName = "New Audio", menuName = "Audio/New Audio")]
     public class AudioSO : ScriptableObject
     {
         private const float SEMITONES_TO_PITCH_CONVERSION_UNIT = 1.05946f;
 
-        [MustBeAssigned] public AudioClip[] clips;
+        [MustBeAssigned] [SerializeField] private AudioClip[] clips;
 
         [Separator("Clip Settings")]
-        [MustBeAssigned] public AudioMixerGroup audioMixer;
+        [MustBeAssigned] [SerializeField] private AudioMixerGroup audioMixer;
         [MinMaxRange(0, 1)] public RangedFloat volume = new RangedFloat(0.5f, 0.5f);
 
         public bool useSemitones;
 
         [ConditionalField(nameof(useSemitones))]
-        [MinMaxRange(-10, 10)] public RangedInt semitones = new RangedInt(0, 0);
+        [MinMaxRange(-10, 10)] [SerializeField] private RangedInt semitones = new RangedInt(0, 0);
 
         [ConditionalField(nameof(useSemitones), true)]
-        [MinMaxRange(0, 3)] public RangedFloat pitch = new RangedFloat(1.0f, 1.0f);
+        [MinMaxRange(0, 3)] [SerializeField] private RangedFloat pitch = new RangedFloat(1.0f, 1.0f);
 
         [Tooltip("Should the audio loop until specified to stop?")]
         [SerializeField] private bool Looping;
 
-        [Tooltip("Should the audio allow being paused/resumed when the game is paused/resumed.")]
+        [Tooltip("Should the audio allow being paused when the game is paused.")]
         [SerializeField] private bool CanBePaused;
 
         [Separator("Playback Order")]
@@ -38,7 +38,7 @@ namespace Audio
         [ReadOnly] [SerializeField] private int currentPlayIndex;
 
         [Separator("Audio Events")]
-        [Tooltip("The Audio Event to trigger when trying to play the audio.")]
+        [Tooltip("The Audio Event to trigger when trying to play/stop the audio.")]
         [OverrideLabel("Play Trigger Event")] [SerializeField] private AudioEventChannelSO audioEvent;
         private readonly List<AudioHandle> _audioHandle = new List<AudioHandle>();
 
@@ -150,6 +150,11 @@ namespace Audio
             return clip;
         }
 
+        public AudioMixerGroup GetAudioMixer()
+        {
+            return audioMixer;
+        }
+
         public void Play(Vector3 positionWorldSpace = default)
         {
             if (clips.Length == 0)
@@ -166,9 +171,14 @@ namespace Audio
             audioEventData.ShouldLoop = Looping;
             audioEventData.CanPause = CanBePaused;
 
-            _audioHandle.Add(audioEvent.RaisePlayEvent(this, audioEventData, positionWorldSpace));
+            AudioHandle handle = audioEvent.RaisePlayEvent(this, audioEventData, positionWorldSpace);
+            if (handle != AudioHandle.Invalid)
+            {
+                _audioHandle.Add(handle);
+            }
         }
 
+        [ButtonMethod]
         public void Play2D()
         {
             if (clips.Length == 0)
@@ -185,7 +195,11 @@ namespace Audio
             audioEventData.ShouldLoop = Looping;
             audioEventData.CanPause = CanBePaused;
 
-            _audioHandle.Add(audioEvent.RaisePlay2DEvent(this, audioEventData));
+            AudioHandle handle = audioEvent.RaisePlay2DEvent(this, audioEventData);
+            if (handle != AudioHandle.Invalid)
+            {
+                _audioHandle.Add(handle);
+            }
         }
 
         public void PlayAttached(GameObject gameObject)
@@ -204,14 +218,19 @@ namespace Audio
             audioEventData.ShouldLoop = Looping;
             audioEventData.CanPause = CanBePaused;
 
-            _audioHandle.Add(audioEvent.RaisePlayAttachedEvent(this, audioEventData, gameObject));
+            AudioHandle handle = audioEvent.RaisePlayAttachedEvent(this, audioEventData, gameObject);
+            if (handle != AudioHandle.Invalid)
+            {
+                _audioHandle.Add(handle);
+            }
         }
 
+        [ButtonMethod]
         public void StopAll()
         {
             if (_audioHandle.Count < 1)
             {
-                Debug.LogWarning($"Cannot stop audio {name}. No audio is playing.");
+                audioEvent.RaiseStopEvent(AudioHandle.Invalid);
                 return;
             }
 
@@ -228,11 +247,11 @@ namespace Audio
             _audioHandle.Clear();
         }
 
-        public void StopLast()
+        public void Stop()
         {
             if (_audioHandle.Count < 1)
             {
-                Debug.LogWarning($"Cannot stop audio {name}. No audio is playing.");
+                audioEvent.RaiseStopEvent(AudioHandle.Invalid);
                 return;
             }
 
