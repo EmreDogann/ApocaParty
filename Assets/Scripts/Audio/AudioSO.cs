@@ -224,7 +224,7 @@ namespace Audio
             }
         }
 
-        public opAll()
+        public void StopAll()
         {
             if (_audioHandle.Count < 1)
             {
