@@ -2,18 +2,18 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Events.UnityEvents
+namespace Events
 {
     /// <summary>
     ///     To use a generic UnityEvent type you must override the generic type.
     /// </summary>
     [Serializable]
-    public class BoolEvent : UnityEvent<bool> {}
+    public class FloatEvent : UnityEvent<bool> {}
 
-    public class BoolEventListener : MonoBehaviour
+    public class FloatEventListener : MonoBehaviour
     {
-        public BoolEventChannelSO Event;
-        public BoolEvent Response;
+        public FloatEventChannelSO Event;
+        public FloatEvent Response;
 
         private void OnEnable()
         {

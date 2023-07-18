@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Events.UnityEvents
+namespace Events
 {
-    [CreateAssetMenu(fileName = "New Float Event", menuName = "Game Event/Unity Event/Float Event", order = 2)]
+    [CreateAssetMenu(fileName = "New Float Event", menuName = "Game Event/Float Event", order = 2)]
     public class FloatEventChannelSO : ScriptableObject
     {
         private readonly List<FloatEventListener> listeners = new List<FloatEventListener>();

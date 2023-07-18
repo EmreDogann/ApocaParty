@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Events.UnityEvents
+namespace Events
 {
-    [CreateAssetMenu(fileName = "New Void Event", menuName = "Game Event/Unity Event/Void Event", order = 3)]
+    [CreateAssetMenu(fileName = "New Void Event", menuName = "Game Event/Void Event", order = 3)]
     public class VoidEventChannelSO : ScriptableObject
     {
         private readonly List<VoidEventListener> listeners = new List<VoidEventListener>();

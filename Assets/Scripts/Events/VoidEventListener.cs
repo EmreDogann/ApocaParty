@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Events.UnityEvents
+namespace Events
 {
     public class VoidEventListener : MonoBehaviour
     {

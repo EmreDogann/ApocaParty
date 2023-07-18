@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Events
 {
-    [CreateAssetMenu(fileName = "New Audio Event", menuName = "Game Event/Unity Event/Audio Event", order = 4)]
+    [CreateAssetMenu(fileName = "New Audio Event", menuName = "Game Event/Audio Event", order = 4)]
     public class AudioEventChannelSO : ScriptableObject
     {
         public AudioPlayAction OnAudioPlay;

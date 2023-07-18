@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Events.UnityEvents
+namespace Events
 {
-    [CreateAssetMenu(fileName = "New Bool Event", menuName = "Game Event/Unity Event/Bool Event", order = 2)]
+    [CreateAssetMenu(fileName = "New Bool Event", menuName = "Game Event/Bool Event", order = 2)]
     public class BoolEventChannelSO : ScriptableObject
     {
         private readonly List<BoolEventListener> listeners = new List<BoolEventListener>();

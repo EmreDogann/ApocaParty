@@ -1,4 +1,4 @@
-﻿using Events.UnityEvents;
+﻿using Events;
 using UnityEngine;
 
 namespace UI.Views

@@ -178,7 +178,6 @@ namespace Audio
             }
         }
 
-        [ButtonMethod]
         public void Play2D()
         {
             if (clips.Length == 0)
@@ -225,8 +224,7 @@ namespace Audio
             }
         }
 
-        [ButtonMethod]
-        public void StopAll()
+        public opAll()
         {
             if (_audioHandle.Count < 1)
             {
