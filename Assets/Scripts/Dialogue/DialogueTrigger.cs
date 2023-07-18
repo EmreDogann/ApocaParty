@@ -1,4 +1,3 @@
-using System;
 using MyBox;
 using UnityEngine;
 
@@ -7,19 +6,13 @@ namespace Dialogue
     public class DialogueTrigger : MonoBehaviour
     {
         public Message[] messages;
+        public TextAsset tempScript;
 
         [ButtonMethod]
         public void StartDialogue()
         {
-            DialogueManager.Instance.OpenDialogue(messages);
+            DialogueManager.Instance.OpenDialogue(Messages.ParseMessages(tempScript, DialogueManager.Instance.allActorSos));
+            // DialogueManager.Instance.OpenDialogue(messages);
         }
-    }
-
-    [Serializable]
-    public class Message
-    {
-        public ActorSO actor;
-        [TextArea(3, 5)]
-        public string message;
     }
 }
