@@ -9,6 +9,15 @@
       },
       "hash": "e250b932c64c9624f807ff2dad658da80dc09b8e"
     },
+    "com.ems.main-scene-auto-loading": {
+      "version": "https://github.com/EmreDogann/unity-main-scene-auto-loading.git#upm",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.editorcoroutines": "1.0.0"
+      },
+      "hash": "031ac01a88761647e17b5d4630732c7ed6ce1e70"
+    },
     "com.h8man.2d.navmeshplus": {
       "version": "https://github.com/h8man/NavMeshPlus.git",
       "depth": 0,
@@ -125,6 +134,13 @@
     "com.unity.collab-proxy": {
       "version": "2.0.5",
       "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.editorcoroutines": {
+      "version": "1.0.0",
+      "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"

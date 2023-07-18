@@ -50,9 +50,9 @@ namespace UI.Components.Buttons
 
         [Separator("Audio Overrides")]
         [ReadOnly(nameof(playHoverAudio), false, false)] [OverrideLabel("Hover Audio")]
-        [SerializeField] private SoundEffectSO uiAudioHoverOverride;
+        [SerializeField] private AudioSO uiAudioHoverOverride;
         [ReadOnly(nameof(playClickAudio), false, false)] [OverrideLabel("Click Audio")]
-        [SerializeField] private SoundEffectSO uiAudioClickOverride;
+        [SerializeField] private AudioSO uiAudioClickOverride;
 
         private ButtonStatus _buttonStatus = ButtonStatus.Normal;
         protected bool _isHighlighted;
@@ -158,7 +158,7 @@ namespace UI.Components.Buttons
             {
                 if (uiAudioClickOverride)
                 {
-                    AudioManager.Instance.PlayEffectOneShot(uiAudioClickOverride);
+                    uiAudioClickOverride.Play();
                 }
                 else
                 {
@@ -183,7 +183,7 @@ namespace UI.Components.Buttons
             {
                 if (uiAudioHoverOverride)
                 {
-                    AudioManager.Instance.PlayEffectOneShot(uiAudioHoverOverride);
+                    uiAudioHoverOverride.Play();
                 }
                 else
                 {

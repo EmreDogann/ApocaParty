@@ -7,12 +7,13 @@ namespace Player
     [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent))]
     public class PlayerController : MonoBehaviour
     {
+        [SerializeField] private InputActionReference moveButton;
+        public bool showPath;
+        public Transform marker;
+        public LineRenderer pathRenderer;
+
         private NavMeshAgent _agent;
         private Camera _mainCamera;
-        public Transform marker;
-
-        public bool showPath;
-        public LineRenderer pathRenderer;
         private CharacterBlackboard _blackboard;
 
         private void Start()
@@ -34,9 +35,11 @@ namespace Player
 
             _blackboard.IsMoving = _agent.hasPath;
 
-            if (Mouse.current.leftButton.wasPressedThisFrame)
+            if (moveButton.action.WasPressedThisFrame())
             {
-                _agent.SetDestination(_mainCamera.ScreenToWorldPoint(Mouse.current.position.value));
+                Vector3 mouseWorldPosition = _mainCamera.ScreenToWorldPoint(Mouse.current.position.value);
+                mouseWorldPosition.z = 0;
+                _agent.SetDestination(mouseWorldPosition);
                 marker.transform.position = _agent.destination;
 
                 if (showPath)

@@ -4,26 +4,16 @@ using UnityEngine;
 namespace Interactions
 {
     [Serializable]
-    public class InteractableBase : MonoBehaviour, IInteractable
+    public abstract class InteractableBase : MonoBehaviour, IInteractable
     {
-        [field: SerializeField]
-        public float HoldDuration { get; protected set; }
-        [field: SerializeField]
-        public bool HoldInteract { get; protected set; }
-        [field: SerializeField]
+        [field: SerializeField] public float HoldDuration { get; protected set; }
+        [field: SerializeField] public bool HoldInteract { get; protected set; }
+        // Not used right now
         public float MultipleUse { get; protected set; }
-        [field: SerializeField]
-        public bool IsInteractable { get; protected set; }
+        [field: SerializeField] public bool IsInteractable { get; protected set; }
+        [field: SerializeField] public bool IsToggleable { get; protected set; }
 
         protected float HoldProgress = 0.0f;
-
-        public InteractableBase(float holdDuration, bool holdInteract, float multipleUse, bool isInteractable)
-        {
-            HoldDuration = holdDuration;
-            HoldInteract = holdInteract;
-            MultipleUse = multipleUse;
-            IsInteractable = isInteractable;
-        }
 
         public virtual void OnStartHover()
         {

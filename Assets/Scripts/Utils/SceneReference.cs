@@ -1,10 +1,12 @@
 using System;
 using System.Linq;
+using UnityEngine;
+using Object = UnityEngine.Object;
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditor.VersionControl;
-using UnityEngine;
-using Object = UnityEngine.Object;
+#endif
 
 namespace Utils
 {

@@ -3,16 +3,16 @@ namespace Minion
     public enum MinionStateID
     {
         Idle,
-        Working,
-        Travelling
+        Assignment,
+        Working
     }
 
     public abstract class MinionState
     {
-        protected Minion minion;
+        protected MinionAI minion;
         protected MinionStateMachine _stateMachine;
 
-        public MinionState(Minion minion, MinionStateMachine stateMachine)
+        public MinionState(MinionAI minion, MinionStateMachine stateMachine)
         {
             this.minion = minion;
             _stateMachine = stateMachine;

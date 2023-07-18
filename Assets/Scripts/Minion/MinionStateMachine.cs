@@ -5,25 +5,25 @@ namespace Minion
 {
     public class MinionStateMachine
     {
-        public MinionState[] states;
+        private readonly MinionState[] _states;
         private MinionStateID _currentState;
 
         public MinionStateMachine()
         {
             int numStates = Enum.GetNames(typeof(MinionStateID)).Length;
-            states = new MinionState[numStates];
+            _states = new MinionState[numStates];
         }
 
         public void RegisterState(MinionState state)
         {
             int index = (int)state.GetID();
-            states[index] = state;
+            _states[index] = state;
         }
 
         public MinionState GetState(MinionStateID stateID)
         {
             int index = (int)stateID;
-            return states[index];
+            return _states[index];
         }
 
         public void UpdateState()

@@ -1,15 +1,13 @@
+using GuestRequests;
 using GuestRequests.Requests;
 using Minion;
 using UnityEngine;
 
-namespace Interactions
+namespace Interactions.Interactables
 {
-    public class FoodInteractable : InteractableBase
+    public class FoodInteractable : InteractableBase, IInteractableRequest
     {
-        public FoodRequest request;
-
-        public FoodInteractable(float holdDuration, bool holdInteract, float multipleUse, bool isInteractable) : base(
-            holdDuration, holdInteract, multipleUse, isInteractable) {}
+        [SerializeField] private FoodRequest request;
 
         public override void OnStartHover()
         {
@@ -30,8 +28,8 @@ namespace Interactions
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            Minion.Minion minion = other.transform.parent.GetComponent<Minion.Minion>();
-            if (minion == null || minion.GetMinionRole() != MinionRole.Chef)
+            MinionAI minion = other.transform.parent.GetComponent<MinionAI>();
+            if (minion == null)
             {
                 return;
             }
@@ -41,13 +39,18 @@ namespace Interactions
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            Minion.Minion minion = other.transform.parent.GetComponent<Minion.Minion>();
-            if (minion == null || minion.GetMinionRole() != MinionRole.Chef)
+            MinionAI minion = other.transform.parent.GetComponent<MinionAI>();
+            if (minion == null)
             {
                 return;
             }
 
             transform.localScale /= 3;
+        }
+
+        public Request GetRequest()
+        {
+            return request;
         }
     }
 }

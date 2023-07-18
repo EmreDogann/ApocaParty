@@ -11,7 +11,7 @@ public class Footsteps : MonoBehaviour
     public float footstepForce = 1.0f;
     public float footstepStride = 1.5f;
 
-    public SoundEffectSO footstepSoundEffect;
+    public AudioSO footstepSoundEffect;
 
     private CharacterBlackboard _blackboard;
 
@@ -57,7 +57,7 @@ public class Footsteps : MonoBehaviour
         _currentStrideDistance = 0;
         _blackboard.OnStride?.Invoke();
 
-        AudioManager.Instance.PlayEffectOneShot(footstepSoundEffect);
+        footstepSoundEffect.Play(transform.position);
     }
 
     private void InteractSurface()

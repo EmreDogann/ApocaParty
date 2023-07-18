@@ -1,52 +1,48 @@
+using Interactions.Interactables;
 using Minion.States;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Minion
 {
-    public enum MinionRole
-    {
-        Chef,
-        DJ,
-        EventPlanner
-    }
-
-    [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent))]
-    public class Minion : MonoBehaviour
+    [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent), typeof(MinionInteractable))]
+    public class MinionAI : MonoBehaviour
     {
         public MinionStateMachine stateMachine;
         public NavMeshAgent navMeshAgent { get; private set; }
-
-        private MinionIdleState _minionIdleState;
-        private MinionTravellingState _minionTravellingState;
-
-        public MinionRole minionRole;
-
-        public Camera _mainCamera { get; private set; }
-        public Transform marker;
-
+        public MinionInteractable InteractableState { get; private set; }
         public bool showPath;
+        public Transform marker;
         public LineRenderer pathRenderer;
 
+        public Camera _mainCamera { get; private set; }
+
+        private MinionIdleState _minionIdleState;
+        private MinionAssignmentState _minionAssignmentState;
+        private MinionWorkingState _minionWorkingState;
         private CharacterBlackboard _blackboard;
 
         private void Start()
         {
-            stateMachine = new MinionStateMachine();
-            _minionIdleState = new MinionIdleState(this, stateMachine);
-            _minionTravellingState = new MinionTravellingState(this, stateMachine);
-
-            stateMachine.RegisterState(_minionIdleState);
-            stateMachine.RegisterState(_minionTravellingState);
-
-            stateMachine.ChangeState(MinionStateID.Idle);
-
             _mainCamera = Camera.main;
             _blackboard = GetComponent<CharacterBlackboard>();
+            InteractableState = GetComponent<MinionInteractable>();
 
             navMeshAgent = GetComponent<NavMeshAgent>();
             navMeshAgent.updateRotation = false;
             navMeshAgent.updateUpAxis = false;
+
+            stateMachine = new MinionStateMachine();
+            _minionIdleState = new MinionIdleState(this, stateMachine);
+            _minionAssignmentState = new MinionAssignmentState(this, stateMachine);
+            _minionWorkingState = new MinionWorkingState(this, stateMachine);
+
+            stateMachine.RegisterState(_minionIdleState);
+            stateMachine.RegisterState(_minionAssignmentState);
+            stateMachine.RegisterState(_minionWorkingState);
+
+            // Initial state
+            stateMachine.ChangeState(MinionStateID.Idle);
         }
 
         private void Update()
@@ -71,11 +67,6 @@ namespace Minion
                 pathRenderer.positionCount = 0;
                 marker.gameObject.SetActive(false);
             }
-        }
-
-        public MinionRole GetMinionRole()
-        {
-            return minionRole;
         }
     }
 }

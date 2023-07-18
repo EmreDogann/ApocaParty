@@ -7,8 +7,6 @@ namespace UI
 {
     public class UIManager : MonoBehaviour
     {
-        // [SerializeField] private View inGameView;
-
         [SerializeField] private View startingView;
         [SerializeField] private bool lockStartingView;
 
@@ -19,16 +17,18 @@ namespace UI
 
         public static UIManager Instance { get; private set; }
 
-        // [OverrideLabel("On Game Pause Event")] [SerializeField] private BoolEventChannelSO onGamePauseSOEvent;
-
-        public static Action<View, View> OnViewShow;
-        public static Action<View> OnViewOpen;
-        public static Action<View> OnViewClose;
+        public static Action<View, View> OnViewSwap;
 
         private void Awake()
         {
-            Instance = this;
-            // HideCursor();
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
 
             _views = FindObjectsOfType(typeof(View), true) as View[];
 
@@ -46,15 +46,7 @@ namespace UI
             if (startingView != null)
             {
                 Show(startingView);
-                // ShowCursor();
             }
-            // else
-            // {
-            //     if (Instance.inGameView != null)
-            //     {
-            //         Instance.inGameView.Open();
-            //     }
-            // }
         }
 
         private void ShowCursor()
@@ -107,28 +99,8 @@ namespace UI
                     continue;
                 }
 
-                if (Instance._currentView != null)
-                {
-                    if (remember)
-                    {
-                        Instance._history.Push(Instance._currentView);
-                    }
-
-                    Instance._currentView.Close();
-                }
-
-                // if (Instance.inGameView != null)
-                // {
-                //     Instance.inGameView.Close();
-                // }
-                // Time.timeScale = 0.0f;
-                // onGamePauseSOEvent.Raise(true);
-                OnViewShow?.Invoke(Instance._currentView, Instance._views[i]);
-                Instance._views[i].Open();
-                Instance._currentView = Instance._views[i];
+                Show(Instance._views[i], remember);
             }
-
-            // ShowCursor();
         }
 
         public void Show(View view, bool remember = true)
@@ -140,20 +112,16 @@ namespace UI
                     Instance._history.Push(Instance._currentView);
                 }
 
-                Instance._currentView.Close();
+                if (!Instance._currentView.ShouldAlwaysShow())
+                {
+                    Instance._currentView.Close();
+                }
             }
 
-            // if (Instance.inGameView != null)
-            // {
-            //     Instance.inGameView.Close();
-            // }
-            // Time.timeScale = 0.0f;
-            // onGamePauseSOEvent.Raise(true);
-            OnViewShow?.Invoke(Instance._currentView, view);
-            view.Open();
-            Instance._currentView = view;
+            OnViewSwap?.Invoke(Instance._currentView, view);
+            view.Open(false);
 
-            // ShowCursor();
+            Instance._currentView = view;
         }
 
         public void Back()
@@ -165,21 +133,19 @@ namespace UI
 
             if (IsOnlyView())
             {
-                OnViewClose?.Invoke(Instance._currentView);
                 Instance._currentView.Close();
-                // Instance.inGameView.Open();
-
                 Instance._currentView = null;
-
-                // Time.timeScale = 1.0f;
-                // onGamePauseSOEvent.Raise(false);
-
-                // HideCursor();
                 return;
             }
 
-            Show(Instance._history.Peek(), false);
-            Instance._history.Pop();
+            Instance._currentView.Close();
+            OnViewSwap?.Invoke(Instance._currentView, Instance._history.Peek());
+            Instance._currentView = Instance._history.Pop();
+
+            if (!Instance._currentView.ShouldAlwaysShow())
+            {
+                Instance._currentView.Open(true);
+            }
         }
     }
 }
