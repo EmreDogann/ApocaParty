@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Dialogue {
     public static class Messages {
         private const string ELIPSES = "...";
-        private const int CHARACTER_LIMIT = 344;
+        private const int CHARACTER_LIMIT = 193;
 
         public static Message[] ParseMessages(string dialogueString, List<ActorSO> allActorsSOs) {
             List<Message> messages = new List<Message>();
@@ -21,36 +21,8 @@ namespace Dialogue {
 
                     // Find the Actor for which the dialogue is attributed to 
                     if (line.StartsWith("@@")) {
-                        
                         // If there is a message with a new character, then store the current message with the old actor
                         if (currentActor != null) {
-                            // Add to return list
-                            // Check if current string is within the character limit, otherwise split it into multiple messages
-                            // if (messageString.Length < CHARACTER_LIMIT - ELIPSES.Length) {
-                            //     Message message = new Message(currentActor, messageString);
-                            //     messages.Add(message);
-                            // }
-                            // else {
-                            //     List<string> messegeStrings = new List<string>();
-                            //     while (!messageString.Length.Equals("")) {
-                            //         // Get head of the text
-                            //         string head = null;
-                            //
-                            //         if (CHARACTER_LIMIT - ELIPSES.Length < messageString.Length) {
-                            //             head = messageString.Substring(0, CHARACTER_LIMIT - ELIPSES.Length) + ELIPSES;
-                            //         }
-                            //         else {
-                            //             head = messageString.Substring(0, messageString.Length);
-                            //         }
-                            //
-                            //         // Create message with head
-                            //         Message message = new Message(currentActor, head);
-                            //         messages.Add(message);
-                            //
-                            //         // remove head
-                            //         messageString = messageString.Remove(0, head.Length);
-                            //     }
-                            // }
                             messages.AddRange(createMessageWrapToCharacterLimit(currentActor, messageString));
 
                             // Reset
@@ -61,13 +33,13 @@ namespace Dialogue {
                         // Find the new Actor from the Dialogue file
                         string actorName = line.Replace("@@", "").Trim();
                         currentActor = allActorsSOs.Find(so => so.name.Equals(actorName));
-                        continue; // If actor found, go to the next line
                         Debug.Log("MessageParse: Name:" + currentActor.name);
+                        continue; // If actor found, go to the next line
                     }
 
                     // Continue to next line until we have an actor
                     if (currentActor == null)
-                        continue; 
+                        continue;
 
                     messageString += line;
                 }
@@ -87,22 +59,30 @@ namespace Dialogue {
 
         private static List<Message> createMessageWrapToCharacterLimit(ActorSO currentActor, string messageString) {
             List<Message> messages = new List<Message>();
-            
+
             if (messageString.Length < CHARACTER_LIMIT - ELIPSES.Length) {
                 Message message = new Message(currentActor, messageString);
                 messages.Add(message);
             }
             else {
                 List<string> messegeStrings = new List<string>();
-                while (!messageString.Length.Equals("")) {
+                while (messageString.Length > 0) {
                     // Get head of the text
                     string head = null;
 
                     if (CHARACTER_LIMIT - ELIPSES.Length < messageString.Length) {
-                        head = messageString.Substring(0, CHARACTER_LIMIT - ELIPSES.Length) + ELIPSES;
+                        head = messageString.Substring(0, CHARACTER_LIMIT - ELIPSES.Length);
+
+                        int nextWhitespace = messageString.IndexOf(" ", head.Length);
+
+                        if (nextWhitespace != -1)
+                            head += messageString.Substring(head.Length, nextWhitespace - head.Length);
+
+                        head += ELIPSES;
                     }
                     else {
-                        head = messageString.Substring(0, messageString.Length);
+                        head = messageString;
+                        // messageString = messageString.Remove(0, head.Length);
                     }
 
                     // Create message with head
@@ -110,12 +90,14 @@ namespace Dialogue {
                     messages.Add(message);
 
                     // remove head
-                    messageString = messageString.Remove(0, head.Length);
+                    int amountToRemove = head.Length;
+                    if (head.Length > CHARACTER_LIMIT && head.Length > ELIPSES.Length)
+                        amountToRemove = head.Length - ELIPSES.Length;
+                    messageString = messageString.Remove(0, amountToRemove);
                 }
             }
 
             return messages;
         }
-        
     }
 }
