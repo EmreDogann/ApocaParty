@@ -1,10 +1,14 @@
 ﻿using System;
+using Actors;
 using UnityEngine;
 
-namespace Dialogue {
+namespace Dialogue
+{
     [Serializable]
-    public class Message {
-        public Message(ActorSO actor, string message) {
+    public class Message
+    {
+        public Message(ActorSO actor, string message)
+        {
             this.actor = actor;
             this.message = message;
         }

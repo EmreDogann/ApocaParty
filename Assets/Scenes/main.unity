@@ -315,45 +315,45 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _jobs:
-  - rid: 8197751313132683275
-  - rid: 8197751313132683276
-  - rid: 8197751313132683277
-  - rid: 8197751313132683278
-  - rid: 8197751313132683279
+  - rid: 8197751313132683297
+  - rid: 8197751313132683298
+  - rid: 8197751313132683299
+  - rid: 8197751313132683300
+  - rid: 8197751313132683301
   references:
     version: 2
     RefIds:
-    - rid: 8197751313132683275
+    - rid: 8197751313132683297
       type: {class: MoveToTarget, ns: GuestRequests.Jobs, asm: Assembly-CSharp}
       data:
-        <JobName>k__BackingField: Move to Stove
+        <JobName>k__BackingField: Move To Stove
         target: {fileID: 1519736838}
         followerSprite: {fileID: 23770097}
         followerSortingLayer: 957323287
-    - rid: 8197751313132683276
+    - rid: 8197751313132683298
       type: {class: PlaceAtTarget, ns: GuestRequests.Jobs, asm: Assembly-CSharp}
       data:
-        <JobName>k__BackingField: Place on Stove Top
+        <JobName>k__BackingField: Place On Stove
         target: {fileID: 143265693}
         spriteToPlace: {fileID: 23770097}
-    - rid: 8197751313132683277
+    - rid: 8197751313132683299
       type: {class: Cook, ns: GuestRequests.Jobs, asm: Assembly-CSharp}
       data:
         <JobName>k__BackingField: Cook
         _cookingAudio: {fileID: 11400000, guid: cc65ec3365e73d74f968406dda78372f, type: 2}
         _playbackPosition: {fileID: 143265693}
         Duration: 5
-    - rid: 8197751313132683278
+    - rid: 8197751313132683300
       type: {class: MoveToTarget, ns: GuestRequests.Jobs, asm: Assembly-CSharp}
       data:
-        <JobName>k__BackingField: Move to Counter
+        <JobName>k__BackingField: Move To Counter
         target: {fileID: 467768872}
         followerSprite: {fileID: 23770097}
         followerSortingLayer: 957323287
-    - rid: 8197751313132683279
+    - rid: 8197751313132683301
       type: {class: PlaceAtTarget, ns: GuestRequests.Jobs, asm: Assembly-CSharp}
       data:
-        <JobName>k__BackingField: Place on Counter Top
+        <JobName>k__BackingField: Place On Counter
         target: {fileID: 1811721509}
         spriteToPlace: {fileID: 23770097}
 --- !u!1 &51075136
@@ -4169,6 +4169,10 @@ MonoBehaviour:
   messageText: {fileID: 1614674434}
   backgroundBox: {fileID: 622847523}
   confirmAction: {fileID: 4111037088096962617, guid: 1fd9d9af030accf4e8cfdbe36d107005, type: 3}
+  allActorSos:
+  - {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
+  - {fileID: 11400000, guid: 27df72990186fcd4494f3524a49f2dc4, type: 2}
+  - {fileID: 11400000, guid: de36024e2d67fc541b6e3074943d513c, type: 2}
 --- !u!114 &1115179765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6571,6 +6575,7 @@ MonoBehaviour:
     message: Le Big-Mac. Ha ha ha ha. What do they call a Whopper?
   - actor: {fileID: 0}
     message: I dunno, I didn't go into Burger King.
+  tempScript: {fileID: 4900000, guid: 3a5ce405331cb0a4da357bcaf28ac962, type: 3}
 --- !u!114 &1605618393
 MonoBehaviour:
   m_ObjectHideFlags: 0
