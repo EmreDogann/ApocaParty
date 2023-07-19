@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Minion.States
 {
@@ -12,7 +13,16 @@ namespace Minion.States
             return MinionStateID.Moving;
         }
 
-        public override void Enter() {}
+        public override void Enter()
+        {
+            if (minion.showPath)
+            {
+                NavMeshPath path = minion.navMeshAgent.path;
+                minion.pathRenderer.positionCount = path.corners.Length;
+                minion.pathRenderer.SetPositions(path.corners);
+                minion.marker.gameObject.SetActive(true);
+            }
+        }
 
         public override void Tick()
         {
@@ -29,6 +39,10 @@ namespace Minion.States
             }
         }
 
-        public override void Exit() {}
+        public override void Exit()
+        {
+            minion.pathRenderer.positionCount = 0;
+            minion.marker.gameObject.SetActive(false);
+        }
     }
 }
