@@ -4,7 +4,8 @@ namespace Minion
     {
         Idle,
         Assignment,
-        Working
+        Working,
+        Moving
     }
 
     public abstract class MinionState

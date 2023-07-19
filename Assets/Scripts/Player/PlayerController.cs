@@ -8,6 +8,8 @@ namespace Player
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private InputActionReference moveButton;
+        [SerializeField] private float _distanceThreshold = 0.1f;
+
         public bool showPath;
         public Transform marker;
         public LineRenderer pathRenderer;
@@ -48,7 +50,7 @@ namespace Player
                 }
             }
 
-            if (Vector3.Distance(transform.position, _agent.destination) < 0.1f)
+            if (Vector3.SqrMagnitude(transform.position - _agent.destination) < _distanceThreshold * _distanceThreshold)
             {
                 marker.gameObject.SetActive(false);
             }

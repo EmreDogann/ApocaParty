@@ -1,12 +1,15 @@
+using Actors;
+using GuestRequests;
 using Interactions.Interactables;
 using Minion.States;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Minion
 {
     [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent), typeof(MinionInteractable))]
-    public class MinionAI : MonoBehaviour
+    public class MinionAI : MonoBehaviour, IRequestOwner
     {
         public MinionStateMachine stateMachine;
         public NavMeshAgent navMeshAgent { get; private set; }
@@ -14,13 +17,21 @@ namespace Minion
         public bool showPath;
         public Transform marker;
         public LineRenderer pathRenderer;
+        public SpriteRenderer image;
+        [SerializeField] private Transform holderTransform;
 
         public Camera _mainCamera { get; private set; }
 
+        [SerializeField] private TextMeshProUGUI AIState;
+
         private MinionIdleState _minionIdleState;
         private MinionAssignmentState _minionAssignmentState;
+        private MinionMovingState _minionMovingState;
         private MinionWorkingState _minionWorkingState;
         private CharacterBlackboard _blackboard;
+
+        [HideInInspector] public Request currentRequest;
+        public MinionActorSO actorData;
 
         private void Start()
         {
@@ -35,10 +46,12 @@ namespace Minion
             stateMachine = new MinionStateMachine();
             _minionIdleState = new MinionIdleState(this, stateMachine);
             _minionAssignmentState = new MinionAssignmentState(this, stateMachine);
+            _minionMovingState = new MinionMovingState(this, stateMachine);
             _minionWorkingState = new MinionWorkingState(this, stateMachine);
 
             stateMachine.RegisterState(_minionIdleState);
             stateMachine.RegisterState(_minionAssignmentState);
+            stateMachine.RegisterState(_minionMovingState);
             stateMachine.RegisterState(_minionWorkingState);
 
             // Initial state
@@ -53,6 +66,7 @@ namespace Minion
             }
 
             stateMachine.UpdateState();
+            AIState.text = stateMachine.GetCurrentState().GetID().ToString();
 
             _blackboard.IsMoving = navMeshAgent.hasPath;
 
@@ -67,6 +81,21 @@ namespace Minion
                 pathRenderer.positionCount = 0;
                 marker.gameObject.SetActive(false);
             }
+        }
+
+        public void SetDestination(Vector3 target)
+        {
+            navMeshAgent.SetDestination(target);
+        }
+
+        public Vector3 GetPosition()
+        {
+            return transform.position;
+        }
+
+        public Transform GetHoldingPosition()
+        {
+            return holderTransform;
         }
     }
 }

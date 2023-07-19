@@ -41,7 +41,7 @@ namespace Interactions
             _onGamePausedEvent.Response.RemoveListener(OnGamePause);
         }
 
-        public InteractableBase CheckForInteraction()
+        public InteractableBase CheckForInteraction(bool assignmentMode)
         {
             if (!_activeTarget)
             {
@@ -73,9 +73,14 @@ namespace Interactions
             {
                 if (_interactAction.action.WasPressedThisFrame())
                 {
-                    _activeTarget = _hoverTarget;
-                    _activeTarget?.OnStartInteract();
-                    return _activeTarget;
+                    if (!assignmentMode)
+                    {
+                        _activeTarget = _hoverTarget;
+                        _activeTarget?.OnStartInteract();
+                        return _activeTarget;
+                    }
+
+                    return _hoverTarget;
                 }
             }
 

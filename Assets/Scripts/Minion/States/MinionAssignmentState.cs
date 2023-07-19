@@ -1,6 +1,6 @@
 using System;
+using GuestRequests.Requests;
 using Interactions;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Minion.States
@@ -8,6 +8,7 @@ namespace Minion.States
     public class MinionAssignmentState : MinionState
     {
         private Action<InteractableBase> _onInteractionCallback;
+        public static event Action<Action<InteractableBase>> OnMinionInteract;
 
         public MinionAssignmentState(MinionAI minion, MinionStateMachine stateMachine) : base(minion, stateMachine)
         {
@@ -26,38 +27,52 @@ namespace Minion.States
 
         public override void Enter()
         {
-            minion.transform.localScale = Vector3.one * 1.5f;
+            minion.transform.localScale = Vector3.one * 1.2f;
 
-            InteractionSystem.EnableAssignmentMode(_onInteractionCallback);
+            OnMinionInteract?.Invoke(_onInteractionCallback);
         }
 
-        public override void Tick()
-        {
-            // if (!minion.InteractableState.IsInteracting)
-            // {
-            //     _stateMachine.ChangeState(MinionStateID.Idle);
-            // }
-        }
+        public override void Tick() {}
 
         public override void Exit()
         {
             minion.transform.localScale = Vector3.one;
-            InteractionSystem.DisableAssignmentMode();
         }
 
-        private void OnInteraction([CanBeNull] InteractableBase interactable)
+        private void OnInteraction(InteractableBase interactable)
         {
-            if (interactable != null)
+            switch (interactable)
             {
-                if (interactable is IInteractableRequest)
-                {
+                case IInteractableRequest requestInteractable:
+
                     minion.navMeshAgent.SetDestination(interactable.transform.position);
-                    _stateMachine.ChangeState(MinionStateID.Working);
-                }
-            }
-            else
-            {
-                _stateMachine.ChangeState(MinionStateID.Idle);
+                    minion.currentRequest = requestInteractable.GetRequest();
+                    minion.currentRequest.AssignOwner(minion);
+
+                    switch (minion.currentRequest)
+                    {
+                        case FoodRequest _ or DrinkRefillRequest _:
+                            minion.image.sprite = minion.actorData.kitchenIcon;
+                            break;
+                        case MusicRequest _:
+                            minion.image.sprite = minion.actorData.musicIcon;
+                            break;
+                        case EventRequest _:
+                            minion.image.sprite = minion.actorData.eventIcon;
+                            break;
+                        default:
+                            minion.image.sprite = minion.actorData.defaultIcon;
+                            break;
+                    }
+
+                    _stateMachine.ChangeState(MinionStateID.Moving);
+                    break;
+                case null:
+                    _stateMachine.ChangeState(MinionStateID.Idle);
+                    break;
+                default:
+                    _stateMachine.ChangeState(MinionStateID.Idle);
+                    break;
             }
         }
     }

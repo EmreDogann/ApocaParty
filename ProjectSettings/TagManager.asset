@@ -51,3 +51,9 @@ TagManager:
   - name: Characters
     uniqueID: 4265035355
     locked: 0
+  - name: Interactables
+    uniqueID: 957323287
+    locked: 0
+  - name: DebugUI
+    uniqueID: 1064973643
+    locked: 0

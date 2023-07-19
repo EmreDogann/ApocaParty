@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 namespace Minion
 {
@@ -26,6 +25,11 @@ namespace Minion
             return _states[index];
         }
 
+        public MinionState GetCurrentState()
+        {
+            return GetState(_currentState);
+        }
+
         public void UpdateState()
         {
             GetState(_currentState)?.Tick();
@@ -36,8 +40,6 @@ namespace Minion
             GetState(_currentState)?.Exit();
             _currentState = newState;
             GetState(_currentState)?.Enter();
-
-            Debug.Log("Current State: " + newState);
         }
     }
 }

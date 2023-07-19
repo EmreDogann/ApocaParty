@@ -6,9 +6,9 @@ using UnityEngine;
 namespace GuestRequests
 {
     [Serializable]
-    public abstract class Request : MonoBehaviour
+    public class Request : MonoBehaviour
     {
-        public float TotalDuration { get; }
+        public float TotalDuration { get; private set; }
 
         [SerializeReference] protected List<Job> _jobs = new List<Job>();
         protected float _totalProgressPercentage;
@@ -16,43 +16,41 @@ namespace GuestRequests
 
         protected int _currentJobIndex;
 
-        protected bool isRequestRunning;
+        private IRequestOwner _owner;
 
-        protected Request()
+        protected virtual void Awake()
         {
-            float totalDuration = 0.0f;
             foreach (Job job in _jobs)
             {
-                totalDuration += job.duration;
+                job.Initialize();
             }
 
-            TotalDuration = totalDuration;
+            _totalProgressPercentage = 1.0f;
         }
 
-        private void Update()
+        protected virtual void OnDestroy()
         {
-            if (isRequestRunning)
+            foreach (Job job in _jobs)
             {
-                UpdateRequest(Time.deltaTime);
+                job.OnDestroy();
             }
         }
 
         public void UpdateRequest(float deltaTime)
         {
             _currentTime += deltaTime;
-            _jobs[_currentJobIndex].UpdateJob(deltaTime);
+            _jobs[_currentJobIndex].Tick(deltaTime, _owner);
 
-            if (_jobs[_currentJobIndex].GetProgressPercentage() >= 1.0f)
+            if (_jobs[_currentJobIndex].GetProgressPercentage(_owner) >= 1.0f)
             {
-                Debug.Log("Job: " + _jobs[_currentJobIndex].JobName + " Completed!");
-                _currentJobIndex++;
+                NextJob();
                 _totalProgressPercentage += 1.0f / _jobs.Count;
             }
 
             if (IsRequestCompleted())
             {
                 Debug.Log("Request Finished!");
-                isRequestRunning = false;
+                _owner = null;
             }
         }
 
@@ -63,18 +61,39 @@ namespace GuestRequests
 
         public float GetCurrentJobProgress()
         {
-            return _jobs[_currentJobIndex].GetProgressPercentage();
+            return _jobs[_currentJobIndex].GetProgressPercentage(_owner);
         }
 
-        public float GetProgressPercentage()
+        public float GetProgress()
         {
-            return _totalProgressPercentage + _jobs[_currentJobIndex].GetProgressPercentage();
+            return _totalProgressPercentage + _jobs[_currentJobIndex].GetProgressPercentage(_owner);
+        }
+
+        public void AssignOwner(IRequestOwner owner)
+        {
+            _owner = owner;
         }
 
         [ButtonMethod]
-        protected virtual void StartRequest()
+        public virtual void StartRequest()
         {
-            isRequestRunning = true;
+            if (_jobs.Count <= 0)
+            {
+                return;
+            }
+
+            float totalDuration = 0.0f;
+            foreach (Job job in _jobs)
+            {
+                totalDuration += job.GetTotalDuration(_owner);
+            }
+
+            TotalDuration = totalDuration;
+
+            _currentTime = 0.0f;
+            _totalProgressPercentage = 0.0f;
+            _currentJobIndex = -1;
+            NextJob();
         }
 
         [ButtonMethod]
@@ -88,12 +107,17 @@ namespace GuestRequests
         {
             if (_currentJobIndex + 1 == _jobs.Count)
             {
-                Debug.Log("Request finished!");
+                _jobs[_currentJobIndex].Exit(_owner);
             }
             else
             {
+                if (_currentJobIndex >= 0)
+                {
+                    _jobs[_currentJobIndex].Exit(_owner);
+                }
+
                 _currentJobIndex++;
-                Debug.Log("Moved to next job!");
+                _jobs[_currentJobIndex].Enter(_owner);
             }
         }
     }
