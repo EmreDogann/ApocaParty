@@ -65,6 +65,8 @@ namespace Minion.States
                             break;
                     }
 
+                    minion.SetWandering(false);
+
                     _stateMachine.ChangeState(MinionStateID.Moving);
                     break;
                 case null:

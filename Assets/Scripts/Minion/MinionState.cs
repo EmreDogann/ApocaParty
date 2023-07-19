@@ -13,7 +13,7 @@ namespace Minion
         protected MinionAI minion;
         protected MinionStateMachine _stateMachine;
 
-        public MinionState(MinionAI minion, MinionStateMachine stateMachine)
+        protected MinionState(MinionAI minion, MinionStateMachine stateMachine)
         {
             this.minion = minion;
             _stateMachine = stateMachine;

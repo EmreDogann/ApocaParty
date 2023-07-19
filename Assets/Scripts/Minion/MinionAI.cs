@@ -19,10 +19,11 @@ namespace Minion
         public LineRenderer pathRenderer;
         public SpriteRenderer image;
         [SerializeField] private Transform holderTransform;
+        [SerializeField] private TextMeshProUGUI AIState;
 
         public Camera _mainCamera { get; private set; }
-
-        [SerializeField] private TextMeshProUGUI AIState;
+        [HideInInspector] public Request currentRequest;
+        public MinionActorSO actorData;
 
         private MinionIdleState _minionIdleState;
         private MinionAssignmentState _minionAssignmentState;
@@ -30,8 +31,11 @@ namespace Minion
         private MinionWorkingState _minionWorkingState;
         private CharacterBlackboard _blackboard;
 
-        [HideInInspector] public Request currentRequest;
-        public MinionActorSO actorData;
+        private bool _shouldWander;
+        private const float DistanceThreshold = 0.1f;
+        private const float WanderWaitTime = 3.0f;
+        private float _currentWanderTime;
+        private const float SearchRadius = 3.0f;
 
         private void Start()
         {
@@ -70,16 +74,19 @@ namespace Minion
 
             _blackboard.IsMoving = navMeshAgent.hasPath;
 
-            if (showPath)
+            if (_shouldWander)
             {
-                NavMeshPath path = navMeshAgent.path;
-                pathRenderer.positionCount = path.corners.Length;
-                pathRenderer.SetPositions(path.corners);
-            }
-            else
-            {
-                pathRenderer.positionCount = 0;
-                marker.gameObject.SetActive(false);
+                if (Vector3.SqrMagnitude(transform.position - navMeshAgent.destination) <
+                    DistanceThreshold * DistanceThreshold)
+                {
+                    _currentWanderTime += Time.deltaTime;
+                }
+
+                if (_currentWanderTime >= WanderWaitTime)
+                {
+                    _currentWanderTime = 0.0f;
+                    navMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius));
+                }
             }
         }
 
@@ -96,6 +103,59 @@ namespace Minion
         public Transform GetHoldingPosition()
         {
             return holderTransform;
+        }
+
+        public void SetWandering(bool isWandering)
+        {
+            _shouldWander = isWandering;
+            if (!isWandering)
+            {
+                return;
+            }
+
+            navMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius));
+            _currentWanderTime = 0.0f;
+        }
+
+        public bool IsWandering()
+        {
+            return _shouldWander;
+        }
+
+        private Vector3 RandomNavmeshLocation(Vector3 position, float radius)
+        {
+            Vector3 finalPosition = position;
+            for (int i = 0; i < 30; i++)
+            {
+                Vector3 randomDirection = ClampMagnitude(Random.insideUnitCircle * radius, Mathf.Infinity, 2.0f);
+                randomDirection += position;
+
+                if (!NavMesh.Raycast(position, randomDirection, out NavMeshHit raycastHit,
+                        NavMesh.GetAreaFromName("AvoidWander")))
+                {
+                    finalPosition = raycastHit.position;
+                    break;
+                }
+            }
+
+            finalPosition.z = 0;
+            return finalPosition;
+        }
+
+        private Vector3 ClampMagnitude(Vector3 v, float max, float min)
+        {
+            double sm = v.sqrMagnitude;
+            if (sm > max * (double)max)
+            {
+                return v.normalized * max;
+            }
+
+            if (sm < min * (double)min)
+            {
+                return v.normalized * min;
+            }
+
+            return v;
         }
     }
 }
