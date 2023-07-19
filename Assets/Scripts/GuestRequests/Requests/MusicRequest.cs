@@ -1,6 +1,5 @@
 ﻿using System;
 using Audio;
-using UnityEngine;
 
 namespace GuestRequests.Requests
 {
@@ -8,24 +7,12 @@ namespace GuestRequests.Requests
     {
         public static event Action<AudioSO> OnMusicRequested;
 
-        [SerializeField] private AudioSO _requestedMusic;
+        private AudioSO _requestedMusic;
 
-        private void Awake()
+        protected override void Awake()
         {
-            foreach (Job job in _jobs)
-            {
-                job.Initialize();
-            }
-
+            base.Awake();
             OnMusicRequested?.Invoke(_requestedMusic);
-        }
-
-        private void OnDestroy()
-        {
-            foreach (Job job in _jobs)
-            {
-                job.OnDestroy();
-            }
         }
 
         public void RequestMusicToPlay(AudioSO music)

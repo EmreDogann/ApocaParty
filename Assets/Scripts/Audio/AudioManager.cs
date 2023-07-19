@@ -297,6 +297,7 @@ namespace Audio
 
         private int TryGetAvailableEmitter()
         {
+            Debug.Log(_currentAudioSourceIndex);
             AudioEmitter emitter = _audioEmitters[_currentAudioSourceIndex];
             if (!emitter.IsPaused && !emitter.Source.isPlaying)
             {

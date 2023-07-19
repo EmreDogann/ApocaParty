@@ -6,7 +6,7 @@ using UnityEngine;
 namespace GuestRequests
 {
     [Serializable]
-    public abstract class Request : MonoBehaviour
+    public class Request : MonoBehaviour
     {
         public float TotalDuration { get; private set; }
 
@@ -17,6 +17,24 @@ namespace GuestRequests
         protected int _currentJobIndex;
 
         private IRequestOwner _owner;
+
+        protected virtual void Awake()
+        {
+            foreach (Job job in _jobs)
+            {
+                job.Initialize();
+            }
+
+            _totalProgressPercentage = 1.0f;
+        }
+
+        protected virtual void OnDestroy()
+        {
+            foreach (Job job in _jobs)
+            {
+                job.OnDestroy();
+            }
+        }
 
         public void UpdateRequest(float deltaTime)
         {
@@ -46,7 +64,7 @@ namespace GuestRequests
             return _jobs[_currentJobIndex].GetProgressPercentage(_owner);
         }
 
-        public float GetProgressPercentage()
+        public float GetProgress()
         {
             return _totalProgressPercentage + _jobs[_currentJobIndex].GetProgressPercentage(_owner);
         }

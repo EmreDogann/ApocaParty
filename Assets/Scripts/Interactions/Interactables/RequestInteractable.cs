@@ -10,12 +10,23 @@ namespace Interactions.Interactables
 
         public override void OnStartHover()
         {
+            if (!request.IsRequestCompleted())
+            {
+                return;
+            }
+
             base.OnStartHover();
+
             transform.localScale *= 1.5f;
         }
 
         public override void OnEndHover()
         {
+            if (!request.IsRequestCompleted())
+            {
+                return;
+            }
+
             base.OnEndHover();
             transform.localScale /= 1.5f;
         }
@@ -45,6 +56,11 @@ namespace Interactions.Interactables
             }
 
             transform.localScale /= 3;
+        }
+
+        private bool IsRequestActive()
+        {
+            return request.IsRequestCompleted();
         }
 
         public Request GetRequest()

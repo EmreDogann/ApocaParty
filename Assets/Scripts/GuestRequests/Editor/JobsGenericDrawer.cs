@@ -17,7 +17,8 @@ public class JobsGenericDrawer : PropertyDrawer
         MoveToTarget,
         PlaceAtTarget,
         Cook,
-        ChangeMusic
+        ChangeMusic,
+        FixBunting
     }
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
@@ -202,6 +203,7 @@ public class JobsGenericDrawer : PropertyDrawer
             case FieldType.PlaceAtTarget: return new PlaceAtTarget();
             case FieldType.Cook: return new Cook();
             case FieldType.ChangeMusic: return new ChangeMusic();
+            case FieldType.FixBunting: return new FixBunting();
             case FieldType.None: return null;
             default:
                 Debug.Log($"Unknown field type {fieldType}.");

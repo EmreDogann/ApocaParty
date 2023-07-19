@@ -51,7 +51,7 @@ namespace Minion.States
 
                     switch (minion.currentRequest)
                     {
-                        case FoodRequest _:
+                        case FoodRequest _ or DrinkRefillRequest _:
                             minion.image.sprite = minion.actorData.kitchenIcon;
                             break;
                         case MusicRequest _:
