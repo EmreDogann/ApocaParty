@@ -9,6 +9,7 @@ namespace GuestRequests
         public Vector3 GetPosition();
 
         public Transform GetHoldingPosition();
+
         // public void SetAnimation();
     }
 }

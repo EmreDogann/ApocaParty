@@ -4,19 +4,19 @@ namespace Needs.Needs
 {
     public class MusicNeed : INeed
     {
-        private readonly NeedMetrics _needReward;
+        private readonly NeedMetrics _needPunishment;
         private readonly float _expirationTime = 20.0f;
         private readonly float _startTime;
 
         public MusicNeed()
         {
             _startTime = Time.time;
-            _needReward = new NeedMetrics
+            _needPunishment = new NeedMetrics
             {
                 hunger = 0.0f,
                 thirst = 0.0f,
-                enjoyment = 0.5f,
-                movement = -0.1f
+                enjoyment = -0.5f,
+                movement = 0.1f
             };
         }
 
@@ -25,9 +25,9 @@ namespace Needs.Needs
             return NeedType.Music;
         }
 
-        public NeedMetrics GetReward()
+        public NeedMetrics GetPunishment()
         {
-            return _needReward;
+            return _needPunishment;
         }
 
         public bool IsExpired()

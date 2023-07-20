@@ -20,6 +20,8 @@ namespace Guest.States
 
         public override void Tick()
         {
+            guest.needSystem.Tick();
+
             if (guest.InteractableState.IsHovering)
             {
                 guest.transform.localScale = Vector3.one * 1.2f;
@@ -44,7 +46,7 @@ namespace Guest.States
             if (_currentWanderTime >= guest.wanderCheckFrequency)
             {
                 float randomChance = Random.Range(0.0f, 1.0f);
-                if (randomChance <= guest.chanceToWanderWhenHappy)
+                if (randomChance <= guest.wanderWhenHappyChance)
                 {
                     _stateMachine.ChangeState(GuestStateID.Wander);
                 }

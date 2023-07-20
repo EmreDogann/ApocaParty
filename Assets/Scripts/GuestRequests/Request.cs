@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using MyBox;
 using Needs;
 using UnityEngine;
+using Utils;
 
 namespace GuestRequests
 {
     [Serializable]
+    [RequireComponent(typeof(SpriteRenderer))]
     public class Request : MonoBehaviour
     {
         public float TotalDuration { get; private set; }
 
-        [SerializeField] private NeedMetrics rewardMetrics;
+        [SerializeField] private NeedType fulfillNeed;
+        [MetricsRange(-1.0f, 1.0f)] [SerializeField] private NeedMetrics rewardMetrics;
         private NeedMetrics _currentMetrics;
 
         [SerializeReference] protected List<Job> _jobs = new List<Job>();
@@ -21,6 +24,7 @@ namespace GuestRequests
         protected int _currentJobIndex;
 
         private IRequestOwner _owner;
+        private SpriteRenderer requestImage;
 
         protected virtual void Awake()
         {
@@ -30,6 +34,7 @@ namespace GuestRequests
             }
 
             _totalProgressPercentage = 1.0f;
+            requestImage = GetComponent<SpriteRenderer>();
         }
 
         protected virtual void OnDestroy()
@@ -40,7 +45,7 @@ namespace GuestRequests
             }
         }
 
-        public void UpdateRequest(float deltaTime)
+        public virtual void UpdateRequest(float deltaTime)
         {
             _currentTime += deltaTime;
             _jobs[_currentJobIndex].Tick(deltaTime, _owner, ref _currentMetrics);
@@ -78,10 +83,21 @@ namespace GuestRequests
             _owner = owner;
         }
 
-        public NeedMetrics AcceptRequest()
+        public virtual NeedMetrics AcceptRequestReward()
         {
             // TODO: Return _currentMetrics instead. Right now, below is used for testing.
-            return rewardMetrics;
+            if (IsRequestCompleted())
+            {
+                requestImage.enabled = false;
+                return rewardMetrics;
+            }
+
+            return null;
+        }
+
+        public NeedType GetFulfillNeed()
+        {
+            return fulfillNeed;
         }
 
         public virtual void StartRequest()

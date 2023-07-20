@@ -55,7 +55,6 @@ namespace Needs
         public void RemoveDisplay(NeedType needType)
         {
             NeedsIconData iconData = _currentlyActiveIcons.Find(x => x.NeedType == needType);
-            Debug.Log(iconData.NeedType);
             iconData.SpriteRenderer.enabled = false;
             _currentlyActiveIcons.Remove(iconData);
 

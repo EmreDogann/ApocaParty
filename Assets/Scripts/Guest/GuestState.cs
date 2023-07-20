@@ -5,7 +5,9 @@ namespace Guest
         Idle,
         Moving,
         Consume,
-        Wander
+        Wander,
+        GetConsumable,
+        MoveToSeat
     }
 
     public abstract class GuestState

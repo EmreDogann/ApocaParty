@@ -10,7 +10,7 @@
     public interface INeed
     {
         public NeedType GetNeedType();
-        public NeedMetrics GetReward();
+        public NeedMetrics GetPunishment();
         public bool IsExpired();
     }
 }

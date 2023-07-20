@@ -1,5 +1,6 @@
 using System;
 using Actors;
+using Consumable;
 using Guest.States;
 using GuestRequests;
 using Interactions.Interactables;
@@ -9,6 +10,7 @@ using PartyEvents;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 namespace Guest
 {
@@ -23,9 +25,10 @@ namespace Guest
 
     [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent), typeof(GuestInteractable))]
     [RequireComponent(typeof(NeedSystem))]
-    public class GuestAI : MonoBehaviour, IRequestOwner
+    public class GuestAI : MonoBehaviour, IGuestRequestOwner
     {
         [SerializeField] private GuestType _guestType;
+        [SerializeField] private Transform seatTransform;
 
         public GuestStateMachine stateMachine;
         public NavMeshAgent navMeshAgent { get; private set; }
@@ -40,21 +43,27 @@ namespace Guest
         [SerializeField] private MoodType startingMood;
 
         [Separator("AI Behaviour")]
-        [Range(0.0f, 1.0f)] public float chanceToWanderWhenHappy = 0.2f;
+        [ConditionalField(nameof(_guestType), false, GuestType.Famine)] [Range(0.0f, 1.0f)]
+        [SerializeField] private float walkToDrinksChance;
+
+        [Range(0.0f, 1.0f)] public float wanderWhenHappyChance = 0.2f;
         public float wanderCheckFrequency = 5.0f;
 
         [Separator("Debugging")]
         [SerializeField] private TextMeshProUGUI AIState;
 
         public Camera _mainCamera { get; private set; }
-        [HideInInspector] public Request currentRequest;
 
         private GuestIdleState _guestIdleState;
         private GuestMovingState _guestMovingState;
         private GuestWanderState _guestWanderState;
         private GuestConsumeState _guestConsumeState;
+        private GuestGetConsumableState _guestGetConsumableState;
+        private GuestMoveToSeatState _guestMoveToSeatState;
         private CharacterBlackboard _blackboard;
         public NeedSystem needSystem;
+
+        public IConsumable HoldingConsumable;
 
         // private bool _shouldWander;
         // private const float DistanceThreshold = 0.1f;
@@ -95,11 +104,15 @@ namespace Guest
             _guestMovingState = new GuestMovingState(this, stateMachine);
             _guestWanderState = new GuestWanderState(this, stateMachine);
             _guestConsumeState = new GuestConsumeState(this, stateMachine);
+            _guestGetConsumableState = new GuestGetConsumableState(this, stateMachine);
+            _guestMoveToSeatState = new GuestMoveToSeatState(this, stateMachine);
 
             stateMachine.RegisterState(_guestIdleState);
             stateMachine.RegisterState(_guestMovingState);
             stateMachine.RegisterState(_guestWanderState);
             stateMachine.RegisterState(_guestConsumeState);
+            stateMachine.RegisterState(_guestGetConsumableState);
+            stateMachine.RegisterState(_guestMoveToSeatState);
 
             // Initial state
             stateMachine.ChangeState(GuestStateID.Idle);
@@ -147,13 +160,36 @@ namespace Guest
         {
             return holderTransform;
         }
-        
+
+        public Transform GetSeatTransform()
+        {
+            return seatTransform;
+        }
+
         private void OnNewNeed(INeed need)
         {
             switch (need.GetNeedType())
             {
                 case NeedType.Drink:
-                    
+                    HoldingConsumable = DrinksTable.Instance.TryGetDrink();
+                    if (HoldingConsumable == null)
+                    {
+                        return;
+                    }
+
+                    if (_guestType is GuestType.Famine)
+                    {
+                        if (Random.Range(0.0f, 1.0f) <= walkToDrinksChance)
+                        {
+                            stateMachine.ChangeState(GuestStateID.GetConsumable);
+                        }
+                    }
+                    else if (_guestType is GuestType.Henchmen)
+                    {
+                        stateMachine.ChangeState(GuestStateID.GetConsumable);
+                    }
+
+                    break;
             }
         }
 
@@ -167,7 +203,7 @@ namespace Guest
                         : eventData.moodCost);
                     break;
                 case PartyEventType.MusicPlaying:
-                    needSystem.TryFulfillNeed(NeedType.Music);
+                    needSystem.TryFulfillNeed(NeedType.Music, eventData.needsCost, eventData.moodCost);
                     break;
                 case PartyEventType.MusicMachineBreaks:
                     break;

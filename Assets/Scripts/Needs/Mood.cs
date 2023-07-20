@@ -59,7 +59,8 @@ namespace Needs
 
         public void ChangeMood(int moodPoints)
         {
-            _currentMoodLevel += Mathf.Clamp(moodPoints, -4, 4) / 4.0f;
+            // Multiply by 2 to put the moodlevel to the end of the threshold.
+            _currentMoodLevel += Mathf.Clamp(moodPoints, -4, 4) / 4.0f * 2.0f;
             _currentMoodLevel = Mathf.Clamp(_currentMoodLevel, 0.0f, 1.0f);
         }
 

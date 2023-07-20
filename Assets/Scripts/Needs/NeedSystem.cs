@@ -77,6 +77,7 @@ namespace Needs
     public class NeedSystem : MonoBehaviour
     {
         [SerializeField] private NeedsDisplayer needsDisplayer;
+        [SerializeField] private float needMetCooldown = 10.0f;
 
         [SerializeField] private Mood mood;
 
@@ -91,6 +92,7 @@ namespace Needs
 
         private readonly float _needCheckFrequency = 3.0f;
         private float _currentTime;
+        private float _needMetTimer;
 
         public event Action<INeed> OnNewNeed;
 
@@ -101,9 +103,10 @@ namespace Needs
             _currentMetrics.SetAll(0.5f);
 
             _currentTime = 0.0f;
+            _needMetTimer = 0.0f;
         }
 
-        private void Update()
+        public void Tick()
         {
             _currentMetrics -= _metricsDepletionRate * Time.deltaTime;
 
@@ -117,8 +120,15 @@ namespace Needs
                 if (_currentNeeds[i].IsExpired())
                 {
                     mood.ChangeMood(-1);
+                    _currentMetrics += _currentNeeds[i].GetPunishment();
                     RemoveNeed(_currentNeeds[i]);
                 }
+            }
+
+            if (_needMetTimer > 0.0f)
+            {
+                _needMetTimer -= Time.deltaTime;
+                return;
             }
 
             _currentTime += Time.deltaTime;
@@ -150,16 +160,20 @@ namespace Needs
             }
         }
 
-        public void TryFulfillNeed(NeedType needType)
+        public void TryFulfillNeed(NeedType needType, NeedMetrics metricsReward, int moodReward)
         {
             for (int i = _currentNeeds.Count - 1; i >= 0; i--)
             {
                 INeed need = _currentNeeds[i];
                 if (need.GetNeedType() == needType)
                 {
-                    _currentMetrics += need.GetReward();
-                    mood.ChangeMood(1);
+                    _currentMetrics += metricsReward;
+                    mood.ChangeMood(moodReward);
                     RemoveNeed(need);
+
+                    _currentTime = 0.0f;
+                    _needMetTimer = needMetCooldown;
+                    break;
                 }
             }
         }
@@ -212,8 +226,7 @@ namespace Needs
                 case NeedType.Food:
                     return new FoodNeed();
                 case NeedType.Drink:
-                    return null;
-                // return new DrinkNeed();
+                    return new DrinkNeed();
                 case NeedType.Music:
                     return new MusicNeed();
                 case NeedType.Movement:

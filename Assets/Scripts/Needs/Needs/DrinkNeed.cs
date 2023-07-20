@@ -2,27 +2,27 @@
 
 namespace Needs.Needs
 {
-    public class FoodNeed : INeed
+    public class DrinkNeed : INeed
     {
         private readonly NeedMetrics _needPunishment;
         private readonly float _expirationTime = 20.0f;
         private readonly float _startTime;
 
-        public FoodNeed()
+        public DrinkNeed()
         {
             _startTime = Time.time;
             _needPunishment = new NeedMetrics
             {
-                hunger = -0.5f,
-                thirst = 0.0f,
-                enjoyment = -0.4f,
-                movement = 0.2f
+                hunger = 0.0f,
+                thirst = -0.5f,
+                enjoyment = -0.2f,
+                movement = 0.0f
             };
         }
 
         public NeedType GetNeedType()
         {
-            return NeedType.Food;
+            return NeedType.Drink;
         }
 
         public NeedMetrics GetPunishment()
