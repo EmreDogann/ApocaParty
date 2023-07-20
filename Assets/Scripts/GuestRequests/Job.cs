@@ -1,4 +1,5 @@
 ﻿using System;
+using Needs;
 using UnityEngine;
 
 namespace GuestRequests
@@ -13,18 +14,18 @@ namespace GuestRequests
 
         internal virtual void OnDestroy() {}
 
-        public virtual void Enter(IRequestOwner owner)
+        public virtual void Enter(IRequestOwner owner, ref NeedMetrics metrics)
         {
             Debug.Log($"Entered job: {JobName}");
             _currentTime = 0.0f;
         }
 
-        public virtual void Tick(float deltaTime, IRequestOwner owner)
+        public virtual void Tick(float deltaTime, IRequestOwner owner, ref NeedMetrics metrics)
         {
             _currentTime += deltaTime;
         }
 
-        public virtual void Exit(IRequestOwner owner)
+        public virtual void Exit(IRequestOwner owner, ref NeedMetrics metrics)
         {
             Debug.Log($"Exited job: {JobName}");
         }

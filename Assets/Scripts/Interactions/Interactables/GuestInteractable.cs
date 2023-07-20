@@ -2,7 +2,7 @@ using System;
 
 namespace Interactions.Interactables
 {
-    public class MinionInteractable : InteractableBase
+    public class GuestInteractable : InteractableBase
     {
         public bool IsHovering { get; private set; }
         public bool IsInteracting { get; private set; }

@@ -13,7 +13,9 @@ namespace Minion.States
             return MinionStateID.Moving;
         }
 
-        public override void Enter()
+        public override void Enter() {}
+
+        public override void Tick()
         {
             if (minion.showPath)
             {
@@ -22,10 +24,7 @@ namespace Minion.States
                 minion.pathRenderer.SetPositions(path.corners);
                 minion.marker.gameObject.SetActive(true);
             }
-        }
 
-        public override void Tick()
-        {
             if (minion.navMeshAgent.hasPath)
             {
                 minion.marker.transform.position = minion.navMeshAgent.destination;

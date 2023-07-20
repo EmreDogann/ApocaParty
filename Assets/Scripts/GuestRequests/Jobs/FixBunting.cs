@@ -1,4 +1,5 @@
 ﻿using Audio;
+using Needs;
 using UnityEngine;
 
 namespace GuestRequests.Jobs
@@ -11,7 +12,7 @@ namespace GuestRequests.Jobs
         [SerializeField] private Transform _playbackPosition;
         public AudioSO FixAudio;
 
-        public override void Exit(IRequestOwner owner)
+        public override void Exit(IRequestOwner owner, ref NeedMetrics metrics)
         {
             if (_playbackPosition)
             {

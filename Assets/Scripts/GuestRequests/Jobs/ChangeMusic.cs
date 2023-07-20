@@ -1,5 +1,6 @@
 ﻿using Audio;
 using GuestRequests.Requests;
+using Needs;
 using UnityEngine;
 
 namespace GuestRequests.Jobs
@@ -20,7 +21,7 @@ namespace GuestRequests.Jobs
             MusicRequest.OnMusicRequested -= OnMusicRequested;
         }
 
-        public override void Exit(IRequestOwner owner)
+        public override void Exit(IRequestOwner owner, ref NeedMetrics metrics)
         {
             if (_playbackPosition)
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MyBox;
+using Needs;
 using UnityEngine;
 
 namespace GuestRequests
@@ -9,6 +10,9 @@ namespace GuestRequests
     public class Request : MonoBehaviour
     {
         public float TotalDuration { get; private set; }
+
+        [SerializeField] private NeedMetrics rewardMetrics;
+        private NeedMetrics _currentMetrics;
 
         [SerializeReference] protected List<Job> _jobs = new List<Job>();
         protected float _totalProgressPercentage;
@@ -39,7 +43,7 @@ namespace GuestRequests
         public void UpdateRequest(float deltaTime)
         {
             _currentTime += deltaTime;
-            _jobs[_currentJobIndex].Tick(deltaTime, _owner);
+            _jobs[_currentJobIndex].Tick(deltaTime, _owner, ref _currentMetrics);
 
             if (_jobs[_currentJobIndex].GetProgressPercentage(_owner) >= 1.0f)
             {
@@ -74,7 +78,12 @@ namespace GuestRequests
             _owner = owner;
         }
 
-        [ButtonMethod]
+        public NeedMetrics AcceptRequest()
+        {
+            // TODO: Return _currentMetrics instead. Right now, below is used for testing.
+            return rewardMetrics;
+        }
+
         public virtual void StartRequest()
         {
             if (_jobs.Count <= 0)
@@ -82,13 +91,12 @@ namespace GuestRequests
                 return;
             }
 
-            float totalDuration = 0.0f;
             foreach (Job job in _jobs)
             {
-                totalDuration += job.GetTotalDuration(_owner);
+                TotalDuration += job.GetTotalDuration(_owner);
             }
 
-            TotalDuration = totalDuration;
+            _currentMetrics = new NeedMetrics();
 
             _currentTime = 0.0f;
             _totalProgressPercentage = 0.0f;
@@ -107,17 +115,17 @@ namespace GuestRequests
         {
             if (_currentJobIndex + 1 == _jobs.Count)
             {
-                _jobs[_currentJobIndex].Exit(_owner);
+                _jobs[_currentJobIndex].Exit(_owner, ref _currentMetrics);
             }
             else
             {
                 if (_currentJobIndex >= 0)
                 {
-                    _jobs[_currentJobIndex].Exit(_owner);
+                    _jobs[_currentJobIndex].Exit(_owner, ref _currentMetrics);
                 }
 
                 _currentJobIndex++;
-                _jobs[_currentJobIndex].Enter(_owner);
+                _jobs[_currentJobIndex].Enter(_owner, ref _currentMetrics);
             }
         }
     }
