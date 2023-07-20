@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using GuestRequests.Requests;
 using JetBrains.Annotations;
+using PartyEvents;
 using UnityEngine;
 
 namespace Consumable
@@ -27,11 +28,13 @@ namespace Consumable
         private void OnEnable()
         {
             DrinkRefillRequest.OnDrinkRefill += RefillDrinks;
+            PartyEvent.OnPartyEvent += OnFamineEvent;
         }
 
         private void OnDisable()
         {
             DrinkRefillRequest.OnDrinkRefill -= RefillDrinks;
+            PartyEvent.OnPartyEvent -= OnFamineEvent;
         }
 
         [CanBeNull]
@@ -46,6 +49,17 @@ namespace Consumable
             }
 
             return null;
+        }
+
+        private void OnFamineEvent(PartyEventData eventData)
+        {
+            foreach (Drink drink in _drinks)
+            {
+                if (drink.IsAvailable())
+                {
+                    drink.Consume();
+                }
+            }
         }
 
         private void RefillDrinks()

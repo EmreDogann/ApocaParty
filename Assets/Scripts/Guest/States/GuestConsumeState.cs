@@ -21,6 +21,11 @@ namespace Guest.States
 
         public override void Tick()
         {
+            if (guest.HoldingConsumable != null)
+            {
+                guest.HoldingConsumable.GetTransform().position = guest.GetHoldingPosition().position;
+            }
+
             _currentTime += Time.deltaTime;
             if (_currentTime >= _consumeDuration)
             {

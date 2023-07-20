@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using MyBox;
+using UnityEngine;
 
 namespace Consumable
 {
@@ -7,15 +8,17 @@ namespace Consumable
     {
         [SerializeField] private ConsumedData consumeReward;
 
-        private bool _isConsumed;
-        private bool _isClaimed;
+        [SerializeField] private bool _isConsumed;
+        [ReadOnly] private bool _isClaimed;
         private SpriteRenderer _spriteRenderer;
+        private Vector3 originalPosition;
 
         private void Awake()
         {
             _isClaimed = false;
             _isConsumed = false;
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            originalPosition = transform.position;
         }
 
         public Transform GetTransform()
@@ -50,6 +53,7 @@ namespace Consumable
             _isConsumed = false;
             _isClaimed = false;
             _spriteRenderer.enabled = true;
+            transform.position = originalPosition;
         }
     }
 }

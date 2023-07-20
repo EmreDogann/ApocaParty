@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using Utils;
 
 namespace Player
 {
@@ -9,6 +10,7 @@ namespace Player
     {
         [SerializeField] private InputActionReference moveButton;
         [SerializeField] private float _distanceThreshold = 0.1f;
+        [NavMeshSelector] [SerializeField] private int ignoreAreaCosts;
 
         public bool showPath;
         public Transform marker;
@@ -26,6 +28,7 @@ namespace Player
 
             _agent.updateRotation = false;
             _agent.updateUpAxis = false;
+            _agent.SetAreaCost(ignoreAreaCosts, 1.0f);
         }
 
         private void Update()
