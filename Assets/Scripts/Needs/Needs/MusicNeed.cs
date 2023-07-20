@@ -2,27 +2,27 @@
 
 namespace Needs.Needs
 {
-    public class FoodNeed : INeed
+    public class MusicNeed : INeed
     {
         private readonly NeedMetrics _needReward;
         private readonly float _expirationTime = 20.0f;
         private readonly float _startTime;
 
-        public FoodNeed()
+        public MusicNeed()
         {
             _startTime = Time.time;
             _needReward = new NeedMetrics
             {
-                hunger = 0.5f,
+                hunger = 0.0f,
                 thirst = 0.0f,
-                enjoyment = 0.3f,
-                movement = -0.2f
+                enjoyment = 0.5f,
+                movement = -0.1f
             };
         }
 
         public NeedType GetNeedType()
         {
-            return NeedType.Food;
+            return NeedType.Music;
         }
 
         public NeedMetrics GetReward()

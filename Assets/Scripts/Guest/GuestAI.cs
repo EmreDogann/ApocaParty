@@ -1,3 +1,4 @@
+using System;
 using Actors;
 using Guest.States;
 using GuestRequests;
@@ -65,12 +66,18 @@ namespace Guest
         {
             needSystem = GetComponent<NeedSystem>();
             needSystem.ChangeMood(startingMood);
+        }
 
-            PartyEvent.OnMoodEvent += OnMoodEvent;
-            if (_guestType == GuestType.Famine)
-            {
-                FamineEvent.OnFamineEvent += OnFamineEvent;
-            }
+        private void OnEnable()
+        {
+            PartyEvent.OnPartyEvent += OnPartyEvent;
+            needSystem.OnNewNeed += OnNewNeed;
+        }
+
+        private void OnDisable()
+        {
+            PartyEvent.OnPartyEvent -= OnPartyEvent;
+            needSystem.OnNewNeed -= OnNewNeed;
         }
 
         private void Start()
@@ -140,15 +147,39 @@ namespace Guest
         {
             return holderTransform;
         }
-
-        private void OnMoodEvent(int moodPoints)
+        
+        private void OnNewNeed(INeed need)
         {
-            needSystem.ChangeMood(moodPoints);
+            switch (need.GetNeedType())
+            {
+                case NeedType.Drink:
+                    
+            }
         }
 
-        private void OnFamineEvent(int moodPoints)
+        private void OnPartyEvent(PartyEventData eventData)
         {
-            needSystem.ChangeMood(-moodPoints);
+            switch (eventData.eventType)
+            {
+                case PartyEventType.FamineAtDrinks:
+                    needSystem.ChangeMood(_guestType == GuestType.Famine
+                        ? Mathf.Abs(eventData.moodCost)
+                        : eventData.moodCost);
+                    break;
+                case PartyEventType.MusicPlaying:
+                    needSystem.TryFulfillNeed(NeedType.Music);
+                    break;
+                case PartyEventType.MusicMachineBreaks:
+                    break;
+                case PartyEventType.FoodBurning:
+                    break;
+                case PartyEventType.PowerOutage:
+                    break;
+                case PartyEventType.BuntingFall:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         // public void SetWandering(bool isWandering)

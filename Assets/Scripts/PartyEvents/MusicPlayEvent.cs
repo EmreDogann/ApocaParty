@@ -2,7 +2,7 @@
 
 namespace PartyEvents
 {
-    public class FamineEvent : PartyEvent
+    public class MusicPlayEvent : PartyEvent
     {
         [ButtonMethod]
         public override void TriggerEvent()
@@ -12,7 +12,7 @@ namespace PartyEvents
 
         public override PartyEventType GetEventType()
         {
-            return PartyEventType.FamineAtDrinks;
+            return PartyEventType.MusicPlaying;
         }
     }
 }

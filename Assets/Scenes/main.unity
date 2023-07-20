@@ -1056,13 +1056,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f5481dc2b8e49b0b27c51e6ab0c25c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerNeedEvent: 1
   Metrics:
     hunger: -0.3
     thirst: 0
     enjoyment: 0
     movement: 0
-  triggerMoodEvent: 1
   moodPoints: -1
 --- !u!114 &169186470
 MonoBehaviour:
@@ -3834,7 +3832,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 817330206}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -7327,7 +7325,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556630750}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -7461,6 +7459,7 @@ GameObject:
   - component: {fileID: 1604483480}
   - component: {fileID: 1604483479}
   - component: {fileID: 1604483482}
+  - component: {fileID: 1604483483}
   m_Layer: 3
   m_Name: Music
   m_TagString: Untagged
@@ -7602,8 +7601,28 @@ MonoBehaviour:
       type: {class: ChangeMusic, ns: GuestRequests.Jobs, asm: Assembly-CSharp}
       data:
         <JobName>k__BackingField: Change Music
+        _musicAudio: {fileID: 11400000, guid: 5f6396b06af25d8499b15ca663c1cba8, type: 2}
         _playbackPosition: {fileID: 0}
         Duration: 2
+        _musicPlayEvent: {fileID: 1604483483}
+--- !u!114 &1604483483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604483476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a20d3449a14442683803d6be4b82ddf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Metrics:
+    hunger: 0
+    thirst: 0
+    enjoyment: 0
+    movement: 0.3
+  moodPoints: 1
 --- !u!1 &1605618386
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using MyBox;
 using Needs.Needs;
-using PartyEvents;
 using UnityEngine;
 using Utils;
 
@@ -92,6 +92,8 @@ namespace Needs
         private readonly float _needCheckFrequency = 3.0f;
         private float _currentTime;
 
+        public event Action<INeed> OnNewNeed;
+
         private void Awake()
         {
             _currentNeeds = new List<INeed>();
@@ -101,28 +103,21 @@ namespace Needs
             _currentTime = 0.0f;
         }
 
-        private void OnEnable()
-        {
-            PartyEvent.OnNeedEvent += OnPartyEvent;
-        }
-
-        private void OnDisable()
-        {
-            PartyEvent.OnNeedEvent -= OnPartyEvent;
-        }
-
         private void Update()
         {
             _currentMetrics -= _metricsDepletionRate * Time.deltaTime;
-            mood.Tick();
+
+            if (_currentNeeds.Count > 0)
+            {
+                mood.Tick();
+            }
 
             for (int i = _currentNeeds.Count - 1; i >= 0; i--)
             {
                 if (_currentNeeds[i].IsExpired())
                 {
                     mood.ChangeMood(-1);
-                    needsDisplayer.RemoveDisplay(_currentNeeds[i].GetNeedType());
-                    _currentNeeds.RemoveAt(i);
+                    RemoveNeed(_currentNeeds[i]);
                 }
             }
 
@@ -134,31 +129,37 @@ namespace Needs
 
             _currentTime = 0.0f;
 
-            NeedType? needType = null;
             if (_currentMetrics.hunger < _metricsThreshold.hunger)
             {
-                needType = NeedType.Food;
-            }
-            else if (_currentMetrics.thirst < _metricsThreshold.thirst)
-            {
-                needType = NeedType.Drink;
-            }
-            else if (_currentMetrics.enjoyment < _metricsThreshold.enjoyment)
-            {
-                needType = NeedType.Music;
-            }
-            else if (_currentMetrics.movement < _metricsThreshold.movement)
-            {
-                needType = NeedType.Movement;
+                TryAddNeed(NeedType.Food);
             }
 
-            if (_currentNeeds.FirstOrDefault(x => x.GetNeedType() == needType) == null)
+            if (_currentMetrics.thirst < _metricsThreshold.thirst)
             {
-                INeed need = GenerateNeed(needType);
-                if (need != null)
+                TryAddNeed(NeedType.Drink);
+            }
+
+            if (_currentMetrics.enjoyment < _metricsThreshold.enjoyment)
+            {
+                TryAddNeed(NeedType.Music);
+            }
+
+            if (_currentMetrics.movement < _metricsThreshold.movement)
+            {
+                TryAddNeed(NeedType.Movement);
+            }
+        }
+
+        public void TryFulfillNeed(NeedType needType)
+        {
+            for (int i = _currentNeeds.Count - 1; i >= 0; i--)
+            {
+                INeed need = _currentNeeds[i];
+                if (need.GetNeedType() == needType)
                 {
-                    needsDisplayer.AddDisplay(need.GetNeedType());
-                    _currentNeeds.Add(need);
+                    _currentMetrics += need.GetReward();
+                    mood.ChangeMood(1);
+                    RemoveNeed(need);
                 }
             }
         }
@@ -178,26 +179,49 @@ namespace Needs
             mood.ChangeMood(moodPoints);
         }
 
+        private void AddNeed(INeed need)
+        {
+            needsDisplayer.AddDisplay(need.GetNeedType());
+            _currentNeeds.Add(need);
+            OnNewNeed?.Invoke(need);
+        }
+
+        private void RemoveNeed(INeed need)
+        {
+            needsDisplayer.RemoveDisplay(need.GetNeedType());
+            _currentNeeds.Remove(need);
+        }
+
+        private void TryAddNeed(NeedType needType)
+        {
+            if (_currentNeeds.FirstOrDefault(x => x.GetNeedType() == needType) == null)
+            {
+                INeed need = GenerateNeed(needType);
+                if (need != null)
+                {
+                    AddNeed(need);
+                }
+            }
+        }
+
+        [CanBeNull]
         private INeed GenerateNeed(NeedType? needType)
         {
             switch (needType)
             {
                 case NeedType.Food:
                     return new FoodNeed();
-                // case NeedType.Drink:
+                case NeedType.Drink:
+                    return null;
                 // return new DrinkNeed();
-                // case NeedType.Music:
-                //     return new MusicNeed();
-                // case NeedType.Movement:
-                //     return new MovementNeed();
+                case NeedType.Music:
+                    return new MusicNeed();
+                case NeedType.Movement:
+                    return null;
+                // return new MovementNeed();
                 default:
                     return null;
             }
-        }
-
-        private void OnPartyEvent(NeedMetrics metric)
-        {
-            _currentMetrics += metric;
         }
     }
 }

@@ -1,33 +1,46 @@
 ﻿using System;
-using MyBox;
 using Needs;
 using UnityEngine;
 using Utils;
 
 namespace PartyEvents
 {
+    public enum PartyEventType
+    {
+        FamineAtDrinks,
+        MusicPlaying,
+        MusicMachineBreaks,
+        FoodBurning,
+        PowerOutage,
+        BuntingFall
+    }
+
+    [Serializable]
+    public class PartyEventData
+    {
+        public PartyEventType eventType;
+        public NeedMetrics needsCost;
+        public int moodCost;
+    }
+
     public abstract class PartyEvent : MonoBehaviour
     {
-        public static Action<NeedMetrics> OnNeedEvent;
-        public static Action<int> OnMoodEvent;
-        [SerializeField] protected bool triggerNeedEvent;
-        [ConditionalField(nameof(triggerNeedEvent))] [MetricsRange(-1.0f, 1.0f)]
-        [SerializeField] protected NeedMetrics Metrics;
-
-        [SerializeField] protected bool triggerMoodEvent;
-        [ConditionalField(nameof(triggerMoodEvent))] [Range(-4, 4)] [SerializeField] protected int moodPoints;
+        public static Action<PartyEventData> OnPartyEvent;
+        [MetricsRange(-1.0f, 1.0f)] [SerializeField] protected NeedMetrics Metrics;
+        [Range(-4, 4)] [SerializeField] protected int moodPoints;
 
         public virtual void TriggerEvent()
         {
-            if (triggerNeedEvent)
+            PartyEventData partyEventData = new PartyEventData
             {
-                OnNeedEvent?.Invoke(Metrics);
-            }
+                eventType = GetEventType(),
+                needsCost = Metrics,
+                moodCost = moodPoints
+            };
 
-            if (triggerMoodEvent)
-            {
-                OnMoodEvent?.Invoke(moodPoints);
-            }
+            OnPartyEvent?.Invoke(partyEventData);
         }
+
+        public abstract PartyEventType GetEventType();
     }
 }

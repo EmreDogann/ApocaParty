@@ -12,7 +12,7 @@ namespace GuestRequests.Requests
         protected override void Awake()
         {
             base.Awake();
-            OnMusicRequested?.Invoke(_requestedMusic);
+            // OnMusicRequested?.Invoke(_requestedMusic);
         }
 
         public void RequestMusicToPlay(AudioSO music)
