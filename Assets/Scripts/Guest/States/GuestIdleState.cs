@@ -34,7 +34,7 @@ namespace Guest.States
                 _stateMachine.ChangeState(GuestStateID.Consume);
             }
 
-            if (!guest._guestMood.IsSatisfied())
+            if (!guest.needSystem.IsSatisfied())
             {
                 return;
             }

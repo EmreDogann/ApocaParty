@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 
-namespace Guest
+namespace Needs
 {
     public enum MoodType
     {
@@ -16,29 +15,27 @@ namespace Guest
     [Serializable]
     public class Mood
     {
-        [Serializable]
-        private class MoodThreshold
-        {
-            public MoodType moodType;
-            public float threshold;
-            public Sprite moodSprite;
-        }
-
         [OverrideLabel("Mood Sprite Renderer")] [SerializeField] private SpriteRenderer _spriteRenderer;
-        [SerializeField] private List<MoodThreshold> _moods;
+        [SerializeField] private MoodDefinitionSO _moodsDefinition;
         [ReadOnly] [SerializeField] private float _currentMoodLevel;
         private MoodThreshold _currentMood;
+        [ReadOnly] [SerializeField] private MoodType _currentMoodType;
 
-        public void Tick()
+        internal void Tick()
         {
             _currentMoodLevel -= 0.01f * Time.deltaTime;
+            _currentMoodLevel = Mathf.Clamp(_currentMoodLevel, 0.0f, 1.0f);
 
-            for (int i = _moods.Count - 1; i >= 0; i--)
+            // For debugging only.
+            _currentMoodType = _currentMood.moodType;
+
+            for (int i = _moodsDefinition.GetMoods().Count - 1; i >= 0; i--)
             {
-                if (_currentMoodLevel >= _moods[i].threshold)
+                MoodThreshold mood = _moodsDefinition.GetMoods()[i];
+                if (_currentMoodLevel >= mood.threshold)
                 {
-                    _currentMood = _moods[i];
-                    _spriteRenderer.sprite = _moods[i].moodSprite;
+                    _currentMood = mood;
+                    _spriteRenderer.sprite = mood.moodSprite;
                     break;
                 }
             }
@@ -46,14 +43,15 @@ namespace Guest
 
         public void ChangeMood(MoodType newMood)
         {
-            for (int i = _moods.Count - 1; i >= 0; i--)
+            for (int i = _moodsDefinition.GetMoods().Count - 1; i >= 0; i--)
             {
-                if (_moods[i].moodType == newMood)
+                MoodThreshold mood = _moodsDefinition.GetMoods()[i];
+                if (mood.moodType == newMood)
                 {
-                    _currentMoodLevel = _moods[i].threshold;
-                    _currentMood = _moods[i];
+                    _currentMoodLevel = mood.threshold;
+                    _currentMood = mood;
 
-                    _spriteRenderer.sprite = _moods[i].moodSprite;
+                    _spriteRenderer.sprite = mood.moodSprite;
                     break;
                 }
             }
@@ -62,6 +60,7 @@ namespace Guest
         public void ChangeMood(int moodPoints)
         {
             _currentMoodLevel += Mathf.Clamp(moodPoints, -4, 4) / 4.0f;
+            _currentMoodLevel = Mathf.Clamp(_currentMoodLevel, 0.0f, 1.0f);
         }
 
         public MoodType GetCurrentMood()

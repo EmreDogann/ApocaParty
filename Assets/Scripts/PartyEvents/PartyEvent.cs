@@ -11,7 +11,7 @@ namespace PartyEvents
         public static Action<NeedMetrics> OnNeedEvent;
         public static Action<int> OnMoodEvent;
         [SerializeField] protected bool triggerNeedEvent;
-        [ConditionalField(nameof(triggerNeedEvent))] [MetricsRange(-100.0f, 100.0f)]
+        [ConditionalField(nameof(triggerNeedEvent))] [MetricsRange(-1.0f, 1.0f)]
         [SerializeField] protected NeedMetrics Metrics;
 
         [SerializeField] protected bool triggerMoodEvent;

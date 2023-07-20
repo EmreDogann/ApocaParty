@@ -35,9 +35,8 @@ namespace Guest
         [SerializeField] private Transform holderTransform;
         public ActorSO actorData;
 
-        [Separator("Mood")]
+        [Separator("Moods")]
         [SerializeField] private MoodType startingMood;
-        public Mood _guestMood;
 
         [Separator("AI Behaviour")]
         [Range(0.0f, 1.0f)] public float chanceToWanderWhenHappy = 0.2f;
@@ -54,16 +53,19 @@ namespace Guest
         private GuestWanderState _guestWanderState;
         private GuestConsumeState _guestConsumeState;
         private CharacterBlackboard _blackboard;
+        public NeedSystem needSystem;
 
-        private bool _shouldWander;
-        private const float DistanceThreshold = 0.1f;
-        private const float WanderWaitTime = 3.0f;
-        private float _currentWanderTime;
-        private const float SearchRadius = 3.0f;
+        // private bool _shouldWander;
+        // private const float DistanceThreshold = 0.1f;
+        // private const float WanderWaitTime = 3.0f;
+        // private float _currentWanderTime;
+        // private const float SearchRadius = 3.0f;
 
         private void Awake()
         {
-            _guestMood.ChangeMood(startingMood);
+            needSystem = GetComponent<NeedSystem>();
+            needSystem.ChangeMood(startingMood);
+
             PartyEvent.OnMoodEvent += OnMoodEvent;
             if (_guestType == GuestType.Famine)
             {
@@ -104,7 +106,6 @@ namespace Guest
             }
 
             stateMachine.UpdateState();
-            _guestMood.Tick();
             AIState.text = stateMachine.GetCurrentState().GetID().ToString();
 
             _blackboard.IsMoving = navMeshAgent.hasPath;
@@ -142,65 +143,65 @@ namespace Guest
 
         private void OnMoodEvent(int moodPoints)
         {
-            _guestMood.ChangeMood(moodPoints);
+            needSystem.ChangeMood(moodPoints);
         }
 
         private void OnFamineEvent(int moodPoints)
         {
-            _guestMood.ChangeMood(-moodPoints);
+            needSystem.ChangeMood(-moodPoints);
         }
 
-        public void SetWandering(bool isWandering)
-        {
-            _shouldWander = isWandering;
-            if (!isWandering)
-            {
-                return;
-            }
-
-            navMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius));
-            _currentWanderTime = 0.0f;
-        }
-
-        public bool IsWandering()
-        {
-            return _shouldWander;
-        }
-
-        private Vector3 RandomNavmeshLocation(Vector3 position, float radius)
-        {
-            Vector3 finalPosition = position;
-            for (int i = 0; i < 30; i++)
-            {
-                Vector3 randomDirection = ClampMagnitude(Random.insideUnitCircle * radius, Mathf.Infinity, 2.0f);
-                randomDirection += position;
-
-                if (!NavMesh.Raycast(position, randomDirection, out NavMeshHit raycastHit,
-                        NavMesh.GetAreaFromName("AvoidWander")))
-                {
-                    finalPosition = raycastHit.position;
-                    break;
-                }
-            }
-
-            finalPosition.z = 0;
-            return finalPosition;
-        }
-
-        private Vector3 ClampMagnitude(Vector3 v, float max, float min)
-        {
-            double sm = v.sqrMagnitude;
-            if (sm > max * (double)max)
-            {
-                return v.normalized * max;
-            }
-
-            if (sm < min * (double)min)
-            {
-                return v.normalized * min;
-            }
-
-            return v;
-        }
+        // public void SetWandering(bool isWandering)
+        // {
+        //     _shouldWander = isWandering;
+        //     if (!isWandering)
+        //     {
+        //         return;
+        //     }
+        //
+        //     navMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius));
+        //     _currentWanderTime = 0.0f;
+        // }
+        //
+        // public bool IsWandering()
+        // {
+        //     return _shouldWander;
+        // }
+        //
+        // private Vector3 RandomNavmeshLocation(Vector3 position, float radius)
+        // {
+        //     Vector3 finalPosition = position;
+        //     for (int i = 0; i < 30; i++)
+        //     {
+        //         Vector3 randomDirection = ClampMagnitude(Random.insideUnitCircle * radius, Mathf.Infinity, 2.0f);
+        //         randomDirection += position;
+        //
+        //         if (!NavMesh.Raycast(position, randomDirection, out NavMeshHit raycastHit,
+        //                 NavMesh.GetAreaFromName("AvoidWander")))
+        //         {
+        //             finalPosition = raycastHit.position;
+        //             break;
+        //         }
+        //     }
+        //
+        //     finalPosition.z = 0;
+        //     return finalPosition;
+        // }
+        //
+        // private Vector3 ClampMagnitude(Vector3 v, float max, float min)
+        // {
+        //     double sm = v.sqrMagnitude;
+        //     if (sm > max * (double)max)
+        //     {
+        //         return v.normalized * max;
+        //     }
+        //
+        //     if (sm < min * (double)min)
+        //     {
+        //         return v.normalized * min;
+        //     }
+        //
+        //     return v;
+        // }
     }
 }

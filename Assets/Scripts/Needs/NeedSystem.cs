@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Guest;
 using MyBox;
 using Needs.Needs;
 using PartyEvents;
@@ -20,20 +19,20 @@ namespace Needs
 
         public static NeedMetrics operator +(NeedMetrics a, NeedMetrics b)
         {
-            a.hunger = Mathf.Clamp(a.hunger + b.hunger, 0.0f, 100.0f);
-            a.thirst = Mathf.Clamp(a.thirst + b.thirst, 0.0f, 100.0f);
-            a.enjoyment = Mathf.Clamp(a.enjoyment + b.enjoyment, 0.0f, 100.0f);
-            a.movement = Mathf.Clamp(a.movement + b.movement, 0.0f, 100.0f);
+            a.hunger = Mathf.Clamp(a.hunger + b.hunger, 0.0f, 1.0f);
+            a.thirst = Mathf.Clamp(a.thirst + b.thirst, 0.0f, 1.0f);
+            a.enjoyment = Mathf.Clamp(a.enjoyment + b.enjoyment, 0.0f, 1.0f);
+            a.movement = Mathf.Clamp(a.movement + b.movement, 0.0f, 1.0f);
 
             return a;
         }
 
         public static NeedMetrics operator -(NeedMetrics a, NeedMetrics b)
         {
-            a.hunger = Mathf.Clamp(a.hunger - b.hunger, 0.0f, 100.0f);
-            a.thirst = Mathf.Clamp(a.thirst - b.thirst, 0.0f, 100.0f);
-            a.enjoyment = Mathf.Clamp(a.enjoyment - b.enjoyment, 0.0f, 100.0f);
-            a.movement = Mathf.Clamp(a.movement - b.movement, 0.0f, 100.0f);
+            a.hunger = Mathf.Clamp(a.hunger - b.hunger, 0.0f, 1.0f);
+            a.thirst = Mathf.Clamp(a.thirst - b.thirst, 0.0f, 1.0f);
+            a.enjoyment = Mathf.Clamp(a.enjoyment - b.enjoyment, 0.0f, 1.0f);
+            a.movement = Mathf.Clamp(a.movement - b.movement, 0.0f, 1.0f);
 
             return a;
         }
@@ -66,7 +65,7 @@ namespace Needs
 
         public void SetAll(float value)
         {
-            value = Mathf.Clamp(value, 0.0f, 100.0f);
+            value = Mathf.Clamp(value, 0.0f, 1.0f);
 
             hunger = value;
             thirst = value;
@@ -75,30 +74,29 @@ namespace Needs
         }
     }
 
-    [RequireComponent(typeof(GuestAI))]
     public class NeedSystem : MonoBehaviour
     {
+        [SerializeField] private NeedsDisplayer needsDisplayer;
+
+        [SerializeField] private Mood mood;
+
         [Tooltip("The point at which the guest will generate a need to satisfy the respective metric.")]
-        [MetricsRange(0.0f, 100.0f)] [SerializeField] private NeedMetrics _metricsThreshold;
+        [MetricsRange(0.0f, 1.0f)] [SerializeField] private NeedMetrics _metricsThreshold;
 
         [Tooltip("The rate at which the needs metrics tick down every second.")]
-        [MetricsRange(0.0f, 5.0f)] [SerializeField] private NeedMetrics _metricsDepletionRate;
+        [MetricsRange(0.0f, 0.1f)] [SerializeField] private NeedMetrics _metricsDepletionRate;
 
-        [ReadOnly] [MetricsRange(0.0f, 100.0f)] [SerializeField] private NeedMetrics _currentMetrics;
+        [ReadOnly] [MetricsRange(0.0f, 1.0f)] [SerializeField] private NeedMetrics _currentMetrics;
         [ReadOnly] [SerializeReference] private List<INeed> _currentNeeds;
 
-        private readonly float needCheckFrequency = 3.0f;
+        private readonly float _needCheckFrequency = 3.0f;
         private float _currentTime;
-
-        private Mood _guestMood;
 
         private void Awake()
         {
             _currentNeeds = new List<INeed>();
             _currentMetrics = new NeedMetrics();
-            _currentMetrics.SetAll(100.0f);
-
-            _guestMood = GetComponent<GuestAI>()._guestMood;
+            _currentMetrics.SetAll(0.5f);
 
             _currentTime = 0.0f;
         }
@@ -116,18 +114,20 @@ namespace Needs
         private void Update()
         {
             _currentMetrics -= _metricsDepletionRate * Time.deltaTime;
+            mood.Tick();
 
             for (int i = _currentNeeds.Count - 1; i >= 0; i--)
             {
                 if (_currentNeeds[i].IsExpired())
                 {
-                    _guestMood.ChangeMood(-1);
+                    mood.ChangeMood(-1);
+                    needsDisplayer.RemoveDisplay(_currentNeeds[i].GetNeedType());
                     _currentNeeds.RemoveAt(i);
                 }
             }
 
             _currentTime += Time.deltaTime;
-            if (_currentTime >= needCheckFrequency)
+            if (_currentTime >= _needCheckFrequency)
             {
                 return;
             }
@@ -157,9 +157,25 @@ namespace Needs
                 INeed need = GenerateNeed(needType);
                 if (need != null)
                 {
+                    needsDisplayer.AddDisplay(need.GetNeedType());
                     _currentNeeds.Add(need);
                 }
             }
+        }
+
+        public bool IsSatisfied()
+        {
+            return mood.IsSatisfied();
+        }
+
+        public void ChangeMood(MoodType moodType)
+        {
+            mood.ChangeMood(moodType);
+        }
+
+        public void ChangeMood(int moodPoints)
+        {
+            mood.ChangeMood(moodPoints);
         }
 
         private INeed GenerateNeed(NeedType? needType)
