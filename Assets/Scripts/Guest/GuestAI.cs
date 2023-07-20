@@ -28,6 +28,11 @@ namespace Guest
     public class GuestAI : MonoBehaviour, IGuestRequestOwner
     {
         [SerializeField] private GuestType _guestType;
+        public GuestType GuestType
+        {
+            get => _guestType;
+            private set => _guestType = value;
+        }
         [SerializeField] private Transform seatTransform;
 
         public GuestStateMachine stateMachine;
@@ -52,6 +57,7 @@ namespace Guest
         [Separator("Debugging")]
         [SerializeField] private TextMeshProUGUI AIState;
 
+        public NeedSystem needSystem { get; private set; }
         public Camera _mainCamera { get; private set; }
 
         private GuestIdleState _guestIdleState;
@@ -61,7 +67,6 @@ namespace Guest
         private GuestGetConsumableState _guestGetConsumableState;
         private GuestMoveToSeatState _guestMoveToSeatState;
         private CharacterBlackboard _blackboard;
-        public NeedSystem needSystem;
 
         public IConsumable HoldingConsumable;
 

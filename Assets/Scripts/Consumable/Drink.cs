@@ -8,10 +8,12 @@ namespace Consumable
         [SerializeField] private ConsumedData consumeReward;
 
         private bool _isConsumed;
+        private bool _isClaimed;
         private SpriteRenderer _spriteRenderer;
 
         private void Awake()
         {
+            _isClaimed = false;
             _isConsumed = false;
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
@@ -28,14 +30,25 @@ namespace Consumable
             return consumeReward;
         }
 
+        public void Claim()
+        {
+            _isClaimed = true;
+        }
+
         public bool IsConsumed()
         {
             return _isConsumed;
         }
 
+        public bool IsAvailable()
+        {
+            return !IsConsumed() && !_isClaimed;
+        }
+
         void IConsumableInternal.ResetConsumable()
         {
             _isConsumed = false;
+            _isClaimed = false;
             _spriteRenderer.enabled = true;
         }
     }

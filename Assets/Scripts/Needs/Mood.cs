@@ -29,16 +29,7 @@ namespace Needs
             // For debugging only.
             _currentMoodType = _currentMood.moodType;
 
-            for (int i = _moodsDefinition.GetMoods().Count - 1; i >= 0; i--)
-            {
-                MoodThreshold mood = _moodsDefinition.GetMoods()[i];
-                if (_currentMoodLevel >= mood.threshold)
-                {
-                    _currentMood = mood;
-                    _spriteRenderer.sprite = mood.moodSprite;
-                    break;
-                }
-            }
+            UpdateIcon();
         }
 
         public void ChangeMood(MoodType newMood)
@@ -59,9 +50,10 @@ namespace Needs
 
         public void ChangeMood(int moodPoints)
         {
-            // Multiply by 2 to put the moodlevel to the end of the threshold.
-            _currentMoodLevel += Mathf.Clamp(moodPoints, -4, 4) / 4.0f * 2.0f;
+            _currentMoodLevel += Mathf.Clamp(moodPoints, -4, 4) / (float)_moodsDefinition.GetMoods().Count;
             _currentMoodLevel = Mathf.Clamp(_currentMoodLevel, 0.0f, 1.0f);
+
+            UpdateIcon();
         }
 
         public MoodType GetCurrentMood()
@@ -72,6 +64,19 @@ namespace Needs
         public bool IsSatisfied()
         {
             return _currentMood.moodType is MoodType.Happy or MoodType.Fine;
+        }
+
+        private void UpdateIcon()
+        {
+            for (int i = _moodsDefinition.GetMoods().Count - 1; i >= 0; i--)
+            {
+                MoodThreshold mood = _moodsDefinition.GetMoods()[i];
+                if (_currentMoodLevel < mood.threshold)
+                {
+                    _currentMood = mood;
+                    _spriteRenderer.sprite = mood.moodSprite;
+                }
+            }
         }
     }
 }

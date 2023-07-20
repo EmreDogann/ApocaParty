@@ -1,3 +1,6 @@
+using Consumable;
+using PartyEvents;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Guest.States
@@ -27,13 +30,34 @@ namespace Guest.States
 
         public override void Tick()
         {
+            if (!guest.HoldingConsumable.IsAvailable())
+            {
+                guest.needSystem.ChangeMood(-1);
+                guest.HoldingConsumable = null;
+                _stateMachine.ChangeState(GuestStateID.MoveToSeat);
+                return;
+            }
+
             if (Vector3.SqrMagnitude(guest.transform.position - guest.navMeshAgent.destination) <
                 DistanceThreshold * DistanceThreshold)
             {
+                guest.HoldingConsumable.Claim();
                 _stateMachine.ChangeState(GuestStateID.MoveToSeat);
             }
         }
 
-        public override void Exit() {}
+        public override void Exit()
+        {
+            if (guest.GuestType == GuestType.Famine && guest.HoldingConsumable is Drink)
+            {
+                FamineEvent famineEvent = guest.GetComponent<FamineEvent>();
+                if (!famineEvent)
+                {
+                    guest.AddComponent<FamineEvent>();
+                }
+
+                famineEvent.TriggerEvent();
+            }
+        }
     }
 }

@@ -77,7 +77,7 @@ namespace Needs
     public class NeedSystem : MonoBehaviour
     {
         [SerializeField] private NeedsDisplayer needsDisplayer;
-        [SerializeField] private float needMetCooldown = 10.0f;
+        [SerializeField] private float needCooldown = 10.0f;
 
         [SerializeField] private Mood mood;
 
@@ -87,33 +87,28 @@ namespace Needs
         [Tooltip("The rate at which the needs metrics tick down every second.")]
         [MetricsRange(0.0f, 0.1f)] [SerializeField] private NeedMetrics _metricsDepletionRate;
 
-        [ReadOnly] [MetricsRange(0.0f, 1.0f)] [SerializeField] private NeedMetrics _currentMetrics;
+        [MetricsRange(0.0f, 1.0f)] [SerializeField] private NeedMetrics _currentMetrics;
         [ReadOnly] [SerializeReference] private List<INeed> _currentNeeds;
 
         private readonly float _needCheckFrequency = 3.0f;
         private float _currentTime;
-        private float _needMetTimer;
+        private float _needTimer;
 
         public event Action<INeed> OnNewNeed;
 
         private void Awake()
         {
             _currentNeeds = new List<INeed>();
-            _currentMetrics = new NeedMetrics();
-            _currentMetrics.SetAll(0.5f);
 
             _currentTime = 0.0f;
-            _needMetTimer = 0.0f;
+            _needTimer = 0.0f;
         }
 
         public void Tick()
         {
             _currentMetrics -= _metricsDepletionRate * Time.deltaTime;
 
-            if (_currentNeeds.Count > 0)
-            {
-                mood.Tick();
-            }
+            mood.Tick();
 
             for (int i = _currentNeeds.Count - 1; i >= 0; i--)
             {
@@ -122,12 +117,14 @@ namespace Needs
                     mood.ChangeMood(-1);
                     _currentMetrics += _currentNeeds[i].GetPunishment();
                     RemoveNeed(_currentNeeds[i]);
+
+                    _needTimer = needCooldown;
                 }
             }
 
-            if (_needMetTimer > 0.0f)
+            if (_needTimer > 0.0f)
             {
-                _needMetTimer -= Time.deltaTime;
+                _needTimer -= Time.deltaTime;
                 return;
             }
 
@@ -172,7 +169,7 @@ namespace Needs
                     RemoveNeed(need);
 
                     _currentTime = 0.0f;
-                    _needMetTimer = needMetCooldown;
+                    _needTimer = needCooldown;
                     break;
                 }
             }
