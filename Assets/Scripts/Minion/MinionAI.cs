@@ -105,6 +105,12 @@ namespace Minion
             return holderTransform;
         }
 
+        public void OwnerRemoved()
+        {
+            currentRequest = null;
+            stateMachine.ChangeState(MinionStateID.Idle);
+        }
+
         public void SetWandering(bool isWandering)
         {
             _shouldWander = isWandering;

@@ -30,7 +30,19 @@ namespace GuestRequests
             Debug.Log($"Exited job: {JobName}");
         }
 
+        public virtual void FailJob(IRequestOwner owner) {}
+
         public abstract float GetProgressPercentage(IRequestOwner owner);
         public abstract float GetTotalDuration(IRequestOwner owner);
+
+        public virtual bool IsFailed(IRequestOwner owner)
+        {
+            return false;
+        }
+
+        public virtual bool IsPaused(IRequestOwner owner)
+        {
+            return false;
+        }
     }
 }

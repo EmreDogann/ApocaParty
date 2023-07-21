@@ -13,6 +13,7 @@ namespace GuestRequests
     {
         public float TotalDuration { get; private set; }
 
+        [SerializeField] private Transform requestStartingPosition;
         [SerializeField] private NeedType fulfillNeed;
         [MetricsRange(-1.0f, 1.0f)] [SerializeField] private NeedMetrics rewardMetrics;
         private NeedMetrics _currentMetrics;
@@ -26,6 +27,8 @@ namespace GuestRequests
         private IRequestOwner _owner;
         private SpriteRenderer requestImage;
 
+        private Vector3 startingPosition;
+
         protected virtual void Awake()
         {
             foreach (Job job in _jobs)
@@ -35,6 +38,18 @@ namespace GuestRequests
 
             _totalProgressPercentage = 1.0f;
             requestImage = GetComponent<SpriteRenderer>();
+
+            if (requestStartingPosition == null)
+            {
+                startingPosition = transform.position;
+            }
+            else
+            {
+                startingPosition = requestStartingPosition.position;
+            }
+
+
+            ResetRequest();
         }
 
         protected virtual void OnDestroy()
@@ -100,7 +115,7 @@ namespace GuestRequests
             return fulfillNeed;
         }
 
-        public virtual void StartRequest()
+        public virtual void ResetRequest()
         {
             if (_jobs.Count <= 0)
             {
@@ -112,11 +127,21 @@ namespace GuestRequests
                 TotalDuration += job.GetTotalDuration(_owner);
             }
 
+            transform.position = startingPosition;
             _currentMetrics = new NeedMetrics();
 
             _currentTime = 0.0f;
             _totalProgressPercentage = 0.0f;
             _currentJobIndex = -1;
+        }
+
+        public virtual void StartRequest()
+        {
+            if (_jobs.Count <= 0)
+            {
+                return;
+            }
+
             NextJob();
         }
 
@@ -142,6 +167,21 @@ namespace GuestRequests
 
                 _currentJobIndex++;
                 _jobs[_currentJobIndex].Enter(_owner, ref _currentMetrics);
+            }
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                if (_jobs[_currentJobIndex].IsFailed(_owner))
+                {
+                    _jobs[_currentJobIndex].FailJob(_owner);
+                    _owner.OwnerRemoved();
+                    _owner = null;
+
+                    ResetRequest();
+                }
             }
         }
     }

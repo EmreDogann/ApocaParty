@@ -166,6 +166,8 @@ namespace Guest
             return holderTransform;
         }
 
+        public void OwnerRemoved() {}
+
         public Transform GetSeatTransform()
         {
             return seatTransform;
@@ -213,6 +215,9 @@ namespace Guest
                 case PartyEventType.MusicMachineBreaks:
                     break;
                 case PartyEventType.FoodBurning:
+                    needSystem.ChangeMood(_guestType == GuestType.Famine
+                        ? Mathf.Abs(eventData.moodCost)
+                        : eventData.moodCost);
                     break;
                 case PartyEventType.PowerOutage:
                     break;

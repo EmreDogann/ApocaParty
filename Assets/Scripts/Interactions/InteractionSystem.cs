@@ -13,6 +13,8 @@ namespace Interactions
         // Item2 -> Callback to use in assignment mode.
         private Tuple<bool, Action<InteractableBase>> _assignmentMode;
 
+        public static Action<InteractableBase> OnInteract;
+
         private void Start()
         {
             _interactionHandlers.AddRange(GetComponents<IInteractionHandler>());
@@ -31,6 +33,11 @@ namespace Interactions
 
         private void Update()
         {
+            if (Time.timeScale == 0.0f)
+            {
+                return;
+            }
+
             foreach (IInteractionHandler handler in _interactionHandlers)
             {
                 // Don't check for interactions is the mouse is over a UI element.
@@ -49,7 +56,15 @@ namespace Interactions
                 {
                     _assignmentMode.Item2(interactable);
                     _assignmentMode = new Tuple<bool, Action<InteractableBase>>(false, null);
+                    return;
                 }
+
+                if (interactable == null)
+                {
+                    return;
+                }
+
+                OnInteract?.Invoke(interactable);
             }
         }
 

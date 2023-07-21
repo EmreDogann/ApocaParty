@@ -1,3 +1,4 @@
+using Interactions;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
@@ -20,7 +21,7 @@ namespace Player
         private Camera _mainCamera;
         private CharacterBlackboard _blackboard;
 
-        private void Start()
+        private void Awake()
         {
             _blackboard = GetComponent<CharacterBlackboard>();
             _mainCamera = Camera.main;
@@ -29,6 +30,24 @@ namespace Player
             _agent.updateRotation = false;
             _agent.updateUpAxis = false;
             _agent.SetAreaCost(ignoreAreaCosts, 1.0f);
+        }
+
+        private void OnEnable()
+        {
+            InteractionSystem.OnInteract += OnInteraction;
+        }
+
+        private void OnDisable()
+        {
+            InteractionSystem.OnInteract -= OnInteraction;
+        }
+
+        private void OnInteraction(InteractableBase interactable)
+        {
+            if (interactable is IInteractableRequest)
+            {
+                _agent.SetDestination(interactable.transform.position);
+            }
         }
 
         private void Update()
