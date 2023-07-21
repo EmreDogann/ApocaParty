@@ -35,6 +35,12 @@ namespace UI.Components.Buttons
         [OverrideLabel("Clickable")] public bool isClickable = true;
         [OverrideLabel("Toggleable")] public bool isToggleable;
 
+        [Separator("Button Image Settings")]
+        [SerializeField] private RawImage _normalImage;
+        [SerializeField] private RawImage _hoverImage;
+        [Range(0.0f, 1.0f)] [SerializeField] private float imagePressScalePercentage = 0.95f;
+
+        [Separator("Button Text Settings")]
         public Graphic targetGraphic;
         public ColorBlock colorBlock = new ColorBlock();
 
@@ -61,6 +67,9 @@ namespace UI.Components.Buttons
         public static event Action OnButtonHover;
         public static event Action OnButtonClick;
 
+        private Vector3 _normalImageOriginalScale;
+        private Vector3 _hoverImageOriginalScale;
+
         private void Awake()
         {
             if (targetGraphic == null)
@@ -79,6 +88,12 @@ namespace UI.Components.Buttons
             }
 
             _buttonEffects = GetComponents<IButtonEffect>();
+
+            if (IsButtonImageAvailable())
+            {
+                _normalImageOriginalScale = _normalImage.transform.localScale;
+                _hoverImageOriginalScale = _hoverImage.transform.localScale;
+            }
         }
 
         // Reset button state if it was disabled before going back to default state
@@ -142,6 +157,12 @@ namespace UI.Components.Buttons
             ButtonClicked();
 
             onClickEvent?.Invoke();
+
+            if (IsButtonImageAvailable())
+            {
+                _normalImage.transform.localScale = _normalImageOriginalScale;
+                _hoverImage.transform.localScale = _hoverImageOriginalScale;
+            }
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -164,6 +185,11 @@ namespace UI.Components.Buttons
                 {
                     OnButtonClick?.Invoke();
                 }
+            }
+
+            if (IsButtonImageAvailable())
+            {
+                _hoverImage.transform.localScale *= imagePressScalePercentage;
             }
         }
 
@@ -195,6 +221,12 @@ namespace UI.Components.Buttons
             {
                 effect.OnHoverEnter();
             }
+
+            if (IsButtonImageAvailable())
+            {
+                _normalImage.enabled = false;
+                _hoverImage.enabled = true;
+            }
         }
 
         public virtual void OnPointerExit(PointerEventData eventData)
@@ -212,6 +244,15 @@ namespace UI.Components.Buttons
             foreach (IButtonEffect effect in _buttonEffects)
             {
                 effect.OnHoverExit();
+            }
+            
+            if (IsButtonImageAvailable())
+            {
+                _normalImage.enabled = true;
+                _hoverImage.enabled = false;
+
+                _normalImage.transform.localScale = _normalImageOriginalScale;
+                _hoverImage.transform.localScale = _hoverImageOriginalScale;
             }
         }
 
@@ -233,6 +274,11 @@ namespace UI.Components.Buttons
 
                 targetGraphic.color = Color.Lerp(startColor, newColor, timer / transitionTime);
             }
+        }
+
+        private bool IsButtonImageAvailable()
+        {
+            return _normalImage && _hoverImage;
         }
 
         [Serializable]
