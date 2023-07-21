@@ -4085,7 +4085,6 @@ GameObject:
   - component: {fileID: 733604095}
   - component: {fileID: 733604096}
   - component: {fileID: 733604097}
-  - component: {fileID: 733604098}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -4174,20 +4173,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damping: 0.5
   Stiffness: 10
---- !u!114 &733604098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 733604094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ee8a22c7ae82e140b816b29b2ac2133, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Damping: 0.5
-  Stiffness: 12
 --- !u!1 &745539119
 GameObject:
   m_ObjectHideFlags: 0
@@ -8107,7 +8092,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 3739269417ab29f439878fe0970e42cb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8137,7 +8122,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.038793433
+        value: 0.10483347
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -8149,8 +8134,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0, g: 0.20392159, b: 0.003921569, a: 1}
-      key1: {r: 0, g: 0.49056602, b: 0.025819283, a: 0.6901961}
+      key0: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 0}
+      key1: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 0.84313726}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -8165,7 +8150,7 @@ LineRenderer:
       ctime5: 0
       ctime6: 0
       ctime7: 0
-      atime0: 30647
+      atime0: 0
       atime1: 65535
       atime2: 0
       atime3: 0
@@ -8177,9 +8162,9 @@ LineRenderer:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 3
-    numCapVertices: 4
+    numCapVertices: 3
     alignment: 0
-    textureMode: 0
+    textureMode: 1
     shadowBias: 0.5
     generateLightingData: 0
   m_UseWorldSpace: 1
@@ -9299,8 +9284,6 @@ GameObject:
   - component: {fileID: 1605618389}
   - component: {fileID: 1605618390}
   - component: {fileID: 1605618392}
-  - component: {fileID: 1605618394}
-  - component: {fileID: 1605618395}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -9365,7 +9348,11 @@ MonoBehaviour:
   ignoreAreaCosts: 3
   showPath: 1
   marker: {fileID: 1611364041}
-  pathRenderer: {fileID: 1396642680}
+  _lineRenderer: {fileID: 1396642680}
+  controlMode: 3
+  autoControlLength: 0.25
+  maxAngleError: 0.3
+  minVertexDistance: 0
 --- !u!114 &1605618390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9457,34 +9444,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1605618394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1605618386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bf5ce4967fb42b2aee9a58770f0c6b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  velocityThreshold: 0.1
-  flipAxis: {x: 0, y: 1, z: 0}
---- !u!114 &1605618395
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1605618386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ee8a22c7ae82e140b816b29b2ac2133, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Damping: 0.5
-  Stiffness: 10
 --- !u!1 &1611364040
 GameObject:
   m_ObjectHideFlags: 0
