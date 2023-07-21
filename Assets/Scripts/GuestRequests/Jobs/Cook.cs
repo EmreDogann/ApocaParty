@@ -1,6 +1,9 @@
 ﻿using Audio;
+using AYellowpaper;
+using GuestRequests.Requests;
 using Needs;
 using PartyEvents;
+using TransformProvider;
 using UnityEngine;
 
 namespace GuestRequests.Jobs
@@ -9,7 +12,7 @@ namespace GuestRequests.Jobs
     {
         [SerializeField] private AudioSO _cookingAudio;
         [SerializeField] private AudioSO _burningAudio;
-        [SerializeField] private Transform _audioPlaybackPosition;
+        [SerializeField] private InterfaceReference<ITransformProvider, MonoBehaviour> _audioPlaybackPositionProvider;
         // ReSharper disable FieldCanBeMadeReadOnly.Local
         [SerializeField] private float _fireChance = 0.05f;
         [SerializeField] private float _fireCheckFrequency = 0.4f;
@@ -24,11 +27,24 @@ namespace GuestRequests.Jobs
         private bool _isFoodBurning;
         private bool _hasFoodAlreadyBurned;
         private NeedMetrics rewardTarget;
+        private TransformPair transformPair;
+
+        internal override void Initialize(IJobOwner jobOwner)
+        {
+            base.Initialize(jobOwner);
+            if (_audioPlaybackPositionProvider.Value != null)
+            {
+                jobOwner.RegisterTransformProvider(_audioPlaybackPositionProvider.Value);
+            }
+        }
 
         public override void Enter(IRequestOwner owner, ref NeedMetrics metrics)
         {
             base.Enter(owner, ref metrics);
-            _cookingAudio.Play(_audioPlaybackPosition.position);
+            transformPair =
+                _audioPlaybackPositionProvider.Value.GetTransformPair(
+                    JobOwner.TryGetTransformHandle(_audioPlaybackPositionProvider.Value));
+            _cookingAudio.Play(transformPair.GetChildTransform().position);
 
             _currentCookTime = 0.0f;
             _isFoodBurning = false;
@@ -56,7 +72,7 @@ namespace GuestRequests.Jobs
                         foodBurningEvent?.TriggerEvent();
 
                         _cookingAudio.Stop();
-                        _burningAudio.Play(_audioPlaybackPosition.position);
+                        _burningAudio.Play(transformPair.GetChildTransform().position);
                     }
                 }
                 else
@@ -70,6 +86,7 @@ namespace GuestRequests.Jobs
         {
             _cookingAudio.Stop();
             requestSpriteRenderer.sprite = cookedFoodIcon;
+            JobOwner.ReturnTransformHandle(_audioPlaybackPositionProvider.Value);
         }
 
         public override void FailJob(IRequestOwner owner)

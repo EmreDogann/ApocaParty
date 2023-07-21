@@ -1,3 +1,5 @@
+using GuestRequests;
+using GuestRequests.Requests;
 using Interactions;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,11 +9,12 @@ using Utils;
 namespace Player
 {
     [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent))]
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IRequestOwner
     {
         [SerializeField] private InputActionReference moveButton;
         [SerializeField] private float _distanceThreshold = 0.1f;
         [NavMeshSelector] [SerializeField] private int ignoreAreaCosts;
+        [SerializeField] private Transform holderTransform;
 
         public bool showPath;
         public Transform marker;
@@ -20,6 +23,8 @@ namespace Player
         private NavMeshAgent _agent;
         private Camera _mainCamera;
         private CharacterBlackboard _blackboard;
+
+        private Request currentRequest;
 
         private void Awake()
         {
@@ -44,15 +49,23 @@ namespace Player
 
         private void OnInteraction(InteractableBase interactable)
         {
-            if (interactable is IInteractableRequest)
+            if (interactable is IInteractableRequest interactableRequest)
             {
+                switch (interactableRequest.GetRequest())
+                {
+                    case PowerRequest _:
+                        currentRequest = interactableRequest.GetRequest();
+                        currentRequest.AssignOwner(this);
+                        break;
+                }
+
                 _agent.SetDestination(interactable.transform.position);
             }
         }
 
         private void Update()
         {
-            if (Time.timeScale == 0.0f)
+            if (Time.timeScale == 0.0f || currentRequest)
             {
                 return;
             }
@@ -93,6 +106,26 @@ namespace Player
                 pathRenderer.positionCount = 0;
                 marker.gameObject.SetActive(false);
             }
+        }
+
+        public void SetDestination(Vector3 target)
+        {
+            _agent.SetDestination(target);
+        }
+
+        public Vector3 GetPosition()
+        {
+            return transform.position;
+        }
+
+        public Transform GetHoldingPosition()
+        {
+            return holderTransform;
+        }
+
+        public void OwnerRemoved()
+        {
+            currentRequest = null;
         }
     }
 }

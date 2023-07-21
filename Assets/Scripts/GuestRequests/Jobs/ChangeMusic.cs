@@ -13,7 +13,7 @@ namespace GuestRequests.Jobs
         public float Duration = 1.0f;
         [SerializeField] private MusicPlayEvent _musicPlayEvent;
 
-        internal override void Initialize()
+        internal override void Initialize(IJobOwner jobOwner1)
         {
             MusicRequest.OnMusicRequested += OnMusicRequested;
         }

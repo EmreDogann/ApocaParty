@@ -1,4 +1,5 @@
 ﻿using System;
+using GuestRequests.Requests;
 using Needs;
 using UnityEngine;
 
@@ -9,8 +10,12 @@ namespace GuestRequests
     {
         [field: SerializeReference] public string JobName { get; protected set; }
         protected float _currentTime;
+        protected IJobOwner JobOwner;
 
-        internal virtual void Initialize() {}
+        internal virtual void Initialize(IJobOwner jobOwner)
+        {
+            JobOwner = jobOwner;
+        }
 
         internal virtual void OnDestroy() {}
 

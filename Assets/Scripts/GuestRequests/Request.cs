@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using GuestRequests.Requests;
 using MyBox;
 using Needs;
+using TransformProvider;
 using UnityEngine;
 using Utils;
 
@@ -9,8 +11,11 @@ namespace GuestRequests
 {
     [Serializable]
     [RequireComponent(typeof(SpriteRenderer))]
-    public class Request : MonoBehaviour
+    public class Request : MonoBehaviour, IJobOwner
     {
+        private List<ITransformProvider> _requiredTransformProviders = new List<ITransformProvider>();
+        private Dictionary<ITransformProvider, TransformHandle> _transformPairHandles =
+            new Dictionary<ITransformProvider, TransformHandle>();
         public float TotalDuration { get; private set; }
 
         [SerializeField] private Transform requestStartingPosition;
@@ -33,7 +38,7 @@ namespace GuestRequests
         {
             foreach (Job job in _jobs)
             {
-                job.Initialize();
+                job.Initialize(this);
             }
 
             _totalProgressPercentage = 1.0f;
@@ -47,7 +52,6 @@ namespace GuestRequests
             {
                 startingPosition = requestStartingPosition.position;
             }
-
 
             ResetRequest();
         }
@@ -74,6 +78,7 @@ namespace GuestRequests
             if (IsRequestCompleted())
             {
                 Debug.Log("Request Finished!");
+                ReleaseAllTransformHandles();
                 _owner = null;
             }
         }
@@ -81,6 +86,11 @@ namespace GuestRequests
         public bool IsRequestCompleted()
         {
             return _totalProgressPercentage >= 1.0f;
+        }
+
+        public bool IsRequestStarted()
+        {
+            return _currentJobIndex != -1;
         }
 
         public float GetCurrentJobProgress()
@@ -127,6 +137,9 @@ namespace GuestRequests
                 TotalDuration += job.GetTotalDuration(_owner);
             }
 
+            ReleaseAllTransformHandles();
+
+            _transformPairHandles = new Dictionary<ITransformProvider, TransformHandle>();
             transform.position = startingPosition;
             _currentMetrics = new NeedMetrics();
 
@@ -143,6 +156,28 @@ namespace GuestRequests
             }
 
             NextJob();
+        }
+
+        public bool TryAcquireRequestDependencies()
+        {
+            foreach (ITransformProvider transformProvider in _requiredTransformProviders)
+            {
+                TransformHandle handle = transformProvider.TryAcquireTransform();
+                if (handle == null)
+                {
+                    foreach (var entry in _transformPairHandles)
+                    {
+                        entry.Key.ReturnTransform(entry.Value);
+                        _transformPairHandles[entry.Key] = null;
+                    }
+
+                    return false;
+                }
+
+                _transformPairHandles[transformProvider] = handle;
+            }
+
+            return true;
         }
 
         [ButtonMethod]
@@ -172,7 +207,7 @@ namespace GuestRequests
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
+            if (IsRequestStarted() && other.CompareTag("Player"))
             {
                 if (_jobs[_currentJobIndex].IsFailed(_owner))
                 {
@@ -182,6 +217,36 @@ namespace GuestRequests
 
                     ResetRequest();
                 }
+            }
+        }
+
+        private void ReleaseAllTransformHandles()
+        {
+            foreach (var entry in _transformPairHandles)
+            {
+                entry.Key.ReturnTransform(entry.Value);
+            }
+
+            _transformPairHandles.Clear();
+        }
+
+        public TransformHandle TryGetTransformHandle(ITransformProvider transformProvider)
+        {
+            _transformPairHandles.TryGetValue(transformProvider, out TransformHandle handle);
+            return handle;
+        }
+
+        public void ReturnTransformHandle(ITransformProvider transformProvider)
+        {
+            transformProvider.ReturnTransform(_transformPairHandles[transformProvider]);
+            _transformPairHandles.Remove(transformProvider);
+        }
+
+        public void RegisterTransformProvider(ITransformProvider transformProvider)
+        {
+            if (!_requiredTransformProviders.Contains(transformProvider))
+            {
+                _requiredTransformProviders.Add(transformProvider);
             }
         }
     }

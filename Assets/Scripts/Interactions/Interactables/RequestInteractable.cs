@@ -9,7 +9,7 @@ namespace Interactions.Interactables
 
         public override void OnStartHover()
         {
-            if (!request.IsRequestCompleted())
+            if (request.IsRequestStarted())
             {
                 return;
             }
@@ -21,7 +21,7 @@ namespace Interactions.Interactables
 
         public override void OnEndHover()
         {
-            if (!request.IsRequestCompleted())
+            if (request.IsRequestStarted())
             {
                 return;
             }
@@ -32,7 +32,7 @@ namespace Interactions.Interactables
 
         private bool IsRequestActive()
         {
-            return request.IsRequestCompleted();
+            return request.IsRequestStarted();
         }
 
         public Request GetRequest()
