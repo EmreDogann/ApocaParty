@@ -11,18 +11,16 @@ namespace Minion.States
             return MinionStateID.Working;
         }
 
-        public override void Enter() {}
+        public override void Enter()
+        {
+            minion.currentRequest.StartRequest();
+        }
 
         public override void Tick()
         {
-            if (minion.navMeshAgent.hasPath)
+            minion.currentRequest.UpdateRequest(Time.deltaTime);
+            if (minion.currentRequest.IsRequestCompleted())
             {
-                minion.marker.transform.position = minion.navMeshAgent.destination;
-            }
-
-            if (Vector3.Distance(minion.transform.position, minion.navMeshAgent.destination) < 0.1f)
-            {
-                minion.marker.gameObject.SetActive(false);
                 _stateMachine.ChangeState(MinionStateID.Idle);
             }
         }

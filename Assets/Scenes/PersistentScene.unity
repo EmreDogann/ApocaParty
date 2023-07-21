@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bac739f7110eae4f960e4e869aaeb32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSourcePoolSize: 10
+  audioSourcePoolSize: 20
   audioSourcePrefab: {fileID: 2189888992939983131, guid: b03be27cf26d69146aeb1561cb68a3cc, type: 3}
   sfxAudioChannel: {fileID: 11400000, guid: 6c5f128f58f1e1946b9be8d4fcd88dbf, type: 2}
   musicAudioChannel: {fileID: 11400000, guid: 79e2bd370be5765448a58fbaf8f680a8, type: 2}

@@ -1,4 +1,6 @@
 using System.Collections;
+using Actors;
+using System.Collections.Generic;
 using Events;
 using MyBox;
 using TMPro;
@@ -24,6 +26,12 @@ namespace Dialogue
         private Message[] _currentMessages;
         private int _messageIndex;
 
+        [SerializeField]
+        // List of all actors, all SOs should be assigned as the names in those SOs used to parse Dialogue files
+        public List<ActorSO> allActorSos;
+
+        // public TextAsset tempScript;
+        
         public static DialogueManager Instance;
         public bool DialogueIsPlaying { get; private set; }
         private bool _dialogueIsPaused;
@@ -61,6 +69,9 @@ namespace Dialogue
             _listener.Event.Raise(true);
             DialogueIsPlaying = true;
 
+            // Messages.ParseMessages(tempScript, allActorSos);
+            
+            
             UIManager.Instance.Show(dialogueView);
             DisplayMessage();
         }
