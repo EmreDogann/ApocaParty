@@ -499,7 +499,7 @@ MonoBehaviour:
   m_VoxelSize: 0.083333336
   m_BuildHeightMesh: 0
   m_HideEditorLogs: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 31a59f83f5ae73647b8cf3c4ce8bbc1c, type: 2}
 --- !u!1 &68476740
 GameObject:
   m_ObjectHideFlags: 0
@@ -3534,6 +3534,9 @@ MonoBehaviour:
   isEnabled: 1
   isClickable: 1
   isToggleable: 0
+  _normalImage: {fileID: 0}
+  _hoverImage: {fileID: 0}
+  imagePressScalePercentage: 0.95
   targetGraphic: {fileID: 479862435}
   colorBlock:
     normalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -8247,6 +8250,9 @@ MonoBehaviour:
   isEnabled: 1
   isClickable: 1
   isToggleable: 0
+  _normalImage: {fileID: 0}
+  _hoverImage: {fileID: 0}
+  imagePressScalePercentage: 0.95
   targetGraphic: {fileID: 1660897467}
   colorBlock:
     normalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -10510,6 +10516,9 @@ MonoBehaviour:
   isEnabled: 1
   isClickable: 1
   isToggleable: 0
+  _normalImage: {fileID: 0}
+  _hoverImage: {fileID: 0}
+  imagePressScalePercentage: 0.95
   targetGraphic: {fileID: 1937720940}
   colorBlock:
     normalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -10979,6 +10988,9 @@ MonoBehaviour:
   isEnabled: 1
   isClickable: 1
   isToggleable: 0
+  _normalImage: {fileID: 0}
+  _hoverImage: {fileID: 0}
+  imagePressScalePercentage: 0.95
   targetGraphic: {fileID: 2000030091}
   colorBlock:
     normalColor: {r: 1, g: 1, b: 1, a: 1}
