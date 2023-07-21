@@ -1,4 +1,5 @@
 ﻿using MyBox;
+using Needs;
 using UnityEngine;
 
 namespace GuestRequests.Jobs
@@ -14,9 +15,9 @@ namespace GuestRequests.Jobs
         private Transform _followerTransform;
         private int _prevFollowerSpriteSL;
 
-        public override void Enter(IRequestOwner owner)
+        public override void Enter(IRequestOwner owner, ref NeedMetrics metrics)
         {
-            base.Enter(owner);
+            base.Enter(owner, ref metrics);
 
             owner.SetDestination(target.position);
             _enterTargetDistance = Vector3.SqrMagnitude(owner.GetPosition() - target.position);
@@ -29,7 +30,7 @@ namespace GuestRequests.Jobs
             }
         }
 
-        public override void Tick(float deltaTime, IRequestOwner owner)
+        public override void Tick(float deltaTime, IRequestOwner owner, ref NeedMetrics metrics)
         {
             if (!followerSprite)
             {
@@ -40,9 +41,9 @@ namespace GuestRequests.Jobs
             _followerTransform.position = holder.position;
         }
 
-        public override void Exit(IRequestOwner owner)
+        public override void Exit(IRequestOwner owner, ref NeedMetrics metrics)
         {
-            base.Exit(owner);
+            base.Exit(owner, ref metrics);
             if (followerSprite)
             {
                 followerSprite.sortingLayerID = _prevFollowerSpriteSL;

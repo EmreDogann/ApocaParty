@@ -1,4 +1,5 @@
 ﻿using Audio;
+using Needs;
 using UnityEngine;
 
 namespace GuestRequests.Jobs
@@ -9,13 +10,13 @@ namespace GuestRequests.Jobs
         [SerializeField] private Transform _playbackPosition;
         public float Duration = 1.0f;
 
-        public override void Enter(IRequestOwner owner)
+        public override void Enter(IRequestOwner owner, ref NeedMetrics metrics)
         {
-            base.Enter(owner);
+            base.Enter(owner, ref metrics);
             _cookingAudio.Play(_playbackPosition.position);
         }
 
-        public override void Exit(IRequestOwner owner)
+        public override void Exit(IRequestOwner owner, ref NeedMetrics metrics)
         {
             _cookingAudio.Stop();
         }

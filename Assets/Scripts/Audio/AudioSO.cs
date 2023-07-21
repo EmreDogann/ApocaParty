@@ -40,25 +40,12 @@ namespace Audio
         [Separator("Audio Events")]
         [Tooltip("The Audio Event to trigger when trying to play/stop the audio.")]
         [OverrideLabel("Play Trigger Event")] [SerializeField] private AudioEventChannelSO audioEvent;
-        private readonly List<AudioHandle> _audioHandle = new List<AudioHandle>();
+        private List<AudioHandle> _audioHandle = new List<AudioHandle>();
 
         #region PreviewCode
 
 #if UNITY_EDITOR
         private AudioSource previewer;
-
-        private void OnEnable()
-        {
-            previewer = EditorUtility
-                .CreateGameObjectWithHideFlags("AudioPreview", HideFlags.HideAndDontSave,
-                    typeof(AudioSource))
-                .GetComponent<AudioSource>();
-        }
-
-        private void OnDisable()
-        {
-            DestroyImmediate(previewer.gameObject);
-        }
 
         private void OnValidate()
         {
@@ -111,6 +98,25 @@ namespace Audio
 #endif
 
         #endregion
+
+        private void OnEnable()
+        {
+#if UNITY_EDITOR
+            previewer = EditorUtility
+                .CreateGameObjectWithHideFlags("AudioPreview", HideFlags.HideAndDontSave,
+                    typeof(AudioSource))
+                .GetComponent<AudioSource>();
+#endif
+        }
+
+        private void OnDisable()
+        {
+#if UNITY_EDITOR
+            DestroyImmediate(previewer.gameObject);
+#endif
+
+            _audioHandle = new List<AudioHandle>();
+        }
 
         private void SyncPitchAndSemitones()
         {

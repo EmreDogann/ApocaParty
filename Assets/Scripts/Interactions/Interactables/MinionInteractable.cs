@@ -34,15 +34,5 @@ namespace Interactions.Interactables
             base.OnEndInteract();
             IsInteracting = false;
         }
-
-        // private void OnTriggerEnter2D(Collider2D other)
-        // {
-        //     transform.localScale *= 3;
-        // }
-        //
-        // private void OnTriggerExit2D(Collider2D other)
-        // {
-        //     transform.localScale /= 3;
-        // }
     }
 }

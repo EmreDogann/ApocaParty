@@ -2,6 +2,7 @@ using Actors;
 using GuestRequests;
 using Interactions.Interactables;
 using Minion.States;
+using Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,14 +10,15 @@ using UnityEngine.AI;
 namespace Minion
 {
     [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent), typeof(MinionInteractable))]
+    [RequireComponent(typeof(DisplayAgentPath))]
     public class MinionAI : MonoBehaviour, IRequestOwner
     {
         public MinionStateMachine stateMachine;
         public NavMeshAgent navMeshAgent { get; private set; }
         public MinionInteractable InteractableState { get; private set; }
-        public bool showPath;
-        public Transform marker;
-        public LineRenderer pathRenderer;
+
+        public DisplayAgentPath pathDisplayer;
+
         public SpriteRenderer image;
         [SerializeField] private Transform holderTransform;
         [SerializeField] private TextMeshProUGUI AIState;
@@ -42,6 +44,7 @@ namespace Minion
             _mainCamera = Camera.main;
             _blackboard = GetComponent<CharacterBlackboard>();
             InteractableState = GetComponent<MinionInteractable>();
+            pathDisplayer = GetComponent<DisplayAgentPath>();
 
             navMeshAgent = GetComponent<NavMeshAgent>();
             navMeshAgent.updateRotation = false;

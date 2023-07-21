@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Needs;
+using UnityEngine;
 
 namespace GuestRequests.Jobs
 {
@@ -9,13 +10,13 @@ namespace GuestRequests.Jobs
 
         private Transform _followerTransform;
 
-        public override void Enter(IRequestOwner owner)
+        public override void Enter(IRequestOwner owner, ref NeedMetrics metrics)
         {
-            base.Enter(owner);
+            base.Enter(owner, ref metrics);
             _followerTransform = spriteToPlace.GetComponent<Transform>();
         }
 
-        public override void Tick(float deltaTime, IRequestOwner owner)
+        public override void Tick(float deltaTime, IRequestOwner owner, ref NeedMetrics metrics)
         {
             if (!spriteToPlace)
             {

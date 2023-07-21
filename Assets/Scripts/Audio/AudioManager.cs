@@ -74,9 +74,9 @@ namespace Audio
             sfxAudioChannel.OnAudioPlayAttached -= PlaySoundEffectAttached;
             sfxAudioChannel.OnAudioStop -= StopSoundEffect;
 
-            musicAudioChannel.OnAudioPlay += PlayMusic;
-            musicAudioChannel.OnAudioPlay2D += PlayMusic2D;
-            musicAudioChannel.OnAudioStop += StopMusic;
+            musicAudioChannel.OnAudioPlay -= PlayMusic;
+            musicAudioChannel.OnAudioPlay2D -= PlayMusic2D;
+            musicAudioChannel.OnAudioStop -= StopMusic;
         }
 
         private void Update()
