@@ -2,7 +2,7 @@ namespace Guest.States
 {
     public class GuestMovingState : GuestState
     {
-        private const float DistanceThreshold = 0.1f;
+        private const float DistanceThreshold = 0.01f;
         public GuestMovingState(GuestAI guest, GuestStateMachine stateMachine) : base(guest, stateMachine) {}
 
         public override GuestStateID GetID()

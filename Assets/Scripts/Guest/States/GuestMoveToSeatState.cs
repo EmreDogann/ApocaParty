@@ -4,7 +4,7 @@ namespace Guest.States
 {
     public class GuestMoveToSeatState : GuestState
     {
-        private const float DistanceThreshold = 0.1f;
+        private const float DistanceThreshold = 0.01f;
         public GuestMoveToSeatState(GuestAI guest, GuestStateMachine stateMachine) : base(guest, stateMachine) {}
 
         public override GuestStateID GetID()
