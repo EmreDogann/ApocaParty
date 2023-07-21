@@ -9,13 +9,15 @@ namespace GuestRequests.Jobs
     {
         [SerializeField] private AudioSO _cookingAudio;
         [SerializeField] private AudioSO _burningAudio;
-        [SerializeField] private Transform _playbackPosition;
+        [SerializeField] private Transform _audioPlaybackPosition;
         // ReSharper disable FieldCanBeMadeReadOnly.Local
         [SerializeField] private float _fireChance = 0.05f;
         [SerializeField] private float _fireCheckFrequency = 0.4f;
+        // ReSharper restore FieldCanBeMadeReadOnly.Local
         [SerializeField] private PartyEvent foodBurningEvent;
         [SerializeField] private ParticleSystem fireParticleSystem;
-        // ReSharper restore FieldCanBeMadeReadOnly.Local
+        [SerializeField] private SpriteRenderer requestSpriteRenderer;
+        [SerializeField] private Sprite cookedFoodIcon;
         public float Duration = 1.0f;
 
         private float _currentCookTime;
@@ -26,7 +28,7 @@ namespace GuestRequests.Jobs
         public override void Enter(IRequestOwner owner, ref NeedMetrics metrics)
         {
             base.Enter(owner, ref metrics);
-            _cookingAudio.Play(_playbackPosition.position);
+            _cookingAudio.Play(_audioPlaybackPosition.position);
 
             _currentCookTime = 0.0f;
             _isFoodBurning = false;
@@ -41,10 +43,11 @@ namespace GuestRequests.Jobs
             {
                 base.Tick(deltaTime, owner, ref metrics);
                 _currentCookTime += deltaTime;
+
                 if (!_hasFoodAlreadyBurned && _currentCookTime > _fireCheckFrequency)
                 {
                     _currentCookTime = 0.0f;
-                    if (Random.Range(0.0f, 1.0f) <= _fireChance)
+                    if (Random.Range(0.0f, 1.0f) < _fireChance)
                     {
                         _isFoodBurning = true;
                         _hasFoodAlreadyBurned = true;
@@ -53,7 +56,7 @@ namespace GuestRequests.Jobs
                         foodBurningEvent?.TriggerEvent();
 
                         _cookingAudio.Stop();
-                        _burningAudio.Play(_playbackPosition.position);
+                        _burningAudio.Play(_audioPlaybackPosition.position);
                     }
                 }
                 else
@@ -66,6 +69,7 @@ namespace GuestRequests.Jobs
         public override void Exit(IRequestOwner owner, ref NeedMetrics metrics)
         {
             _cookingAudio.Stop();
+            requestSpriteRenderer.sprite = cookedFoodIcon;
         }
 
         public override void FailJob(IRequestOwner owner)
@@ -76,7 +80,7 @@ namespace GuestRequests.Jobs
 
         public override float GetProgressPercentage(IRequestOwner owner)
         {
-            return Mathf.Clamp01(_currentCookTime / Duration);
+            return Mathf.Clamp01(_currentTime / Duration);
         }
 
         public override float GetTotalDuration(IRequestOwner owner)
