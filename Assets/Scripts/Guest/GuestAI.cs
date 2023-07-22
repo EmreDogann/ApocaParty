@@ -1,6 +1,7 @@
 using System;
 using Actors;
 using Consumable;
+using DiningTable;
 using Guest.States;
 using GuestRequests;
 using Interactions.Interactables;
@@ -68,7 +69,8 @@ namespace Guest
         private GuestMoveToSeatState _guestMoveToSeatState;
         private CharacterBlackboard _blackboard;
 
-        public IConsumable HoldingConsumable;
+        public IConsumable CurrentConsumable;
+        public TableSeat AssignedTableSeat { get; private set; }
 
         // private bool _shouldWander;
         // private const float DistanceThreshold = 0.1f;
@@ -151,6 +153,12 @@ namespace Guest
             // }
         }
 
+        public void AssignTableSeat(TableSeat tableSeat)
+        {
+            AssignedTableSeat = tableSeat;
+            SetDestination(tableSeat.transform.position);
+        }
+
         public void SetDestination(Vector3 target)
         {
             navMeshAgent.SetDestination(target);
@@ -178,8 +186,8 @@ namespace Guest
             switch (need.GetNeedType())
             {
                 case NeedType.Drink:
-                    HoldingConsumable = DrinksTable.Instance.TryGetDrink();
-                    if (HoldingConsumable == null)
+                    CurrentConsumable = DrinksTable.Instance.TryGetDrink();
+                    if (CurrentConsumable == null)
                     {
                         return;
                     }

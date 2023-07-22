@@ -19,15 +19,15 @@ namespace Guest.States
 
         public override void Tick()
         {
-            if (guest.HoldingConsumable != null)
+            if (guest.CurrentConsumable != null)
             {
-                guest.HoldingConsumable.GetTransform().position = guest.GetHoldingPosition().position;
+                guest.CurrentConsumable.GetTransform().position = guest.GetHoldingPosition().position;
             }
 
             if (Vector3.SqrMagnitude(guest.transform.position - guest.navMeshAgent.destination) <
                 DistanceThreshold * DistanceThreshold)
             {
-                if (guest.HoldingConsumable != null)
+                if (guest.CurrentConsumable != null)
                 {
                     _stateMachine.ChangeState(GuestStateID.Consume);
                 }

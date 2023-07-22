@@ -1,3 +1,4 @@
+using GuestRequests.Requests;
 using UnityEngine;
 
 namespace Guest.States
@@ -5,6 +6,7 @@ namespace Guest.States
     public class GuestIdleState : GuestState
     {
         private float _currentWanderTime;
+        private bool isFoodComing;
         public GuestIdleState(GuestAI guest, GuestStateMachine stateMachine) : base(guest, stateMachine) {}
 
         public override GuestStateID GetID()
@@ -14,6 +16,9 @@ namespace Guest.States
 
         public override void Enter()
         {
+            guest.AssignedTableSeat.OnFoodArrival += OnFoodArrival;
+            guest.AssignedTableSeat.OnFoodComing += OnFoodComing;
+
             guest.image.sprite = guest.actorData.sprite;
             _currentWanderTime = 0.0f;
         }
@@ -36,7 +41,7 @@ namespace Guest.States
                 _stateMachine.ChangeState(GuestStateID.Consume);
             }
 
-            if (!guest.needSystem.IsSatisfied())
+            if (!guest.needSystem.IsSatisfied() || isFoodComing)
             {
                 return;
             }
@@ -55,6 +60,22 @@ namespace Guest.States
             }
         }
 
-        public override void Exit() {}
+        public override void Exit()
+        {
+            guest.AssignedTableSeat.OnFoodArrival -= OnFoodArrival;
+            guest.AssignedTableSeat.OnFoodComing -= OnFoodComing;
+            isFoodComing = false;
+        }
+
+        private void OnFoodArrival(FoodRequest foodRequest)
+        {
+            guest.CurrentConsumable = foodRequest;
+            _stateMachine.ChangeState(GuestStateID.Consume);
+        }
+
+        private void OnFoodComing()
+        {
+            isFoodComing = true;
+        }
     }
 }

@@ -21,18 +21,23 @@ namespace Guest.States
 
         public override void Tick()
         {
-            if (guest.HoldingConsumable != null)
+            if (guest.CurrentConsumable != null)
             {
-                guest.HoldingConsumable.GetTransform().position = guest.GetHoldingPosition().position;
+                guest.CurrentConsumable.GetTransform().position = guest.GetHoldingPosition().position;
             }
 
             _currentTime += Time.deltaTime;
             if (_currentTime >= _consumeDuration)
             {
-                ConsumedData consumedData = guest.HoldingConsumable.Consume();
-                guest.needSystem.TryFulfillNeed(consumedData.needType, consumedData.needMetrics,
-                    consumedData.moodPoints);
-                guest.HoldingConsumable = null;
+                // Consume drink
+                if (guest.CurrentConsumable != null)
+                {
+                    ConsumedData consumedData = guest.CurrentConsumable.Consume();
+                    guest.needSystem.TryFulfillNeed(consumedData.needType, consumedData.needMetrics,
+                        consumedData.moodPoints);
+                    guest.CurrentConsumable = null;
+                }
+
 
                 _stateMachine.ChangeState(GuestStateID.Idle);
             }
