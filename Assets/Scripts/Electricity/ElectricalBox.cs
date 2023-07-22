@@ -11,6 +11,7 @@ public class ElectricalBox : MonoBehaviour
 {
     private List<IElectricalAppliance> _appliances;
     [SerializeField] private float powerOutageCheckFrequency = 6.0f;
+    [SerializeField] private float powerOutageCooldown = 10.0f;
     [SerializeField] private float powerOutageChance = 0.1f;
 
     private PowerOutageEvent _powerOutageEvent;
@@ -18,6 +19,8 @@ public class ElectricalBox : MonoBehaviour
 
     public static event Action OnPowerOutage;
     public static event Action OnPowerFixed;
+
+    private bool _isPowerOn = true;
 
     private void Awake()
     {
@@ -30,6 +33,11 @@ public class ElectricalBox : MonoBehaviour
 
     private void Update()
     {
+        if (!_isPowerOn)
+        {
+            return;
+        }
+
         _currentTime += Time.deltaTime;
         if (_currentTime >= powerOutageCheckFrequency)
         {
@@ -45,6 +53,9 @@ public class ElectricalBox : MonoBehaviour
             if (Random.Range(0.0f, 1.0f) < powerOutageChance)
             {
                 Debug.Log("Power Outage!");
+                _isPowerOn = false;
+                _currentTime -= powerOutageCooldown;
+
                 OnPowerOutage?.Invoke();
                 _powerOutageEvent.TriggerEvent();
             }
@@ -53,6 +64,7 @@ public class ElectricalBox : MonoBehaviour
 
     public void PowerFixed()
     {
+        _isPowerOn = true;
         OnPowerFixed?.Invoke();
     }
 }

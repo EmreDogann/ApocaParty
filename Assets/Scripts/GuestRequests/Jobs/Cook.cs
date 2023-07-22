@@ -1,6 +1,4 @@
 ﻿using Audio;
-using AYellowpaper;
-using GuestRequests.Requests;
 using Needs;
 using PartyEvents;
 using TransformProvider;
@@ -12,7 +10,7 @@ namespace GuestRequests.Jobs
     {
         [SerializeField] private AudioSO _cookingAudio;
         [SerializeField] private AudioSO _burningAudio;
-        [SerializeField] private InterfaceReference<ITransformProvider, MonoBehaviour> _audioPlaybackPositionProvider;
+        [SerializeField] private KitchenTopProvider _stovePositionProvider;
         // ReSharper disable FieldCanBeMadeReadOnly.Local
         [SerializeField] private float _fireChance = 0.05f;
         [SerializeField] private float _fireCheckFrequency = 0.4f;
@@ -29,21 +27,11 @@ namespace GuestRequests.Jobs
         private NeedMetrics rewardTarget;
         private TransformPair transformPair;
 
-        internal override void Initialize(IJobOwner jobOwner)
-        {
-            base.Initialize(jobOwner);
-            if (_audioPlaybackPositionProvider.Value != null)
-            {
-                jobOwner.RegisterTransformProvider(_audioPlaybackPositionProvider.Value);
-            }
-        }
-
         public override void Enter(IRequestOwner owner, ref NeedMetrics metrics)
         {
             base.Enter(owner, ref metrics);
             transformPair =
-                _audioPlaybackPositionProvider.Value.GetTransformPair(
-                    JobOwner.TryGetTransformHandle(_audioPlaybackPositionProvider.Value));
+                _stovePositionProvider.GetTransformPair(JobOwner.TryGetTransformHandle(_stovePositionProvider));
             _cookingAudio.Play(transformPair.GetChildTransform().position);
 
             _currentCookTime = 0.0f;
@@ -51,6 +39,8 @@ namespace GuestRequests.Jobs
             _hasFoodAlreadyBurned = false;
 
             rewardTarget = metrics;
+
+            _stovePositionProvider.TurnOnAppliance(JobOwner.TryGetTransformHandle(_stovePositionProvider));
         }
 
         public override void Tick(float deltaTime, IRequestOwner owner, ref NeedMetrics metrics)
@@ -86,7 +76,9 @@ namespace GuestRequests.Jobs
         {
             _cookingAudio.Stop();
             requestSpriteRenderer.sprite = cookedFoodIcon;
-            JobOwner.ReturnTransformHandle(_audioPlaybackPositionProvider.Value);
+
+            _stovePositionProvider.TurnOffAppliance(JobOwner.TryGetTransformHandle(_stovePositionProvider));
+            JobOwner.ReturnTransformHandle(_stovePositionProvider);
         }
 
         public override void FailJob(IRequestOwner owner)

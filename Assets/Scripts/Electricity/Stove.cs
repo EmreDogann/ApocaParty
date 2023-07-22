@@ -1,42 +1,24 @@
-﻿using TransformProvider;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Electricity
 {
-    [RequireComponent(typeof(TransformPair))]
     public class Stove : MonoBehaviour, IElectricalAppliance
     {
-        private TransformPair _transformPair;
-        private bool _isUsing;
-
-        private void Awake()
-        {
-            _transformPair = GetComponent<TransformPair>();
-        }
-
-        public TransformPair GetTransformPair()
-        {
-            return _transformPair;
-        }
+        private bool _isBeingUsed;
 
         public bool IsInUse()
         {
-            return IsAssigned();
+            return _isBeingUsed;
         }
 
-        public bool IsAssigned()
+        public void TurnOn()
         {
-            return _isUsing;
+            _isBeingUsed = true;
         }
 
-        public void Assign()
+        public void TurnOff()
         {
-            _isUsing = true;
-        }
-
-        public void Release()
-        {
-            _isUsing = false;
+            _isBeingUsed = false;
         }
     }
 }
