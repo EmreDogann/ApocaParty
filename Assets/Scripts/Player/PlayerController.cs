@@ -11,12 +11,13 @@ using Utils;
 
 namespace Player
 {
-    [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent), typeof(PlateMouseInteraction))]
+    [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent), typeof(DisplayAgentPath))]
+    [RequireComponent(typeof(PlateMouseInteraction))]
     public class PlayerController : MonoBehaviour, IRequestOwner, IWaiter
     {
         [Separator("Movement")]
         [SerializeField] private InputActionReference moveButton;
-        [SerializeField] private float _distanceThreshold = 0.01f;
+        [SerializeField] private float distanceThreshold = 0.01f;
         [NavMeshSelector] [SerializeField] private int ignoreAreaCosts;
         [SerializeField] private Transform holderTransform;
 
@@ -27,7 +28,7 @@ namespace Player
         private Camera _mainCamera;
         private CharacterBlackboard _blackboard;
         private PlateMouseInteraction plateInteraction;
-        
+
         private Request _currentRequest;
         private IConsumable _holdingConsumable;
         private int foodDeliveryID;
