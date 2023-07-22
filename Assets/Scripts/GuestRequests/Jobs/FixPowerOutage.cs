@@ -1,5 +1,4 @@
 ﻿using Audio;
-using Needs;
 using UnityEngine;
 
 namespace GuestRequests.Jobs
@@ -11,7 +10,7 @@ namespace GuestRequests.Jobs
         public AudioSO FixAudio;
         [SerializeField] private ElectricalBox _electricalBox;
 
-        public override void Exit(IRequestOwner owner, ref NeedMetrics metrics)
+        public override void Exit()
         {
             if (_playbackPosition)
             {
@@ -25,12 +24,12 @@ namespace GuestRequests.Jobs
             _electricalBox.PowerFixed();
         }
 
-        public override float GetProgressPercentage(IRequestOwner owner)
+        public override float GetProgressPercentage()
         {
             return Mathf.Clamp01(_currentTime / Duration);
         }
 
-        public override float GetTotalDuration(IRequestOwner owner)
+        public override float GetTotalDuration()
         {
             return Duration;
         }

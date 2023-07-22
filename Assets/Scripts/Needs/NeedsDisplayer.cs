@@ -45,20 +45,26 @@ namespace Needs
 
         public void AddDisplay(NeedType needType)
         {
-            NeedsIconData iconData = _needsIconDatas.First(x => x.NeedType == needType);
-            iconData.SpriteRenderer.enabled = true;
-            _currentlyActiveIcons.Add(iconData);
+            NeedsIconData iconData = _needsIconDatas.FirstOrDefault(x => x.NeedType == needType);
+            if (iconData != null)
+            {
+                iconData.SpriteRenderer.enabled = true;
+                _currentlyActiveIcons.Add(iconData);
 
-            UpdateDisplay();
+                UpdateDisplay();
+            }
         }
 
         public void RemoveDisplay(NeedType needType)
         {
             NeedsIconData iconData = _currentlyActiveIcons.Find(x => x.NeedType == needType);
-            iconData.SpriteRenderer.enabled = false;
-            _currentlyActiveIcons.Remove(iconData);
+            if (iconData != null)
+            {
+                iconData.SpriteRenderer.enabled = false;
+                _currentlyActiveIcons.Remove(iconData);
 
-            UpdateDisplay();
+                UpdateDisplay();
+            }
         }
     }
 }

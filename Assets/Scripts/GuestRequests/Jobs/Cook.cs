@@ -1,5 +1,4 @@
 ﻿using Audio;
-using Needs;
 using PartyEvents;
 using TransformProvider;
 using UnityEngine;
@@ -24,12 +23,12 @@ namespace GuestRequests.Jobs
         private float _currentCookTime;
         private bool _isFoodBurning;
         private bool _hasFoodAlreadyBurned;
-        private NeedMetrics rewardTarget;
         private TransformPair transformPair;
+        private bool _isPowerOut;
 
-        public override void Enter(IRequestOwner owner, ref NeedMetrics metrics)
+        public override void Enter()
         {
-            base.Enter(owner, ref metrics);
+            base.Enter();
             transformPair =
                 _stovePositionProvider.GetTransformPair(JobOwner.TryGetTransformHandle(_stovePositionProvider));
             _cookingAudio.Play(transformPair.GetChildTransform().position);
@@ -37,69 +36,97 @@ namespace GuestRequests.Jobs
             _currentCookTime = 0.0f;
             _isFoodBurning = false;
             _hasFoodAlreadyBurned = false;
-
-            rewardTarget = metrics;
+            _isPowerOut = false;
 
             _stovePositionProvider.TurnOnAppliance(JobOwner.TryGetTransformHandle(_stovePositionProvider));
+            ElectricalBox.OnPowerOutage += OnPowerOutage;
+            ElectricalBox.OnPowerFixed += OnPowerFixed;
         }
 
-        public override void Tick(float deltaTime, IRequestOwner owner, ref NeedMetrics metrics)
+        public override void Tick(float deltaTime)
         {
+            if (_isPowerOut)
+            {
+                return;
+            }
+
             if (!_isFoodBurning)
             {
-                base.Tick(deltaTime, owner, ref metrics);
+                base.Tick(deltaTime);
                 _currentCookTime += deltaTime;
 
-                if (!_hasFoodAlreadyBurned && _currentCookTime > _fireCheckFrequency)
+                if (_hasFoodAlreadyBurned || _currentCookTime <= _fireCheckFrequency)
                 {
-                    _currentCookTime = 0.0f;
-                    if (Random.Range(0.0f, 1.0f) < _fireChance)
-                    {
-                        _isFoodBurning = true;
-                        _hasFoodAlreadyBurned = true;
-
-                        fireParticleSystem.Play();
-                        foodBurningEvent?.TriggerEvent();
-
-                        _cookingAudio.Stop();
-                        _burningAudio.Play(transformPair.GetChildTransform().position);
-                    }
+                    return;
                 }
-                else
+
+                _currentCookTime = 0.0f;
+                if (Random.Range(0.0f, 1.0f) < _fireChance)
                 {
-                    metrics = rewardTarget * GetProgressPercentage(owner);
+                    _isFoodBurning = true;
+                    _hasFoodAlreadyBurned = true;
+
+                    fireParticleSystem.Play();
+                    foodBurningEvent?.TriggerEvent();
+
+                    _cookingAudio.Stop();
+                    _burningAudio.Play(transformPair.GetChildTransform().position, true);
                 }
             }
         }
 
-        public override void Exit(IRequestOwner owner, ref NeedMetrics metrics)
+        public override void Exit()
         {
             _cookingAudio.Stop();
             requestSpriteRenderer.sprite = cookedFoodIcon;
 
             _stovePositionProvider.TurnOffAppliance(JobOwner.TryGetTransformHandle(_stovePositionProvider));
             JobOwner.ReturnTransformHandle(_stovePositionProvider);
+
+            ElectricalBox.OnPowerOutage -= OnPowerOutage;
+            ElectricalBox.OnPowerFixed -= OnPowerFixed;
         }
 
-        public override void FailJob(IRequestOwner owner)
+        public override void FailJob()
         {
+            _stovePositionProvider.TurnOffAppliance(JobOwner.TryGetTransformHandle(_stovePositionProvider));
             fireParticleSystem.Stop();
             _burningAudio.Stop();
         }
 
-        public override float GetProgressPercentage(IRequestOwner owner)
+        public override float GetProgressPercentage()
         {
             return Mathf.Clamp01(_currentTime / Duration);
         }
 
-        public override float GetTotalDuration(IRequestOwner owner)
+        public override float GetTotalDuration()
         {
             return Duration;
         }
 
-        public override bool IsFailed(IRequestOwner owner)
+        public override bool IsFailed()
         {
             return _hasFoodAlreadyBurned;
+        }
+
+        private void OnPowerOutage()
+        {
+            if (!_isFoodBurning)
+            {
+                _cookingAudio.FadeAudio(0.0f, 10.0f);
+            }
+
+            _isPowerOut = true;
+        }
+
+        private void OnPowerFixed()
+        {
+            if (!_isFoodBurning)
+            {
+                _cookingAudio.UnFadeAudio(10.0f);
+            }
+
+            _isPowerOut = false;
         }
     }
 }

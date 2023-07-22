@@ -1,7 +1,6 @@
 ﻿using AYellowpaper;
 using GuestRequests.Requests;
 using MyBox;
-using Needs;
 using TransformProvider;
 using UnityEngine;
 
@@ -32,56 +31,62 @@ namespace GuestRequests.Jobs
             }
         }
 
-        public override void Enter(IRequestOwner owner, ref NeedMetrics metrics)
+        public override void Enter()
         {
-            base.Enter(owner, ref metrics);
+            base.Enter();
 
             transformPair =
                 transformProvider.Value.GetTransformPair(JobOwner.TryGetTransformHandle(transformProvider.Value));
-            owner.SetDestination(transformPair.GetParentTransform().position);
+            JobOwner.GetRequestOwner().SetDestination(transformPair.GetParentTransform().position);
             _enterTargetDistance =
-                Vector3.SqrMagnitude(owner.GetPosition() - transformPair.GetParentTransform().position);
+                Vector3.SqrMagnitude(JobOwner.GetRequestOwner().GetPosition() -
+                                     transformPair.GetParentTransform().position);
 
             if (followerSprite)
             {
                 _followerTransform = followerSprite.GetComponent<Transform>();
+                Transform holder = JobOwner.GetRequestOwner().GetHoldingPosition();
+                _followerTransform.position = holder.position;
+
                 _prevFollowerSpriteSL = followerSprite.sortingLayerID;
                 followerSprite.sortingLayerID = followerSortingLayer;
             }
         }
 
-        public override void Tick(float deltaTime, IRequestOwner owner, ref NeedMetrics metrics)
+        public override void Tick(float deltaTime)
         {
             if (!followerSprite)
             {
                 return;
             }
 
-            Transform holder = owner.GetHoldingPosition();
+            Transform holder = JobOwner.GetRequestOwner().GetHoldingPosition();
             _followerTransform.position = holder.position;
         }
 
-        public override void Exit(IRequestOwner owner, ref NeedMetrics metrics)
+        public override void Exit()
         {
-            base.Exit(owner, ref metrics);
+            base.Exit();
             if (followerSprite)
             {
                 followerSprite.sortingLayerID = _prevFollowerSpriteSL;
             }
         }
 
-        public override float GetProgressPercentage(IRequestOwner owner)
+        public override float GetProgressPercentage()
         {
             float sqrDistance =
-                Vector3.SqrMagnitude(owner.GetPosition() - transformPair.GetParentTransform().position);
+                Vector3.SqrMagnitude(JobOwner.GetRequestOwner().GetPosition() -
+                                     transformPair.GetParentTransform().position);
             return sqrDistance < distanceThreshold * distanceThreshold
                 ? 1.0f
                 : (_enterTargetDistance -
-                   Vector3.SqrMagnitude(owner.GetPosition() - transformPair.GetParentTransform().position)) /
+                   Vector3.SqrMagnitude(JobOwner.GetRequestOwner().GetPosition() -
+                                        transformPair.GetParentTransform().position)) /
                   _enterTargetDistance;
         }
 
-        public override float GetTotalDuration(IRequestOwner owner)
+        public override float GetTotalDuration()
         {
             return 0.0f;
         }

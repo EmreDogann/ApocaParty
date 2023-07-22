@@ -6,7 +6,7 @@ namespace Minion.States
     {
         public MinionWorkingState(MinionAI minion, MinionStateMachine stateMachine) : base(minion, stateMachine) {}
 
-        private bool _isPaused;
+        private bool _isPowerOut;
 
         public override MinionStateID GetID()
         {
@@ -16,11 +16,17 @@ namespace Minion.States
         public override void Enter()
         {
             ElectricalBox.OnPowerOutage += OnPowerOutage;
-            minion.currentRequest.StartRequest();
+            ElectricalBox.OnPowerFixed += OnPowerFixed;
+            minion.currentRequest.ActivateRequest();
         }
 
         public override void Tick()
         {
+            if (_isPowerOut)
+            {
+                return;
+            }
+
             minion.currentRequest.UpdateRequest(Time.deltaTime);
             if (minion.currentRequest.IsRequestCompleted())
             {
@@ -32,12 +38,17 @@ namespace Minion.States
         public override void Exit()
         {
             ElectricalBox.OnPowerOutage -= OnPowerOutage;
+            ElectricalBox.OnPowerFixed -= OnPowerFixed;
         }
 
         private void OnPowerOutage()
         {
-            minion.currentRequest = null;
-            _stateMachine.ChangeState(MinionStateID.Idle);
+            _isPowerOut = true;
+        }
+
+        private void OnPowerFixed()
+        {
+            _isPowerOut = false;
         }
     }
 }

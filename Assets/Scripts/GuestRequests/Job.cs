@@ -1,6 +1,5 @@
 ﻿using System;
 using GuestRequests.Requests;
-using Needs;
 using UnityEngine;
 
 namespace GuestRequests
@@ -19,33 +18,28 @@ namespace GuestRequests
 
         internal virtual void OnDestroy() {}
 
-        public virtual void Enter(IRequestOwner owner, ref NeedMetrics metrics)
+        public virtual void Enter()
         {
             Debug.Log($"Entered job: {JobName}");
             _currentTime = 0.0f;
         }
 
-        public virtual void Tick(float deltaTime, IRequestOwner owner, ref NeedMetrics metrics)
+        public virtual void Tick(float deltaTime)
         {
             _currentTime += deltaTime;
         }
 
-        public virtual void Exit(IRequestOwner owner, ref NeedMetrics metrics)
+        public virtual void Exit()
         {
             Debug.Log($"Exited job: {JobName}");
         }
 
-        public virtual void FailJob(IRequestOwner owner) {}
+        public virtual void FailJob() {}
 
-        public abstract float GetProgressPercentage(IRequestOwner owner);
-        public abstract float GetTotalDuration(IRequestOwner owner);
+        public abstract float GetProgressPercentage();
+        public abstract float GetTotalDuration();
 
-        public virtual bool IsFailed(IRequestOwner owner)
-        {
-            return false;
-        }
-
-        public virtual bool IsPaused(IRequestOwner owner)
+        public virtual bool IsFailed()
         {
             return false;
         }

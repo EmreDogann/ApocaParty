@@ -1,4 +1,5 @@
 using System;
+using Consumable;
 using GuestRequests;
 using GuestRequests.Requests;
 using Interactions;
@@ -46,25 +47,26 @@ namespace Minion.States
             {
                 case IInteractableRequest requestInteractable:
                     Request request = requestInteractable.GetRequest();
-                    if (request.IsRequestCompleted())
+                    if (request.IsRequestStarted() || !request.TryStartRequest())
                     {
-                        break;
+                        minion.SetWandering(false);
+                        _stateMachine.ChangeState(MinionStateID.Idle);
+
+                        return;
                     }
 
                     switch (request)
                     {
                         case FoodRequest _:
-                            if (!request.TryAcquireRequestDependencies())
-                            {
-                                minion.SetWandering(false);
-                                _stateMachine.ChangeState(MinionStateID.Idle);
-
-                                return;
-                            }
-
                             minion.image.sprite = minion.actorData.kitchenIcon;
                             break;
                         case DrinkRefillRequest _:
+                            if (DrinksTable.Instance.IsDrinksTableFull())
+                            {
+                                _stateMachine.ChangeState(MinionStateID.Idle);
+                                return;
+                            }
+
                             minion.image.sprite = minion.actorData.kitchenIcon;
                             break;
                         case MusicRequest _:
@@ -79,12 +81,11 @@ namespace Minion.States
                             break;
                     }
 
-                    minion.navMeshAgent.SetDestination(interactable.transform.position);
+                    minion.navMeshAgent.SetDestination(request.GetStartingPosition());
                     minion.currentRequest = request;
                     request.AssignOwner(minion);
 
                     minion.SetWandering(false);
-
                     _stateMachine.ChangeState(MinionStateID.Moving);
                     break;
                 case null:

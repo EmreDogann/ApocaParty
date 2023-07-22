@@ -1,5 +1,4 @@
-﻿using Needs;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace GuestRequests.Jobs
 {
@@ -8,18 +7,18 @@ namespace GuestRequests.Jobs
         [SerializeField] private SpriteRenderer requestSpriteRenderer;
         [SerializeField] private Sprite icon;
 
-        public override void Enter(IRequestOwner owner, ref NeedMetrics metrics)
+        public override void Enter()
         {
-            base.Enter(owner, ref metrics);
+            base.Enter();
             requestSpriteRenderer.sprite = icon;
         }
 
-        public override float GetProgressPercentage(IRequestOwner owner)
+        public override float GetProgressPercentage()
         {
             return 1.0f;
         }
 
-        public override float GetTotalDuration(IRequestOwner owner)
+        public override float GetTotalDuration()
         {
             return 0.0f;
         }

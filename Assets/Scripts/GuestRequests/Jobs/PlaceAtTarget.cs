@@ -1,6 +1,5 @@
 ﻿using AYellowpaper;
 using GuestRequests.Requests;
-using Needs;
 using TransformProvider;
 using UnityEngine;
 
@@ -23,15 +22,15 @@ namespace GuestRequests.Jobs
             }
         }
 
-        public override void Enter(IRequestOwner owner, ref NeedMetrics metrics)
+        public override void Enter()
         {
-            base.Enter(owner, ref metrics);
+            base.Enter();
             transformPair =
                 transformProvider.Value.GetTransformPair(JobOwner.TryGetTransformHandle(transformProvider.Value));
             _followerTransform = spriteToPlace.GetComponent<Transform>();
         }
 
-        public override void Tick(float deltaTime, IRequestOwner owner, ref NeedMetrics metrics)
+        public override void Tick(float deltaTime)
         {
             if (!spriteToPlace)
             {
@@ -41,12 +40,12 @@ namespace GuestRequests.Jobs
             _followerTransform.position = transformPair.GetChildTransform().position;
         }
 
-        public override float GetProgressPercentage(IRequestOwner owner)
+        public override float GetProgressPercentage()
         {
             return 1.0f;
         }
 
-        public override float GetTotalDuration(IRequestOwner owner)
+        public override float GetTotalDuration()
         {
             return 0.0f;
         }

@@ -20,6 +20,7 @@ public class JobsGenericDrawer : PropertyDrawer
         ChangeMusic,
         FixBunting,
         ChangeSprite,
+        ShowOrHideSprite,
         FixPowerOutage
     }
 
@@ -207,6 +208,7 @@ public class JobsGenericDrawer : PropertyDrawer
             case FieldType.ChangeMusic: return new ChangeMusic();
             case FieldType.FixBunting: return new FixBunting();
             case FieldType.ChangeSprite: return new ChangeSprite();
+            case FieldType.ShowOrHideSprite: return new ShowOrHideSprite();
             case FieldType.FixPowerOutage: return new FixPowerOutage();
             case FieldType.None: return null;
             default:

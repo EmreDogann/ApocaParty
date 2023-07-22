@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using GuestRequests.Requests;
-using MyBox;
-using Needs;
 using TransformProvider;
 using UnityEngine;
-using Utils;
 
 namespace GuestRequests
 {
@@ -13,26 +10,24 @@ namespace GuestRequests
     [RequireComponent(typeof(SpriteRenderer))]
     public class Request : MonoBehaviour, IJobOwner
     {
-        private List<ITransformProvider> _requiredTransformProviders = new List<ITransformProvider>();
-        private Dictionary<ITransformProvider, TransformHandle> _transformPairHandles =
+        protected List<ITransformProvider> _requiredTransformProviders = new List<ITransformProvider>();
+        protected Dictionary<ITransformProvider, TransformHandle> _transformPairHandles =
             new Dictionary<ITransformProvider, TransformHandle>();
         public float TotalDuration { get; private set; }
 
-        [SerializeField] private Transform requestStartingPosition;
-        [SerializeField] private NeedType fulfillNeed;
-        [MetricsRange(-1.0f, 1.0f)] [SerializeField] private NeedMetrics rewardMetrics;
-        private NeedMetrics _currentMetrics;
+        [SerializeField] protected bool resetRequestOnCompletion;
+        [SerializeField] protected Transform requestResetPosition;
 
         [SerializeReference] protected List<Job> _jobs = new List<Job>();
-        protected float _totalProgressPercentage;
-        protected float _currentTime;
+        protected float TotalProgressPercentage;
+        protected float CurrentTime;
 
-        protected int _currentJobIndex;
+        protected int CurrentJobIndex;
 
-        private IRequestOwner _owner;
-        private SpriteRenderer requestImage;
+        protected IRequestOwner _owner;
+        protected SpriteRenderer _requestImage;
 
-        private Vector3 startingPosition;
+        protected bool _isRequestSetup;
 
         protected virtual void Awake()
         {
@@ -41,17 +36,8 @@ namespace GuestRequests
                 job.Initialize(this);
             }
 
-            _totalProgressPercentage = 1.0f;
-            requestImage = GetComponent<SpriteRenderer>();
-
-            if (requestStartingPosition == null)
-            {
-                startingPosition = transform.position;
-            }
-            else
-            {
-                startingPosition = requestStartingPosition.position;
-            }
+            TotalProgressPercentage = 1.0f;
+            _requestImage = GetComponent<SpriteRenderer>();
 
             ResetRequest();
         }
@@ -66,13 +52,13 @@ namespace GuestRequests
 
         public virtual void UpdateRequest(float deltaTime)
         {
-            _currentTime += deltaTime;
-            _jobs[_currentJobIndex].Tick(deltaTime, _owner, ref _currentMetrics);
+            CurrentTime += deltaTime;
+            _jobs[CurrentJobIndex].Tick(deltaTime);
 
-            if (_jobs[_currentJobIndex].GetProgressPercentage(_owner) >= 1.0f)
+            if (_jobs[CurrentJobIndex].GetProgressPercentage() >= 1.0f)
             {
                 NextJob();
-                _totalProgressPercentage += 1.0f / _jobs.Count;
+                TotalProgressPercentage += 1.0f / _jobs.Count;
             }
 
             if (IsRequestCompleted())
@@ -80,27 +66,32 @@ namespace GuestRequests
                 Debug.Log("Request Finished!");
                 ReleaseAllTransformHandles();
                 _owner = null;
+
+                if (resetRequestOnCompletion)
+                {
+                    ResetRequest();
+                }
             }
         }
 
         public bool IsRequestCompleted()
         {
-            return _totalProgressPercentage >= 1.0f;
+            return TotalProgressPercentage >= 1.0f;
         }
 
         public bool IsRequestStarted()
         {
-            return _currentJobIndex != -1;
+            return CurrentJobIndex != -1;
         }
 
         public float GetCurrentJobProgress()
         {
-            return _jobs[_currentJobIndex].GetProgressPercentage(_owner);
+            return _jobs[CurrentJobIndex].GetProgressPercentage();
         }
 
         public float GetProgress()
         {
-            return _totalProgressPercentage + _jobs[_currentJobIndex].GetProgressPercentage(_owner);
+            return TotalProgressPercentage + _jobs[CurrentJobIndex].GetProgressPercentage();
         }
 
         public void AssignOwner(IRequestOwner owner)
@@ -108,24 +99,12 @@ namespace GuestRequests
             _owner = owner;
         }
 
-        public virtual NeedMetrics AcceptRequestReward()
+        public virtual Vector3 GetStartingPosition()
         {
-            // TODO: Return _currentMetrics instead. Right now, below is used for testing.
-            if (IsRequestCompleted())
-            {
-                requestImage.enabled = false;
-                return rewardMetrics;
-            }
-
-            return null;
+            return transform.position;
         }
 
-        public NeedType GetFulfillNeed()
-        {
-            return fulfillNeed;
-        }
-
-        public virtual void ResetRequest()
+        protected virtual void ResetRequest()
         {
             if (_jobs.Count <= 0)
             {
@@ -134,34 +113,50 @@ namespace GuestRequests
 
             foreach (Job job in _jobs)
             {
-                TotalDuration += job.GetTotalDuration(_owner);
+                TotalDuration += job.GetTotalDuration();
             }
 
             ReleaseAllTransformHandles();
+            _isRequestSetup = false;
 
             _transformPairHandles = new Dictionary<ITransformProvider, TransformHandle>();
-            transform.position = startingPosition;
-            _currentMetrics = new NeedMetrics();
-
-            _currentTime = 0.0f;
-            _totalProgressPercentage = 0.0f;
-            _currentJobIndex = -1;
+            transform.position = requestResetPosition.position;
+            CurrentJobIndex = -1;
         }
 
-        public virtual void StartRequest()
+        public virtual void ActivateRequest()
         {
             if (_jobs.Count <= 0)
             {
                 return;
             }
 
+            if (!_isRequestSetup)
+            {
+                Debug.LogWarning("Request cannot be activated, needs to be setup first.");
+                if (!TryStartRequest())
+                {
+                    Debug.LogWarning("Request could not be setup, aborting request.");
+                    _owner.OwnerRemoved();
+                    _owner = null;
+                    return;
+                }
+            }
+
+            CurrentTime = 0.0f;
+            TotalProgressPercentage = 0.0f;
             NextJob();
         }
 
-        public bool TryAcquireRequestDependencies()
+        public bool TryStartRequest()
         {
             foreach (ITransformProvider transformProvider in _requiredTransformProviders)
             {
+                if (_transformPairHandles.TryGetValue(transformProvider, out _))
+                {
+                    continue;
+                }
+
                 TransformHandle handle = transformProvider.TryAcquireTransform();
                 if (handle == null)
                 {
@@ -171,63 +166,38 @@ namespace GuestRequests
                         _transformPairHandles[entry.Key] = null;
                     }
 
+                    _isRequestSetup = false;
                     return false;
                 }
 
                 _transformPairHandles[transformProvider] = handle;
             }
 
+            _isRequestSetup = true;
             return true;
         }
 
-        [ButtonMethod]
-        protected virtual void CurrentJob()
-        {
-            Debug.Log(_jobs[_currentJobIndex].JobName);
-        }
-
-        [ButtonMethod]
         protected virtual void NextJob()
         {
-            if (_currentJobIndex + 1 == _jobs.Count)
+            if (CurrentJobIndex + 1 == _jobs.Count)
             {
-                _jobs[_currentJobIndex].Exit(_owner, ref _currentMetrics);
+                _jobs[CurrentJobIndex].Exit();
             }
             else
             {
-                if (_currentJobIndex >= 0)
+                if (CurrentJobIndex >= 0)
                 {
-                    _jobs[_currentJobIndex].Exit(_owner, ref _currentMetrics);
+                    _jobs[CurrentJobIndex].Exit();
                 }
 
-                _currentJobIndex++;
-                _jobs[_currentJobIndex].Enter(_owner, ref _currentMetrics);
+                CurrentJobIndex++;
+                _jobs[CurrentJobIndex].Enter();
             }
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
+        public IRequestOwner GetRequestOwner()
         {
-            if (IsRequestStarted() && other.CompareTag("Player"))
-            {
-                if (_jobs[_currentJobIndex].IsFailed(_owner))
-                {
-                    _jobs[_currentJobIndex].FailJob(_owner);
-                    _owner.OwnerRemoved();
-                    _owner = null;
-
-                    ResetRequest();
-                }
-            }
-        }
-
-        private void ReleaseAllTransformHandles()
-        {
-            foreach (var entry in _transformPairHandles)
-            {
-                entry.Key.ReturnTransform(entry.Value);
-            }
-
-            _transformPairHandles.Clear();
+            return _owner;
         }
 
         public TransformHandle TryGetTransformHandle(ITransformProvider transformProvider)
@@ -248,6 +218,36 @@ namespace GuestRequests
             {
                 _requiredTransformProviders.Add(transformProvider);
             }
+        }
+
+        public bool IsRequestFailed()
+        {
+            return CurrentJobIndex != -1 && _jobs[CurrentJobIndex].IsFailed();
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (IsRequestStarted() && other.CompareTag("Player"))
+            {
+                if (IsRequestFailed())
+                {
+                    _jobs[CurrentJobIndex].FailJob();
+                    _owner.OwnerRemoved();
+                    _owner = null;
+
+                    ResetRequest();
+                }
+            }
+        }
+
+        private void ReleaseAllTransformHandles()
+        {
+            foreach (var entry in _transformPairHandles)
+            {
+                entry.Key.ReturnTransform(entry.Value);
+            }
+
+            _transformPairHandles.Clear();
         }
     }
 }

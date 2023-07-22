@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using Events;
 using MyBox;
 using UnityEngine;
@@ -59,10 +61,13 @@ namespace Audio
             sfxAudioChannel.OnAudioPlay2D += PlaySoundEffect2D;
             sfxAudioChannel.OnAudioPlayAttached += PlaySoundEffectAttached;
             sfxAudioChannel.OnAudioStop += StopSoundEffect;
+            sfxAudioChannel.OnAudioFade += FadeSoundEffect;
 
             musicAudioChannel.OnAudioPlay += PlayMusic;
             musicAudioChannel.OnAudioPlay2D += PlayMusic2D;
             musicAudioChannel.OnAudioStop += StopMusic;
+            musicAudioChannel.OnAudioFade += FadeMusic;
+            musicAudioChannel.OnAudioCrossFade += CrossFadeMusic;
         }
 
         private void OnDestroy()
@@ -105,7 +110,17 @@ namespace Audio
             emitter.Source.loop = audioEventData.ShouldLoop;
             //Reset in case this AudioSource is being reused for a short SFX after being used for a long music track
             emitter.Source.time = 0f;
-            emitter.Source.Play();
+
+            if (audioEventData.SoundFade != null)
+            {
+                emitter.Source.volume = 0.0f;
+                emitter.Source.Play();
+                emitter.Source.DOFade(audioEventData.SoundFade.Volume, audioEventData.SoundFade.Duration);
+            }
+            else
+            {
+                emitter.Source.Play();
+            }
 
             AudioHandle handle = new AudioHandle(_currentAudioSourceIndex, audioObj);
             _audioHandles.Add(handle);
@@ -128,7 +143,17 @@ namespace Audio
             emitter.Source.loop = audioEventData.ShouldLoop;
             //Reset in case this AudioSource is being reused for a short SFX after being used for a long music track
             emitter.Source.time = 0f;
-            emitter.Source.Play();
+
+            if (audioEventData.SoundFade != null)
+            {
+                emitter.Source.volume = 0.0f;
+                emitter.Source.Play();
+                emitter.Source.DOFade(audioEventData.SoundFade.Volume, audioEventData.SoundFade.Duration);
+            }
+            else
+            {
+                emitter.Source.Play();
+            }
 
             AudioHandle handle = new AudioHandle(_currentAudioSourceIndex, audioObj);
             _audioHandles.Add(handle);
@@ -150,7 +175,17 @@ namespace Audio
             emitter.Source.loop = audioEventData.ShouldLoop;
             //Reset in case this AudioSource is being reused for a short SFX after being used for a long music track
             emitter.Source.time = 0f;
-            emitter.Source.Play();
+
+            if (audioEventData.SoundFade != null)
+            {
+                emitter.Source.volume = 0.0f;
+                emitter.Source.Play();
+                emitter.Source.DOFade(audioEventData.SoundFade.Volume, audioEventData.SoundFade.Duration);
+            }
+            else
+            {
+                emitter.Source.Play();
+            }
 
             AudioHandle handle = new AudioHandle(_currentAudioSourceIndex, audioObj);
             _audioHandles.Add(handle);
@@ -179,7 +214,17 @@ namespace Audio
             emitter.Source.loop = audioEventData.ShouldLoop;
             //Reset in case this AudioSource is being reused for a short SFX after being used for a long music track
             emitter.Source.time = 0f;
-            emitter.Source.Play();
+
+            if (audioEventData.SoundFade != null)
+            {
+                emitter.Source.volume = 0.0f;
+                emitter.Source.Play();
+                emitter.Source.DOFade(audioEventData.SoundFade.Volume, audioEventData.SoundFade.Duration);
+            }
+            else
+            {
+                emitter.Source.Play();
+            }
 
             _musicEmitter = emitter;
             return AudioHandle.Invalid;
@@ -206,7 +251,17 @@ namespace Audio
             emitter.Source.loop = audioEventData.ShouldLoop;
             //Reset in case this AudioSource is being reused for a short SFX after being used for a long music track
             emitter.Source.time = 0f;
-            emitter.Source.Play();
+
+            if (audioEventData.SoundFade != null)
+            {
+                emitter.Source.volume = 0.0f;
+                emitter.Source.Play();
+                emitter.Source.DOFade(audioEventData.SoundFade.Volume, audioEventData.SoundFade.Duration);
+            }
+            else
+            {
+                emitter.Source.Play();
+            }
 
             _musicEmitter = emitter;
             return AudioHandle.Invalid;
@@ -223,7 +278,10 @@ namespace Audio
 
             AudioHandle foundHandle = _audioHandles[handleIndex];
 
-            _audioEmitters[foundHandle.ID].Source.Stop();
+            _audioEmitters[foundHandle.ID].Source.DOFade(0.0f, 0.5f).onComplete = () =>
+            {
+                _audioEmitters[foundHandle.ID].Source.Stop();
+            };
             _audioEmitters[foundHandle.ID].IsPaused = false;
 
             _audioHandles.RemoveAt(handleIndex);
@@ -234,12 +292,37 @@ namespace Audio
         {
             if (_musicEmitter != null && _musicEmitter.Source.isPlaying)
             {
-                // Maybe can do fancy things here like fade out audio instead of a hard stop.
-                _musicEmitter.Source.Stop();
+                _musicEmitter.Source.DOFade(0.0f, 2.0f).onComplete = () => { _musicEmitter.Source.Stop(); };
                 return true;
             }
 
             return false;
+        }
+
+        private bool FadeSoundEffect(AudioHandle handle, float to, float duration)
+        {
+            int handleIndex = _audioHandles.FindIndex(x => x == handle);
+
+            if (handleIndex < 0)
+            {
+                return false;
+            }
+
+            AudioHandle foundHandle = _audioHandles[handleIndex];
+
+            _audioEmitters[foundHandle.ID].Source.DOKill();
+            _audioEmitters[foundHandle.ID].Source.DOFade(to, duration);
+            return true;
+        }
+
+        private bool FadeMusic(AudioHandle handle, float to, float duration)
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool CrossFadeMusic(AudioHandle handle, float duration)
+        {
+            throw new NotImplementedException();
         }
 
         private void OnPauseEvent(bool isPaused)

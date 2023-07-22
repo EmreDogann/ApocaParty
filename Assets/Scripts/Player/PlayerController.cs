@@ -1,6 +1,8 @@
+using Consumable;
 using GuestRequests;
 using GuestRequests.Requests;
 using Interactions;
+using Interactions.Interactables;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
@@ -12,7 +14,7 @@ namespace Player
     public class PlayerController : MonoBehaviour, IRequestOwner
     {
         [SerializeField] private InputActionReference moveButton;
-        [SerializeField] private float _distanceThreshold = 0.1f;
+        [SerializeField] private float distanceThreshold = 0.1f;
         [NavMeshSelector] [SerializeField] private int ignoreAreaCosts;
         [SerializeField] private Transform holderTransform;
 
@@ -24,7 +26,8 @@ namespace Player
         private Camera _mainCamera;
         private CharacterBlackboard _blackboard;
 
-        private Request currentRequest;
+        private Request _currentRequest;
+        private IConsumable _holdingConsumable;
 
         private void Awake()
         {
@@ -49,28 +52,75 @@ namespace Player
 
         private void OnInteraction(InteractableBase interactable)
         {
-            if (interactable is IInteractableRequest interactableRequest)
+            switch (interactable)
             {
-                switch (interactableRequest.GetRequest())
-                {
-                    case PowerRequest _:
-                        currentRequest = interactableRequest.GetRequest();
-                        currentRequest.AssignOwner(this);
-                        break;
-                }
+                case IInteractableRequest interactableRequest:
+                    switch (interactableRequest.GetRequest())
+                    {
+                        case PowerRequest _:
+                            if (ElectricalBox.IsPowerOn())
+                            {
+                                return;
+                            }
 
-                _agent.SetDestination(interactable.transform.position);
+                            if (!interactableRequest.GetRequest().TryStartRequest())
+                            {
+                                return;
+                            }
+
+                            _currentRequest = interactableRequest.GetRequest();
+                            _currentRequest.AssignOwner(this);
+                            _currentRequest.ActivateRequest();
+                            break;
+                        case FoodRequest _:
+                            if (interactableRequest.GetRequest().IsRequestFailed())
+                            {
+                                _agent.SetDestination(interactableRequest.GetRequest().transform.position);
+                            }
+                            else if (interactableRequest.GetRequest().IsRequestCompleted())
+                            {
+                                _holdingConsumable = interactableRequest as IConsumable;
+                                _holdingConsumable?.Claim();
+
+                                _agent.SetDestination(interactableRequest.GetRequest().transform.position);
+                            }
+
+                            break;
+                    }
+
+                    break;
+                case GuestInteractable guestInteractable:
+                    
+                    break;
             }
         }
 
         private void Update()
         {
-            if (Time.timeScale == 0.0f || currentRequest)
+            if (Time.timeScale == 0.0f)
             {
                 return;
             }
 
             _blackboard.IsMoving = _agent.hasPath;
+            
+            if (_holdingConsumable != null)
+            {
+                _holdingConsumable.GetTransform().position = holderTransform.position;
+            }
+
+            if (_currentRequest)
+            {
+                _currentRequest.UpdateRequest(Time.deltaTime);
+                if (_currentRequest.IsRequestCompleted())
+                {
+                    _currentRequest = null;
+                }
+                else
+                {
+                    return;
+                }
+            }
 
             if (moveButton.action.WasPressedThisFrame())
             {
@@ -85,7 +135,7 @@ namespace Player
                 }
             }
 
-            if (Vector3.SqrMagnitude(transform.position - _agent.destination) < _distanceThreshold * _distanceThreshold)
+            if (Vector3.SqrMagnitude(transform.position - _agent.destination) < distanceThreshold * distanceThreshold)
             {
                 marker.gameObject.SetActive(false);
             }
@@ -125,7 +175,7 @@ namespace Player
 
         public void OwnerRemoved()
         {
-            currentRequest = null;
+            _currentRequest = null;
         }
     }
 }

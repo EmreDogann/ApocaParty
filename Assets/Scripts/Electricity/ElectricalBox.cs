@@ -20,7 +20,12 @@ public class ElectricalBox : MonoBehaviour
     public static event Action OnPowerOutage;
     public static event Action OnPowerFixed;
 
-    private bool _isPowerOn = true;
+    public static bool IsPowerOn()
+    {
+        return _isPowerOn;
+    }
+
+    private static bool _isPowerOn = true;
 
     private void Awake()
     {
@@ -52,7 +57,6 @@ public class ElectricalBox : MonoBehaviour
 
             if (Random.Range(0.0f, 1.0f) < powerOutageChance)
             {
-                Debug.Log("Power Outage!");
                 _isPowerOn = false;
                 _currentTime -= powerOutageCooldown;
 

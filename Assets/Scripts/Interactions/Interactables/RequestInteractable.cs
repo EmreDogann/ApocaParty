@@ -6,6 +6,7 @@ namespace Interactions.Interactables
     public class RequestInteractable : InteractableBase, IInteractableRequest
     {
         [SerializeField] private Request request;
+        [SerializeField] private float hoverScaleAmount = 1.5f;
 
         public override void OnStartHover()
         {
@@ -16,7 +17,7 @@ namespace Interactions.Interactables
 
             base.OnStartHover();
 
-            transform.localScale *= 1.5f;
+            transform.localScale *= hoverScaleAmount;
         }
 
         public override void OnEndHover()
@@ -27,7 +28,7 @@ namespace Interactions.Interactables
             }
 
             base.OnEndHover();
-            transform.localScale /= 1.5f;
+            transform.localScale /= hoverScaleAmount;
         }
 
         private bool IsRequestActive()

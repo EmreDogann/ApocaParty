@@ -10,6 +10,8 @@ namespace Events
         public AudioPlay2DAction OnAudioPlay2D;
         public AudioPlayAttachedAction OnAudioPlayAttached;
         public AudioStopAction OnAudioStop;
+        public AudioFadeAction OnAudioFade;
+        public AudioCrossFadeAction OnAudioCrossFade;
 
         public AudioHandle RaisePlayEvent(AudioSO audio, AudioEventData audioEventData,
             Vector3 positionInSpace = default)
@@ -87,6 +89,42 @@ namespace Events
 
             return requestSucceed;
         }
+
+        public bool RaiseFadeEvent(AudioHandle audioKey, float to, float duration)
+        {
+            bool requestSucceed = false;
+
+            if (OnAudioStop != null)
+            {
+                requestSucceed = OnAudioFade.Invoke(audioKey, to, duration);
+            }
+            else
+            {
+                Debug.LogWarning("An AudioFade event was requested, but nobody picked it up. " +
+                                 "Check why there is no AudioManager already loaded, " +
+                                 "and make sure it's listening on this Audio Event channel.");
+            }
+
+            return requestSucceed;
+        }
+
+        public bool RaiseCrossFadeEvent(AudioHandle audioKey, float duration)
+        {
+            bool requestSucceed = false;
+
+            if (OnAudioStop != null)
+            {
+                requestSucceed = OnAudioCrossFade.Invoke(audioKey, duration);
+            }
+            else
+            {
+                Debug.LogWarning("An AudioCrossFade event was requested, but nobody picked it up. " +
+                                 "Check why there is no AudioManager already loaded, " +
+                                 "and make sure it's listening on this Audio Event channel.");
+            }
+
+            return requestSucceed;
+        }
     }
 
     public delegate AudioHandle AudioPlayAction(AudioSO audio, AudioEventData audioEventData,
@@ -98,4 +136,8 @@ namespace Events
         GameObject gameObject);
 
     public delegate bool AudioStopAction(AudioHandle emitterKey);
+
+    public delegate bool AudioFadeAction(AudioHandle emitterKey, float to, float duration);
+
+    public delegate bool AudioCrossFadeAction(AudioHandle emitterKey, float duration);
 }
