@@ -27,7 +27,7 @@ namespace Guest.States
             if (Vector3.SqrMagnitude(guest.transform.position - guest.navMeshAgent.destination) <
                 DistanceThreshold * DistanceThreshold)
             {
-                if (guest.CurrentConsumable != null)
+                if (guest.CurrentConsumable != null || guest.AssignedTableSeat.IsFoodAvailable())
                 {
                     _stateMachine.ChangeState(GuestStateID.Consume);
                 }

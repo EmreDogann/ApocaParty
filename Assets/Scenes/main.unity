@@ -391,12 +391,12 @@ MonoBehaviour:
         _burningAudio: {fileID: 11400000, guid: 64b986bf33c35914eb517793be605a7e, type: 2}
         _stovePositionProvider: {fileID: 807445955}
         _fireChance: 0.1
-        _fireCheckFrequency: 1
+        _fireCheckFrequency: 5
         foodBurningEvent: {fileID: 23770099}
         fireParticleSystem: {fileID: 162264198}
         requestSpriteRenderer: {fileID: 23770097}
         cookedFoodIcon: {fileID: -520134430, guid: bb6d5f588e9a2ba48b7f28593567099f, type: 3}
-        Duration: 5
+        Duration: 2
     - rid: 8197751313132683300
       type: {class: MoveToTarget, ns: GuestRequests.Jobs, asm: Assembly-CSharp}
       data:
@@ -1471,7 +1471,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &81586550
 MonoBehaviour:
@@ -1772,8 +1772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beff511de2864392bca8a705fe83cd0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guestType: 1
-  seatTransform: {fileID: 1946687911}
+  _guestType: 0
   image: {fileID: 1286904869}
   holderTransform: {fileID: 1692372714}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
@@ -1782,6 +1781,7 @@ MonoBehaviour:
   wanderWhenHappyChance: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 160561877}
+  <AssignedTableSeat>k__BackingField: {fileID: 0}
 --- !u!114 &123592455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7517,7 +7517,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guestType: 0
-  seatTransform: {fileID: 1571096103}
   image: {fileID: 1437635276}
   holderTransform: {fileID: 538963628}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
@@ -7526,6 +7525,7 @@ MonoBehaviour:
   wanderWhenHappyChance: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 511284921}
+  <AssignedTableSeat>k__BackingField: {fileID: 337977021}
 --- !u!195 &169186465
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -10251,7 +10251,7 @@ GameObject:
   - component: {fileID: 413261985}
   - component: {fileID: 413261984}
   - component: {fileID: 413261983}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Plate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10369,7 +10369,7 @@ GameObject:
   - component: {fileID: 422464078}
   - component: {fileID: 422464077}
   - component: {fileID: 422464076}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Plate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11052,8 +11052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beff511de2864392bca8a705fe83cd0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guestType: 4
-  seatTransform: {fileID: 1571096103}
+  _guestType: 0
   image: {fileID: 1480416260}
   holderTransform: {fileID: 1699531563}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
@@ -11062,6 +11061,7 @@ MonoBehaviour:
   wanderWhenHappyChance: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 1554604132}
+  <AssignedTableSeat>k__BackingField: {fileID: 0}
 --- !u!114 &491118485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11971,7 +11971,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &535671240
 Transform:
   m_ObjectHideFlags: 0
@@ -12003,8 +12003,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guests:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 123592454}
+  - {fileID: 1651872105}
+  - {fileID: 1879151977}
 --- !u!1 &538963627
 GameObject:
   m_ObjectHideFlags: 0
@@ -12300,7 +12301,7 @@ GameObject:
   - component: {fileID: 578303443}
   - component: {fileID: 578303442}
   - component: {fileID: 578303441}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Plate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12881,7 +12882,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 663291007}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.82, y: -0.015, z: 0}
+  m_LocalPosition: {x: 0.82, y: -0.125, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12994,8 +12995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beff511de2864392bca8a705fe83cd0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guestType: 2
-  seatTransform: {fileID: 1946687911}
+  _guestType: 0
   image: {fileID: 1200013408}
   holderTransform: {fileID: 1938091387}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
@@ -13004,6 +13004,7 @@ MonoBehaviour:
   wanderWhenHappyChance: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 1785711083}
+  <AssignedTableSeat>k__BackingField: {fileID: 0}
 --- !u!114 &665599016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13256,7 +13257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &687953584
 Transform:
   m_ObjectHideFlags: 0
@@ -13288,8 +13289,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guests:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 884869656}
+  - {fileID: 1431685010}
+  - {fileID: 491118484}
 --- !u!1 &698772494
 GameObject:
   m_ObjectHideFlags: 0
@@ -13398,7 +13400,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 700690852}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.84, y: 0, z: 0}
+  m_LocalPosition: {x: -1.0300001, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14130,7 +14132,7 @@ Transform:
   - {fileID: 1939335831}
   - {fileID: 687953584}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &745539119
 GameObject:
@@ -14346,7 +14348,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 2
+  m_Speed: 5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -16175,8 +16177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beff511de2864392bca8a705fe83cd0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guestType: 3
-  seatTransform: {fileID: 1946687911}
+  _guestType: 0
   image: {fileID: 1535638478}
   holderTransform: {fileID: 522207302}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
@@ -16185,6 +16186,7 @@ MonoBehaviour:
   wanderWhenHappyChance: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 1104446851}
+  <AssignedTableSeat>k__BackingField: {fileID: 0}
 --- !u!114 &884869657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16408,7 +16410,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 893214995}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.84, y: 0, z: 0}
+  m_LocalPosition: {x: -1.03, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17117,7 +17119,7 @@ GameObject:
   - component: {fileID: 978131957}
   - component: {fileID: 978131956}
   - component: {fileID: 978131955}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Plate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20164,7 +20166,7 @@ GameObject:
   - component: {fileID: 1216973713}
   - component: {fileID: 1216973712}
   - component: {fileID: 1216973711}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Plate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21525,7 +21527,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1303819719}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.82, y: 0.29, z: 0}
+  m_LocalPosition: {x: 0.82, y: 0.136, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -22250,8 +22252,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guests:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 169186463}
+  - {fileID: 1406249637}
+  - {fileID: 1882609959}
 --- !u!1 &1352439122
 GameObject:
   m_ObjectHideFlags: 0
@@ -22408,7 +22411,7 @@ GameObject:
   - component: {fileID: 1357388362}
   - component: {fileID: 1357388361}
   - component: {fileID: 1357388360}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Plate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22868,8 +22871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beff511de2864392bca8a705fe83cd0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guestType: 4
-  seatTransform: {fileID: 1571096103}
+  _guestType: 0
   image: {fileID: 1141342843}
   holderTransform: {fileID: 1362962374}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
@@ -22878,6 +22880,7 @@ MonoBehaviour:
   wanderWhenHappyChance: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 703188932}
+  <AssignedTableSeat>k__BackingField: {fileID: 0}
 --- !u!114 &1381293934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23095,7 +23098,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1406249634
 Transform:
   m_ObjectHideFlags: 0
@@ -23183,8 +23186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beff511de2864392bca8a705fe83cd0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guestType: 4
-  seatTransform: {fileID: 1571096103}
+  _guestType: 0
   image: {fileID: 2114164895}
   holderTransform: {fileID: 511302545}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
@@ -23193,6 +23195,7 @@ MonoBehaviour:
   wanderWhenHappyChance: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 1211058784}
+  <AssignedTableSeat>k__BackingField: {fileID: 204411816}
 --- !u!114 &1406249638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23570,8 +23573,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beff511de2864392bca8a705fe83cd0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guestType: 4
-  seatTransform: {fileID: 1571096103}
+  _guestType: 0
   image: {fileID: 1097435303}
   holderTransform: {fileID: 1685986681}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
@@ -23580,6 +23582,7 @@ MonoBehaviour:
   wanderWhenHappyChance: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 508777099}
+  <AssignedTableSeat>k__BackingField: {fileID: 0}
 --- !u!114 &1431685011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24034,7 +24037,7 @@ GameObject:
   - component: {fileID: 1504738610}
   - component: {fileID: 1504738609}
   - component: {fileID: 1504738608}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Plate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25012,7 +25015,7 @@ GameObject:
   - component: {fileID: 1559934327}
   - component: {fileID: 1559934326}
   - component: {fileID: 1559934325}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Plate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25476,6 +25479,7 @@ GameObject:
   - component: {fileID: 1605618395}
   - component: {fileID: 1605618396}
   - component: {fileID: 1605618397}
+  - component: {fileID: 1605618398}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -25698,6 +25702,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1605618398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605618386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a6b54bf269469f982c2e1accf8781b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mask:
+    serializedVersion: 2
+    m_Bits: 64
+  _interactAction: {fileID: -5519726930694964752, guid: 1fd9d9af030accf4e8cfdbe36d107005, type: 3}
 --- !u!1 &1611364040
 GameObject:
   m_ObjectHideFlags: 0
@@ -25934,7 +25954,7 @@ GameObject:
   - component: {fileID: 1615746015}
   - component: {fileID: 1615746014}
   - component: {fileID: 1615746013}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Plate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26115,7 +26135,7 @@ GameObject:
   - component: {fileID: 1629716036}
   - component: {fileID: 1629716035}
   - component: {fileID: 1629716034}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Plate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26497,8 +26517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beff511de2864392bca8a705fe83cd0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guestType: 4
-  seatTransform: {fileID: 1571096103}
+  _guestType: 0
   image: {fileID: 2031700197}
   holderTransform: {fileID: 282028049}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
@@ -26507,6 +26526,7 @@ MonoBehaviour:
   wanderWhenHappyChance: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 877569899}
+  <AssignedTableSeat>k__BackingField: {fileID: 0}
 --- !u!114 &1651872106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27100,8 +27120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beff511de2864392bca8a705fe83cd0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guestType: 4
-  seatTransform: {fileID: 1571096103}
+  _guestType: 0
   image: {fileID: 1815925426}
   holderTransform: {fileID: 676121149}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
@@ -27110,6 +27129,7 @@ MonoBehaviour:
   wanderWhenHappyChance: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 1304209897}
+  <AssignedTableSeat>k__BackingField: {fileID: 0}
 --- !u!114 &1740301352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27200,7 +27220,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1778416804}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.84, y: 0, z: 0}
+  m_LocalPosition: {x: -1.0300001, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -28020,8 +28040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beff511de2864392bca8a705fe83cd0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guestType: 4
-  seatTransform: {fileID: 1571096103}
+  _guestType: 0
   image: {fileID: 765096115}
   holderTransform: {fileID: 1475510060}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
@@ -28030,6 +28049,7 @@ MonoBehaviour:
   wanderWhenHappyChance: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 48388243}
+  <AssignedTableSeat>k__BackingField: {fileID: 0}
 --- !u!114 &1879151978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28118,7 +28138,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1882609956
 Transform:
   m_ObjectHideFlags: 0
@@ -28206,8 +28226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beff511de2864392bca8a705fe83cd0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guestType: 4
-  seatTransform: {fileID: 1571096103}
+  _guestType: 0
   image: {fileID: 880294573}
   holderTransform: {fileID: 75990216}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
@@ -28216,6 +28235,7 @@ MonoBehaviour:
   wanderWhenHappyChance: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 2010147734}
+  <AssignedTableSeat>k__BackingField: {fileID: 781733627}
 --- !u!114 &1882609960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28565,7 +28585,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1939335831
 Transform:
   m_ObjectHideFlags: 0
@@ -28597,8 +28617,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guests:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 665599015}
+  - {fileID: 1381293933}
+  - {fileID: 1740301351}
 --- !u!1 &1940561625
 GameObject:
   m_ObjectHideFlags: 0
@@ -28708,7 +28729,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1941267099}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.82, y: -0.32, z: 0}
+  m_LocalPosition: {x: 0.82, y: -0.404, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -29164,7 +29185,7 @@ GameObject:
   - component: {fileID: 2003438397}
   - component: {fileID: 2003438396}
   - component: {fileID: 2003438395}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Plate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29282,7 +29303,7 @@ GameObject:
   - component: {fileID: 2004676773}
   - component: {fileID: 2004676772}
   - component: {fileID: 2004676771}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Plate
   m_TagString: Untagged
   m_Icon: {fileID: 0}

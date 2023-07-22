@@ -1,15 +1,15 @@
 ﻿using System;
 using DiningTable;
-using GuestRequests.Requests;
+using Player;
+using UnityEngine;
 
 namespace Interactions.Interactables
 {
     public class PlateInteractable : InteractableBase
     {
-        private TableSeat seatOwner;
-        private RequestInteractable requestOnPlate;
-
-        public Action OnPlateInteracted;
+        private TableSeat _seatOwner;
+        private int _expectedDeliveryID;
+        private bool _isExpectingDelivery;
 
         public bool IsHovering { get; private set; }
         public bool IsInteracting { get; private set; }
@@ -30,7 +30,6 @@ namespace Interactions.Interactables
         {
             base.OnStartInteract();
             IsInteracting = true;
-            OnPlateInteracted?.Invoke();
         }
 
         public override void OnEndInteract()
@@ -39,14 +38,30 @@ namespace Interactions.Interactables
             IsInteracting = false;
         }
 
-        public void PlaceRequestOnPlate(RequestInteractable requestInteractable)
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            switch (requestInteractable.GetRequest())
+            if (_isExpectingDelivery)
             {
-                case FoodRequest foodRequest:
-                    seatOwner.FoodArrival(foodRequest);
-                    break;
+                IWaiter waiter = other.GetComponent<IWaiter>();
+                if (waiter != null && waiter.GetWaiterID() == _expectedDeliveryID)
+                {
+                    _isExpectingDelivery = false;
+                    _expectedDeliveryID = 0;
+                    _seatOwner.FoodArrival(waiter.GetFood());
+                }
             }
+        }
+
+        public int AnnounceDelivery()
+        {
+            _isExpectingDelivery = true;
+            _expectedDeliveryID = Guid.NewGuid().GetHashCode();
+            return _expectedDeliveryID;
+        }
+
+        public void AssignOwner(TableSeat tableSeat)
+        {
+            _seatOwner = tableSeat;
         }
     }
 }

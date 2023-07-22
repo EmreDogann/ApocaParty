@@ -1,5 +1,5 @@
 ﻿using System;
-using GuestRequests.Requests;
+using Consumable;
 using Interactions.Interactables;
 using UnityEngine;
 
@@ -10,8 +10,8 @@ namespace DiningTable
         [SerializeField] private PlateInteractable plateInteractable;
         private bool _isAssigned;
 
-        public event Action<FoodRequest> OnFoodArrival;
-        public event Action OnFoodComing;
+        public event Action OnFoodArrival;
+        private IConsumable _consumable;
 
         private void Reset()
         {
@@ -21,24 +21,26 @@ namespace DiningTable
             }
         }
 
-        private void OnEnable()
+        private void Awake()
         {
-            plateInteractable.OnPlateInteracted += FoodEnRoute;
+            plateInteractable.AssignOwner(this);
         }
 
-        private void OnDisable()
+        public void FoodArrival(IConsumable consumable)
         {
-            plateInteractable.OnPlateInteracted -= FoodEnRoute;
+            _consumable = consumable;
+            OnFoodArrival?.Invoke();
         }
 
-        public void FoodArrival(FoodRequest foodRequest)
+        public bool IsFoodAvailable()
         {
-            OnFoodArrival?.Invoke(foodRequest);
+            return _consumable != null;
         }
 
-        public void FoodEnRoute()
+        public IConsumable GetFood()
         {
-            OnFoodComing?.Invoke();
+            _consumable = null;
+            return _consumable;
         }
 
         public Transform GetSeatTransform()

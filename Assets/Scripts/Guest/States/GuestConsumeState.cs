@@ -38,6 +38,13 @@ namespace Guest.States
                     guest.CurrentConsumable = null;
                 }
 
+                // Consume food
+                if (guest.AssignedTableSeat.IsFoodAvailable())
+                {
+                    ConsumedData consumedData = guest.AssignedTableSeat.GetFood().Consume();
+                    guest.needSystem.TryFulfillNeed(consumedData.needType, consumedData.needMetrics,
+                        consumedData.moodPoints);
+                }
 
                 _stateMachine.ChangeState(GuestStateID.Idle);
             }

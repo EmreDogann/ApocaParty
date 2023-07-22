@@ -34,7 +34,6 @@ namespace Guest
             get => _guestType;
             private set => _guestType = value;
         }
-        [SerializeField] private Transform seatTransform;
 
         public GuestStateMachine stateMachine;
         public NavMeshAgent navMeshAgent { get; private set; }
@@ -70,7 +69,7 @@ namespace Guest
         private CharacterBlackboard _blackboard;
 
         public IConsumable CurrentConsumable;
-        public TableSeat AssignedTableSeat { get; private set; }
+        [field: SerializeReference] public TableSeat AssignedTableSeat { get; private set; }
 
         // private bool _shouldWander;
         // private const float DistanceThreshold = 0.1f;
@@ -88,12 +87,16 @@ namespace Guest
         {
             PartyEvent.OnPartyEvent += OnPartyEvent;
             needSystem.OnNewNeed += OnNewNeed;
+
+            AssignedTableSeat.OnFoodArrival += OnFoodArrival;
         }
 
         private void OnDisable()
         {
             PartyEvent.OnPartyEvent -= OnPartyEvent;
             needSystem.OnNewNeed -= OnNewNeed;
+
+            AssignedTableSeat.OnFoodArrival -= OnFoodArrival;
         }
 
         private void Start()
@@ -155,6 +158,7 @@ namespace Guest
 
         public void AssignTableSeat(TableSeat tableSeat)
         {
+            tableSeat.AssignSeat();
             AssignedTableSeat = tableSeat;
             SetDestination(tableSeat.transform.position);
         }
@@ -178,7 +182,7 @@ namespace Guest
 
         public Transform GetSeatTransform()
         {
-            return seatTransform;
+            return AssignedTableSeat.GetSeatTransform();
         }
 
         private void OnNewNeed(INeed need)
@@ -234,6 +238,11 @@ namespace Guest
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void OnFoodArrival()
+        {
+            stateMachine.ChangeState(GuestStateID.MoveToSeat);
         }
 
         // public void SetWandering(bool isWandering)

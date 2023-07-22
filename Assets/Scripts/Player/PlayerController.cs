@@ -10,8 +10,8 @@ using Utils;
 
 namespace Player
 {
-    [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent))]
-    public class PlayerController : MonoBehaviour, IRequestOwner
+    [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent), typeof(PlateMouseInteraction))]
+    public class PlayerController : MonoBehaviour, IRequestOwner, IWaiter
     {
         [SerializeField] private InputActionReference moveButton;
         [SerializeField] private float distanceThreshold = 0.1f;
@@ -25,15 +25,18 @@ namespace Player
         private NavMeshAgent _agent;
         private Camera _mainCamera;
         private CharacterBlackboard _blackboard;
+        private PlateMouseInteraction plateInteraction;
 
         private Request _currentRequest;
         private IConsumable _holdingConsumable;
+        private int foodDeliveryID;
 
         private void Awake()
         {
             _blackboard = GetComponent<CharacterBlackboard>();
             _mainCamera = Camera.main;
             _agent = GetComponent<NavMeshAgent>();
+            plateInteraction = GetComponent<PlateMouseInteraction>();
 
             _agent.updateRotation = false;
             _agent.updateUpAxis = false;
@@ -90,7 +93,14 @@ namespace Player
 
                     break;
                 case GuestInteractable guestInteractable:
-                    
+                    break;
+                case PlateInteractable plateInteractable:
+                    if (_holdingConsumable != null)
+                    {
+                        foodDeliveryID = plateInteractable.AnnounceDelivery();
+                        _agent.SetDestination(plateInteractable.transform.position);
+                    }
+
                     break;
             }
         }
@@ -103,10 +113,19 @@ namespace Player
             }
 
             _blackboard.IsMoving = _agent.hasPath;
-            
+
             if (_holdingConsumable != null)
             {
+                Debug.Log("heyy");
                 _holdingConsumable.GetTransform().position = holderTransform.position;
+                switch (plateInteraction.CheckForPlateInteraction())
+                {
+                    case PlateInteractable plateInteractable:
+                        foodDeliveryID = plateInteractable.AnnounceDelivery();
+                        _agent.SetDestination(plateInteractable.transform.position);
+
+                        break;
+                }
             }
 
             if (_currentRequest)
@@ -177,5 +196,23 @@ namespace Player
         {
             _currentRequest = null;
         }
+
+        public IConsumable GetFood()
+        {
+            foodDeliveryID = 0;
+            _agent.ResetPath();
+            return _holdingConsumable;
+        }
+
+        public int GetWaiterID()
+        {
+            return foodDeliveryID;
+        }
+    }
+
+    public interface IWaiter
+    {
+        public IConsumable GetFood();
+        public int GetWaiterID();
     }
 }
