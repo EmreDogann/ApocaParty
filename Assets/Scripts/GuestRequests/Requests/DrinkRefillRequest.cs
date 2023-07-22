@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace GuestRequests.Requests
 {
@@ -13,6 +14,11 @@ namespace GuestRequests.Requests
             {
                 OnDrinkRefill?.Invoke();
             }
+        }
+
+        public override Vector3 GetStartingPosition()
+        {
+            return requestResetPosition.position;
         }
     }
 }

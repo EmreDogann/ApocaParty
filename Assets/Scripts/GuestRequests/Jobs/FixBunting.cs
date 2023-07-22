@@ -1,5 +1,4 @@
 ﻿using Audio;
-using Needs;
 using UnityEngine;
 
 namespace GuestRequests.Jobs
@@ -12,7 +11,7 @@ namespace GuestRequests.Jobs
         [SerializeField] private Transform _playbackPosition;
         public AudioSO FixAudio;
 
-        public override void Exit(IRequestOwner owner, ref NeedMetrics metrics)
+        public override void Exit()
         {
             if (_playbackPosition)
             {
@@ -26,12 +25,12 @@ namespace GuestRequests.Jobs
             BuntingSprite.sprite = FixedSprite;
         }
 
-        public override float GetProgressPercentage(IRequestOwner owner)
+        public override float GetProgressPercentage()
         {
             return Mathf.Clamp01(_currentTime / Duration);
         }
 
-        public override float GetTotalDuration(IRequestOwner owner)
+        public override float GetTotalDuration()
         {
             return Duration;
         }

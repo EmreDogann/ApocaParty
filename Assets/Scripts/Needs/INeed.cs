@@ -2,6 +2,7 @@
 {
     public enum NeedType
     {
+        None,
         Food,
         Drink,
         Music,

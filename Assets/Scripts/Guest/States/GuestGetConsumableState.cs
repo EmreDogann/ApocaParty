@@ -18,22 +18,22 @@ namespace Guest.States
 
         public override void Enter()
         {
-            if (guest.HoldingConsumable == null)
+            if (guest.CurrentConsumable == null)
             {
                 _stateMachine.ChangeState(GuestStateID.Idle);
             }
             else
             {
-                guest.SetDestination(guest.HoldingConsumable.GetTransform().position);
+                guest.SetDestination(guest.CurrentConsumable.GetTransform().position);
             }
         }
 
         public override void Tick()
         {
-            if (!guest.HoldingConsumable.IsAvailable())
+            if (!guest.CurrentConsumable.IsAvailable())
             {
                 guest.needSystem.ChangeMood(-1);
-                guest.HoldingConsumable = null;
+                guest.CurrentConsumable = null;
                 _stateMachine.ChangeState(GuestStateID.MoveToSeat);
                 return;
             }
@@ -41,14 +41,14 @@ namespace Guest.States
             if (Vector3.SqrMagnitude(guest.transform.position - guest.navMeshAgent.destination) <
                 DistanceThreshold * DistanceThreshold)
             {
-                guest.HoldingConsumable.Claim();
+                guest.CurrentConsumable.Claim();
                 _stateMachine.ChangeState(GuestStateID.MoveToSeat);
             }
         }
 
         public override void Exit()
         {
-            if (guest.GuestType == GuestType.Famine && guest.HoldingConsumable is Drink)
+            if (guest.GuestType == GuestType.Famine && guest.CurrentConsumable is Drink)
             {
                 FamineEvent famineEvent = guest.GetComponent<FamineEvent>();
                 if (!famineEvent)

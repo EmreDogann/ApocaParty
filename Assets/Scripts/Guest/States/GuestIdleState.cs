@@ -5,6 +5,7 @@ namespace Guest.States
     public class GuestIdleState : GuestState
     {
         private float _currentWanderTime;
+
         public GuestIdleState(GuestAI guest, GuestStateMachine stateMachine) : base(guest, stateMachine) {}
 
         public override GuestStateID GetID()

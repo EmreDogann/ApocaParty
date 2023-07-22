@@ -1,65 +1,92 @@
-﻿using MyBox;
-using Needs;
+﻿using AYellowpaper;
+using GuestRequests.Requests;
+using MyBox;
+using TransformProvider;
 using UnityEngine;
 
 namespace GuestRequests.Jobs
 {
     public class MoveToTarget : Job
     {
-        public Transform target;
+        public InterfaceReference<ITransformProvider, MonoBehaviour> transformProvider;
+
         public SpriteRenderer followerSprite;
         [SpriteLayer] [SerializeField] private int followerSortingLayer;
 
-        [SerializeField] private readonly float distanceThreshold = 0.1f;
+        // ReSharper disable once FieldCanBeMadeReadOnly.Local
+        [SerializeField] private float distanceThreshold = 0.1f;
         private float _enterTargetDistance;
+
+        private TransformPair transformPair;
         private Transform _followerTransform;
         private int _prevFollowerSpriteSL;
 
-        public override void Enter(IRequestOwner owner, ref NeedMetrics metrics)
+        internal override void Initialize(IJobOwner jobOwner)
         {
-            base.Enter(owner, ref metrics);
+            base.Initialize(jobOwner);
 
-            owner.SetDestination(target.position);
-            _enterTargetDistance = Vector3.SqrMagnitude(owner.GetPosition() - target.position);
+            if (transformProvider.Value != null)
+            {
+                jobOwner.RegisterTransformProvider(transformProvider.Value);
+            }
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+
+            transformPair =
+                transformProvider.Value.GetTransformPair(JobOwner.TryGetTransformHandle(transformProvider.Value));
+            JobOwner.GetRequestOwner().SetDestination(transformPair.GetParentTransform().position);
+            _enterTargetDistance =
+                Vector3.SqrMagnitude(JobOwner.GetRequestOwner().GetPosition() -
+                                     transformPair.GetParentTransform().position);
 
             if (followerSprite)
             {
                 _followerTransform = followerSprite.GetComponent<Transform>();
+                Transform holder = JobOwner.GetRequestOwner().GetHoldingPosition();
+                _followerTransform.position = holder.position;
+
                 _prevFollowerSpriteSL = followerSprite.sortingLayerID;
                 followerSprite.sortingLayerID = followerSortingLayer;
             }
         }
 
-        public override void Tick(float deltaTime, IRequestOwner owner, ref NeedMetrics metrics)
+        public override void Tick(float deltaTime)
         {
             if (!followerSprite)
             {
                 return;
             }
 
-            Transform holder = owner.GetHoldingPosition();
+            Transform holder = JobOwner.GetRequestOwner().GetHoldingPosition();
             _followerTransform.position = holder.position;
         }
 
-        public override void Exit(IRequestOwner owner, ref NeedMetrics metrics)
+        public override void Exit()
         {
-            base.Exit(owner, ref metrics);
+            base.Exit();
             if (followerSprite)
             {
                 followerSprite.sortingLayerID = _prevFollowerSpriteSL;
             }
         }
 
-        public override float GetProgressPercentage(IRequestOwner owner)
+        public override float GetProgressPercentage()
         {
-            float sqrDistance = Vector3.SqrMagnitude(owner.GetPosition() - target.position);
+            float sqrDistance =
+                Vector3.SqrMagnitude(JobOwner.GetRequestOwner().GetPosition() -
+                                     transformPair.GetParentTransform().position);
             return sqrDistance < distanceThreshold * distanceThreshold
                 ? 1.0f
-                : (_enterTargetDistance - Vector3.SqrMagnitude(owner.GetPosition() - target.position)) /
+                : (_enterTargetDistance -
+                   Vector3.SqrMagnitude(JobOwner.GetRequestOwner().GetPosition() -
+                                        transformPair.GetParentTransform().position)) /
                   _enterTargetDistance;
         }
 
-        public override float GetTotalDuration(IRequestOwner owner)
+        public override float GetTotalDuration()
         {
             return 0.0f;
         }

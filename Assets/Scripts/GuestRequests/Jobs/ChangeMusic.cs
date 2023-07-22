@@ -1,6 +1,5 @@
 ﻿using Audio;
 using GuestRequests.Requests;
-using Needs;
 using PartyEvents;
 using UnityEngine;
 
@@ -13,7 +12,7 @@ namespace GuestRequests.Jobs
         public float Duration = 1.0f;
         [SerializeField] private MusicPlayEvent _musicPlayEvent;
 
-        internal override void Initialize()
+        internal override void Initialize(IJobOwner jobOwner1)
         {
             MusicRequest.OnMusicRequested += OnMusicRequested;
         }
@@ -23,7 +22,7 @@ namespace GuestRequests.Jobs
             MusicRequest.OnMusicRequested -= OnMusicRequested;
         }
 
-        public override void Exit(IRequestOwner owner, ref NeedMetrics metrics)
+        public override void Exit()
         {
             if (_playbackPosition)
             {
@@ -37,12 +36,12 @@ namespace GuestRequests.Jobs
             _musicPlayEvent.TriggerEvent();
         }
 
-        public override float GetProgressPercentage(IRequestOwner owner)
+        public override float GetProgressPercentage()
         {
             return Mathf.Clamp01(_currentTime / Duration);
         }
 
-        public override float GetTotalDuration(IRequestOwner owner)
+        public override float GetTotalDuration()
         {
             return Duration;
         }

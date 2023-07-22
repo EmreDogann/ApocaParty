@@ -18,7 +18,10 @@ public class JobsGenericDrawer : PropertyDrawer
         PlaceAtTarget,
         Cook,
         ChangeMusic,
-        FixBunting
+        FixBunting,
+        ChangeSprite,
+        ShowOrHideSprite,
+        FixPowerOutage
     }
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
@@ -107,23 +110,23 @@ public class JobsGenericDrawer : PropertyDrawer
         do
         {
             float height = 0.0f;
-            if (!IsThisPropertyMustBeDrawnWithYourPropertyDrawer(nested))
-            {
-                typeof(EditorGUI)
-                    .GetMethod("DefaultPropertyField", BindingFlags.NonPublic | BindingFlags.Static)
-                    ?.Invoke(null, new object[] { position, nested, new GUIContent(nested.displayName) });
-
-                height = (float)typeof(EditorGUI)
-                    .GetMethod("GetPropertyHeightInternal", BindingFlags.NonPublic | BindingFlags.Static)
-                    ?.Invoke(null,
-                        new object[] { nested, new GUIContent(nested.displayName), nested.isExpanded })!;
-            }
-            else
-            {
-                // For each child property, draw its inspector widgets in a stack.
-                EditorGUI.PropertyField(position, nested);
-                height = EditorGUI.GetPropertyHeight(nested, nested.isExpanded);
-            }
+            // if (!IsThisPropertyMustBeDrawnWithYourPropertyDrawer(nested))
+            // {
+            //     typeof(EditorGUI)
+            //         .GetMethod("DefaultPropertyField", BindingFlags.NonPublic | BindingFlags.Static)
+            //         ?.Invoke(null, new object[] { position, nested, new GUIContent(nested.displayName) });
+            //
+            //     height = (float)typeof(EditorGUI)
+            //         .GetMethod("GetPropertyHeightInternal", BindingFlags.NonPublic | BindingFlags.Static)
+            //         ?.Invoke(null,
+            //             new object[] { nested, new GUIContent(nested.displayName), nested.isExpanded })!;
+            // }
+            // else
+            // {
+            // For each child property, draw its inspector widgets in a stack.
+            EditorGUI.PropertyField(position, nested);
+            height = EditorGUI.GetPropertyHeight(nested, nested.isExpanded);
+            // }
 
             // Advance the positioning of the next property by how much space this one took up.
             position.y += height + SINGLE_LINE_PADDING;
@@ -204,6 +207,9 @@ public class JobsGenericDrawer : PropertyDrawer
             case FieldType.Cook: return new Cook();
             case FieldType.ChangeMusic: return new ChangeMusic();
             case FieldType.FixBunting: return new FixBunting();
+            case FieldType.ChangeSprite: return new ChangeSprite();
+            case FieldType.ShowOrHideSprite: return new ShowOrHideSprite();
+            case FieldType.FixPowerOutage: return new FixPowerOutage();
             case FieldType.None: return null;
             default:
                 Debug.Log($"Unknown field type {fieldType}.");

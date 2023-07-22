@@ -1,5 +1,4 @@
 using GuestRequests;
-using Minion;
 using UnityEngine;
 
 namespace Interactions.Interactables
@@ -7,60 +6,34 @@ namespace Interactions.Interactables
     public class RequestInteractable : InteractableBase, IInteractableRequest
     {
         [SerializeField] private Request request;
+        [SerializeField] private float hoverScaleAmount = 1.5f;
 
         public override void OnStartHover()
         {
-            if (!request.IsRequestCompleted())
+            if (request.IsRequestStarted())
             {
                 return;
             }
 
             base.OnStartHover();
 
-            transform.localScale *= 1.5f;
+            transform.localScale *= hoverScaleAmount;
         }
 
         public override void OnEndHover()
         {
-            if (!request.IsRequestCompleted())
+            if (request.IsRequestStarted())
             {
                 return;
             }
 
             base.OnEndHover();
-            transform.localScale /= 1.5f;
-        }
-
-        public override void OnStartInteract()
-        {
-            base.OnStartInteract();
-        }
-
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            MinionAI minion = other.transform.parent.GetComponent<MinionAI>();
-            if (minion == null)
-            {
-                return;
-            }
-
-            transform.localScale *= 3;
-        }
-
-        private void OnTriggerExit2D(Collider2D other)
-        {
-            MinionAI minion = other.transform.parent.GetComponent<MinionAI>();
-            if (minion == null)
-            {
-                return;
-            }
-
-            transform.localScale /= 3;
+            transform.localScale /= hoverScaleAmount;
         }
 
         private bool IsRequestActive()
         {
-            return request.IsRequestCompleted();
+            return request.IsRequestStarted();
         }
 
         public Request GetRequest()

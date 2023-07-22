@@ -51,6 +51,19 @@ namespace Consumable
             return null;
         }
 
+        public bool IsDrinksTableFull()
+        {
+            foreach (Drink drink in _drinks)
+            {
+                if (!drink.IsAvailable())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private void OnFamineEvent(PartyEventData eventData)
         {
             foreach (Drink drink in _drinks)

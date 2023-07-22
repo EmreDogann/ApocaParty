@@ -10,6 +10,8 @@ namespace GuestRequests
 
         public Transform GetHoldingPosition();
 
+        public void OwnerRemoved();
+
         // public void SetAnimation();
     }
 }

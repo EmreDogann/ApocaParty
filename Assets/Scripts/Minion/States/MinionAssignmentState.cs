@@ -1,4 +1,6 @@
 using System;
+using Consumable;
+using GuestRequests;
 using GuestRequests.Requests;
 using Interactions;
 using UnityEngine;
@@ -44,14 +46,27 @@ namespace Minion.States
             switch (interactable)
             {
                 case IInteractableRequest requestInteractable:
-
-                    minion.navMeshAgent.SetDestination(interactable.transform.position);
-                    minion.currentRequest = requestInteractable.GetRequest();
-                    minion.currentRequest.AssignOwner(minion);
-
-                    switch (minion.currentRequest)
+                    Request request = requestInteractable.GetRequest();
+                    if (request.IsRequestStarted() || !request.TryStartRequest())
                     {
-                        case FoodRequest _ or DrinkRefillRequest _:
+                        minion.SetWandering(false);
+                        _stateMachine.ChangeState(MinionStateID.Idle);
+
+                        return;
+                    }
+
+                    switch (request)
+                    {
+                        case FoodRequest _:
+                            minion.image.sprite = minion.actorData.kitchenIcon;
+                            break;
+                        case DrinkRefillRequest _:
+                            if (DrinksTable.Instance.IsDrinksTableFull())
+                            {
+                                _stateMachine.ChangeState(MinionStateID.Idle);
+                                return;
+                            }
+
                             minion.image.sprite = minion.actorData.kitchenIcon;
                             break;
                         case MusicRequest _:
@@ -61,12 +76,16 @@ namespace Minion.States
                             minion.image.sprite = minion.actorData.eventIcon;
                             break;
                         default:
+                            // TODO: Play error sound.
                             minion.image.sprite = minion.actorData.defaultIcon;
                             break;
                     }
 
-                    minion.SetWandering(false);
+                    minion.navMeshAgent.SetDestination(request.GetStartingPosition());
+                    minion.currentRequest = request;
+                    request.AssignOwner(minion);
 
+                    minion.SetWandering(false);
                     _stateMachine.ChangeState(MinionStateID.Moving);
                     break;
                 case null:

@@ -1,37 +1,51 @@
-﻿using Needs;
+﻿using AYellowpaper;
+using GuestRequests.Requests;
+using TransformProvider;
 using UnityEngine;
 
 namespace GuestRequests.Jobs
 {
     public class PlaceAtTarget : Job
     {
-        public Transform target;
+        public InterfaceReference<ITransformProvider, MonoBehaviour> transformProvider;
         public SpriteRenderer spriteToPlace;
 
+        private TransformPair transformPair;
         private Transform _followerTransform;
 
-        public override void Enter(IRequestOwner owner, ref NeedMetrics metrics)
+        internal override void Initialize(IJobOwner jobOwner)
         {
-            base.Enter(owner, ref metrics);
+            base.Initialize(jobOwner);
+            if (transformProvider.Value != null)
+            {
+                jobOwner.RegisterTransformProvider(transformProvider.Value);
+            }
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+            transformPair =
+                transformProvider.Value.GetTransformPair(JobOwner.TryGetTransformHandle(transformProvider.Value));
             _followerTransform = spriteToPlace.GetComponent<Transform>();
         }
 
-        public override void Tick(float deltaTime, IRequestOwner owner, ref NeedMetrics metrics)
+        public override void Tick(float deltaTime)
         {
             if (!spriteToPlace)
             {
                 return;
             }
 
-            _followerTransform.position = target.position;
+            _followerTransform.position = transformPair.GetChildTransform().position;
         }
 
-        public override float GetProgressPercentage(IRequestOwner owner)
+        public override float GetProgressPercentage()
         {
             return 1.0f;
         }
 
-        public override float GetTotalDuration(IRequestOwner owner)
+        public override float GetTotalDuration()
         {
             return 0.0f;
         }

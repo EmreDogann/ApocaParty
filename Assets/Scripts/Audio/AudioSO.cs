@@ -10,6 +10,13 @@ namespace Audio
     [CreateAssetMenu(fileName = "New Audio", menuName = "Audio/New Audio")]
     public class AudioSO : ScriptableObject
     {
+        private enum SoundClipPlayOrder
+        {
+            Random,
+            InOrder,
+            Reverse
+        }
+
         private const float SEMITONES_TO_PITCH_CONVERSION_UNIT = 1.05946f;
 
         [MustBeAssigned] [SerializeField] private AudioClip[] clips;
@@ -41,6 +48,8 @@ namespace Audio
         [Tooltip("The Audio Event to trigger when trying to play/stop the audio.")]
         [OverrideLabel("Play Trigger Event")] [SerializeField] private AudioEventChannelSO audioEvent;
         private List<AudioHandle> _audioHandle = new List<AudioHandle>();
+        private readonly Dictionary<AudioHandle, AudioEventData>
+            _audioHandleData = new Dictionary<AudioHandle, AudioEventData>();
 
         #region PreviewCode
 
@@ -161,7 +170,7 @@ namespace Audio
             return audioMixer;
         }
 
-        public void Play(Vector3 positionWorldSpace = default)
+        public void Play(Vector3 positionWorldSpace = default, bool fadeIn = false)
         {
             if (clips.Length == 0)
             {
@@ -176,15 +185,25 @@ namespace Audio
                 : Random.Range(pitch.Min, pitch.Max);
             audioEventData.ShouldLoop = Looping;
             audioEventData.CanPause = CanBePaused;
+            if (fadeIn)
+            {
+                audioEventData.SoundFade = new SoundFade
+                {
+                    FadeType = FadeType.FadeIn,
+                    Volume = audioEventData.Volume,
+                    Duration = 1.0f
+                };
+            }
 
             AudioHandle handle = audioEvent.RaisePlayEvent(this, audioEventData, positionWorldSpace);
             if (handle != AudioHandle.Invalid)
             {
                 _audioHandle.Add(handle);
+                _audioHandleData.TryAdd(handle, audioEventData);
             }
         }
 
-        public void Play2D()
+        public void Play2D(bool fadeIn = false)
         {
             if (clips.Length == 0)
             {
@@ -199,15 +218,25 @@ namespace Audio
                 : Random.Range(pitch.Min, pitch.Max);
             audioEventData.ShouldLoop = Looping;
             audioEventData.CanPause = CanBePaused;
+            if (fadeIn)
+            {
+                audioEventData.SoundFade = new SoundFade
+                {
+                    FadeType = FadeType.FadeIn,
+                    Volume = audioEventData.Volume,
+                    Duration = 1.0f
+                };
+            }
 
             AudioHandle handle = audioEvent.RaisePlay2DEvent(this, audioEventData);
             if (handle != AudioHandle.Invalid)
             {
                 _audioHandle.Add(handle);
+                _audioHandleData.TryAdd(handle, audioEventData);
             }
         }
 
-        public void PlayAttached(GameObject gameObject)
+        public void PlayAttached(GameObject gameObject, bool fadeIn = false)
         {
             if (clips.Length == 0)
             {
@@ -222,11 +251,21 @@ namespace Audio
                 : Random.Range(pitch.Min, pitch.Max);
             audioEventData.ShouldLoop = Looping;
             audioEventData.CanPause = CanBePaused;
+            if (fadeIn)
+            {
+                audioEventData.SoundFade = new SoundFade
+                {
+                    FadeType = FadeType.FadeIn,
+                    Volume = audioEventData.Volume,
+                    Duration = 1.0f
+                };
+            }
 
             AudioHandle handle = audioEvent.RaisePlayAttachedEvent(this, audioEventData, gameObject);
             if (handle != AudioHandle.Invalid)
             {
                 _audioHandle.Add(handle);
+                _audioHandleData.TryAdd(handle, audioEventData);
             }
         }
 
@@ -249,6 +288,7 @@ namespace Audio
             }
 
             _audioHandle.Clear();
+            _audioHandleData.Clear();
         }
 
         public void Stop()
@@ -259,7 +299,7 @@ namespace Audio
                 return;
             }
 
-            AudioHandle handle = _audioHandle[_audioHandle.Count - 1];
+            AudioHandle handle = _audioHandle[^1];
             bool handleFound = audioEvent.RaiseStopEvent(handle);
 
             if (!handleFound)
@@ -268,13 +308,29 @@ namespace Audio
             }
 
             _audioHandle.RemoveAt(_audioHandle.Count - 1);
+            _audioHandleData.Remove(handle);
         }
 
-        private enum SoundClipPlayOrder
+        public void FadeAudio(float to, float duration)
         {
-            Random,
-            InOrder,
-            Reverse
+            if (_audioHandle.Count < 1)
+            {
+                return;
+            }
+
+            AudioHandle handle = _audioHandle[^1];
+            audioEvent.OnAudioFade(handle, to, duration);
+        }
+
+        public void UnFadeAudio(float duration)
+        {
+            if (_audioHandle.Count < 1)
+            {
+                return;
+            }
+
+            AudioHandle handle = _audioHandle[^1];
+            audioEvent.OnAudioFade(handle, _audioHandleData[handle].Volume, duration);
         }
     }
 }
