@@ -37,6 +37,7 @@ namespace Dialogue
         private bool _dialogueIsPaused;
 
         private BoolEventListener _listener;
+        private Coroutine animationCoroutine;
 
         private void Awake()
         {
@@ -73,11 +74,28 @@ namespace Dialogue
             
             
             UIManager.Instance.Show(dialogueView);
-            DisplayMessage();
+            animationCoroutine=StartCoroutine(DisplayMessage());
         }
 
-        private void DisplayMessage()
+
+        private IEnumerator DisplayMessage()
         {
+            ActorSO actorToDisplay = _currentMessages[_messageIndex].actor;
+            actorName.text = actorToDisplay.name;
+            actorImage.sprite = actorToDisplay.sprite;
+            messageText.text=string.Empty;
+            foreach(char c in _currentMessages[_messageIndex].message.ToCharArray()){
+                messageText.text += c;
+                Debug.Log(c);
+                yield return new WaitForSecondsRealtime(0.1f);
+            }
+
+
+        }
+        
+        private void DisplayEntireMessage()
+        {
+            messageText.text = string.Empty;
             Message messageToDisplay = _currentMessages[_messageIndex];
             messageText.text = messageToDisplay.message;
 
@@ -85,13 +103,22 @@ namespace Dialogue
             actorName.text = actorToDisplay.name;
             actorImage.sprite = actorToDisplay.sprite;
         }
+        // private void DisplayMessage()
+        // {
+        //     Message messageToDisplay = _currentMessages[_messageIndex];
+        //     messageText.text = messageToDisplay.message;
+
+        //     ActorSO actorToDisplay = messageToDisplay.actor;
+        //     actorName.text = actorToDisplay.name;
+        //     actorImage.sprite = actorToDisplay.sprite;
+        // }
 
         public void NextMessage()
         {
             _messageIndex++;
             if (_messageIndex < _currentMessages.Length)
             {
-                DisplayMessage();
+                animationCoroutine=StartCoroutine(DisplayMessage());
             }
             else
             {
@@ -121,7 +148,21 @@ namespace Dialogue
         {
             if (confirmAction.action.WasPressedThisFrame() && UIManager.Instance.GetCurrentView() == dialogueView)
             {
-                NextMessage();
+                if(_messageIndex>=_currentMessages.Length){
+                    return;
+                }
+                if(messageText.text!=_currentMessages[_messageIndex].message){
+                    Debug.Log("entire");
+                    if(animationCoroutine!=null){
+                        StopCoroutine(animationCoroutine);
+                    }
+                    DisplayEntireMessage();
+                }
+                else{
+                    Debug.Log("next");
+                    NextMessage();
+                }
+                
             }
         }
     }
