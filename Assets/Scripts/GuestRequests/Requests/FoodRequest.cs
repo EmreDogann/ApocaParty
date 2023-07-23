@@ -35,7 +35,7 @@ namespace GuestRequests.Requests
             return _isConsumed;
         }
 
-        public bool IsAvailable()
+        public bool IsOnTable()
         {
             return !IsConsumed() && !_isClaimed;
         }

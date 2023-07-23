@@ -19,7 +19,7 @@ namespace Consumable
         public ConsumedData Consume();
         public void Claim();
         public bool IsConsumed();
-        public bool IsAvailable();
+        public bool IsOnTable();
     }
 
     internal interface IConsumableInternal

@@ -212,6 +212,18 @@ namespace Guest
             }
         }
 
+        [ButtonMethod]
+        private void Drink()
+        {
+            CurrentConsumable = DrinksTable.Instance.TryGetDrink();
+            if (CurrentConsumable == null)
+            {
+                return;
+            }
+
+            stateMachine.ChangeState(GuestStateID.GetConsumable);
+        }
+
         private void OnPartyEvent(PartyEventData eventData)
         {
             switch (eventData.eventType)

@@ -11,14 +11,12 @@ namespace Consumable
         [SerializeField] private bool _isConsumed;
         [ReadOnly] private bool _isClaimed;
         private SpriteRenderer _spriteRenderer;
-        private Vector3 originalPosition;
 
         private void Awake()
         {
             _isClaimed = false;
             _isConsumed = false;
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            originalPosition = transform.position;
         }
 
         public Transform GetTransform()
@@ -43,9 +41,24 @@ namespace Consumable
             return _isConsumed;
         }
 
-        public bool IsAvailable()
+        public bool IsOnTable()
         {
-            return !IsConsumed() && !_isClaimed;
+            return !_isClaimed && !_isConsumed && _spriteRenderer.enabled;
+        }
+
+        public void Show()
+        {
+            _spriteRenderer.enabled = true;
+        }
+
+        public void Hide()
+        {
+            _spriteRenderer.enabled = false;
+        }
+
+        public bool IsVisible()
+        {
+            return _spriteRenderer.enabled;
         }
 
         void IConsumableInternal.ResetConsumable()
@@ -53,7 +66,6 @@ namespace Consumable
             _isConsumed = false;
             _isClaimed = false;
             _spriteRenderer.enabled = true;
-            transform.position = originalPosition;
         }
     }
 }

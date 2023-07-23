@@ -30,7 +30,7 @@ namespace Guest.States
 
         public override void Tick()
         {
-            if (!guest.CurrentConsumable.IsAvailable())
+            if (!guest.CurrentConsumable.IsOnTable())
             {
                 guest.needSystem.ChangeMood(-1);
                 guest.CurrentConsumable = null;
