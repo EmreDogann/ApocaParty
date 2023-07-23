@@ -32,11 +32,6 @@ namespace Guest.States
                 guest.transform.localScale = Vector3.one;
             }
 
-            if (guest.InteractableState.IsInteracting)
-            {
-                _stateMachine.ChangeState(GuestStateID.Consume);
-            }
-
             if (!guest.needSystem.IsSatisfied())
             {
                 return;

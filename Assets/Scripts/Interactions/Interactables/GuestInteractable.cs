@@ -43,6 +43,16 @@ namespace Interactions.Interactables
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            CheckForPlayer(other);
+        }
+
+        private void OnTriggerStay2D(Collider2D other)
+        {
+            CheckForPlayer(other);
+        }
+
+        private void CheckForPlayer(Collider2D other)
+        {
             if (_isPlayerComing)
             {
                 IWaiter waiter = other.GetComponent<IWaiter>();
@@ -50,6 +60,8 @@ namespace Interactions.Interactables
                 {
                     _isPlayerComing = false;
                     _playerID = 0;
+
+                    waiter.FinishInteraction();
                     OnPlayerInteract?.Invoke();
                 }
             }

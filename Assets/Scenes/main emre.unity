@@ -171,13 +171,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconSpacing: 0.5
+  unresolvedRequestSprite: {fileID: 0}
   _needsIconDatas:
   - NeedType: 0
     SpriteRenderer: {fileID: 1257110506}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 1320042416}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 2099562183}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
 --- !u!1 &10534235
 GameObject:
   m_ObjectHideFlags: 0
@@ -1817,6 +1824,7 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 0
   <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.1
 --- !u!195 &123592457
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -7403,8 +7411,8 @@ MonoBehaviour:
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
   startingMood: 3
   walkToDrinksChance: 0.1
-  wanderWhenHappyChance: 1
-  wanderCheckFrequency: 1
+  wanderWhenHappyChance: 0.05
+  wanderCheckFrequency: 3
   AIState: {fileID: 511284921}
   <AssignedTableSeat>k__BackingField: {fileID: 337977021}
 --- !u!195 &169186465
@@ -7473,6 +7481,7 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
   <IsHoverable>k__BackingField: 1
+  hoverScaleAmount: 1.1
 --- !u!114 &169186469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9069,13 +9078,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconSpacing: 0.5
+  unresolvedRequestSprite: {fileID: 0}
   _needsIconDatas:
   - NeedType: 0
     SpriteRenderer: {fileID: 707985367}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 1024406120}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 1459388434}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
 --- !u!1 &337977016
 GameObject:
   m_ObjectHideFlags: 0
@@ -10996,6 +11012,7 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 0
   <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.1
 --- !u!195 &491118487
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -12939,6 +12956,7 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 0
   <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.1
 --- !u!195 &665599018
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -13052,13 +13070,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconSpacing: 0.5
+  unresolvedRequestSprite: {fileID: 0}
   _needsIconDatas:
   - NeedType: 0
     SpriteRenderer: {fileID: 1969988895}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 1940561627}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 1033559736}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
 --- !u!1 &685444492
 GameObject:
   m_ObjectHideFlags: 0
@@ -14925,7 +14950,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1552764799}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &817330208
 SpriteRenderer:
@@ -15419,13 +15444,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconSpacing: 0.5
+  unresolvedRequestSprite: {fileID: 0}
   _needsIconDatas:
   - NeedType: 0
     SpriteRenderer: {fileID: 805966363}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 46519719}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 1090024410}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
 --- !u!1 &842877071
 GameObject:
   m_ObjectHideFlags: 0
@@ -16148,6 +16180,7 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 0
   <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.1
 --- !u!195 &884869659
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -16786,13 +16819,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconSpacing: 0.5
+  unresolvedRequestSprite: {fileID: 0}
   _needsIconDatas:
   - NeedType: 0
     SpriteRenderer: {fileID: 163164597}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 560121835}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 49630520}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
 --- !u!1 &961665850
 GameObject:
   m_ObjectHideFlags: 0
@@ -17088,13 +17128,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconSpacing: 0.5
+  unresolvedRequestSprite: {fileID: 0}
   _needsIconDatas:
   - NeedType: 0
     SpriteRenderer: {fileID: 1336623244}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 685444494}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 410020191}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
 --- !u!1 &989658459
 GameObject:
   m_ObjectHideFlags: 0
@@ -17507,7 +17554,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1552764799}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1042217184
 SpriteRenderer:
@@ -21855,6 +21902,90 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1324036742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1324036743}
+  - component: {fileID: 1324036744}
+  m_Layer: 0
+  m_Name: Unsolved
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1324036743
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324036742}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: -1.5, y: 1.5, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1552764799}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1324036744
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324036742}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -29931941
+  m_SortingLayer: 2
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: 7d1511d71f74cf44d9ea5e9901474670, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 1
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.8027119, y: 0.74}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &1331329909
 GameObject:
   m_ObjectHideFlags: 0
@@ -22634,6 +22765,7 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 0
   <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.1
 --- !u!195 &1381293936
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -22949,6 +23081,7 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 0
   <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.1
 --- !u!195 &1406249640
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -23336,6 +23469,7 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 0
   <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.1
 --- !u!195 &1431685013
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -24332,13 +24466,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconSpacing: 0.5
+  unresolvedRequestSprite: {fileID: 0}
   _needsIconDatas:
   - NeedType: 0
     SpriteRenderer: {fileID: 1817226744}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 769925838}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 1370636068}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
 --- !u!1 &1548476942
 GameObject:
   m_ObjectHideFlags: 0
@@ -24479,6 +24620,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1324036743}
   - {fileID: 1556630751}
   - {fileID: 1042217183}
   - {fileID: 817330207}
@@ -24498,13 +24640,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconSpacing: 0.5
+  unresolvedRequestSprite: {fileID: 1324036744}
   _needsIconDatas:
   - NeedType: 0
     SpriteRenderer: {fileID: 1556630752}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 1042217184}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 817330208}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
 --- !u!1 &1554604130
 GameObject:
   m_ObjectHideFlags: 0
@@ -24670,7 +24819,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1552764799}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 40.76}
 --- !u!212 &1556630752
 SpriteRenderer:
@@ -24997,13 +25146,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconSpacing: 0.5
+  unresolvedRequestSprite: {fileID: 0}
   _needsIconDatas:
   - NeedType: 0
     SpriteRenderer: {fileID: 1352439124}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 1143487681}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 821232225}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
 --- !u!1 &1604483476
 GameObject:
   m_ObjectHideFlags: 0
@@ -26270,6 +26426,7 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 0
   <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.1
 --- !u!195 &1651872108
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -26508,13 +26665,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconSpacing: 0.5
+  unresolvedRequestSprite: {fileID: 0}
   _needsIconDatas:
   - NeedType: 0
     SpriteRenderer: {fileID: 372086756}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 102461794}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 1251275264}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
 --- !u!1 &1734532199
 GameObject:
   m_ObjectHideFlags: 0
@@ -26750,6 +26914,7 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 0
   <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.1
 --- !u!195 &1740301354
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -27720,6 +27885,7 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 0
   <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.1
 --- !u!195 &1879151980
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -27906,6 +28072,7 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 0
   <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.1
 --- !u!195 &1882609962
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -28169,13 +28336,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconSpacing: 0.5
+  unresolvedRequestSprite: {fileID: 0}
   _needsIconDatas:
   - NeedType: 0
     SpriteRenderer: {fileID: 385499939}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 1944533075}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 141948776}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
 --- !u!1 &1938091386
 GameObject:
   m_ObjectHideFlags: 0
@@ -29392,13 +29566,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconSpacing: 0.5
+  unresolvedRequestSprite: {fileID: 0}
   _needsIconDatas:
   - NeedType: 0
     SpriteRenderer: {fileID: 138871070}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 2084522438}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 237937233}
+    requestSprite: {fileID: 0}
+    requestResolved: 0
 --- !u!1 &2041043144
 GameObject:
   m_ObjectHideFlags: 0

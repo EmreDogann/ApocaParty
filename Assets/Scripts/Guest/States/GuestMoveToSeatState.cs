@@ -29,6 +29,7 @@ namespace Guest.States
             {
                 if (guest.CurrentConsumable != null || guest.AssignedTableSeat.IsFoodAvailable())
                 {
+                    Debug.Log("heyy");
                     _stateMachine.ChangeState(GuestStateID.Consume);
                 }
                 else

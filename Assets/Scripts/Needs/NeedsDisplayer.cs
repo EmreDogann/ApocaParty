@@ -12,32 +12,36 @@ namespace Needs
         {
             public NeedType NeedType;
             public SpriteRenderer SpriteRenderer;
+            [HideInInspector] public Sprite requestSprite;
+            [HideInInspector] public bool requestResolved;
         }
 
         [Tooltip("Spacing between the need icons in world space.")]
         [SerializeField] private float iconSpacing = 0.5f;
 
+        [SerializeField] private SpriteRenderer unresolvedRequestSprite;
         [SerializeField] private List<NeedsIconData> _needsIconDatas;
         private List<NeedsIconData> _currentlyActiveIcons;
 
         private void Awake()
         {
             _currentlyActiveIcons = new List<NeedsIconData>();
-            foreach (NeedsIconData needIcons in _needsIconDatas)
+            foreach (NeedsIconData needIcon in _needsIconDatas)
             {
-                needIcons.SpriteRenderer.enabled = false;
+                needIcon.SpriteRenderer.enabled = false;
+                needIcon.requestSprite = needIcon.SpriteRenderer.sprite;
             }
         }
 
         private void UpdateDisplay()
         {
             float xPosition = 0.0f;
-            foreach (NeedsIconData activeIcons in _currentlyActiveIcons)
+            foreach (NeedsIconData activeIcon in _currentlyActiveIcons)
             {
-                Vector3 transformPosition = activeIcons.SpriteRenderer.transform.localPosition;
+                Vector3 transformPosition = activeIcon.SpriteRenderer.transform.localPosition;
                 transformPosition.x = xPosition;
 
-                activeIcons.SpriteRenderer.transform.localPosition = transformPosition;
+                activeIcon.SpriteRenderer.transform.localPosition = transformPosition;
 
                 xPosition += iconSpacing;
             }
@@ -48,7 +52,10 @@ namespace Needs
             NeedsIconData iconData = _needsIconDatas.FirstOrDefault(x => x.NeedType == needType);
             if (iconData != null)
             {
+                iconData.SpriteRenderer.sprite = unresolvedRequestSprite.sprite;
                 iconData.SpriteRenderer.enabled = true;
+
+                iconData.requestResolved = false;
                 _currentlyActiveIcons.Add(iconData);
 
                 UpdateDisplay();
@@ -61,9 +68,23 @@ namespace Needs
             if (iconData != null)
             {
                 iconData.SpriteRenderer.enabled = false;
+                iconData.requestResolved = false;
                 _currentlyActiveIcons.Remove(iconData);
 
                 UpdateDisplay();
+            }
+        }
+
+        public void ResolveRequests()
+        {
+            foreach (NeedsIconData activeIcon in _currentlyActiveIcons)
+            {
+                if (!activeIcon.requestResolved)
+                {
+                    activeIcon.requestResolved = true;
+                    activeIcon.SpriteRenderer.sprite = activeIcon.requestSprite;
+                    activeIcon.SpriteRenderer.enabled = true;
+                }
             }
         }
     }

@@ -165,18 +165,18 @@ namespace Player
             }
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (_targetGuest != null && other.transform.CompareTag("Guest"))
-            {
-                GuestInteractable interactable = other.transform.GetComponent<GuestInteractable>();
-                if (interactable == _targetGuest)
-                {
-                    _targetGuest = null;
-                    _agent.ResetPath();
-                }
-            }
-        }
+        // private void OnTriggerEnter2D(Collider2D other)
+        // {
+        //     if (_targetGuest != null && other.transform.CompareTag("Guest"))
+        //     {
+        //         GuestInteractable interactable = other.transform.GetComponent<GuestInteractable>();
+        //         if (interactable == _targetGuest)
+        //         {
+        //             _targetGuest = null;
+        //             _agent.ResetPath();
+        //         }
+        //     }
+        // }
 
         public void SetDestination(Vector3 target)
         {
@@ -209,6 +209,13 @@ namespace Player
             waiterID = 0;
             _agent.ResetPath();
             return _holdingConsumable;
+        }
+
+        public void FinishInteraction()
+        {
+            waiterID = 0;
+            _targetGuest = null;
+            _agent.ResetPath();
         }
 
         public int GetWaiterID()
