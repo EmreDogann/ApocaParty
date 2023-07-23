@@ -133,6 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4ac3d9c3e44d3b9958a5d3a1d7e54c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deliverySpot: {fileID: 743088692652580073}
 --- !u!1 &2833652555326270590
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,6 +252,7 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
   <IsHoverable>k__BackingField: 1
+  hoverScaleAmount: 1.5
 --- !u!1 &4695796130766926672
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,7 +263,6 @@ GameObject:
   m_Component:
   - component: {fileID: 743088692652580073}
   - component: {fileID: 6890190075185094945}
-  - component: {fileID: 6555171228454255500}
   m_Layer: 0
   m_Name: Delivery Spot
   m_TagString: Untagged
@@ -300,15 +301,3 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.25
---- !u!114 &6555171228454255500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4695796130766926672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 700d5685e9874f84db38d3c6bd9f9c34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

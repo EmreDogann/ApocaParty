@@ -301,7 +301,6 @@ Transform:
   - {fileID: 437337723}
   - {fileID: 1294801525}
   - {fileID: 38958794}
-  - {fileID: 2122856392}
   - {fileID: 532448431}
   - {fileID: 1129203839}
   - {fileID: 48497829}
@@ -439,6 +438,7 @@ MonoBehaviour:
   resetRequestOnCompletion: 0
   requestResetPosition: {fileID: 508185916}
   _jobs:
+  - rid: 8197751421409427468
   - rid: 8197751375377727540
   - rid: 8197751313132683297
   - rid: 8197751313132683298
@@ -508,6 +508,12 @@ MonoBehaviour:
         <JobName>k__BackingField: Set Sprite to Raw Food
         requestSpriteRenderer: {fileID: 23770097}
         icon: {fileID: 968688133, guid: bb6d5f588e9a2ba48b7f28593567099f, type: 3}
+    - rid: 8197751421409427468
+      type: {class: ShowOrHideSprite, ns: GuestRequests.Jobs, asm: Assembly-CSharp}
+      data:
+        <JobName>k__BackingField: Show Sprite
+        _requestSpriteRenderer: {fileID: 23770097}
+        _show: 1
 --- !u!114 &23770099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1082,7 +1088,7 @@ Transform:
   - {fileID: 1841541993}
   - {fileID: 1847186608}
   m_Father: {fileID: 10534236}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &49630518
 GameObject:
@@ -7358,7 +7364,7 @@ MonoBehaviour:
   holderTransform: {fileID: 538963628}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
   startingMood: 3
-  walkToDrinksChance: 1
+  walkToDrinksChance: 0.1
   wanderWhenHappyChance: 0.1
   wanderCheckFrequency: 5
   AIState: {fileID: 511284921}
@@ -7495,9 +7501,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.4}
   serializedVersion: 2
-  m_Radius: 0.75
+  m_Radius: 0.5
 --- !u!1001 &169882165
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11272,7 +11278,7 @@ Transform:
   - {fileID: 827024053}
   - {fileID: 1650170287}
   m_Father: {fileID: 10534236}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &534811115
 PrefabInstance:
@@ -17580,7 +17586,7 @@ Transform:
   - {fileID: 626488163}
   - {fileID: 639328640}
   m_Father: {fileID: 10534236}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1131921453
 GameObject:
@@ -21864,8 +21870,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1437635273}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -0.08, y: 0.08, z: 1}
+  m_LocalPosition: {x: 0, y: -0.33, z: 0}
+  m_LocalScale: {x: -0.06, y: 0.06, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1478434310}
@@ -23294,37 +23300,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1562113489}
   m_CullTransparentMesh: 1
---- !u!1 &1571096102
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1571096103}
-  m_Layer: 0
-  m_Name: Seat
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1571096103
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1571096102}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.05, y: 1.15, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2122856392}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1577446061
 GameObject:
   m_ObjectHideFlags: 0
@@ -23632,7 +23607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5323629bac5b2498ab0b1d488f0755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveButton: {fileID: 4111037088096962617, guid: 1fd9d9af030accf4e8cfdbe36d107005, type: 3}
+  moveButton: {fileID: -5519726930694964752, guid: 1fd9d9af030accf4e8cfdbe36d107005, type: 3}
   distanceThreshold: 0.1
   ignoreAreaCosts: 3
   holderTransform: {fileID: 745539120}
@@ -26881,37 +26856,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1946687910
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1946687911}
-  m_Layer: 0
-  m_Name: Seat
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1946687911
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1946687910}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.49, y: 3.21, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2122856392}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1969988893
 GameObject:
   m_ObjectHideFlags: 0
@@ -28173,39 +28117,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &2122856391
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2122856392}
-  m_Layer: 0
-  m_Name: Seats
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2122856392
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2122856391}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1571096103}
-  - {fileID: 1946687911}
-  m_Father: {fileID: 10534236}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2147196900
 PrefabInstance:
   m_ObjectHideFlags: 0

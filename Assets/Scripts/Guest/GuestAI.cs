@@ -28,7 +28,7 @@ namespace Guest
 
     [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent), typeof(GuestInteractable))]
     [RequireComponent(typeof(NeedSystem))]
-    public class GuestAI : MonoBehaviour, IGuestRequestOwner
+    public class GuestAI : MonoBehaviour, IGuestRequestOwner, IWaiterTarget
     {
         [SerializeField] private GuestType _guestType;
         public GuestType GuestType
@@ -74,6 +74,8 @@ namespace Guest
         public IConsumable CurrentConsumable;
         [field: SerializeReference] public TableSeat AssignedTableSeat { get; private set; }
 
+        private int _waiterID;
+
         private void Awake()
         {
             _mainCamera = Camera.main;
@@ -114,7 +116,7 @@ namespace Guest
             needSystem.OnNewNeed += OnNewNeed;
 
             AssignedTableSeat.OnFoodArrival += OnFoodArrival;
-            InteractableState.OnPlayerInteract += OnPlayerInteract;
+            // InteractableState.OnPlayerInteract += OnPlayerInteract;
         }
 
         private void OnDisable()
@@ -123,7 +125,7 @@ namespace Guest
             needSystem.OnNewNeed -= OnNewNeed;
 
             AssignedTableSeat.OnFoodArrival -= OnFoodArrival;
-            InteractableState.OnPlayerInteract -= OnPlayerInteract;
+            // InteractableState.OnPlayerInteract -= OnPlayerInteract;
         }
 
         private void Update()
@@ -235,7 +237,12 @@ namespace Guest
             stateMachine.ChangeState(GuestStateID.MoveToSeat);
         }
 
-        private void OnPlayerInteract()
+        private void OnWaiterInteractDialogueFinished()
+        {
+            needSystem.ResolveNeeds();
+        }
+
+        public void WaiterInteracted(IWaiter waiter)
         {
             switch (stateMachine.GetCurrentState().GetID())
             {
@@ -252,16 +259,31 @@ namespace Guest
                         }
 
                         DialogueManager.Instance.OpenRandomDialogue(messages.ToArray(),
-                            OnPlayerInteractDialogueFinished);
+                            OnWaiterInteractDialogueFinished);
                     }
 
                     break;
             }
         }
 
-        private void OnPlayerInteractDialogueFinished()
+        public void GiveWaiterID(int waiterID)
         {
-            needSystem.ResolveNeeds();
+            _waiterID = waiterID;
+        }
+
+        public int GetWaiterID()
+        {
+            return _waiterID;
+        }
+
+        public Transform GetDestinationTransform()
+        {
+            if (stateMachine.GetCurrentState().GetID() == GuestStateID.Wander)
+            {
+                return transform;
+            }
+
+            return AssignedTableSeat.GetDestinationTransform();
         }
     }
 }

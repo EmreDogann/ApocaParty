@@ -1,19 +1,20 @@
-using System;
-using Player;
 using UnityEngine;
 
 namespace Interactions.Interactables
 {
+    [RequireComponent(typeof(IWaiterTarget))]
     public class GuestInteractable : InteractableBase
     {
         [SerializeField] private float hoverScaleAmount = 1.1f;
-        private int _playerID;
-        private bool _isPlayerComing;
+        public IWaiterTarget WaiterTarget { get; private set; }
 
         public bool IsHovering { get; private set; }
         public bool IsInteracting { get; private set; }
 
-        public Action OnPlayerInteract;
+        private void Awake()
+        {
+            WaiterTarget = GetComponent<IWaiterTarget>();
+        }
 
         public override void OnStartHover()
         {
@@ -39,39 +40,6 @@ namespace Interactions.Interactables
         {
             base.OnEndInteract();
             IsInteracting = false;
-        }
-
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            CheckForPlayer(other);
-        }
-
-        private void OnTriggerStay2D(Collider2D other)
-        {
-            CheckForPlayer(other);
-        }
-
-        private void CheckForPlayer(Collider2D other)
-        {
-            if (_isPlayerComing)
-            {
-                IWaiter waiter = other.GetComponent<IWaiter>();
-                if (waiter != null && waiter.GetWaiterID() == _playerID)
-                {
-                    _isPlayerComing = false;
-                    _playerID = 0;
-
-                    waiter.FinishInteraction();
-                    OnPlayerInteract?.Invoke();
-                }
-            }
-        }
-
-        public int PlayerInteracted()
-        {
-            _isPlayerComing = true;
-            _playerID = Guid.NewGuid().GetHashCode();
-            return _playerID;
         }
     }
 }

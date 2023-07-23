@@ -5,14 +5,15 @@ using UnityEngine;
 
 namespace DiningTable
 {
-    public class TableSeat : MonoBehaviour
+    public class TableSeat : MonoBehaviour, IWaiterTarget
     {
         private PlateInteractable _plateInteractable;
-        private PlateDeliverySpot _deliverySpot;
+        [SerializeField] private Transform deliverySpot;
         private bool _isAssigned;
 
         public event Action OnFoodArrival;
         private IConsumable _consumable;
+        private int _waiterID;
 
         private void Awake()
         {
@@ -22,7 +23,6 @@ namespace DiningTable
         private void Reset()
         {
             _plateInteractable = transform.GetComponentInChildren<PlateInteractable>();
-            _deliverySpot = transform.GetComponentInChildren<PlateDeliverySpot>();
 
             if (_plateInteractable == null)
             {
@@ -30,36 +30,11 @@ namespace DiningTable
                     $"ERROR: PlateInteractable not found in seat {transform.name}, table {transform.parent.name}");
             }
 
-            if (_deliverySpot == null)
+            if (deliverySpot == null)
             {
                 Debug.LogError(
-                    $"ERROR: PlateDeliverySpot not found in seat {transform.name}, table {transform.parent.name}");
+                    $"ERROR: Delivery transform not found in seat {transform.name}, table {transform.parent.name}");
             }
-        }
-
-        private void OnEnable()
-        {
-            _plateInteractable.OnDeliveryStarted += OnDeliveryStarted;
-            _deliverySpot.OnDeliveryArrived += OnDeliveryArrived;
-        }
-
-        private void OnDisable()
-        {
-            _plateInteractable.OnDeliveryStarted -= OnDeliveryStarted;
-            _deliverySpot.OnDeliveryArrived -= OnDeliveryArrived;
-        }
-
-        private void OnDeliveryStarted(int id)
-        {
-            _deliverySpot.StartDelivery(id);
-        }
-
-        private void OnDeliveryArrived(IConsumable consumable)
-        {
-            consumable.GetTransform().position = _plateInteractable.transform.position;
-
-            _consumable = consumable;
-            OnFoodArrival?.Invoke();
         }
 
         public bool IsFoodAvailable()
@@ -69,8 +44,9 @@ namespace DiningTable
 
         public IConsumable GetFood()
         {
+            IConsumable consumable = _consumable;
             _consumable = null;
-            return _consumable;
+            return consumable;
         }
 
         public Transform GetSeatTransform()
@@ -91,6 +67,29 @@ namespace DiningTable
         public void ReleaseSeat()
         {
             _isAssigned = false;
+        }
+
+        public void WaiterInteracted(IWaiter waiter)
+        {
+            waiter.GetConsumable().GetTransform().position = _plateInteractable.transform.position;
+
+            _consumable = waiter.GetConsumable();
+            OnFoodArrival?.Invoke();
+        }
+
+        public Transform GetDestinationTransform()
+        {
+            return deliverySpot;
+        }
+
+        public void GiveWaiterID(int waiterID)
+        {
+            _waiterID = waiterID;
+        }
+
+        public int GetWaiterID()
+        {
+            return _waiterID;
         }
     }
 }

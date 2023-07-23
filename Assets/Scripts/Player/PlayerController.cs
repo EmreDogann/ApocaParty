@@ -1,4 +1,6 @@
+using System;
 using Consumable;
+using Electricity;
 using GuestRequests;
 using GuestRequests.Requests;
 using Interactions;
@@ -30,10 +32,10 @@ namespace Player
         private PlateMouseInteraction plateInteraction;
 
         private Request _currentRequest;
-        private GuestInteractable _targetGuest;
+        private Transform _target;
         private IConsumable _holdingConsumable;
         private IConsumable _targetConsumable;
-        private int waiterID;
+        private readonly int _waiterID = Guid.NewGuid().GetHashCode();
 
         private void Awake()
         {
@@ -92,8 +94,8 @@ namespace Player
                                      interactableRequest.GetRequest().IsRequestCompleted())
                             {
                                 _targetConsumable = interactableRequest.GetRequest() as IConsumable;
-
                                 SetDestinationAndDisplayPath(interactableRequest.GetRequest().transform.position);
+                                _target = null;
                             }
 
                             break;
@@ -101,17 +103,8 @@ namespace Player
 
                     break;
                 case GuestInteractable guestInteractable:
-                    _targetGuest = guestInteractable;
-                    waiterID = guestInteractable.PlayerInteracted();
-                    SetDestinationAndDisplayPath(guestInteractable.transform.position);
-                    break;
-                case PlateInteractable plateInteractable:
-                    if (_holdingConsumable != null)
-                    {
-                        waiterID = plateInteractable.AnnounceDelivery();
-                        SetDestinationAndDisplayPath(plateInteractable.GetDeliveryPosition().position);
-                    }
-
+                    _target = guestInteractable.WaiterTarget.GetDestinationTransform();
+                    guestInteractable.WaiterTarget.GiveWaiterID(_waiterID);
                     break;
             }
         }
@@ -131,22 +124,25 @@ namespace Player
 
             _blackboard.IsMoving = _agent.hasPath;
 
-            if (_targetGuest != null)
-            {
-                SetDestinationAndDisplayPath(_targetGuest.transform.position);
-            }
-
             if (_holdingConsumable != null)
             {
                 _holdingConsumable.GetTransform().position = holderTransform.position;
-                switch (plateInteraction.CheckForPlateInteraction())
+                if (_target == null)
                 {
-                    case PlateInteractable plateInteractable:
-                        waiterID = plateInteractable.AnnounceDelivery();
-                        SetDestinationAndDisplayPath(plateInteractable.transform.position);
+                    switch (plateInteraction.CheckForPlateInteraction())
+                    {
+                        case PlateInteractable plateInteractable:
+                            _target = plateInteractable.WaiterTarget.GetDestinationTransform();
+                            plateInteractable.WaiterTarget.GiveWaiterID(_waiterID);
 
-                        break;
+                            break;
+                    }
                 }
+            }
+
+            if (_target != null)
+            {
+                SetDestinationAndDisplayPath(_target.position);
             }
 
             if (_currentRequest)
@@ -179,6 +175,17 @@ namespace Player
                     _targetConsumable = null;
                 }
             }
+
+            if (_target != null)
+            {
+                IWaiterTarget waiterTarget = other.GetComponent<IWaiterTarget>();
+                if (waiterTarget != null && waiterTarget.GetWaiterID() == _waiterID)
+                {
+                    waiterTarget.WaiterInteracted(this);
+                    _target = null;
+                    _holdingConsumable = null;
+                }
+            }
         }
 
         public void SetDestination(Vector3 target)
@@ -207,23 +214,14 @@ namespace Player
             _currentRequest = null;
         }
 
-        public IConsumable GetFood()
+        public IConsumable GetConsumable()
         {
-            waiterID = 0;
-            _agent.ResetPath();
             return _holdingConsumable;
-        }
-
-        public void FinishInteraction()
-        {
-            waiterID = 0;
-            _targetGuest = null;
-            _agent.ResetPath();
         }
 
         public int GetWaiterID()
         {
-            return waiterID;
+            return _waiterID;
         }
     }
 }

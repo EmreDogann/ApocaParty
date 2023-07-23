@@ -1,3 +1,4 @@
+using Electricity;
 using UnityEngine;
 
 namespace Minion.States

@@ -54,7 +54,6 @@ namespace Interactions.Interactables
 
         public void SetInteractableActive(bool isInteractable)
         {
-            Debug.Log(isInteractable);
             IsInteractable = isInteractable;
             IsHoverable = isInteractable;
         }

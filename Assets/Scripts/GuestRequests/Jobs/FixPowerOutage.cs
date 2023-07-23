@@ -1,4 +1,5 @@
 ﻿using Audio;
+using Electricity;
 using UnityEngine;
 
 namespace GuestRequests.Jobs

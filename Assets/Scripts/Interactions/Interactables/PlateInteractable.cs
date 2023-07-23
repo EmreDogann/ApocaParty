@@ -1,16 +1,19 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Interactions.Interactables
 {
     [RequireComponent(typeof(CircleCollider2D))]
     public class PlateInteractable : InteractableBase
     {
+        public IWaiterTarget WaiterTarget { get; private set; }
         public bool IsHovering { get; private set; }
         public bool IsInteracting { get; private set; }
         [SerializeField] private float hoverScaleAmount = 1.5f;
 
-        public event Action<int> OnDeliveryStarted;
+        private void Awake()
+        {
+            WaiterTarget = transform.parent.GetComponent<IWaiterTarget>();
+        }
 
         public override void OnStartHover()
         {
@@ -38,18 +41,6 @@ namespace Interactions.Interactables
         {
             base.OnEndInteract();
             IsInteracting = false;
-        }
-
-        public int AnnounceDelivery()
-        {
-            int id = Guid.NewGuid().GetHashCode();
-            OnDeliveryStarted?.Invoke(id);
-            return id;
-        }
-
-        public Transform GetDeliveryPosition()
-        {
-            return transform;
         }
     }
 }
