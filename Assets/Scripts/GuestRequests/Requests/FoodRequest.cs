@@ -30,6 +30,11 @@ namespace GuestRequests.Requests
             _isClaimed = true;
         }
 
+        public bool IsClaimed()
+        {
+            return _isClaimed;
+        }
+
         public bool IsConsumed()
         {
             return _isConsumed;

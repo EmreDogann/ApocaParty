@@ -12,6 +12,7 @@ using PartyEvents;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using Utils;
 using Random = UnityEngine.Random;
 
 namespace Guest
@@ -39,6 +40,7 @@ namespace Guest
         public GuestStateMachine stateMachine;
         public NavMeshAgent navMeshAgent { get; private set; }
         public GuestInteractable InteractableState { get; private set; }
+        [NavMeshSelector] [SerializeField] private int ignoreAreaCosts;
 
         [Separator("Guest Data")]
         public SpriteRenderer image;
@@ -72,24 +74,6 @@ namespace Guest
         public IConsumable CurrentConsumable;
         [field: SerializeReference] public TableSeat AssignedTableSeat { get; private set; }
 
-        private void OnEnable()
-        {
-            PartyEvent.OnPartyEvent += OnPartyEvent;
-            needSystem.OnNewNeed += OnNewNeed;
-
-            AssignedTableSeat.OnFoodArrival += OnFoodArrival;
-            InteractableState.OnPlayerInteract += OnPlayerInteract;
-        }
-
-        private void OnDisable()
-        {
-            PartyEvent.OnPartyEvent -= OnPartyEvent;
-            needSystem.OnNewNeed -= OnNewNeed;
-
-            AssignedTableSeat.OnFoodArrival -= OnFoodArrival;
-            InteractableState.OnPlayerInteract -= OnPlayerInteract;
-        }
-
         private void Awake()
         {
             _mainCamera = Camera.main;
@@ -120,6 +104,26 @@ namespace Guest
 
             // Initial state
             stateMachine.ChangeState(GuestStateID.Idle);
+
+            navMeshAgent.SetAreaCost(ignoreAreaCosts, 1.0f);
+        }
+
+        private void OnEnable()
+        {
+            PartyEvent.OnPartyEvent += OnPartyEvent;
+            needSystem.OnNewNeed += OnNewNeed;
+
+            AssignedTableSeat.OnFoodArrival += OnFoodArrival;
+            InteractableState.OnPlayerInteract += OnPlayerInteract;
+        }
+
+        private void OnDisable()
+        {
+            PartyEvent.OnPartyEvent -= OnPartyEvent;
+            needSystem.OnNewNeed -= OnNewNeed;
+
+            AssignedTableSeat.OnFoodArrival -= OnFoodArrival;
+            InteractableState.OnPlayerInteract -= OnPlayerInteract;
         }
 
         private void Update()

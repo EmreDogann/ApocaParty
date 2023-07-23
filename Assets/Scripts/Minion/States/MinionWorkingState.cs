@@ -17,6 +17,8 @@ namespace Minion.States
         {
             ElectricalBox.OnPowerOutage += OnPowerOutage;
             ElectricalBox.OnPowerFixed += OnPowerFixed;
+
+            minion.currentRequest.OnRequestCompleted += OnRequestCompleted;
             minion.currentRequest.ActivateRequest();
         }
 
@@ -28,17 +30,19 @@ namespace Minion.States
             }
 
             minion.currentRequest.UpdateRequest(Time.deltaTime);
-            if (minion.currentRequest.IsRequestCompleted())
-            {
-                minion.currentRequest = null;
-                _stateMachine.ChangeState(MinionStateID.Idle);
-            }
         }
 
         public override void Exit()
         {
             ElectricalBox.OnPowerOutage -= OnPowerOutage;
             ElectricalBox.OnPowerFixed -= OnPowerFixed;
+        }
+
+        private void OnRequestCompleted()
+        {
+            minion.currentRequest.OnRequestCompleted -= OnRequestCompleted;
+            minion.currentRequest = null;
+            _stateMachine.ChangeState(MinionStateID.Idle);
         }
 
         private void OnPowerOutage()

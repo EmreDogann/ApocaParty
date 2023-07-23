@@ -32,6 +32,7 @@ namespace Player
         private Request _currentRequest;
         private GuestInteractable _targetGuest;
         private IConsumable _holdingConsumable;
+        private IConsumable _targetConsumable;
         private int waiterID;
 
         private void Awake()
@@ -75,19 +76,22 @@ namespace Player
                                 return;
                             }
 
+
                             _currentRequest = interactableRequest.GetRequest();
                             _currentRequest.AssignOwner(this);
                             _currentRequest.ActivateRequest();
+
+                            _currentRequest.OnRequestCompleted += OnRequestCompleted;
                             break;
                         case FoodRequest _:
                             if (interactableRequest.GetRequest().IsRequestFailed())
                             {
                                 SetDestinationAndDisplayPath(interactableRequest.GetRequest().transform.position);
                             }
-                            else if (interactableRequest.GetRequest().IsRequestCompleted())
+                            else if (_holdingConsumable == null &&
+                                     interactableRequest.GetRequest().IsRequestCompleted())
                             {
-                                _holdingConsumable = interactableRequest as IConsumable;
-                                _holdingConsumable?.Claim();
+                                _targetConsumable = interactableRequest.GetRequest() as IConsumable;
 
                                 SetDestinationAndDisplayPath(interactableRequest.GetRequest().transform.position);
                             }
@@ -105,11 +109,17 @@ namespace Player
                     if (_holdingConsumable != null)
                     {
                         waiterID = plateInteractable.AnnounceDelivery();
-                        SetDestinationAndDisplayPath(plateInteractable.transform.position);
+                        SetDestinationAndDisplayPath(plateInteractable.GetDeliveryPosition().position);
                     }
 
                     break;
             }
+        }
+
+        private void OnRequestCompleted()
+        {
+            _currentRequest.OnRequestCompleted -= OnRequestCompleted;
+            _currentRequest = null;
         }
 
         private void Update()
@@ -142,14 +152,7 @@ namespace Player
             if (_currentRequest)
             {
                 _currentRequest.UpdateRequest(Time.deltaTime);
-                if (_currentRequest.IsRequestCompleted())
-                {
-                    _currentRequest = null;
-                }
-                else
-                {
-                    return;
-                }
+                return;
             }
 
             if (moveButton.action.WasPressedThisFrame())
@@ -165,18 +168,18 @@ namespace Player
             }
         }
 
-        // private void OnTriggerEnter2D(Collider2D other)
-        // {
-        //     if (_targetGuest != null && other.transform.CompareTag("Guest"))
-        //     {
-        //         GuestInteractable interactable = other.transform.GetComponent<GuestInteractable>();
-        //         if (interactable == _targetGuest)
-        //         {
-        //             _targetGuest = null;
-        //             _agent.ResetPath();
-        //         }
-        //     }
-        // }
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (_targetConsumable != null)
+            {
+                if (_targetConsumable == other.GetComponent<IConsumable>())
+                {
+                    _holdingConsumable = _targetConsumable;
+                    _holdingConsumable.Claim();
+                    _targetConsumable = null;
+                }
+            }
+        }
 
         public void SetDestination(Vector3 target)
         {

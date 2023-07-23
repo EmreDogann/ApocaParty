@@ -23,7 +23,7 @@ namespace Utils.Editor
                 }
             }
 
-            int num = EditorGUI.Popup(position, "Navigation Area", selectedIndex, navMeshAreaNames);
+            int num = EditorGUI.Popup(position, label.text, selectedIndex, navMeshAreaNames);
             if (EditorGUI.EndChangeCheck())
             {
                 int navMeshAreaFromName = GameObjectUtility.GetNavMeshAreaFromName(navMeshAreaNames[num]);

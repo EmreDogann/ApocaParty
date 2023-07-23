@@ -145,8 +145,7 @@ namespace Minion
                 Vector3 randomDirection = ClampMagnitude(Random.insideUnitCircle * radius, Mathf.Infinity, 2.0f);
                 randomDirection += position;
 
-                if (!NavMesh.Raycast(position, randomDirection, out NavMeshHit raycastHit,
-                        NavMesh.GetAreaFromName("AvoidWander")))
+                if (!NavMesh.Raycast(position, randomDirection, out NavMeshHit raycastHit, navMeshAgent.areaMask))
                 {
                     finalPosition = raycastHit.position;
                     break;

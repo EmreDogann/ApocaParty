@@ -1,3 +1,4 @@
+using Consumable;
 using GuestRequests;
 using UnityEngine;
 
@@ -8,9 +9,24 @@ namespace Interactions.Interactables
         [SerializeField] private Request request;
         [SerializeField] private float hoverScaleAmount = 1.5f;
 
+        private IConsumable _consumable;
+
+        private void Awake()
+        {
+            if (request is IConsumable consumable)
+            {
+                _consumable = consumable;
+            }
+        }
+
         public override void OnStartHover()
         {
-            if (request.IsRequestStarted())
+            if (request.IsRequestStarted() && !request.IsRequestCompleted())
+            {
+                return;
+            }
+
+            if (_consumable != null && _consumable.IsClaimed())
             {
                 return;
             }
@@ -22,7 +38,12 @@ namespace Interactions.Interactables
 
         public override void OnEndHover()
         {
-            if (request.IsRequestStarted())
+            if (request.IsRequestStarted() && !request.IsRequestCompleted())
+            {
+                return;
+            }
+
+            if (_consumable != null && _consumable.IsClaimed())
             {
                 return;
             }
@@ -33,6 +54,7 @@ namespace Interactions.Interactables
 
         public void SetInteractableActive(bool isInteractable)
         {
+            Debug.Log(isInteractable);
             IsInteractable = isInteractable;
             IsHoverable = isInteractable;
         }

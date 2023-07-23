@@ -29,6 +29,8 @@ namespace GuestRequests
 
         protected bool _isRequestSetup;
 
+        public event Action OnRequestCompleted;
+
         protected virtual void Awake()
         {
             foreach (Job job in _jobs)
@@ -66,6 +68,7 @@ namespace GuestRequests
                 Debug.Log("Request Finished!");
                 ReleaseAllTransformHandles();
                 _owner = null;
+                OnRequestCompleted?.Invoke();
 
                 if (resetRequestOnCompletion)
                 {
@@ -121,6 +124,7 @@ namespace GuestRequests
 
             _transformPairHandles = new Dictionary<ITransformProvider, TransformHandle>();
             transform.position = requestResetPosition.position;
+            TotalProgressPercentage = 0.0f;
             CurrentJobIndex = -1;
         }
 
@@ -225,7 +229,7 @@ namespace GuestRequests
             return CurrentJobIndex != -1 && _jobs[CurrentJobIndex].IsFailed();
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
+        protected virtual void OnTriggerEnter2D(Collider2D other)
         {
             if (IsRequestStarted() && other.CompareTag("Player"))
             {

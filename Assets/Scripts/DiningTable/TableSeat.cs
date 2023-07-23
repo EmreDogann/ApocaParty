@@ -7,27 +7,57 @@ namespace DiningTable
 {
     public class TableSeat : MonoBehaviour
     {
-        [SerializeField] private PlateInteractable plateInteractable;
+        private PlateInteractable _plateInteractable;
+        private PlateDeliverySpot _deliverySpot;
         private bool _isAssigned;
 
         public event Action OnFoodArrival;
         private IConsumable _consumable;
 
+        private void Awake()
+        {
+            Reset();
+        }
+
         private void Reset()
         {
-            if (transform.childCount > 0)
+            _plateInteractable = transform.GetComponentInChildren<PlateInteractable>();
+            _deliverySpot = transform.GetComponentInChildren<PlateDeliverySpot>();
+
+            if (_plateInteractable == null)
             {
-                plateInteractable = transform.GetChild(0).GetComponent<PlateInteractable>();
+                Debug.LogError(
+                    $"ERROR: PlateInteractable not found in seat {transform.name}, table {transform.parent.name}");
+            }
+
+            if (_deliverySpot == null)
+            {
+                Debug.LogError(
+                    $"ERROR: PlateDeliverySpot not found in seat {transform.name}, table {transform.parent.name}");
             }
         }
 
-        private void Awake()
+        private void OnEnable()
         {
-            plateInteractable.AssignOwner(this);
+            _plateInteractable.OnDeliveryStarted += OnDeliveryStarted;
+            _deliverySpot.OnDeliveryArrived += OnDeliveryArrived;
         }
 
-        public void FoodArrival(IConsumable consumable)
+        private void OnDisable()
         {
+            _plateInteractable.OnDeliveryStarted -= OnDeliveryStarted;
+            _deliverySpot.OnDeliveryArrived -= OnDeliveryArrived;
+        }
+
+        private void OnDeliveryStarted(int id)
+        {
+            _deliverySpot.StartDelivery(id);
+        }
+
+        private void OnDeliveryArrived(IConsumable consumable)
+        {
+            consumable.GetTransform().position = _plateInteractable.transform.position;
+
             _consumable = consumable;
             OnFoodArrival?.Invoke();
         }
