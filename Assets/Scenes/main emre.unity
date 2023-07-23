@@ -8301,7 +8301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04fca51dc73546298c31c1936938d5f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drinksTableInteractable: {fileID: 428441211}
+  drinksTableInteractable: {fileID: 428441208}
   drinkPrefab: {fileID: 6214276227280722242, guid: e1882cf04034a9b40bf4fc04f88c15d8, type: 3}
   drinkPoolSize: 12
   tableCapacity: 6
@@ -9671,7 +9671,7 @@ GameObject:
   - component: {fileID: 428441204}
   - component: {fileID: 428441206}
   - component: {fileID: 428441205}
-  - component: {fileID: 428441211}
+  - component: {fileID: 428441208}
   - component: {fileID: 428441207}
   m_Layer: 3
   m_Name: Drinks Table
@@ -9804,7 +9804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ef6e4e923954c8d81f9a94ffed2b510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &428441211
+--- !u!114 &428441208
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -16945,6 +16945,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1086620565 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2833652554369799455, guid: 2df009fc18420f847b9ef2580f80341a, type: 3}
+  m_PrefabInstance: {fileID: 430128851}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4ac3d9c3e44d3b9958a5d3a1d7e54c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1090024408
 GameObject:
   m_ObjectHideFlags: 0
@@ -21146,6 +21157,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1effc61fa24844bb5e37b99f083e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1385785178 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2833652554369799455, guid: 2df009fc18420f847b9ef2580f80341a, type: 3}
+  m_PrefabInstance: {fileID: 850670925}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4ac3d9c3e44d3b9958a5d3a1d7e54c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1396642678
 GameObject:
   m_ObjectHideFlags: 0
@@ -21297,7 +21319,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1406249634
 Transform:
   m_ObjectHideFlags: 0
@@ -21306,7 +21328,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1406249633}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5, y: 0.11, z: 0}
+  m_LocalPosition: {x: -8.38, y: 3.11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -21391,7 +21413,7 @@ MonoBehaviour:
   wanderWhenHappyChance: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 1211058784}
-  <AssignedTableSeat>k__BackingField: {fileID: 0}
+  <AssignedTableSeat>k__BackingField: {fileID: 1385785178}
 --- !u!114 &1406249638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23607,7 +23629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5323629bac5b2498ab0b1d488f0755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveButton: {fileID: -5519726930694964752, guid: 1fd9d9af030accf4e8cfdbe36d107005, type: 3}
+  moveButton: {fileID: -5871860320606234851, guid: 1fd9d9af030accf4e8cfdbe36d107005, type: 3}
   distanceThreshold: 0.1
   ignoreAreaCosts: 3
   holderTransform: {fileID: 745539120}
@@ -26154,7 +26176,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1882609956
 Transform:
   m_ObjectHideFlags: 0
@@ -26238,8 +26260,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beff511de2864392bca8a705fe83cd0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guestType: 0
-  ignoreAreaCosts: 0
+  _guestType: 4
+  ignoreAreaCosts: 4
   image: {fileID: 880294573}
   holderTransform: {fileID: 75990216}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
@@ -26248,7 +26270,7 @@ MonoBehaviour:
   wanderWhenHappyChance: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 2010147734}
-  <AssignedTableSeat>k__BackingField: {fileID: 0}
+  <AssignedTableSeat>k__BackingField: {fileID: 1086620565}
 --- !u!114 &1882609960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26302,7 +26324,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 1.4
   m_BaseOffset: 0
-  m_WalkableMask: 13
+  m_WalkableMask: 29
   m_ObstacleAvoidanceType: 0
 --- !u!114 &1882609963
 MonoBehaviour:

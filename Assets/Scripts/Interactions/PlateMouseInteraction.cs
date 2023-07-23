@@ -27,7 +27,10 @@ namespace Interactions
                 return null;
             }
 
-            return _hoverTarget;
+            _hoverTarget.OnEndHover();
+            InteractableBase interactableBase = _hoverTarget;
+            _hoverTarget = null;
+            return interactableBase;
         }
 
         private void RaycastForInteractable()

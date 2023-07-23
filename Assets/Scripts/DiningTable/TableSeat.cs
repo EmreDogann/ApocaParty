@@ -46,6 +46,7 @@ namespace DiningTable
         {
             IConsumable consumable = _consumable;
             _consumable = null;
+            _plateInteractable.SetInteractableActive(true);
             return consumable;
         }
 
@@ -72,6 +73,7 @@ namespace DiningTable
         public void WaiterInteracted(IWaiter waiter)
         {
             waiter.GetConsumable().GetTransform().position = _plateInteractable.transform.position;
+            _plateInteractable.SetInteractableActive(false);
 
             _consumable = waiter.GetConsumable();
             OnFoodArrival?.Invoke();

@@ -42,5 +42,11 @@ namespace Interactions.Interactables
             base.OnEndInteract();
             IsInteracting = false;
         }
+
+        public void SetInteractableActive(bool isInteractable)
+        {
+            IsInteractable = isInteractable;
+            IsHoverable = isInteractable;
+        }
     }
 }

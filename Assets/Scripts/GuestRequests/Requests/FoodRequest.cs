@@ -10,7 +10,6 @@ namespace GuestRequests.Requests
         [SerializeField] private ConsumedData consumeReward;
 
         [ReadOnly] private bool _isConsumed;
-        [ReadOnly] private bool _isClaimed;
 
         public Transform GetTransform()
         {
@@ -21,18 +20,15 @@ namespace GuestRequests.Requests
         {
             _isConsumed = true;
             _requestImage.enabled = false;
+            _requestInteractable.SetInteractableActive(true);
+
             ResetRequest();
             return consumeReward;
         }
 
         public void Claim()
         {
-            _isClaimed = true;
-        }
-
-        public bool IsClaimed()
-        {
-            return _isClaimed;
+            _requestInteractable.SetInteractableActive(false);
         }
 
         public bool IsConsumed()
@@ -42,7 +38,7 @@ namespace GuestRequests.Requests
 
         public bool IsOnTable()
         {
-            return !IsConsumed() && !_isClaimed;
+            return !IsConsumed() && _requestImage.enabled;
         }
     }
 }

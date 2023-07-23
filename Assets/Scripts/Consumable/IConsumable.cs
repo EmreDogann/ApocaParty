@@ -18,7 +18,6 @@ namespace Consumable
         public Transform GetTransform();
         public ConsumedData Consume();
         public void Claim();
-        public bool IsClaimed();
         public bool IsConsumed();
         public bool IsOnTable();
     }

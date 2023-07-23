@@ -78,7 +78,6 @@ namespace Player
                                 return;
                             }
 
-
                             _currentRequest = interactableRequest.GetRequest();
                             _currentRequest.AssignOwner(this);
                             _currentRequest.ActivateRequest();
@@ -94,7 +93,8 @@ namespace Player
                                      interactableRequest.GetRequest().IsRequestCompleted())
                             {
                                 _targetConsumable = interactableRequest.GetRequest() as IConsumable;
-                                SetDestinationAndDisplayPath(interactableRequest.GetRequest().transform.position);
+                                // SetDestinationAndDisplayPath(interactableRequest.GetRequest().transform.position);
+
                                 _target = null;
                             }
 

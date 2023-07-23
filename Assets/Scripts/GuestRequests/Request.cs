@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GuestRequests.Requests;
+using Interactions.Interactables;
 using TransformProvider;
 using UnityEngine;
 
@@ -28,6 +29,7 @@ namespace GuestRequests
         protected SpriteRenderer _requestImage;
 
         protected bool _isRequestSetup;
+        protected RequestInteractable _requestInteractable;
 
         public event Action OnRequestCompleted;
 
@@ -40,6 +42,7 @@ namespace GuestRequests
 
             TotalProgressPercentage = 1.0f;
             _requestImage = GetComponent<SpriteRenderer>();
+            _requestInteractable = GetComponent<RequestInteractable>();
 
             ResetRequest();
         }
@@ -57,6 +60,11 @@ namespace GuestRequests
             CurrentTime += deltaTime;
             _jobs[CurrentJobIndex].Tick(deltaTime);
 
+            if (IsRequestFailed())
+            {
+                _requestInteractable?.SetInteractableActive(true);
+            }
+
             if (_jobs[CurrentJobIndex].GetProgressPercentage() >= 1.0f)
             {
                 NextJob();
@@ -67,8 +75,11 @@ namespace GuestRequests
             {
                 Debug.Log("Request Finished!");
                 ReleaseAllTransformHandles();
+
                 _owner = null;
                 OnRequestCompleted?.Invoke();
+
+                _requestInteractable?.SetInteractableActive(true);
 
                 if (resetRequestOnCompletion)
                 {
@@ -147,6 +158,7 @@ namespace GuestRequests
                 }
             }
 
+            _requestInteractable?.SetInteractableActive(false);
             CurrentTime = 0.0f;
             TotalProgressPercentage = 0.0f;
             NextJob();
