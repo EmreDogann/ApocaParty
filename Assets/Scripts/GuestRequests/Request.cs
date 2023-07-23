@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GuestRequests.Requests;
+using Interactions.Interactables;
 using TransformProvider;
 using UnityEngine;
 
@@ -28,6 +29,9 @@ namespace GuestRequests
         protected SpriteRenderer _requestImage;
 
         protected bool _isRequestSetup;
+        protected RequestInteractable _requestInteractable;
+
+        public event Action OnRequestCompleted;
 
         protected virtual void Awake()
         {
@@ -38,6 +42,7 @@ namespace GuestRequests
 
             TotalProgressPercentage = 1.0f;
             _requestImage = GetComponent<SpriteRenderer>();
+            _requestInteractable = GetComponent<RequestInteractable>();
 
             ResetRequest();
         }
@@ -55,6 +60,11 @@ namespace GuestRequests
             CurrentTime += deltaTime;
             _jobs[CurrentJobIndex].Tick(deltaTime);
 
+            if (IsRequestFailed())
+            {
+                _requestInteractable?.SetInteractableActive(true);
+            }
+
             if (_jobs[CurrentJobIndex].GetProgressPercentage() >= 1.0f)
             {
                 NextJob();
@@ -65,7 +75,11 @@ namespace GuestRequests
             {
                 Debug.Log("Request Finished!");
                 ReleaseAllTransformHandles();
+
                 _owner = null;
+                OnRequestCompleted?.Invoke();
+
+                _requestInteractable?.SetInteractableActive(true);
 
                 if (resetRequestOnCompletion)
                 {
@@ -121,6 +135,7 @@ namespace GuestRequests
 
             _transformPairHandles = new Dictionary<ITransformProvider, TransformHandle>();
             transform.position = requestResetPosition.position;
+            TotalProgressPercentage = 0.0f;
             CurrentJobIndex = -1;
         }
 
@@ -143,6 +158,7 @@ namespace GuestRequests
                 }
             }
 
+            _requestInteractable?.SetInteractableActive(false);
             CurrentTime = 0.0f;
             TotalProgressPercentage = 0.0f;
             NextJob();
@@ -225,7 +241,7 @@ namespace GuestRequests
             return CurrentJobIndex != -1 && _jobs[CurrentJobIndex].IsFailed();
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
+        protected virtual void OnTriggerEnter2D(Collider2D other)
         {
             if (IsRequestStarted() && other.CompareTag("Player"))
             {

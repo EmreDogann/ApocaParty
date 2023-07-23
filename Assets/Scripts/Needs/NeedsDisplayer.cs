@@ -13,7 +13,7 @@ namespace Needs
             public NeedType NeedType;
             public SpriteRenderer SpriteRenderer;
             [HideInInspector] public Sprite requestSprite;
-            [HideInInspector] public bool requestResolved;
+            [HideInInspector] public bool needResolved;
         }
 
         [Tooltip("Spacing between the need icons in world space.")]
@@ -55,7 +55,7 @@ namespace Needs
                 iconData.SpriteRenderer.sprite = unresolvedRequestSprite.sprite;
                 iconData.SpriteRenderer.enabled = true;
 
-                iconData.requestResolved = false;
+                iconData.needResolved = false;
                 _currentlyActiveIcons.Add(iconData);
 
                 UpdateDisplay();
@@ -68,20 +68,31 @@ namespace Needs
             if (iconData != null)
             {
                 iconData.SpriteRenderer.enabled = false;
-                iconData.requestResolved = false;
+                iconData.needResolved = false;
                 _currentlyActiveIcons.Remove(iconData);
 
                 UpdateDisplay();
             }
         }
 
-        public void ResolveRequests()
+        public bool IsNeedResolved(NeedType needType)
+        {
+            NeedsIconData iconData = _currentlyActiveIcons.Find(x => x.NeedType == needType);
+            if (iconData != null)
+            {
+                return iconData.needResolved;
+            }
+
+            return false;
+        }
+
+        public void ResolveNeed()
         {
             foreach (NeedsIconData activeIcon in _currentlyActiveIcons)
             {
-                if (!activeIcon.requestResolved)
+                if (!activeIcon.needResolved)
                 {
-                    activeIcon.requestResolved = true;
+                    activeIcon.needResolved = true;
                     activeIcon.SpriteRenderer.sprite = activeIcon.requestSprite;
                     activeIcon.SpriteRenderer.enabled = true;
                 }

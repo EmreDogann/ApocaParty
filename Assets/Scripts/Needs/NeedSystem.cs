@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dialogue;
 using JetBrains.Annotations;
-using MyBox;
-using Needs.Needs;
 using UnityEngine;
 using Utils;
 
@@ -88,7 +87,8 @@ namespace Needs
         [MetricsRange(0.0f, 0.1f)] [SerializeField] private NeedMetrics _metricsDepletionRate;
 
         [MetricsRange(0.0f, 1.0f)] [SerializeField] private NeedMetrics _currentMetrics;
-        [ReadOnly] [SerializeReference] private List<INeed> _currentNeeds;
+        private List<INeed> _availableNeeds;
+        private List<INeed> _currentNeeds;
 
         private readonly float _needCheckFrequency = 3.0f;
         private float _currentTime;
@@ -99,6 +99,7 @@ namespace Needs
         private void Awake()
         {
             _currentNeeds = new List<INeed>();
+            _availableNeeds = GetComponentsInChildren<INeed>().ToList();
 
             _currentTime = 0.0f;
             _needTimer = 0.0f;
@@ -175,6 +176,26 @@ namespace Needs
             }
         }
 
+        public List<Message> GetUnknownNeedConversations()
+        {
+            var messages = new List<Message>(_currentNeeds.Count);
+            foreach (INeed need in _currentNeeds)
+            {
+                Debug.Log(need.GetNeedType());
+                if (!needsDisplayer.IsNeedResolved(need.GetNeedType()))
+                {
+                    messages.Add(need.GetRandomConversations().GetRandomMessage());
+                }
+            }
+
+            return messages;
+        }
+
+        public void ResolveNeeds()
+        {
+            needsDisplayer.ResolveNeed();
+        }
+
         public bool IsSatisfied()
         {
             return mood.IsSatisfied();
@@ -218,20 +239,15 @@ namespace Needs
         [CanBeNull]
         private INeed GenerateNeed(NeedType? needType)
         {
-            switch (needType)
+            foreach (INeed availableNeed in _availableNeeds)
             {
-                case NeedType.Food:
-                    return new FoodNeed();
-                case NeedType.Drink:
-                    return new DrinkNeed();
-                case NeedType.Music:
-                    return new MusicNeed();
-                case NeedType.Movement:
-                    return null;
-                // return new MovementNeed();
-                default:
-                    return null;
+                if (availableNeed.GetNeedType() == needType)
+                {
+                    return availableNeed;
+                }
             }
+
+            return null;
         }
     }
 }

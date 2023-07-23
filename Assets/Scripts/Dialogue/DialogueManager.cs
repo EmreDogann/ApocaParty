@@ -1,6 +1,7 @@
+using System;
 using System.Collections;
+using System.Text;
 using Actors;
-using System.Collections.Generic;
 using Events;
 using MyBox;
 using TMPro;
@@ -9,9 +10,11 @@ using UI.Views;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Dialogue
 {
+    [RequireComponent(typeof(BoolEventListener))]
     public class DialogueManager : MonoBehaviour
     {
         public View dialogueView;
@@ -26,18 +29,19 @@ namespace Dialogue
         private Message[] _currentMessages;
         private int _messageIndex;
 
-        [SerializeField]
-        // List of all actors, all SOs should be assigned as the names in those SOs used to parse Dialogue files
-        public List<ActorSO> allActorSos;
-
-        // public TextAsset tempScript;
-        
         public static DialogueManager Instance;
         public bool DialogueIsPlaying { get; private set; }
-        private bool _dialogueIsPaused;
 
         private BoolEventListener _listener;
         private Coroutine animationCoroutine;
+
+        private Action callback;
+
+        private readonly string[] connectives =
+        {
+            "also, ",
+            "and "
+        };
 
         private void Awake()
         {
@@ -53,16 +57,6 @@ namespace Dialogue
             _listener = GetComponent<BoolEventListener>();
         }
 
-        private void OnEnable()
-        {
-            _listener.Response.AddListener(OnGamePaused);
-        }
-
-        private void OnDisable()
-        {
-            _listener.Response.RemoveListener(OnGamePaused);
-        }
-
         public void OpenDialogue(Message[] messages)
         {
             _currentMessages = messages;
@@ -70,9 +64,27 @@ namespace Dialogue
             _listener.Event.Raise(true);
             DialogueIsPlaying = true;
 
-            // Messages.ParseMessages(tempScript, allActorSos);
-            
-            
+            UIManager.Instance.Show(dialogueView);
+            DisplayMessage();
+        }
+
+        public void OpenRandomDialogue(Message[] messages, Action callbackAction)
+        {
+            callback = callbackAction;
+            for (int i = 1; i < messages.Length; i++)
+            {
+                StringBuilder stringBuilder = new StringBuilder(messages[i].text);
+                stringBuilder[0] = char.ToLower(stringBuilder[0]);
+                stringBuilder.Insert(0, connectives[Random.Range(0, connectives.Length)]);
+
+                messages[i].text = stringBuilder.ToString();
+            }
+
+            _currentMessages = messages;
+            _messageIndex = 0;
+            _listener.Event.Raise(true);
+            DialogueIsPlaying = true;
+
             UIManager.Instance.Show(dialogueView);
             animationCoroutine=StartCoroutine(DisplayMessage());
         }
@@ -97,7 +109,7 @@ namespace Dialogue
         {
             messageText.text = string.Empty;
             Message messageToDisplay = _currentMessages[_messageIndex];
-            messageText.text = messageToDisplay.message;
+            messageText.text = messageToDisplay.text;
 
             ActorSO actorToDisplay = messageToDisplay.actor;
             actorName.text = actorToDisplay.name;
@@ -132,16 +144,8 @@ namespace Dialogue
             UIManager.Instance.Back();
             DialogueIsPlaying = false;
             _listener.Event.Raise(false);
-        }
 
-        private void OnGamePaused(bool isPaused)
-        {
-            if (!DialogueIsPlaying)
-            {
-                return;
-            }
-
-            _dialogueIsPaused = isPaused;
+            callback?.Invoke();
         }
 
         private void Update()

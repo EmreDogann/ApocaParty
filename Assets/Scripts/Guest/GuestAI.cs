@@ -1,6 +1,7 @@
 using System;
 using Actors;
 using Consumable;
+using Dialogue;
 using DiningTable;
 using Guest.States;
 using GuestRequests;
@@ -11,6 +12,7 @@ using PartyEvents;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using Utils;
 using Random = UnityEngine.Random;
 
 namespace Guest
@@ -26,7 +28,7 @@ namespace Guest
 
     [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent), typeof(GuestInteractable))]
     [RequireComponent(typeof(NeedSystem))]
-    public class GuestAI : MonoBehaviour, IGuestRequestOwner
+    public class GuestAI : MonoBehaviour, IGuestRequestOwner, IWaiterTarget
     {
         [SerializeField] private GuestType _guestType;
         public GuestType GuestType
@@ -38,6 +40,7 @@ namespace Guest
         public GuestStateMachine stateMachine;
         public NavMeshAgent navMeshAgent { get; private set; }
         public GuestInteractable InteractableState { get; private set; }
+        [NavMeshSelector] [SerializeField] private int ignoreAreaCosts;
 
         [Separator("Guest Data")]
         public SpriteRenderer image;
@@ -71,23 +74,7 @@ namespace Guest
         public IConsumable CurrentConsumable;
         [field: SerializeReference] public TableSeat AssignedTableSeat { get; private set; }
 
-        private void OnEnable()
-        {
-            PartyEvent.OnPartyEvent += OnPartyEvent;
-            needSystem.OnNewNeed += OnNewNeed;
-
-            AssignedTableSeat.OnFoodArrival += OnFoodArrival;
-            InteractableState.OnPlayerInteract += OnPlayerInteract;
-        }
-
-        private void OnDisable()
-        {
-            PartyEvent.OnPartyEvent -= OnPartyEvent;
-            needSystem.OnNewNeed -= OnNewNeed;
-
-            AssignedTableSeat.OnFoodArrival -= OnFoodArrival;
-            InteractableState.OnPlayerInteract -= OnPlayerInteract;
-        }
+        private int _waiterID;
 
         private void Awake()
         {
@@ -119,6 +106,26 @@ namespace Guest
 
             // Initial state
             stateMachine.ChangeState(GuestStateID.Idle);
+
+            navMeshAgent.SetAreaCost(ignoreAreaCosts, 1.0f);
+        }
+
+        private void OnEnable()
+        {
+            PartyEvent.OnPartyEvent += OnPartyEvent;
+            needSystem.OnNewNeed += OnNewNeed;
+
+            AssignedTableSeat.OnFoodArrival += OnFoodArrival;
+            // InteractableState.OnPlayerInteract += OnPlayerInteract;
+        }
+
+        private void OnDisable()
+        {
+            PartyEvent.OnPartyEvent -= OnPartyEvent;
+            needSystem.OnNewNeed -= OnNewNeed;
+
+            AssignedTableSeat.OnFoodArrival -= OnFoodArrival;
+            // InteractableState.OnPlayerInteract -= OnPlayerInteract;
         }
 
         private void Update()
@@ -230,12 +237,53 @@ namespace Guest
             stateMachine.ChangeState(GuestStateID.MoveToSeat);
         }
 
-        private void OnPlayerInteract()
+        private void OnWaiterInteractDialogueFinished()
+        {
+            needSystem.ResolveNeeds();
+        }
+
+        public void WaiterInteracted(IWaiter waiter)
+        {
+            switch (stateMachine.GetCurrentState().GetID())
+            {
+                case GuestStateID.Wander:
+                    stateMachine.ChangeState(GuestStateID.MoveToSeat);
+                    break;
+                case GuestStateID.Idle:
+                    var messages = needSystem.GetUnknownNeedConversations();
+                    if (messages.Count > 0)
+                    {
+                        foreach (Message message in messages)
+                        {
+                            message.actor = actorData;
+                        }
+
+                        DialogueManager.Instance.OpenRandomDialogue(messages.ToArray(),
+                            OnWaiterInteractDialogueFinished);
+                    }
+
+                    break;
+            }
+        }
+
+        public void GiveWaiterID(int waiterID)
+        {
+            _waiterID = waiterID;
+        }
+
+        public int GetWaiterID()
+        {
+            return _waiterID;
+        }
+
+        public Transform GetDestinationTransform()
         {
             if (stateMachine.GetCurrentState().GetID() == GuestStateID.Wander)
             {
-                stateMachine.ChangeState(GuestStateID.MoveToSeat);
+                return transform;
             }
+
+            return AssignedTableSeat.GetDestinationTransform();
         }
     }
 }

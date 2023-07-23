@@ -1,29 +1,34 @@
-﻿using System;
-using DiningTable;
-using Player;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Interactions.Interactables
 {
+    [RequireComponent(typeof(CircleCollider2D))]
     public class PlateInteractable : InteractableBase
     {
-        private TableSeat _seatOwner;
-        private int _expectedDeliveryID;
-        private bool _isExpectingDelivery;
-
+        public IWaiterTarget WaiterTarget { get; private set; }
         public bool IsHovering { get; private set; }
         public bool IsInteracting { get; private set; }
+        [SerializeField] private float hoverScaleAmount = 1.5f;
+
+        private void Awake()
+        {
+            WaiterTarget = transform.parent.GetComponent<IWaiterTarget>();
+        }
 
         public override void OnStartHover()
         {
             base.OnStartHover();
             IsHovering = true;
+
+            transform.localScale *= hoverScaleAmount;
         }
 
         public override void OnEndHover()
         {
             base.OnEndHover();
             IsHovering = false;
+
+            transform.localScale /= hoverScaleAmount;
         }
 
         public override void OnStartInteract()
@@ -38,30 +43,10 @@ namespace Interactions.Interactables
             IsInteracting = false;
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
+        public void SetInteractableActive(bool isInteractable)
         {
-            if (_isExpectingDelivery)
-            {
-                IWaiter waiter = other.GetComponent<IWaiter>();
-                if (waiter != null && waiter.GetWaiterID() == _expectedDeliveryID)
-                {
-                    _isExpectingDelivery = false;
-                    _expectedDeliveryID = 0;
-                    _seatOwner.FoodArrival(waiter.GetFood());
-                }
-            }
-        }
-
-        public int AnnounceDelivery()
-        {
-            _isExpectingDelivery = true;
-            _expectedDeliveryID = Guid.NewGuid().GetHashCode();
-            return _expectedDeliveryID;
-        }
-
-        public void AssignOwner(TableSeat tableSeat)
-        {
-            _seatOwner = tableSeat;
+            IsInteractable = isInteractable;
+            IsHoverable = isInteractable;
         }
     }
 }

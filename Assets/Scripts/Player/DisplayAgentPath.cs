@@ -65,7 +65,6 @@ namespace Player
             if (showPath)
             {
                 StartCoroutine(UpdatePath());
-                _isPathDisplayed = true;
             }
         }
 
@@ -83,6 +82,13 @@ namespace Player
             {
                 yield return null;
             }
+
+            if (_agent.path.corners.Length < 2)
+            {
+                yield break;
+            }
+
+            _isPathDisplayed = true;
 
             marker.gameObject.SetActive(true);
             VertexPath vertexPath = GeneratePath(_agent.path.corners, false);

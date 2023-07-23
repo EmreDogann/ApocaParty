@@ -1,4 +1,6 @@
-﻿namespace Needs
+﻿using Dialogue;
+
+namespace Needs
 {
     public enum NeedType
     {
@@ -13,5 +15,6 @@
         public NeedType GetNeedType();
         public NeedMetrics GetPunishment();
         public bool IsExpired();
+        public RandomConversationSO GetRandomConversations();
     }
 }

@@ -1,4 +1,5 @@
-﻿using MyBox;
+﻿using System;
+using MyBox;
 using UnityEngine;
 
 namespace Consumable
@@ -11,6 +12,8 @@ namespace Consumable
         [SerializeField] private bool _isConsumed;
         [ReadOnly] private bool _isClaimed;
         private SpriteRenderer _spriteRenderer;
+
+        public event Action OnClaim;
 
         private void Awake()
         {
@@ -34,6 +37,12 @@ namespace Consumable
         public void Claim()
         {
             _isClaimed = true;
+            OnClaim?.Invoke();
+        }
+
+        public bool IsClaimed()
+        {
+            return _isClaimed;
         }
 
         public bool IsConsumed()

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GuestRequests.Requests;
+using Interactions.Interactables;
 using JetBrains.Annotations;
 using PartyEvents;
 using UnityEngine;
@@ -8,6 +8,8 @@ namespace Consumable
 {
     public class DrinksTable : MonoBehaviour
     {
+        [SerializeField] private RequestInteractable drinksTableInteractable;
+
         [SerializeField] private GameObject drinkPrefab;
         [SerializeField] private int drinkPoolSize = 12;
         [SerializeField] private int tableCapacity = 6;
@@ -55,6 +57,8 @@ namespace Consumable
                 _drinkPositions.Add(position);
                 drink.transform.localPosition = position;
             }
+
+            drinksTableInteractable.SetInteractableActive(false);
         }
 
         private void OnValidate()
@@ -83,14 +87,29 @@ namespace Consumable
 
         private void OnEnable()
         {
-            DrinkRefillRequest.OnDrinkRefill += RefillDrinks;
+            drinksTableInteractable.GetRequest().OnRequestCompleted += RefillDrinks;
             PartyEvent.OnPartyEvent += OnFamineEvent;
+
+            for (int i = 0; i < drinkPoolSize; i++)
+            {
+                _drinks[i].OnClaim += OnDrinkClaim;
+            }
         }
 
         private void OnDisable()
         {
-            DrinkRefillRequest.OnDrinkRefill -= RefillDrinks;
+            drinksTableInteractable.GetRequest().OnRequestCompleted -= RefillDrinks;
             PartyEvent.OnPartyEvent -= OnFamineEvent;
+
+            for (int i = 0; i < drinkPoolSize; i++)
+            {
+                _drinks[i].OnClaim -= OnDrinkClaim;
+            }
+        }
+
+        private void OnDrinkClaim()
+        {
+            drinksTableInteractable.SetInteractableActive(true);
         }
 
         [CanBeNull]
@@ -132,6 +151,8 @@ namespace Consumable
                         drink.Consume();
                     }
                 }
+
+                drinksTableInteractable.SetInteractableActive(true);
             }
         }
 
@@ -149,6 +170,8 @@ namespace Consumable
                     }
                 }
             }
+
+            drinksTableInteractable.SetInteractableActive(false);
         }
     }
 }

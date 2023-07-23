@@ -1,4 +1,6 @@
+using System;
 using Consumable;
+using Electricity;
 using GuestRequests;
 using GuestRequests.Requests;
 using Interactions;
@@ -30,9 +32,10 @@ namespace Player
         private PlateMouseInteraction plateInteraction;
 
         private Request _currentRequest;
-        private GuestInteractable _targetGuest;
+        private Transform _target;
         private IConsumable _holdingConsumable;
-        private int waiterID;
+        private IConsumable _targetConsumable;
+        private readonly int _waiterID = Guid.NewGuid().GetHashCode();
 
         private void Awake()
         {
@@ -78,18 +81,21 @@ namespace Player
                             _currentRequest = interactableRequest.GetRequest();
                             _currentRequest.AssignOwner(this);
                             _currentRequest.ActivateRequest();
+
+                            _currentRequest.OnRequestCompleted += OnRequestCompleted;
                             break;
                         case FoodRequest _:
                             if (interactableRequest.GetRequest().IsRequestFailed())
                             {
                                 SetDestinationAndDisplayPath(interactableRequest.GetRequest().transform.position);
                             }
-                            else if (interactableRequest.GetRequest().IsRequestCompleted())
+                            else if (_holdingConsumable == null &&
+                                     interactableRequest.GetRequest().IsRequestCompleted())
                             {
-                                _holdingConsumable = interactableRequest as IConsumable;
-                                _holdingConsumable?.Claim();
+                                _targetConsumable = interactableRequest.GetRequest() as IConsumable;
+                                // SetDestinationAndDisplayPath(interactableRequest.GetRequest().transform.position);
 
-                                SetDestinationAndDisplayPath(interactableRequest.GetRequest().transform.position);
+                                _target = null;
                             }
 
                             break;
@@ -97,19 +103,16 @@ namespace Player
 
                     break;
                 case GuestInteractable guestInteractable:
-                    _targetGuest = guestInteractable;
-                    waiterID = guestInteractable.PlayerInteracted();
-                    SetDestinationAndDisplayPath(guestInteractable.transform.position);
-                    break;
-                case PlateInteractable plateInteractable:
-                    if (_holdingConsumable != null)
-                    {
-                        waiterID = plateInteractable.AnnounceDelivery();
-                        SetDestinationAndDisplayPath(plateInteractable.transform.position);
-                    }
-
+                    _target = guestInteractable.WaiterTarget.GetDestinationTransform();
+                    guestInteractable.WaiterTarget.GiveWaiterID(_waiterID);
                     break;
             }
+        }
+
+        private void OnRequestCompleted()
+        {
+            _currentRequest.OnRequestCompleted -= OnRequestCompleted;
+            _currentRequest = null;
         }
 
         private void Update()
@@ -121,35 +124,31 @@ namespace Player
 
             _blackboard.IsMoving = _agent.hasPath;
 
-            if (_targetGuest != null)
-            {
-                SetDestinationAndDisplayPath(_targetGuest.transform.position);
-            }
-
             if (_holdingConsumable != null)
             {
                 _holdingConsumable.GetTransform().position = holderTransform.position;
-                switch (plateInteraction.CheckForPlateInteraction())
+                if (_target == null)
                 {
-                    case PlateInteractable plateInteractable:
-                        waiterID = plateInteractable.AnnounceDelivery();
-                        SetDestinationAndDisplayPath(plateInteractable.transform.position);
+                    switch (plateInteraction.CheckForPlateInteraction())
+                    {
+                        case PlateInteractable plateInteractable:
+                            _target = plateInteractable.WaiterTarget.GetDestinationTransform();
+                            plateInteractable.WaiterTarget.GiveWaiterID(_waiterID);
 
-                        break;
+                            break;
+                    }
                 }
+            }
+
+            if (_target != null)
+            {
+                SetDestinationAndDisplayPath(_target.position);
             }
 
             if (_currentRequest)
             {
                 _currentRequest.UpdateRequest(Time.deltaTime);
-                if (_currentRequest.IsRequestCompleted())
-                {
-                    _currentRequest = null;
-                }
-                else
-                {
-                    return;
-                }
+                return;
             }
 
             if (moveButton.action.WasPressedThisFrame())
@@ -165,18 +164,29 @@ namespace Player
             }
         }
 
-        // private void OnTriggerEnter2D(Collider2D other)
-        // {
-        //     if (_targetGuest != null && other.transform.CompareTag("Guest"))
-        //     {
-        //         GuestInteractable interactable = other.transform.GetComponent<GuestInteractable>();
-        //         if (interactable == _targetGuest)
-        //         {
-        //             _targetGuest = null;
-        //             _agent.ResetPath();
-        //         }
-        //     }
-        // }
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (_targetConsumable != null)
+            {
+                if (_targetConsumable == other.GetComponent<IConsumable>())
+                {
+                    _holdingConsumable = _targetConsumable;
+                    _holdingConsumable.Claim();
+                    _targetConsumable = null;
+                }
+            }
+
+            if (_target != null)
+            {
+                IWaiterTarget waiterTarget = other.GetComponent<IWaiterTarget>();
+                if (waiterTarget != null && waiterTarget.GetWaiterID() == _waiterID)
+                {
+                    waiterTarget.WaiterInteracted(this);
+                    _target = null;
+                    _holdingConsumable = null;
+                }
+            }
+        }
 
         public void SetDestination(Vector3 target)
         {
@@ -204,23 +214,14 @@ namespace Player
             _currentRequest = null;
         }
 
-        public IConsumable GetFood()
+        public IConsumable GetConsumable()
         {
-            waiterID = 0;
-            _agent.ResetPath();
             return _holdingConsumable;
-        }
-
-        public void FinishInteraction()
-        {
-            waiterID = 0;
-            _targetGuest = null;
-            _agent.ResetPath();
         }
 
         public int GetWaiterID()
         {
-            return waiterID;
+            return _waiterID;
         }
     }
 }
