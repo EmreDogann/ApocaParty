@@ -98,6 +98,12 @@ namespace Minion
             navMeshAgent.SetDestination(target);
         }
 
+        public void SetDestinationAndDisplayPath(Vector3 target)
+        {
+            navMeshAgent.SetDestination(target);
+            pathDisplayer.DisplayPath();
+        }
+
         public Vector3 GetPosition()
         {
             return transform.position;

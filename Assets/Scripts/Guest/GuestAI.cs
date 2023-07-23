@@ -168,6 +168,11 @@ namespace Guest
             navMeshAgent.SetDestination(target);
         }
 
+        public void SetDestinationAndDisplayPath(Vector3 target)
+        {
+            navMeshAgent.SetDestination(target);
+        }
+
         public Vector3 GetPosition()
         {
             return transform.position;

@@ -124,8 +124,15 @@ namespace Interactions
                 return;
             }
 
-            _hoverTarget?.OnEndHover();
-            newTarget?.OnStartHover();
+            if (_hoverTarget != null && _hoverTarget.IsHoverable)
+            {
+                _hoverTarget.OnEndHover();
+            }
+
+            if (newTarget != null && newTarget.IsHoverable)
+            {
+                newTarget.OnStartHover();
+            }
 
             _hoverTarget = newTarget;
         }

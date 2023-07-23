@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Electricity;
+using Interactions.Interactables;
 using PartyEvents;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(PowerOutageEvent))]
+[RequireComponent(typeof(PowerOutageEvent), typeof(RequestInteractable))]
 public class ElectricalBox : MonoBehaviour
 {
     private List<IElectricalAppliance> _appliances;
@@ -15,6 +16,8 @@ public class ElectricalBox : MonoBehaviour
     [SerializeField] private float powerOutageChance = 0.1f;
 
     private PowerOutageEvent _powerOutageEvent;
+    private RequestInteractable _requestInteractable;
+
     private float _currentTime;
 
     public static event Action OnPowerOutage;
@@ -29,6 +32,9 @@ public class ElectricalBox : MonoBehaviour
 
     private void Awake()
     {
+        _requestInteractable = GetComponent<RequestInteractable>();
+        _requestInteractable.SetInteractableActive(false);
+
         _powerOutageEvent = GetComponent<PowerOutageEvent>();
         _appliances = FindObjectsOfType<MonoBehaviour>()
             .OfType<IElectricalAppliance>()
@@ -59,6 +65,7 @@ public class ElectricalBox : MonoBehaviour
             {
                 _isPowerOn = false;
                 _currentTime -= powerOutageCooldown;
+                _requestInteractable.SetInteractableActive(true);
 
                 OnPowerOutage?.Invoke();
                 _powerOutageEvent.TriggerEvent();
@@ -69,6 +76,7 @@ public class ElectricalBox : MonoBehaviour
     public void PowerFixed()
     {
         _isPowerOn = true;
+        _requestInteractable.SetInteractableActive(false);
         OnPowerFixed?.Invoke();
     }
 }

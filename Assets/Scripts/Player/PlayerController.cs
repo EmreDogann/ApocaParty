@@ -81,14 +81,14 @@ namespace Player
                         case FoodRequest _:
                             if (interactableRequest.GetRequest().IsRequestFailed())
                             {
-                                _agent.SetDestination(interactableRequest.GetRequest().transform.position);
+                                SetDestinationAndDisplayPath(interactableRequest.GetRequest().transform.position);
                             }
                             else if (interactableRequest.GetRequest().IsRequestCompleted())
                             {
                                 _holdingConsumable = interactableRequest as IConsumable;
                                 _holdingConsumable?.Claim();
 
-                                _agent.SetDestination(interactableRequest.GetRequest().transform.position);
+                                SetDestinationAndDisplayPath(interactableRequest.GetRequest().transform.position);
                             }
 
                             break;
@@ -101,7 +101,7 @@ namespace Player
                     if (_holdingConsumable != null)
                     {
                         foodDeliveryID = plateInteractable.AnnounceDelivery();
-                        _agent.SetDestination(plateInteractable.transform.position);
+                        SetDestinationAndDisplayPath(plateInteractable.transform.position);
                     }
 
                     break;
@@ -119,13 +119,12 @@ namespace Player
 
             if (_holdingConsumable != null)
             {
-                Debug.Log("heyy");
                 _holdingConsumable.GetTransform().position = holderTransform.position;
                 switch (plateInteraction.CheckForPlateInteraction())
                 {
                     case PlateInteractable plateInteractable:
                         foodDeliveryID = plateInteractable.AnnounceDelivery();
-                        _agent.SetDestination(plateInteractable.transform.position);
+                        SetDestinationAndDisplayPath(plateInteractable.transform.position);
 
                         break;
                 }
@@ -148,9 +147,7 @@ namespace Player
             {
                 Vector3 mouseWorldPosition = _mainCamera.ScreenToWorldPoint(Mouse.current.position.value);
                 mouseWorldPosition.z = 0;
-                _agent.SetDestination(mouseWorldPosition);
-
-                pathDisplayer.DisplayPath();
+                SetDestinationAndDisplayPath(mouseWorldPosition);
             }
 
             if (Vector3.SqrMagnitude(transform.position - _agent.destination) < distanceThreshold * distanceThreshold)
@@ -162,6 +159,12 @@ namespace Player
         public void SetDestination(Vector3 target)
         {
             _agent.SetDestination(target);
+        }
+
+        public void SetDestinationAndDisplayPath(Vector3 target)
+        {
+            _agent.SetDestination(target);
+            pathDisplayer.DisplayPath();
         }
 
         public Vector3 GetPosition()
@@ -190,11 +193,5 @@ namespace Player
         {
             return foodDeliveryID;
         }
-    }
-
-    public interface IWaiter
-    {
-        public IConsumable GetFood();
-        public int GetWaiterID();
     }
 }

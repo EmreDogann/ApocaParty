@@ -15,7 +15,9 @@ public class JobsGenericDrawer : PropertyDrawer
     {
         None,
         MoveToTarget,
+        MoveToTransform,
         PlaceAtTarget,
+        PlaceAtTransform,
         Cook,
         ChangeMusic,
         FixBunting,
@@ -203,7 +205,9 @@ public class JobsGenericDrawer : PropertyDrawer
         switch (fieldType)
         {
             case FieldType.MoveToTarget: return new MoveToTarget();
+            case FieldType.MoveToTransform: return new MoveToTransform();
             case FieldType.PlaceAtTarget: return new PlaceAtTarget();
+            case FieldType.PlaceAtTransform: return new PlaceAtTransform();
             case FieldType.Cook: return new Cook();
             case FieldType.ChangeMusic: return new ChangeMusic();
             case FieldType.FixBunting: return new FixBunting();

@@ -31,6 +31,12 @@ namespace Interactions.Interactables
             transform.localScale /= hoverScaleAmount;
         }
 
+        public void SetInteractableActive(bool isInteractable)
+        {
+            IsInteractable = isInteractable;
+            IsHoverable = isInteractable;
+        }
+
         private bool IsRequestActive()
         {
             return request.IsRequestStarted();

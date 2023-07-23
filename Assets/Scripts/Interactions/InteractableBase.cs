@@ -11,7 +11,7 @@ namespace Interactions
         // Not used right now
         public float MultipleUse { get; protected set; }
         [field: SerializeField] public bool IsInteractable { get; protected set; }
-        [field: SerializeField] public bool IsToggleable { get; protected set; }
+        [field: SerializeField] public bool IsHoverable { get; protected set; }
 
         protected float HoldProgress = 0.0f;
 

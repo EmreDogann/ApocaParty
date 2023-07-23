@@ -123,11 +123,14 @@ namespace Consumable
 
         private void OnFamineEvent(PartyEventData eventData)
         {
-            foreach (Drink drink in _drinks)
+            if (eventData.eventType == PartyEventType.FamineAtDrinks)
             {
-                if (drink.IsOnTable())
+                foreach (Drink drink in _drinks)
                 {
-                    drink.Consume();
+                    if (drink.IsOnTable())
+                    {
+                        drink.Consume();
+                    }
                 }
             }
         }

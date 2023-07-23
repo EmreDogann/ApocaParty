@@ -16,8 +16,6 @@ namespace Minion.States
 
         public override void Tick()
         {
-            minion.pathDisplayer.DisplayPath();
-
             if (Vector3.SqrMagnitude(minion.transform.position - minion.navMeshAgent.destination) <
                 DistanceThreshold * DistanceThreshold)
             {

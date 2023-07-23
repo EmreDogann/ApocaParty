@@ -72,7 +72,7 @@ namespace Minion.States
                         case MusicRequest _:
                             minion.image.sprite = minion.actorData.musicIcon;
                             break;
-                        case EventRequest _:
+                        case BuntingRequest _:
                             minion.image.sprite = minion.actorData.eventIcon;
                             break;
                         default:
@@ -81,7 +81,7 @@ namespace Minion.States
                             break;
                     }
 
-                    minion.navMeshAgent.SetDestination(request.GetStartingPosition());
+                    minion.SetDestinationAndDisplayPath(request.GetStartingPosition());
                     minion.currentRequest = request;
                     request.AssignOwner(minion);
 

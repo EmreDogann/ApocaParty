@@ -1,4 +1,5 @@
-﻿using Audio;
+﻿using System;
+using Audio;
 using UnityEngine;
 
 namespace GuestRequests.Jobs
@@ -11,6 +12,8 @@ namespace GuestRequests.Jobs
         [SerializeField] private Transform _playbackPosition;
         public AudioSO FixAudio;
 
+        public static event Action BuntingFixed;
+
         public override void Exit()
         {
             if (_playbackPosition)
@@ -22,6 +25,7 @@ namespace GuestRequests.Jobs
                 FixAudio.Play2D();
             }
 
+            BuntingFixed?.Invoke();
             BuntingSprite.sprite = FixedSprite;
         }
 
