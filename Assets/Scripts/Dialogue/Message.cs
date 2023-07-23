@@ -10,12 +10,12 @@ namespace Dialogue
         public Message(ActorSO actor, string message)
         {
             this.actor = actor;
-            this.message = message;
+            text = message;
         }
 
         public ActorSO actor;
 
         [TextArea(3, 5)]
-        public string message;
+        public string text;
     }
 }

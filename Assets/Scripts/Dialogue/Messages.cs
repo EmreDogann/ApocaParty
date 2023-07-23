@@ -22,7 +22,7 @@ namespace Dialogue
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    Debug.Log("MessageParse: Line:" + line);
+                    // Debug.Log("MessageParse: Line:" + line);
 
                     // Find the Actor for which the dialogue is attributed to 
                     if (line.StartsWith("@@"))
@@ -40,7 +40,7 @@ namespace Dialogue
                         // Find the new Actor from the Dialogue file
                         string actorName = line.Replace("@@", "").Trim();
                         currentActor = allActorsSOs.Find(so => so.name.Equals(actorName));
-                        Debug.Log("MessageParse: Name:" + currentActor.name);
+                        // Debug.Log("MessageParse: Name:" + currentActor.name);
                         continue; // If actor found, go to the next line
                     }
 

@@ -176,15 +176,15 @@ MonoBehaviour:
   - NeedType: 0
     SpriteRenderer: {fileID: 1257110506}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 1320042416}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 2099562183}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
 --- !u!1 &10534235
 GameObject:
   m_ObjectHideFlags: 0
@@ -1766,10 +1766,6 @@ MonoBehaviour:
     thirst: 1
     enjoyment: 1
     movement: 1
-  _currentNeeds: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &123592454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7388,6 +7384,7 @@ Transform:
   m_Children:
   - {fileID: 1478434310}
   - {fileID: 698772495}
+  - {fileID: 2093667804}
   - {fileID: 1552764799}
   - {fileID: 815735536}
   m_Father: {fileID: 1337054463}
@@ -7534,10 +7531,6 @@ MonoBehaviour:
     thirst: 0.5
     enjoyment: 0.5
     movement: 0.5
-  _currentNeeds: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!58 &169186471
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -9083,15 +9076,15 @@ MonoBehaviour:
   - NeedType: 0
     SpriteRenderer: {fileID: 707985367}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 1024406120}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 1459388434}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
 --- !u!1 &337977016
 GameObject:
   m_ObjectHideFlags: 0
@@ -10954,10 +10947,6 @@ MonoBehaviour:
     thirst: 0.5
     enjoyment: 0.5
     movement: 0.5
-  _currentNeeds: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &491118484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12898,10 +12887,6 @@ MonoBehaviour:
     thirst: 1
     enjoyment: 1
     movement: 1
-  _currentNeeds: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &665599015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13075,15 +13060,15 @@ MonoBehaviour:
   - NeedType: 0
     SpriteRenderer: {fileID: 1969988895}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 1940561627}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 1033559736}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
 --- !u!1 &685444492
 GameObject:
   m_ObjectHideFlags: 0
@@ -14869,7 +14854,7 @@ RectTransform:
   m_Children:
   - {fileID: 511284920}
   m_Father: {fileID: 169186461}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -15449,15 +15434,15 @@ MonoBehaviour:
   - NeedType: 0
     SpriteRenderer: {fileID: 805966363}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 46519719}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 1090024410}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
 --- !u!1 &842877071
 GameObject:
   m_ObjectHideFlags: 0
@@ -15686,6 +15671,57 @@ MonoBehaviour:
         <JobName>k__BackingField: Show Sprite
         _requestSpriteRenderer: {fileID: 844883638}
         _show: 1
+--- !u!1 &846504390
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 846504391}
+  - component: {fileID: 846504392}
+  m_Layer: 0
+  m_Name: Drink
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &846504391
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846504390}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2093667804}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &846504392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846504390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2d23ca5a54e4f95836ec2a3bfd7cee1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expiryPunishment:
+    hunger: 0
+    thirst: -0.5
+    enjoyment: -0.2
+    movement: 0
+  expirationTime: 20
+  randomConversations: {fileID: 11400000, guid: 1213ba7202b965944b43d76f08d9cfd1, type: 2}
 --- !u!1 &863604698
 GameObject:
   m_ObjectHideFlags: 0
@@ -16122,10 +16158,6 @@ MonoBehaviour:
     thirst: 1
     enjoyment: 1
     movement: 1
-  _currentNeeds: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &884869656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16824,15 +16856,15 @@ MonoBehaviour:
   - NeedType: 0
     SpriteRenderer: {fileID: 163164597}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 560121835}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 49630520}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
 --- !u!1 &961665850
 GameObject:
   m_ObjectHideFlags: 0
@@ -17133,15 +17165,15 @@ MonoBehaviour:
   - NeedType: 0
     SpriteRenderer: {fileID: 1336623244}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 685444494}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 410020191}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
 --- !u!1 &989658459
 GameObject:
   m_ObjectHideFlags: 0
@@ -18730,10 +18762,6 @@ MonoBehaviour:
   messageText: {fileID: 1614674434}
   backgroundBox: {fileID: 622847523}
   confirmAction: {fileID: 4111037088096962617, guid: 1fd9d9af030accf4e8cfdbe36d107005, type: 3}
-  allActorSos:
-  - {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
-  - {fileID: 11400000, guid: 27df72990186fcd4494f3524a49f2dc4, type: 2}
-  - {fileID: 11400000, guid: de36024e2d67fc541b6e3074943d513c, type: 2}
 --- !u!114 &1115179765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21941,7 +21969,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324036742}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -22707,10 +22735,6 @@ MonoBehaviour:
     thirst: 0.5
     enjoyment: 0.5
     movement: 0.5
-  _currentNeeds: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &1381293933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23023,10 +23047,6 @@ MonoBehaviour:
     thirst: 0.5
     enjoyment: 0.5
     movement: 0.5
-  _currentNeeds: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &1406249637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23411,10 +23431,6 @@ MonoBehaviour:
     thirst: 0.5
     enjoyment: 0.5
     movement: 0.5
-  _currentNeeds: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &1431685010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24471,15 +24487,15 @@ MonoBehaviour:
   - NeedType: 0
     SpriteRenderer: {fileID: 1817226744}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 769925838}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 1370636068}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
 --- !u!1 &1548476942
 GameObject:
   m_ObjectHideFlags: 0
@@ -24625,7 +24641,7 @@ Transform:
   - {fileID: 1042217183}
   - {fileID: 817330207}
   m_Father: {fileID: 169186461}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1552764800
 MonoBehaviour:
@@ -24642,18 +24658,18 @@ MonoBehaviour:
   iconSpacing: 0.5
   unresolvedRequestSprite: {fileID: 1324036744}
   _needsIconDatas:
-  - NeedType: 0
+  - NeedType: 1
     SpriteRenderer: {fileID: 1556630752}
     requestSprite: {fileID: 0}
-    requestResolved: 0
-  - NeedType: 1
+    needResolved: 0
+  - NeedType: 2
     SpriteRenderer: {fileID: 1042217184}
     requestSprite: {fileID: 0}
-    requestResolved: 0
-  - NeedType: 2
+    needResolved: 0
+  - NeedType: 3
     SpriteRenderer: {fileID: 817330208}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
 --- !u!1 &1554604130
 GameObject:
   m_ObjectHideFlags: 0
@@ -24991,6 +25007,57 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1560122536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1560122537}
+  - component: {fileID: 1560122538}
+  m_Layer: 0
+  m_Name: Food
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1560122537
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560122536}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2093667804}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1560122538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560122536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb8242f37e034b64a8037e935c3e683a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expiryPunishment:
+    hunger: -0.5
+    thirst: 0
+    enjoyment: -0.4
+    movement: 0.2
+  expirationTime: 20
+  randomConversations: {fileID: 11400000, guid: a95ef6fc209bce948b7563ebd34393eb, type: 2}
 --- !u!1 &1562113489
 GameObject:
   m_ObjectHideFlags: 0
@@ -25151,15 +25218,15 @@ MonoBehaviour:
   - NeedType: 0
     SpriteRenderer: {fileID: 1352439124}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 1143487681}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 821232225}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
 --- !u!1 &1604483476
 GameObject:
   m_ObjectHideFlags: 0
@@ -25460,27 +25527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c219e2b600bc9544c8c3972778e0ec2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  messages:
-  - actor: {fileID: 0}
-    message: You know what they call a Quarter Pounder with Cheese in Paris?
-  - actor: {fileID: 0}
-    message: They don't call it a Quarter Pounder with cheese?
-  - actor: {fileID: 0}
-    message: No man, they got the metric system. They wouldn't know what the fuck
-      a Quarter Pounder is.
-  - actor: {fileID: 0}
-    message: Then what do they call it?
-  - actor: {fileID: 0}
-    message: They call it a Royale with cheese.
-  - actor: {fileID: 0}
-    message: ' A Royaleeee with cheeseeeee.... What do they call a Big Mac?'
-  - actor: {fileID: 0}
-    message: Well, a Big Mac's a Big Mac, but they call it le Big-Mac.
-  - actor: {fileID: 0}
-    message: Le Big-Mac. Ha ha ha ha. What do they call a Whopper?
-  - actor: {fileID: 0}
-    message: I dunno, I didn't go into Burger King.
-  tempScript: {fileID: 4900000, guid: 3a5ce405331cb0a4da357bcaf28ac962, type: 3}
+  conversation: {fileID: 0}
 --- !u!114 &1605618393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26368,10 +26415,6 @@ MonoBehaviour:
     thirst: 0.5
     enjoyment: 0.5
     movement: 0.5
-  _currentNeeds: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &1651872105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26670,15 +26713,15 @@ MonoBehaviour:
   - NeedType: 0
     SpriteRenderer: {fileID: 372086756}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 102461794}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 1251275264}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
 --- !u!1 &1734532199
 GameObject:
   m_ObjectHideFlags: 0
@@ -26856,10 +26899,6 @@ MonoBehaviour:
     thirst: 0.5
     enjoyment: 0.5
     movement: 0.5
-  _currentNeeds: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &1740301351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26949,6 +26988,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1effc61fa24844bb5e37b99f083e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1756491707
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1756491708}
+  - component: {fileID: 1756491709}
+  m_Layer: 0
+  m_Name: Music
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1756491708
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756491707}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2093667804}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1756491709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756491707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec27a2232974af98ce2e1c35c7100c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expiryPunishment:
+    hunger: 0
+    thirst: 0
+    enjoyment: -0.5
+    movement: 0.1
+  expirationTime: 20
+  randomConversations: {fileID: 11400000, guid: c75a242e8ae70b74d92f99a376d5b23e, type: 2}
 --- !u!1 &1778416804
 GameObject:
   m_ObjectHideFlags: 0
@@ -27827,10 +27917,6 @@ MonoBehaviour:
     thirst: 0.5
     enjoyment: 0.5
     movement: 0.5
-  _currentNeeds: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &1879151977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28014,10 +28100,6 @@ MonoBehaviour:
     thirst: 0.5
     enjoyment: 0.5
     movement: 0.5
-  _currentNeeds: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &1882609959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28341,15 +28423,15 @@ MonoBehaviour:
   - NeedType: 0
     SpriteRenderer: {fileID: 385499939}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 1944533075}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 141948776}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
 --- !u!1 &1938091386
 GameObject:
   m_ObjectHideFlags: 0
@@ -29571,15 +29653,15 @@ MonoBehaviour:
   - NeedType: 0
     SpriteRenderer: {fileID: 138871070}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 1
     SpriteRenderer: {fileID: 2084522438}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
   - NeedType: 2
     SpriteRenderer: {fileID: 237937233}
     requestSprite: {fileID: 0}
-    requestResolved: 0
+    needResolved: 0
 --- !u!1 &2041043144
 GameObject:
   m_ObjectHideFlags: 0
@@ -30091,6 +30173,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plateInteractable: {fileID: 1216973711}
+--- !u!1 &2093667803
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2093667804}
+  m_Layer: 0
+  m_Name: Needs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2093667804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2093667803}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1560122537}
+  - {fileID: 846504391}
+  - {fileID: 1756491708}
+  m_Father: {fileID: 169186461}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2099562181
 GameObject:
   m_ObjectHideFlags: 0

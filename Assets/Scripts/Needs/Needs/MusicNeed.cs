@@ -1,23 +1,25 @@
-﻿using UnityEngine;
+﻿using Dialogue;
+using UnityEngine;
+using Utils;
 
 namespace Needs.Needs
 {
-    public class MusicNeed : INeed
+    public class MusicNeed : MonoBehaviour, INeed
     {
-        private readonly NeedMetrics _needPunishment;
-        private readonly float _expirationTime = 20.0f;
-        private readonly float _startTime;
+        [MetricsRange(-1.0f, 1.0f)] [SerializeField] private NeedMetrics expiryPunishment = new NeedMetrics
+        {
+            hunger = 0.0f,
+            thirst = 0.0f,
+            enjoyment = -0.5f,
+            movement = 0.1f
+        };
+        [SerializeField] private float expirationTime = 20.0f;
+        [SerializeField] private RandomConversationSO randomConversations;
+        private float _startTime;
 
-        public MusicNeed()
+        public void Awake()
         {
             _startTime = Time.time;
-            _needPunishment = new NeedMetrics
-            {
-                hunger = 0.0f,
-                thirst = 0.0f,
-                enjoyment = -0.5f,
-                movement = 0.1f
-            };
         }
 
         public NeedType GetNeedType()
@@ -27,12 +29,17 @@ namespace Needs.Needs
 
         public NeedMetrics GetPunishment()
         {
-            return _needPunishment;
+            return expiryPunishment;
         }
 
         public bool IsExpired()
         {
-            return Time.time - _startTime >= _expirationTime;
+            return Time.time - _startTime >= expirationTime;
+        }
+
+        public RandomConversationSO GetRandomConversations()
+        {
+            return randomConversations;
         }
     }
 }

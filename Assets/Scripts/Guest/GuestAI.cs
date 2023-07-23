@@ -1,6 +1,7 @@
 using System;
 using Actors;
 using Consumable;
+using Dialogue;
 using DiningTable;
 using Guest.States;
 using GuestRequests;
@@ -232,10 +233,31 @@ namespace Guest
 
         private void OnPlayerInteract()
         {
-            if (stateMachine.GetCurrentState().GetID() == GuestStateID.Wander)
+            switch (stateMachine.GetCurrentState().GetID())
             {
-                stateMachine.ChangeState(GuestStateID.MoveToSeat);
+                case GuestStateID.Wander:
+                    stateMachine.ChangeState(GuestStateID.MoveToSeat);
+                    break;
+                case GuestStateID.Idle:
+                    var messages = needSystem.GetUnknownNeedConversations();
+                    if (messages.Count > 0)
+                    {
+                        foreach (Message message in messages)
+                        {
+                            message.actor = actorData;
+                        }
+
+                        DialogueManager.Instance.OpenRandomDialogue(messages.ToArray(),
+                            OnPlayerInteractDialogueFinished);
+                    }
+
+                    break;
             }
+        }
+
+        private void OnPlayerInteractDialogueFinished()
+        {
+            needSystem.ResolveNeeds();
         }
     }
 }

@@ -12,7 +12,6 @@ namespace Interactions
         // Item1 -> Assignment mode active/inactive
         // Item2 -> Callback to use in assignment mode.
         private Tuple<bool, Action<InteractableBase>> _assignmentMode;
-        private Tuple<bool, Action<InteractableBase>> _foodDeliveryMode;
 
         public static Action<InteractableBase> OnInteract;
 
@@ -20,7 +19,6 @@ namespace Interactions
         {
             _interactionHandlers.AddRange(GetComponents<IInteractionHandler>());
             _assignmentMode = new Tuple<bool, Action<InteractableBase>>(false, null);
-            _foodDeliveryMode = new Tuple<bool, Action<InteractableBase>>(false, null);
         }
 
         private void OnEnable()
