@@ -71,24 +71,13 @@ namespace Guest
         public IConsumable CurrentConsumable;
         [field: SerializeReference] public TableSeat AssignedTableSeat { get; private set; }
 
-        // private bool _shouldWander;
-        // private const float DistanceThreshold = 0.1f;
-        // private const float WanderWaitTime = 3.0f;
-        // private float _currentWanderTime;
-        // private const float SearchRadius = 3.0f;
-
-        private void Awake()
-        {
-            needSystem = GetComponent<NeedSystem>();
-            needSystem.ChangeMood(startingMood);
-        }
-
         private void OnEnable()
         {
             PartyEvent.OnPartyEvent += OnPartyEvent;
             needSystem.OnNewNeed += OnNewNeed;
 
             AssignedTableSeat.OnFoodArrival += OnFoodArrival;
+            InteractableState.OnPlayerInteract += OnPlayerInteract;
         }
 
         private void OnDisable()
@@ -97,13 +86,17 @@ namespace Guest
             needSystem.OnNewNeed -= OnNewNeed;
 
             AssignedTableSeat.OnFoodArrival -= OnFoodArrival;
+            InteractableState.OnPlayerInteract -= OnPlayerInteract;
         }
 
-        private void Start()
+        private void Awake()
         {
             _mainCamera = Camera.main;
             _blackboard = GetComponent<CharacterBlackboard>();
             InteractableState = GetComponent<GuestInteractable>();
+
+            needSystem = GetComponent<NeedSystem>();
+            needSystem.ChangeMood(startingMood);
 
             navMeshAgent = GetComponent<NavMeshAgent>();
             navMeshAgent.updateRotation = false;
@@ -139,21 +132,6 @@ namespace Guest
             AIState.text = stateMachine.GetCurrentState().GetID().ToString();
 
             _blackboard.IsMoving = navMeshAgent.hasPath;
-
-            // if (_shouldWander)
-            // {
-            //     if (Vector3.SqrMagnitude(transform.position - navMeshAgent.destination) <
-            //         DistanceThreshold * DistanceThreshold)
-            //     {
-            //         _currentWanderTime += Time.deltaTime;
-            //     }
-            //
-            //     if (_currentWanderTime >= WanderWaitTime)
-            //     {
-            //         _currentWanderTime = 0.0f;
-            //         navMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius));
-            //     }
-            // }
         }
 
         public void AssignTableSeat(TableSeat tableSeat)
@@ -195,8 +173,8 @@ namespace Guest
             switch (need.GetNeedType())
             {
                 case NeedType.Drink:
-                    CurrentConsumable = DrinksTable.Instance.TryGetDrink();
-                    if (CurrentConsumable == null)
+                    IConsumable consumable = DrinksTable.Instance.TryGetDrink();
+                    if (consumable == null)
                     {
                         return;
                     }
@@ -205,28 +183,18 @@ namespace Guest
                     {
                         if (Random.Range(0.0f, 1.0f) <= walkToDrinksChance)
                         {
+                            CurrentConsumable = consumable;
                             stateMachine.ChangeState(GuestStateID.GetConsumable);
                         }
                     }
                     else if (_guestType is GuestType.Henchmen)
                     {
+                        CurrentConsumable = consumable;
                         stateMachine.ChangeState(GuestStateID.GetConsumable);
                     }
 
                     break;
             }
-        }
-
-        [ButtonMethod]
-        private void Drink()
-        {
-            CurrentConsumable = DrinksTable.Instance.TryGetDrink();
-            if (CurrentConsumable == null)
-            {
-                return;
-            }
-
-            stateMachine.ChangeState(GuestStateID.GetConsumable);
         }
 
         private void OnPartyEvent(PartyEventData eventData)
@@ -262,57 +230,12 @@ namespace Guest
             stateMachine.ChangeState(GuestStateID.MoveToSeat);
         }
 
-        // public void SetWandering(bool isWandering)
-        // {
-        //     _shouldWander = isWandering;
-        //     if (!isWandering)
-        //     {
-        //         return;
-        //     }
-        //
-        //     navMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius));
-        //     _currentWanderTime = 0.0f;
-        // }
-        //
-        // public bool IsWandering()
-        // {
-        //     return _shouldWander;
-        // }
-        //
-        // private Vector3 RandomNavmeshLocation(Vector3 position, float radius)
-        // {
-        //     Vector3 finalPosition = position;
-        //     for (int i = 0; i < 30; i++)
-        //     {
-        //         Vector3 randomDirection = ClampMagnitude(Random.insideUnitCircle * radius, Mathf.Infinity, 2.0f);
-        //         randomDirection += position;
-        //
-        //         if (!NavMesh.Raycast(position, randomDirection, out NavMeshHit raycastHit,
-        //                 NavMesh.GetAreaFromName("AvoidWander")))
-        //         {
-        //             finalPosition = raycastHit.position;
-        //             break;
-        //         }
-        //     }
-        //
-        //     finalPosition.z = 0;
-        //     return finalPosition;
-        // }
-        //
-        // private Vector3 ClampMagnitude(Vector3 v, float max, float min)
-        // {
-        //     double sm = v.sqrMagnitude;
-        //     if (sm > max * (double)max)
-        //     {
-        //         return v.normalized * max;
-        //     }
-        //
-        //     if (sm < min * (double)min)
-        //     {
-        //         return v.normalized * min;
-        //     }
-        //
-        //     return v;
-        // }
+        private void OnPlayerInteract()
+        {
+            if (stateMachine.GetCurrentState().GetID() == GuestStateID.Wander)
+            {
+                stateMachine.ChangeState(GuestStateID.MoveToSeat);
+            }
+        }
     }
 }

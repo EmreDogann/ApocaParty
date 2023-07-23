@@ -30,8 +30,9 @@ namespace Player
         private PlateMouseInteraction plateInteraction;
 
         private Request _currentRequest;
+        private GuestInteractable _targetGuest;
         private IConsumable _holdingConsumable;
-        private int foodDeliveryID;
+        private int waiterID;
 
         private void Awake()
         {
@@ -96,11 +97,14 @@ namespace Player
 
                     break;
                 case GuestInteractable guestInteractable:
+                    _targetGuest = guestInteractable;
+                    waiterID = guestInteractable.PlayerInteracted();
+                    SetDestinationAndDisplayPath(guestInteractable.transform.position);
                     break;
                 case PlateInteractable plateInteractable:
                     if (_holdingConsumable != null)
                     {
-                        foodDeliveryID = plateInteractable.AnnounceDelivery();
+                        waiterID = plateInteractable.AnnounceDelivery();
                         SetDestinationAndDisplayPath(plateInteractable.transform.position);
                     }
 
@@ -117,13 +121,18 @@ namespace Player
 
             _blackboard.IsMoving = _agent.hasPath;
 
+            if (_targetGuest != null)
+            {
+                SetDestinationAndDisplayPath(_targetGuest.transform.position);
+            }
+
             if (_holdingConsumable != null)
             {
                 _holdingConsumable.GetTransform().position = holderTransform.position;
                 switch (plateInteraction.CheckForPlateInteraction())
                 {
                     case PlateInteractable plateInteractable:
-                        foodDeliveryID = plateInteractable.AnnounceDelivery();
+                        waiterID = plateInteractable.AnnounceDelivery();
                         SetDestinationAndDisplayPath(plateInteractable.transform.position);
 
                         break;
@@ -156,6 +165,19 @@ namespace Player
             }
         }
 
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (_targetGuest != null && other.transform.CompareTag("Guest"))
+            {
+                GuestInteractable interactable = other.transform.GetComponent<GuestInteractable>();
+                if (interactable == _targetGuest)
+                {
+                    _targetGuest = null;
+                    _agent.ResetPath();
+                }
+            }
+        }
+
         public void SetDestination(Vector3 target)
         {
             _agent.SetDestination(target);
@@ -184,14 +206,14 @@ namespace Player
 
         public IConsumable GetFood()
         {
-            foodDeliveryID = 0;
+            waiterID = 0;
             _agent.ResetPath();
             return _holdingConsumable;
         }
 
         public int GetWaiterID()
         {
-            return foodDeliveryID;
+            return waiterID;
         }
     }
 }

@@ -1701,7 +1701,7 @@ GameObject:
   - component: {fileID: 123592453}
   m_Layer: 0
   m_Name: War
-  m_TagString: Untagged
+  m_TagString: Guest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7353,14 +7353,15 @@ GameObject:
   - component: {fileID: 169186461}
   - component: {fileID: 169186466}
   - component: {fileID: 169186465}
+  - component: {fileID: 169186471}
   - component: {fileID: 169186468}
   - component: {fileID: 169186467}
   - component: {fileID: 169186463}
   - component: {fileID: 169186470}
   - component: {fileID: 169186469}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Famine
-  m_TagString: Untagged
+  m_TagString: Guest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7400,10 +7401,10 @@ MonoBehaviour:
   image: {fileID: 1437635276}
   holderTransform: {fileID: 538963628}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
-  startingMood: 2
-  walkToDrinksChance: 1
-  wanderWhenHappyChance: 0.2
-  wanderCheckFrequency: 5
+  startingMood: 3
+  walkToDrinksChance: 0.1
+  wanderWhenHappyChance: 1
+  wanderCheckFrequency: 1
   AIState: {fileID: 511284921}
   <AssignedTableSeat>k__BackingField: {fileID: 337977021}
 --- !u!195 &169186465
@@ -7470,8 +7471,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <HoldDuration>k__BackingField: 0
   <HoldInteract>k__BackingField: 0
-  <IsInteractable>k__BackingField: 0
-  <IsHoverable>k__BackingField: 0
+  <IsInteractable>k__BackingField: 1
+  <IsHoverable>k__BackingField: 1
 --- !u!114 &169186469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7528,6 +7529,22 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!58 &169186471
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169186460}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.75
 --- !u!1 &171382922
 GameObject:
   m_ObjectHideFlags: 0
@@ -10845,7 +10862,7 @@ GameObject:
   - component: {fileID: 491118482}
   m_Layer: 0
   m_Name: Henchman
-  m_TagString: Untagged
+  m_TagString: Guest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12806,7 +12823,7 @@ GameObject:
   - component: {fileID: 665599014}
   m_Layer: 0
   m_Name: Pestilence
-  m_TagString: Untagged
+  m_TagString: Guest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16015,7 +16032,7 @@ GameObject:
   - component: {fileID: 884869655}
   m_Layer: 0
   m_Name: Death
-  m_TagString: Untagged
+  m_TagString: Guest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22483,7 +22500,7 @@ GameObject:
   - component: {fileID: 1381293931}
   m_Layer: 0
   m_Name: Henchman
-  m_TagString: Untagged
+  m_TagString: Guest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22798,7 +22815,7 @@ GameObject:
   - component: {fileID: 1406249635}
   m_Layer: 0
   m_Name: Henchman
-  m_TagString: Untagged
+  m_TagString: Guest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23185,7 +23202,7 @@ GameObject:
   - component: {fileID: 1431685008}
   m_Layer: 0
   m_Name: Henchman
-  m_TagString: Untagged
+  m_TagString: Guest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26119,7 +26136,7 @@ GameObject:
   - component: {fileID: 1651872103}
   m_Layer: 0
   m_Name: Henchman
-  m_TagString: Untagged
+  m_TagString: Guest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26599,7 +26616,7 @@ GameObject:
   - component: {fileID: 1740301349}
   m_Layer: 0
   m_Name: Henchman
-  m_TagString: Untagged
+  m_TagString: Guest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27569,7 +27586,7 @@ GameObject:
   - component: {fileID: 1879151975}
   m_Layer: 0
   m_Name: Henchman
-  m_TagString: Untagged
+  m_TagString: Guest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27755,7 +27772,7 @@ GameObject:
   - component: {fileID: 1882609957}
   m_Layer: 0
   m_Name: Henchman
-  m_TagString: Untagged
+  m_TagString: Guest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
