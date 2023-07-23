@@ -22,6 +22,7 @@ namespace Dialogue
         public TextMeshProUGUI actorName;
         public TextMeshProUGUI messageText;
         public RectTransform backgroundBox;
+        [SerializeField] private float animationSpeed = 0.05f;
 
         [Separator("Controls")]
         public InputActionReference confirmAction;
@@ -86,7 +87,7 @@ namespace Dialogue
             DialogueIsPlaying = true;
 
             UIManager.Instance.Show(dialogueView);
-            animationCoroutine=StartCoroutine(DisplayMessage());
+            animationCoroutine = StartCoroutine(DisplayMessage());
         }
 
 
@@ -95,16 +96,14 @@ namespace Dialogue
             ActorSO actorToDisplay = _currentMessages[_messageIndex].actor;
             actorName.text = actorToDisplay.name;
             actorImage.sprite = actorToDisplay.sprite;
-            messageText.text=string.Empty;
-            foreach(char c in _currentMessages[_messageIndex].message.ToCharArray()){
+            messageText.text = string.Empty;
+            foreach (char c in _currentMessages[_messageIndex].text)
+            {
                 messageText.text += c;
-                Debug.Log(c);
-                yield return new WaitForSecondsRealtime(0.1f);
+                yield return new WaitForSecondsRealtime(animationSpeed);
             }
-
-
         }
-        
+
         private void DisplayEntireMessage()
         {
             messageText.text = string.Empty;
@@ -115,22 +114,13 @@ namespace Dialogue
             actorName.text = actorToDisplay.name;
             actorImage.sprite = actorToDisplay.sprite;
         }
-        // private void DisplayMessage()
-        // {
-        //     Message messageToDisplay = _currentMessages[_messageIndex];
-        //     messageText.text = messageToDisplay.message;
-
-        //     ActorSO actorToDisplay = messageToDisplay.actor;
-        //     actorName.text = actorToDisplay.name;
-        //     actorImage.sprite = actorToDisplay.sprite;
-        // }
 
         public void NextMessage()
         {
             _messageIndex++;
             if (_messageIndex < _currentMessages.Length)
             {
-                animationCoroutine=StartCoroutine(DisplayMessage());
+                animationCoroutine = StartCoroutine(DisplayMessage());
             }
             else
             {
@@ -152,21 +142,24 @@ namespace Dialogue
         {
             if (confirmAction.action.WasPressedThisFrame() && UIManager.Instance.GetCurrentView() == dialogueView)
             {
-                if(_messageIndex>=_currentMessages.Length){
+                if (_messageIndex >= _currentMessages.Length)
+                {
                     return;
                 }
-                if(messageText.text!=_currentMessages[_messageIndex].message){
-                    Debug.Log("entire");
-                    if(animationCoroutine!=null){
+
+                if (messageText.text != _currentMessages[_messageIndex].text)
+                {
+                    if (animationCoroutine != null)
+                    {
                         StopCoroutine(animationCoroutine);
                     }
+
                     DisplayEntireMessage();
                 }
-                else{
-                    Debug.Log("next");
+                else
+                {
                     NextMessage();
                 }
-                
             }
         }
     }
