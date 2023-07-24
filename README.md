@@ -1,4 +1,4 @@
-# CthUwU-Party
+# ApocaParty
 Summer Slow Jams 2023 Submission
 
 # Controls
