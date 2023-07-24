@@ -36,7 +36,7 @@ namespace DiningTable
             foreach (Table table in _tables)
             {
                 var tableSeat = table.TryGetAvailableSeats();
-                if (tableSeat.Count == guestCount)
+                if (tableSeat.Count >= guestCount)
                 {
                     return tableSeat;
                 }

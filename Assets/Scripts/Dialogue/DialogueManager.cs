@@ -59,8 +59,10 @@ namespace Dialogue
             _listener = GetComponent<BoolEventListener>();
         }
 
-        public void OpenDialogue(Message[] messages)
+        public void OpenDialogue(Message[] messages, Action callbackAction = null)
         {
+            _callback = callbackAction;
+
             _currentMessages = messages;
             _messageIndex = 0;
             DialogueIsPlaying = true;
@@ -143,6 +145,7 @@ namespace Dialogue
             _listener.Event.Raise(false);
 
             _callback?.Invoke();
+            _callback = null;
         }
 
         private void Update()

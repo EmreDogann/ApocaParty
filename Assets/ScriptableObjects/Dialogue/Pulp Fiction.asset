@@ -34,22 +34,3 @@ MonoBehaviour:
   - actor: {fileID: 11400000, guid: 27df72990186fcd4494f3524a49f2dc4, type: 2}
     text: I dunno, I didn't go into a Burger King. But you know what they put on
       french fries in Holland instead of ketchup?
-  - actor: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
-    text: What?
-  - actor: {fileID: 11400000, guid: 27df72990186fcd4494f3524a49f2dc4, type: 2}
-    text: Mayonnaise.
-  - actor: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
-    text: Goddamn!
-  - actor: {fileID: 11400000, guid: 27df72990186fcd4494f3524a49f2dc4, type: 2}
-    text: I seen 'em do it. And I don't mean a little bit on the side of the plate,
-      they fuckin' drown 'em in it.
-  - actor: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
-    text: Uuccch!
-  - actor: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
-    text: Well, the way they pick the shows on TV is they make one show, and that
-      show's called a pilot. And they show that one show to the people who pick the
-      shows, and on the strength of that one show,...
-  - actor: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
-    text: ' they decide if they want to make more shows. Some get accepted and become
-      TV programs, and some don''t, and become nothing. She starred in one of the
-      ones that became nothing. '

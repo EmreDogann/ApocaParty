@@ -26,8 +26,7 @@ namespace Guest
         Henchmen
     }
 
-    [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent), typeof(GuestInteractable))]
-    [RequireComponent(typeof(NeedSystem))]
+    [RequireComponent(typeof(NavMeshAgent), typeof(GuestInteractable), typeof(NeedSystem))]
     public class GuestAI : MonoBehaviour, IGuestRequestOwner, IWaiterTarget
     {
         [SerializeField] private GuestType _guestType;
@@ -68,7 +67,6 @@ namespace Guest
         private GuestConsumeState _guestConsumeState;
         private GuestGetConsumableState _guestGetConsumableState;
         private GuestMoveToSeatState _guestMoveToSeatState;
-        private CharacterBlackboard _blackboard;
 
         public IConsumable CurrentConsumable;
         [field: SerializeReference] public TableSeat AssignedTableSeat { get; private set; }
@@ -76,10 +74,11 @@ namespace Guest
         private int _waiterID;
         private bool _isAssignedWaiter;
 
+        private bool _isAIActive;
+
         private void Awake()
         {
             _mainCamera = Camera.main;
-            _blackboard = GetComponent<CharacterBlackboard>();
             InteractableState = GetComponent<GuestInteractable>();
 
             needSystem = GetComponent<NeedSystem>();
@@ -115,8 +114,10 @@ namespace Guest
             PartyEvent.OnPartyEvent += OnPartyEvent;
             needSystem.OnNewNeed += OnNewNeed;
 
-            AssignedTableSeat.OnFoodArrival += OnFoodArrival;
-            // InteractableState.OnPlayerInteract += OnPlayerInteract;
+            if (AssignedTableSeat)
+            {
+                AssignedTableSeat.OnFoodArrival += OnFoodArrival;
+            }
         }
 
         private void OnDisable()
@@ -124,21 +125,26 @@ namespace Guest
             PartyEvent.OnPartyEvent -= OnPartyEvent;
             needSystem.OnNewNeed -= OnNewNeed;
 
-            AssignedTableSeat.OnFoodArrival -= OnFoodArrival;
-            // InteractableState.OnPlayerInteract -= OnPlayerInteract;
+            if (AssignedTableSeat)
+            {
+                AssignedTableSeat.OnFoodArrival -= OnFoodArrival;
+            }
+        }
+
+        public void ActivateAI()
+        {
+            _isAIActive = true;
         }
 
         private void Update()
         {
-            if (Time.timeScale == 0.0f)
+            if (Time.timeScale == 0.0f || !_isAIActive)
             {
                 return;
             }
 
             stateMachine.UpdateState();
             AIState.text = stateMachine.GetCurrentState().GetID().ToString();
-
-            _blackboard.IsMoving = navMeshAgent.hasPath;
         }
 
         public void AssignTableSeat(TableSeat tableSeat)
@@ -146,6 +152,8 @@ namespace Guest
             tableSeat.AssignSeat();
             AssignedTableSeat = tableSeat;
             SetDestination(tableSeat.transform.position);
+
+            AssignedTableSeat.OnFoodArrival += OnFoodArrival;
         }
 
         public void SetDestination(Vector3 target)

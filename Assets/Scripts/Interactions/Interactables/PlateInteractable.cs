@@ -8,11 +8,13 @@ namespace Interactions.Interactables
         public IWaiterTarget WaiterTarget { get; private set; }
         public bool IsHovering { get; private set; }
         public bool IsInteracting { get; private set; }
-        [SerializeField] private float hoverScaleAmount = 1.5f;
+        [SerializeField] private float hoverScaleAmount = 1.1f;
+        private Vector3 _startingScale;
 
         private void Awake()
         {
             WaiterTarget = transform.parent.GetComponent<IWaiterTarget>();
+            _startingScale = transform.localScale;
         }
 
         public override void OnStartHover()
@@ -20,7 +22,7 @@ namespace Interactions.Interactables
             base.OnStartHover();
             IsHovering = true;
 
-            transform.localScale *= hoverScaleAmount;
+            transform.localScale = _startingScale * hoverScaleAmount;
         }
 
         public override void OnEndHover()
@@ -28,7 +30,7 @@ namespace Interactions.Interactables
             base.OnEndHover();
             IsHovering = false;
 
-            transform.localScale /= hoverScaleAmount;
+            transform.localScale = _startingScale;
         }
 
         public override void OnStartInteract()
@@ -47,6 +49,11 @@ namespace Interactions.Interactables
         {
             IsInteractable = isInteractable;
             IsHoverable = isInteractable;
+
+            if (!isInteractable && IsHovering)
+            {
+                OnEndHover();
+            }
         }
     }
 }

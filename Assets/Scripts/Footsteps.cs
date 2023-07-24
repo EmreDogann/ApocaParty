@@ -1,37 +1,26 @@
 using Audio;
 using LlamAcademy.Spring.Runtime;
 using UnityEngine;
+using UnityEngine.AI;
 
-[RequireComponent(typeof(CharacterBlackboard))]
+[RequireComponent(typeof(NavMeshAgent))]
 public class Footsteps : MonoBehaviour
 {
-    // [SerializeField] private LayerMask collisionDetectionLayerMask;
-    // [SerializeField] private float collisionRadius;
     public SpringToScale scaleSpring;
     public float footstepForce = 1.0f;
     public float footstepStride = 1.5f;
 
     public AudioSO footstepSoundEffect;
 
-    private CharacterBlackboard _blackboard;
+    private NavMeshAgent _agent;
 
     private float _currentStrideDistance;
     private float _prevPlayerStride;
     private Vector3 _prevTransformPos = Vector3.zero;
 
-    // private RaycastHit _hit;
-
     private void Awake()
     {
-        _blackboard = GetComponent<CharacterBlackboard>();
-        _blackboard.OnStrideChange += OnStrideChange;
-        _blackboard.OnStride += InteractSurface;
-    }
-
-    private void OnDestroy()
-    {
-        _blackboard.OnStrideChange -= OnStrideChange;
-        _blackboard.OnStride -= InteractSurface;
+        _agent = GetComponent<NavMeshAgent>();
     }
 
     private void LateUpdate()
@@ -44,7 +33,7 @@ public class Footsteps : MonoBehaviour
     {
         _currentStrideDistance += Vector3.Magnitude(transform.position - _prevTransformPos);
 
-        if (!_blackboard.IsMoving)
+        if (!_agent.hasPath)
         {
             _currentStrideDistance = footstepStride - 0.2f;
         }
@@ -55,7 +44,7 @@ public class Footsteps : MonoBehaviour
         }
 
         _currentStrideDistance = 0;
-        _blackboard.OnStride?.Invoke();
+        InteractSurface();
 
         footstepSoundEffect.Play(transform.position);
     }
@@ -74,13 +63,5 @@ public class Footsteps : MonoBehaviour
         //     }
         // }
         scaleSpring.Nudge(new Vector3(footstepForce, footstepForce, 0.0f));
-    }
-
-    private void OnStrideChange(float newStride)
-    {
-        // Keep the same percentage distance to the target from the previous stride to the new stride.
-        float amountOfChange = newStride / _prevPlayerStride;
-        _prevPlayerStride = newStride;
-        _currentStrideDistance *= amountOfChange;
     }
 }
