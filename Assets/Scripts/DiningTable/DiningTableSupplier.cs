@@ -33,6 +33,7 @@ namespace DiningTable
 
         public List<TableSeat> TryGetAvailableSeats(int guestCount)
         {
+            var freeSeats = new List<TableSeat>();
             foreach (Table table in _tables)
             {
                 var tableSeat = table.TryGetAvailableSeats();
@@ -40,9 +41,11 @@ namespace DiningTable
                 {
                     return tableSeat;
                 }
+
+                freeSeats.AddRange(tableSeat);
             }
 
-            return null;
+            return freeSeats.Count >= guestCount ? freeSeats : null;
         }
     }
 }
