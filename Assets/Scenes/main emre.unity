@@ -24631,6 +24631,7 @@ GameObject:
   - component: {fileID: 754063273}
   - component: {fileID: 754063272}
   - component: {fileID: 754063274}
+  - component: {fileID: 754063275}
   m_Layer: 0
   m_Name: Minion
   m_TagString: Untagged
@@ -24688,9 +24689,11 @@ MonoBehaviour:
   pathDisplayer: {fileID: 754063274}
   image: {fileID: 1522357477}
   holderTransform: {fileID: 2030473880}
-  AIState: {fileID: 161511143}
+  aiState: {fileID: 161511143}
   currentRequest: {fileID: 0}
   actorData: {fileID: 11400000, guid: de36024e2d67fc541b6e3074943d513c, type: 2}
+  plateInteraction: {fileID: 0}
+  target: {fileID: 0}
 --- !u!114 &754063269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24783,6 +24786,22 @@ MonoBehaviour:
   autoControlLength: 0.25
   maxAngleError: 0.3
   minVertexDistance: 0
+--- !u!114 &754063275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754063264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a6b54bf269469f982c2e1accf8781b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mask:
+    serializedVersion: 2
+    m_Bits: 64
+  _interactAction: {fileID: -5871860320606234851, guid: 1fd9d9af030accf4e8cfdbe36d107005, type: 3}
 --- !u!1 &757554976
 GameObject:
   m_ObjectHideFlags: 0
@@ -54096,6 +54115,7 @@ GameObject:
   - component: {fileID: 1538724056}
   - component: {fileID: 1538724055}
   - component: {fileID: 1538724054}
+  - component: {fileID: 1538724062}
   m_Layer: 0
   m_Name: Minion
   m_TagString: Untagged
@@ -54211,9 +54231,11 @@ MonoBehaviour:
   pathDisplayer: {fileID: 1538724054}
   image: {fileID: 1996456030}
   holderTransform: {fileID: 1161070037}
-  AIState: {fileID: 715481905}
+  aiState: {fileID: 715481905}
   currentRequest: {fileID: 0}
   actorData: {fileID: 11400000, guid: de36024e2d67fc541b6e3074943d513c, type: 2}
+  plateInteraction: {fileID: 0}
+  target: {fileID: 0}
 --- !u!114 &1538724060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54248,6 +54270,22 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 13
   m_ObstacleAvoidanceType: 0
+--- !u!114 &1538724062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538724052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a6b54bf269469f982c2e1accf8781b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mask:
+    serializedVersion: 2
+    m_Bits: 64
+  _interactAction: {fileID: -5871860320606234851, guid: 1fd9d9af030accf4e8cfdbe36d107005, type: 3}
 --- !u!1 &1540150249
 GameObject:
   m_ObjectHideFlags: 0

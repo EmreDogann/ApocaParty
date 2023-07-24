@@ -30,7 +30,7 @@ namespace Minion
             MinionAI closestMinion = null;
             foreach (MinionAI minion in _minions)
             {
-                if (minion.stateMachine.GetCurrentState().GetID() != MinionStateID.Idle)
+                if (minion.StateMachine.GetCurrentState().GetID() != MinionStateID.Idle)
                 {
                     continue;
                 }

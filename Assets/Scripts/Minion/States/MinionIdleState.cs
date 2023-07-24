@@ -26,6 +26,30 @@ namespace Minion.States
 
         public override void Tick()
         {
+            if (minion.HoldingConsumable != null)
+            {
+                minion.HoldingConsumable.GetTransform().position = minion.GetHoldingTransform().position;
+                if (minion.target == null)
+                {
+                    switch (minion.plateInteraction.CheckForPlateInteraction())
+                    {
+                        case PlateInteractable plateInteractable:
+                            if (plateInteractable.WaiterTarget.IsAssignedWaiter())
+                            {
+                                return;
+                            }
+
+                            minion.SetDestinationAndDisplayPath(plateInteractable.WaiterTarget.GetDestinationTransform()
+                                .position);
+                            plateInteractable.WaiterTarget.GiveWaiterID(minion.WaiterID);
+
+                            minion.SetWandering(false);
+                            _stateMachine.ChangeState(MinionStateID.Moving);
+                            break;
+                    }
+                }
+            }
+
             if (!minion.IsWandering())
             {
                 _currentWanderTime += Time.deltaTime;
@@ -42,10 +66,33 @@ namespace Minion.States
 
         public void OnInteraction(InteractableBase interactable)
         {
+            if (minion.HoldingConsumable != null)
+            {
+                return;
+            }
+
             switch (interactable)
             {
                 case IInteractableRequest requestInteractable:
                     Request request = requestInteractable.GetRequest();
+
+                    if (request is FoodRequest && request.GetRequestOwner() == null)
+                    {
+                        if (minion.HoldingConsumable == null && request.IsRequestCompleted())
+                        {
+                            minion.TargetConsumable = request as IConsumable;
+                            minion.TargetConsumable.Claim();
+                            minion.target = null;
+                        }
+
+                        minion.SetDestinationAndDisplayPath(request.GetStartingPosition());
+
+                        minion.SetWandering(false);
+                        minion.image.sprite = minion.actorData.eventIcon;
+                        _stateMachine.ChangeState(MinionStateID.Moving);
+                        return;
+                    }
+
                     if (request.IsRequestStarted() || !request.TryStartRequest() || request.GetRequestOwner() != null)
                     {
                         minion.SetWandering(false);
@@ -56,9 +103,6 @@ namespace Minion.States
 
                     switch (request)
                     {
-                        case FoodRequest _:
-                            // TODO: Play error sound.
-                            return;
                         case DrinkRefillRequest _:
                             if (DrinksTable.Instance.IsDrinksTableFull())
                             {

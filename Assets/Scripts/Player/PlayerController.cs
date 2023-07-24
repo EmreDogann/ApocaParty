@@ -29,7 +29,7 @@ namespace Player
         private NavMeshAgent _agent;
         private Camera _mainCamera;
         private CharacterBlackboard _blackboard;
-        private PlateMouseInteraction plateInteraction;
+        private PlateMouseInteraction _plateInteraction;
 
         private Request _currentRequest;
         private Transform _target;
@@ -43,7 +43,7 @@ namespace Player
             _mainCamera = Camera.main;
             _agent = GetComponent<NavMeshAgent>();
             pathDisplayer = GetComponent<DisplayAgentPath>();
-            plateInteraction = GetComponent<PlateMouseInteraction>();
+            _plateInteraction = GetComponent<PlateMouseInteraction>();
 
             _agent.updateRotation = false;
             _agent.updateUpAxis = false;
@@ -62,6 +62,11 @@ namespace Player
 
         private void OnInteraction(InteractableBase interactable)
         {
+            if (_currentRequest != null || _holdingConsumable != null)
+            {
+                return;
+            }
+
             switch (interactable)
             {
                 case IInteractableRequest interactableRequest:
@@ -83,7 +88,7 @@ namespace Player
                             else if (_holdingConsumable == null && request.IsRequestCompleted())
                             {
                                 _targetConsumable = request as IConsumable;
-
+                                _targetConsumable.Claim();
                                 _target = null;
                             }
 
@@ -94,10 +99,6 @@ namespace Player
                                 return;
                             }
 
-                            break;
-                        case MusicRequest _:
-                            break;
-                        case BuntingRequest _:
                             break;
                     }
 
@@ -156,7 +157,7 @@ namespace Player
                 _holdingConsumable.GetTransform().position = holderTransform.position;
                 if (_target == null)
                 {
-                    switch (plateInteraction.CheckForPlateInteraction())
+                    switch (_plateInteraction.CheckForPlateInteraction())
                     {
                         case PlateInteractable plateInteractable:
                             _target = plateInteractable.WaiterTarget.GetDestinationTransform();
@@ -236,7 +237,7 @@ namespace Player
             return transform.position;
         }
 
-        public Transform GetHoldingPosition()
+        public Transform GetHoldingTransform()
         {
             return holderTransform;
         }

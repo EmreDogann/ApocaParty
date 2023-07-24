@@ -21,7 +21,7 @@ namespace Guest.States
         {
             if (guest.CurrentConsumable != null)
             {
-                guest.CurrentConsumable.GetTransform().position = guest.GetHoldingPosition().position;
+                guest.CurrentConsumable.GetTransform().position = guest.GetHoldingTransform().position;
             }
 
             if (Vector3.SqrMagnitude(guest.transform.position - guest.navMeshAgent.destination) <

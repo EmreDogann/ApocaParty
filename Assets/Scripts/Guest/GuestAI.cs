@@ -74,6 +74,7 @@ namespace Guest
         [field: SerializeReference] public TableSeat AssignedTableSeat { get; private set; }
 
         private int _waiterID;
+        private bool _isAssignedWaiter;
 
         private void Awake()
         {
@@ -162,7 +163,7 @@ namespace Guest
             return transform.position;
         }
 
-        public Transform GetHoldingPosition()
+        public Transform GetHoldingTransform()
         {
             return holderTransform;
         }
@@ -265,9 +266,15 @@ namespace Guest
             }
         }
 
+        public bool IsAssignedWaiter()
+        {
+            return _isAssignedWaiter;
+        }
+
         public void GiveWaiterID(int waiterID)
         {
             _waiterID = waiterID;
+            _isAssignedWaiter = true;
         }
 
         public int GetWaiterID()
