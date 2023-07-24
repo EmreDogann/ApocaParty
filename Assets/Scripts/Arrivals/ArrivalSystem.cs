@@ -13,6 +13,7 @@ namespace Arrivals
 
         private List<GuestGroup> _guestGroups = new List<GuestGroup>();
         private int _currentIndex;
+        [SerializeField] private bool arriveOnStart;
 
         private void Awake()
         {
@@ -20,6 +21,14 @@ namespace Arrivals
                 .OfType<GuestGroup>()
                 .ToList();
             _currentIndex = 0;
+        }
+
+        private void Start()
+        {
+            if (arriveOnStart)
+            {
+                GuestsArrive();
+            }
         }
 
         [ButtonMethod]

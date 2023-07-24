@@ -15,25 +15,20 @@ namespace Guest
 
     public class GuestGroup : MonoBehaviour
     {
-        [SerializeField] private List<GuestAI> _guests;
+        private readonly List<GuestAI> _guests = new List<GuestAI>();
         [SerializeField] private ConversationSO arrivalConversation;
         [field: SerializeReference] public GroupType GroupType { get; private set; }
 
         private bool _arrivalTriggered;
 
-        private void Reset()
+        private void Awake()
         {
             for (int i = 0; i < transform.childCount; ++i)
             {
-                Transform child = transform.GetChild(i);
-                if (!child.gameObject.activeSelf)
-                {
-                    break;
-                }
-
-                GuestAI guest = child.GetComponent<GuestAI>();
+                GuestAI guest = transform.GetChild(i).GetComponent<GuestAI>();
                 if (guest != null)
                 {
+                    guest.transform.gameObject.SetActive(false);
                     _guests.Add(guest);
                 }
             }
@@ -64,7 +59,15 @@ namespace Guest
 
                 if (guestsArrived == _guests.Count)
                 {
-                    DialogueManager.Instance.OpenDialogue(arrivalConversation.messages, SitDown);
+                    if (arrivalConversation != null)
+                    {
+                        DialogueManager.Instance.OpenDialogue(arrivalConversation.messages, SitDown);
+                    }
+                    else
+                    {
+                        SitDown();
+                    }
+
                     _arrivalTriggered = false;
                 }
             }
@@ -79,7 +82,8 @@ namespace Guest
                 guestAI.transform.gameObject.SetActive(true);
                 guestAI.enabled = true;
 
-                guestAI.SetDestination(arrivalSpots[index].position);
+                Vector3 randomPosition = new Vector3(Random.Range(0.0f, 0.5f), Random.Range(0.0f, 0.5f), 0.0f);
+                guestAI.SetDestination(arrivalSpots[index].position + randomPosition);
                 index++;
             }
 

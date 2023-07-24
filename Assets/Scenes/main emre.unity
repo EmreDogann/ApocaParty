@@ -1467,7 +1467,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &123592452
 Transform:
   m_ObjectHideFlags: 0
@@ -1539,8 +1539,10 @@ MonoBehaviour:
   holderTransform: {fileID: 1692372714}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
   startingMood: 2
+  chanceToSpillDrink: 0
+  spillDrinkCheckFrequency: 0
   walkToDrinksChance: 1
-  wanderWhenHappyChance: 0.2
+  chanceToWander: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 160561877}
   <AssignedTableSeat>k__BackingField: {fileID: 0}
@@ -2349,7 +2351,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &169186461
 Transform:
   m_ObjectHideFlags: 0
@@ -2388,11 +2390,13 @@ MonoBehaviour:
   holderTransform: {fileID: 538963628}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
   startingMood: 3
+  chanceToSpillDrink: 0
+  spillDrinkCheckFrequency: 0
   walkToDrinksChance: 0.1
-  wanderWhenHappyChance: 0.1
+  chanceToWander: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 511284921}
-  <AssignedTableSeat>k__BackingField: {fileID: 0}
+  <AssignedTableSeat>k__BackingField: {fileID: 1516772733}
 --- !u!195 &169186465
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3167,9 +3171,10 @@ GameObject:
   - component: {fileID: 245249809}
   - component: {fileID: 245249808}
   - component: {fileID: 245249807}
+  - component: {fileID: 245249812}
   m_Layer: 3
   m_Name: Food 1
-  m_TagString: Untagged
+  m_TagString: Spillable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3239,6 +3244,7 @@ MonoBehaviour:
       thirst: 0
       enjoyment: 0.2
       movement: 0
+  spillSprite: {fileID: -2050349685, guid: bb6d5f588e9a2ba48b7f28593567099f, type: 3}
   references:
     version: 2
     RefIds:
@@ -3386,6 +3392,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &245249812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245249805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bffc9391ed034ed8af61cdebc38e72d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HoldDuration>k__BackingField: 0
+  <HoldInteract>k__BackingField: 0
+  <IsInteractable>k__BackingField: 0
+  <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.5
 --- !u!1 &246718306
 GameObject:
   m_ObjectHideFlags: 0
@@ -3593,9 +3616,10 @@ GameObject:
   - component: {fileID: 275876250}
   - component: {fileID: 275876249}
   - component: {fileID: 275876248}
+  - component: {fileID: 275876253}
   m_Layer: 3
   m_Name: Food 7
-  m_TagString: Untagged
+  m_TagString: Spillable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3665,6 +3689,7 @@ MonoBehaviour:
       thirst: 0
       enjoyment: 0.2
       movement: 0
+  spillSprite: {fileID: -2050349685, guid: bb6d5f588e9a2ba48b7f28593567099f, type: 3}
   references:
     version: 2
     RefIds:
@@ -3812,6 +3837,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &275876253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275876246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bffc9391ed034ed8af61cdebc38e72d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HoldDuration>k__BackingField: 0
+  <HoldInteract>k__BackingField: 0
+  <IsInteractable>k__BackingField: 0
+  <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.5
 --- !u!1 &278786271
 GameObject:
   m_ObjectHideFlags: 0
@@ -4449,9 +4491,10 @@ GameObject:
   - component: {fileID: 337027581}
   - component: {fileID: 337027580}
   - component: {fileID: 337027579}
+  - component: {fileID: 337027584}
   m_Layer: 3
   m_Name: Food 10
-  m_TagString: Untagged
+  m_TagString: Spillable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4521,6 +4564,7 @@ MonoBehaviour:
       thirst: 0
       enjoyment: 0.2
       movement: 0
+  spillSprite: {fileID: -2050349685, guid: bb6d5f588e9a2ba48b7f28593567099f, type: 3}
   references:
     version: 2
     RefIds:
@@ -4668,6 +4712,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &337027584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 337027577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bffc9391ed034ed8af61cdebc38e72d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HoldDuration>k__BackingField: 0
+  <HoldInteract>k__BackingField: 0
+  <IsInteractable>k__BackingField: 0
+  <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.5
 --- !u!1 &354401972
 GameObject:
   m_ObjectHideFlags: 0
@@ -10861,7 +10922,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &491118481
 Transform:
   m_ObjectHideFlags: 0
@@ -10951,8 +11012,10 @@ MonoBehaviour:
   holderTransform: {fileID: 1699531563}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
   startingMood: 2
+  chanceToSpillDrink: 0
+  spillDrinkCheckFrequency: 0
   walkToDrinksChance: 1
-  wanderWhenHappyChance: 0.2
+  chanceToWander: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 1554604132}
   <AssignedTableSeat>k__BackingField: {fileID: 0}
@@ -11101,6 +11164,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2833652554369799451, guid: 2df009fc18420f847b9ef2580f80341a, type: 3}
   m_PrefabInstance: {fileID: 495075510}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &495075512 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2833652554369799455, guid: 2df009fc18420f847b9ef2580f80341a, type: 3}
+  m_PrefabInstance: {fileID: 495075510}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4ac3d9c3e44d3b9958a5d3a1d7e54c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &501365983
 GameObject:
   m_ObjectHideFlags: 0
@@ -12022,7 +12096,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &535671240
 Transform:
   m_ObjectHideFlags: 0
@@ -12053,10 +12127,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b04303024d14e19b64a2cf5bd726974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guests:
-  - {fileID: 123592454}
-  - {fileID: 1651872105}
-  - {fileID: 1879151977}
   arrivalConversation: {fileID: 11400000, guid: ef4012687eea44a47abcf7197eafe2a3, type: 2}
   <GroupType>k__BackingField: 1
 --- !u!1 &538963627
@@ -12994,7 +13064,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &665599013
 Transform:
   m_ObjectHideFlags: 0
@@ -13066,8 +13136,10 @@ MonoBehaviour:
   holderTransform: {fileID: 1938091387}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
   startingMood: 2
+  chanceToSpillDrink: 0
+  spillDrinkCheckFrequency: 0
   walkToDrinksChance: 1
-  wanderWhenHappyChance: 0.2
+  chanceToWander: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 1785711083}
   <AssignedTableSeat>k__BackingField: {fileID: 0}
@@ -13152,9 +13224,10 @@ GameObject:
   - component: {fileID: 671433552}
   - component: {fileID: 671433551}
   - component: {fileID: 671433550}
+  - component: {fileID: 671433555}
   m_Layer: 3
   m_Name: Food 5
-  m_TagString: Untagged
+  m_TagString: Spillable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13224,6 +13297,7 @@ MonoBehaviour:
       thirst: 0
       enjoyment: 0.2
       movement: 0
+  spillSprite: {fileID: -2050349685, guid: bb6d5f588e9a2ba48b7f28593567099f, type: 3}
   references:
     version: 2
     RefIds:
@@ -13371,6 +13445,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &671433555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671433548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bffc9391ed034ed8af61cdebc38e72d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HoldDuration>k__BackingField: 0
+  <HoldInteract>k__BackingField: 0
+  <IsInteractable>k__BackingField: 0
+  <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.5
 --- !u!1 &676121148
 GameObject:
   m_ObjectHideFlags: 0
@@ -23218,7 +23309,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &687953584
 Transform:
   m_ObjectHideFlags: 0
@@ -23249,10 +23340,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b04303024d14e19b64a2cf5bd726974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guests:
-  - {fileID: 884869656}
-  - {fileID: 1431685010}
-  - {fileID: 491118484}
   arrivalConversation: {fileID: 11400000, guid: ef4012687eea44a47abcf7197eafe2a3, type: 2}
   <GroupType>k__BackingField: 3
 --- !u!1 &698772494
@@ -23652,9 +23739,10 @@ GameObject:
   - component: {fileID: 706304097}
   - component: {fileID: 706304096}
   - component: {fileID: 706304095}
+  - component: {fileID: 706304100}
   m_Layer: 3
   m_Name: Food 3
-  m_TagString: Untagged
+  m_TagString: Spillable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23724,6 +23812,7 @@ MonoBehaviour:
       thirst: 0
       enjoyment: 0.2
       movement: 0
+  spillSprite: {fileID: -2050349685, guid: bb6d5f588e9a2ba48b7f28593567099f, type: 3}
   references:
     version: 2
     RefIds:
@@ -23871,6 +23960,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &706304100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706304093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bffc9391ed034ed8af61cdebc38e72d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HoldDuration>k__BackingField: 0
+  <HoldInteract>k__BackingField: 0
+  <IsInteractable>k__BackingField: 0
+  <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.5
 --- !u!1 &706772707
 GameObject:
   m_ObjectHideFlags: 0
@@ -24484,6 +24590,7 @@ MonoBehaviour:
   - {fileID: 1615357645}
   - {fileID: 15806684}
   arrivalOrder: 00000000010000000200000003000000
+  arriveOnStart: 1
 --- !u!1 &745307176
 GameObject:
   m_ObjectHideFlags: 0
@@ -24498,9 +24605,10 @@ GameObject:
   - component: {fileID: 745307180}
   - component: {fileID: 745307179}
   - component: {fileID: 745307178}
+  - component: {fileID: 745307183}
   m_Layer: 3
   m_Name: Food 9
-  m_TagString: Untagged
+  m_TagString: Spillable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24570,6 +24678,7 @@ MonoBehaviour:
       thirst: 0
       enjoyment: 0.2
       movement: 0
+  spillSprite: {fileID: -2050349685, guid: bb6d5f588e9a2ba48b7f28593567099f, type: 3}
   references:
     version: 2
     RefIds:
@@ -24717,6 +24826,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &745307183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 745307176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bffc9391ed034ed8af61cdebc38e72d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HoldDuration>k__BackingField: 0
+  <HoldInteract>k__BackingField: 0
+  <IsInteractable>k__BackingField: 0
+  <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.5
 --- !u!1 &745539119
 GameObject:
   m_ObjectHideFlags: 0
@@ -24961,7 +25087,7 @@ Rigidbody2D:
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!58 &754063273
@@ -24974,7 +25100,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -36328,7 +36454,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &884869654
 Transform:
   m_ObjectHideFlags: 0
@@ -36400,8 +36526,10 @@ MonoBehaviour:
   holderTransform: {fileID: 522207302}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
   startingMood: 2
+  chanceToSpillDrink: 0
+  spillDrinkCheckFrequency: 0
   walkToDrinksChance: 1
-  wanderWhenHappyChance: 0.2
+  chanceToWander: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 1104446851}
   <AssignedTableSeat>k__BackingField: {fileID: 0}
@@ -42652,9 +42780,10 @@ GameObject:
   - component: {fileID: 1052619007}
   - component: {fileID: 1052619006}
   - component: {fileID: 1052619005}
+  - component: {fileID: 1052619010}
   m_Layer: 3
   m_Name: Food 4
-  m_TagString: Untagged
+  m_TagString: Spillable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42724,6 +42853,7 @@ MonoBehaviour:
       thirst: 0
       enjoyment: 0.2
       movement: 0
+  spillSprite: {fileID: -2050349685, guid: bb6d5f588e9a2ba48b7f28593567099f, type: 3}
   references:
     version: 2
     RefIds:
@@ -42871,6 +43001,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1052619010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052619003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bffc9391ed034ed8af61cdebc38e72d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HoldDuration>k__BackingField: 0
+  <HoldInteract>k__BackingField: 0
+  <IsInteractable>k__BackingField: 0
+  <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.5
 --- !u!1 &1074419111
 GameObject:
   m_ObjectHideFlags: 0
@@ -44339,9 +44486,10 @@ GameObject:
   - component: {fileID: 1147967318}
   - component: {fileID: 1147967317}
   - component: {fileID: 1147967316}
+  - component: {fileID: 1147967321}
   m_Layer: 3
   m_Name: Food 8
-  m_TagString: Untagged
+  m_TagString: Spillable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44411,6 +44559,7 @@ MonoBehaviour:
       thirst: 0
       enjoyment: 0.2
       movement: 0
+  spillSprite: {fileID: -2050349685, guid: bb6d5f588e9a2ba48b7f28593567099f, type: 3}
   references:
     version: 2
     RefIds:
@@ -44558,6 +44707,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1147967321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147967314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bffc9391ed034ed8af61cdebc38e72d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HoldDuration>k__BackingField: 0
+  <HoldInteract>k__BackingField: 0
+  <IsInteractable>k__BackingField: 0
+  <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.5
 --- !u!1 &1161070036
 GameObject:
   m_ObjectHideFlags: 0
@@ -47395,7 +47561,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1337054463
 Transform:
   m_ObjectHideFlags: 0
@@ -47426,11 +47592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b04303024d14e19b64a2cf5bd726974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guests:
-  - {fileID: 169186463}
-  - {fileID: 1406249637}
-  - {fileID: 1882609959}
-  arrivalConversation: {fileID: 11400000, guid: ef4012687eea44a47abcf7197eafe2a3, type: 2}
+  arrivalConversation: {fileID: 0}
   <GroupType>k__BackingField: 0
 --- !u!1 &1352439122
 GameObject:
@@ -47797,7 +47959,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1381293930
 Transform:
   m_ObjectHideFlags: 0
@@ -47887,8 +48049,10 @@ MonoBehaviour:
   holderTransform: {fileID: 1362962374}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
   startingMood: 2
+  chanceToSpillDrink: 0
+  spillDrinkCheckFrequency: 0
   walkToDrinksChance: 1
-  wanderWhenHappyChance: 0.2
+  chanceToWander: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 703188932}
   <AssignedTableSeat>k__BackingField: {fileID: 0}
@@ -52937,7 +53101,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1406249634
 Transform:
   m_ObjectHideFlags: 0
@@ -53028,11 +53192,13 @@ MonoBehaviour:
   holderTransform: {fileID: 511302545}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
   startingMood: 2
-  walkToDrinksChance: 0.1
-  wanderWhenHappyChance: 0.2
+  chanceToSpillDrink: 0
+  spillDrinkCheckFrequency: 0
+  walkToDrinksChance: 1
+  chanceToWander: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 1211058784}
-  <AssignedTableSeat>k__BackingField: {fileID: 0}
+  <AssignedTableSeat>k__BackingField: {fileID: 495075512}
 --- !u!114 &1406249638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53323,7 +53489,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1431685007
 Transform:
   m_ObjectHideFlags: 0
@@ -53413,8 +53579,10 @@ MonoBehaviour:
   holderTransform: {fileID: 1685986681}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
   startingMood: 2
+  chanceToSpillDrink: 0
+  spillDrinkCheckFrequency: 0
   walkToDrinksChance: 1
-  wanderWhenHappyChance: 0.2
+  chanceToWander: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 508777099}
   <AssignedTableSeat>k__BackingField: {fileID: 0}
@@ -54002,6 +54170,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2833652554369799451, guid: 2df009fc18420f847b9ef2580f80341a, type: 3}
   m_PrefabInstance: {fileID: 1516772731}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1516772733 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2833652554369799455, guid: 2df009fc18420f847b9ef2580f80341a, type: 3}
+  m_PrefabInstance: {fileID: 1516772731}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4ac3d9c3e44d3b9958a5d3a1d7e54c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1522357474
 GameObject:
   m_ObjectHideFlags: 0
@@ -54366,7 +54545,7 @@ Rigidbody2D:
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!58 &1538724056
@@ -54379,7 +54558,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -60258,7 +60437,6 @@ GameObject:
   - component: {fileID: 1605618387}
   - component: {fileID: 1605618393}
   - component: {fileID: 1605618388}
-  - component: {fileID: 1605618391}
   - component: {fileID: 1605618389}
   - component: {fileID: 1605618390}
   - component: {fileID: 1605618392}
@@ -60330,6 +60508,11 @@ MonoBehaviour:
   ignoreAreaCosts: 3
   holderTransform: {fileID: 745539120}
   pathDisplayer: {fileID: 1605618399}
+  chanceToSpillFood: 1
+  chanceToSlip: 1
+  spillFoodCheckFrequency: 1
+  slipAudio: {fileID: 11400000, guid: fa08ff87cc3c8e949b38eb22cf8a45f6, type: 2}
+  cleanupTime: 3
 --- !u!114 &1605618390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60346,18 +60529,6 @@ MonoBehaviour:
   footstepForce: -5
   footstepStride: 1.35
   footstepSoundEffect: {fileID: 11400000, guid: 6b8dc16e0f6ed0d49b8ebf6e955668b0, type: 2}
---- !u!114 &1605618391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1605618386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d1effc61fa24844bb5e37b99f083e1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1605618392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60411,7 +60582,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -60435,7 +60606,7 @@ Rigidbody2D:
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!114 &1605618398
@@ -61012,7 +61183,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1651872102
 Transform:
   m_ObjectHideFlags: 0
@@ -61102,8 +61273,10 @@ MonoBehaviour:
   holderTransform: {fileID: 282028049}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
   startingMood: 2
+  chanceToSpillDrink: 0
+  spillDrinkCheckFrequency: 0
   walkToDrinksChance: 1
-  wanderWhenHappyChance: 0.2
+  chanceToWander: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 877569899}
   <AssignedTableSeat>k__BackingField: {fileID: 0}
@@ -61490,9 +61663,10 @@ GameObject:
   - component: {fileID: 1696801239}
   - component: {fileID: 1696801238}
   - component: {fileID: 1696801237}
+  - component: {fileID: 1696801242}
   m_Layer: 3
   m_Name: Food 2
-  m_TagString: Untagged
+  m_TagString: Spillable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61562,6 +61736,7 @@ MonoBehaviour:
       thirst: 0
       enjoyment: 0.2
       movement: 0
+  spillSprite: {fileID: -2050349685, guid: bb6d5f588e9a2ba48b7f28593567099f, type: 3}
   references:
     version: 2
     RefIds:
@@ -61709,6 +61884,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1696801242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696801235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bffc9391ed034ed8af61cdebc38e72d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HoldDuration>k__BackingField: 0
+  <HoldInteract>k__BackingField: 0
+  <IsInteractable>k__BackingField: 0
+  <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.5
 --- !u!1 &1699531562
 GameObject:
   m_ObjectHideFlags: 0
@@ -66875,7 +67067,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1740301348
 Transform:
   m_ObjectHideFlags: 0
@@ -66965,8 +67157,10 @@ MonoBehaviour:
   holderTransform: {fileID: 676121149}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
   startingMood: 2
+  chanceToSpillDrink: 0
+  spillDrinkCheckFrequency: 0
   walkToDrinksChance: 1
-  wanderWhenHappyChance: 0.2
+  chanceToWander: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 1304209897}
   <AssignedTableSeat>k__BackingField: {fileID: 0}
@@ -72840,7 +73034,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1879151974
 Transform:
   m_ObjectHideFlags: 0
@@ -72930,8 +73124,10 @@ MonoBehaviour:
   holderTransform: {fileID: 1475510060}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
   startingMood: 2
+  chanceToSpillDrink: 0
+  spillDrinkCheckFrequency: 0
   walkToDrinksChance: 1
-  wanderWhenHappyChance: 0.2
+  chanceToWander: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 48388243}
   <AssignedTableSeat>k__BackingField: {fileID: 0}
@@ -73024,7 +73220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1882609956
 Transform:
   m_ObjectHideFlags: 0
@@ -73115,11 +73311,13 @@ MonoBehaviour:
   holderTransform: {fileID: 75990216}
   actorData: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
   startingMood: 2
+  chanceToSpillDrink: 1
+  spillDrinkCheckFrequency: 1
   walkToDrinksChance: 0.1
-  wanderWhenHappyChance: 0.2
+  chanceToWander: 0.2
   wanderCheckFrequency: 5
   AIState: {fileID: 2010147734}
-  <AssignedTableSeat>k__BackingField: {fileID: 0}
+  <AssignedTableSeat>k__BackingField: {fileID: 2147196902}
 --- !u!114 &1882609960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73466,9 +73664,10 @@ GameObject:
   - component: {fileID: 1917510749}
   - component: {fileID: 1917510748}
   - component: {fileID: 1917510747}
+  - component: {fileID: 1917510752}
   m_Layer: 3
   m_Name: Food 6
-  m_TagString: Untagged
+  m_TagString: Spillable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -73538,6 +73737,7 @@ MonoBehaviour:
       thirst: 0
       enjoyment: 0.2
       movement: 0
+  spillSprite: {fileID: -2050349685, guid: bb6d5f588e9a2ba48b7f28593567099f, type: 3}
   references:
     version: 2
     RefIds:
@@ -73685,6 +73885,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1917510752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917510745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bffc9391ed034ed8af61cdebc38e72d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HoldDuration>k__BackingField: 0
+  <HoldInteract>k__BackingField: 0
+  <IsInteractable>k__BackingField: 0
+  <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.5
 --- !u!1 &1923537144
 GameObject:
   m_ObjectHideFlags: 0
@@ -73845,7 +74062,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1939335831
 Transform:
   m_ObjectHideFlags: 0
@@ -73876,10 +74093,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b04303024d14e19b64a2cf5bd726974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guests:
-  - {fileID: 665599015}
-  - {fileID: 1381293933}
-  - {fileID: 1740301351}
   arrivalConversation: {fileID: 11400000, guid: ef4012687eea44a47abcf7197eafe2a3, type: 2}
   <GroupType>k__BackingField: 2
 --- !u!1 &1940561625
@@ -75601,6 +75814,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2833652554369799451, guid: 2df009fc18420f847b9ef2580f80341a, type: 3}
   m_PrefabInstance: {fileID: 2147196900}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2147196902 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2833652554369799455, guid: 2df009fc18420f847b9ef2580f80341a, type: 3}
+  m_PrefabInstance: {fileID: 2147196900}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4ac3d9c3e44d3b9958a5d3a1d7e54c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2833652553998251576
 PrefabInstance:
   m_ObjectHideFlags: 0

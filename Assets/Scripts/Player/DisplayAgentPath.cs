@@ -90,6 +90,7 @@ namespace Player
 
             _isPathDisplayed = true;
 
+            marker.transform.position = _agent.destination;
             marker.gameObject.SetActive(true);
             VertexPath vertexPath = GeneratePath(_agent.path.corners, false);
 
