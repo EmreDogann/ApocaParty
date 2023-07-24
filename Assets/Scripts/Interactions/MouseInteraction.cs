@@ -1,4 +1,5 @@
-﻿using Events;
+﻿using System;
+using Events;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,10 +15,14 @@ namespace Interactions
         private Camera _mainCamera;
 
         [SerializeField] private InputActionReference _interactAction;
+        [SerializeField] private InputActionReference _altInteractAction;
         private bool _isInteractPressed;
 
         private bool _isPaused;
         private BoolEventListener _onGamePausedEvent;
+
+        public static Action<InteractableBase> OnInteract;
+        public static Action<InteractableBase> OnAltInteract;
 
         private void Awake()
         {
@@ -30,6 +35,9 @@ namespace Interactions
             _interactAction.action.started += OnInteractAction;
             _interactAction.action.canceled += OnInteractAction;
 
+            _altInteractAction.action.started += OnInteractAction;
+            _altInteractAction.action.canceled += OnInteractAction;
+
             _onGamePausedEvent.Response.AddListener(OnGamePause);
         }
 
@@ -38,10 +46,18 @@ namespace Interactions
             _interactAction.action.started -= OnInteractAction;
             _interactAction.action.canceled -= OnInteractAction;
 
+            _altInteractAction.action.started -= OnInteractAction;
+            _altInteractAction.action.canceled -= OnInteractAction;
+
             _onGamePausedEvent.Response.RemoveListener(OnGamePause);
         }
 
-        public InteractableBase CheckForInteraction(bool assignmentMode)
+        private void Update()
+        {
+            CheckForInteraction();
+        }
+
+        public InteractableBase CheckForInteraction()
         {
             if (!_activeTarget)
             {
@@ -73,14 +89,20 @@ namespace Interactions
             {
                 if (_interactAction.action.WasPressedThisFrame())
                 {
-                    if (!assignmentMode)
-                    {
-                        _activeTarget = _hoverTarget;
-                        _activeTarget?.OnStartInteract();
-                        return _activeTarget;
-                    }
+                    _activeTarget = _hoverTarget;
+                    _activeTarget?.OnStartInteract();
+                    OnInteract?.Invoke(_activeTarget);
 
-                    return _hoverTarget;
+                    return _activeTarget;
+                }
+
+                if (_altInteractAction.action.WasPressedThisFrame())
+                {
+                    _activeTarget = _hoverTarget;
+                    _activeTarget?.OnStartInteract();
+                    OnAltInteract?.Invoke(_activeTarget);
+
+                    return _activeTarget;
                 }
             }
 
@@ -89,7 +111,7 @@ namespace Interactions
 
         public bool WasInteractedThisFrame()
         {
-            return _interactAction.action.WasPressedThisFrame();
+            return _interactAction.action.WasPressedThisFrame() || _altInteractAction.action.WasPressedThisFrame();
         }
 
         private void StopInteraction()

@@ -1,21 +1,22 @@
+using System;
 using Actors;
+using Consumable;
 using GuestRequests;
-using Interactions.Interactables;
+using Interactions;
 using Minion.States;
 using Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 namespace Minion
 {
-    [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent), typeof(MinionInteractable))]
-    [RequireComponent(typeof(DisplayAgentPath))]
-    public class MinionAI : MonoBehaviour, IRequestOwner
+    [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent), typeof(DisplayAgentPath))]
+    public class MinionAI : MonoBehaviour, IRequestOwner, IWaiter
     {
         public MinionStateMachine stateMachine;
         public NavMeshAgent navMeshAgent { get; private set; }
-        public MinionInteractable InteractableState { get; private set; }
 
         public DisplayAgentPath pathDisplayer;
 
@@ -28,10 +29,13 @@ namespace Minion
         public MinionActorSO actorData;
 
         private MinionIdleState _minionIdleState;
-        private MinionAssignmentState _minionAssignmentState;
         private MinionMovingState _minionMovingState;
         private MinionWorkingState _minionWorkingState;
         private CharacterBlackboard _blackboard;
+
+        private IConsumable _holdingConsumable;
+        private IConsumable _targetConsumable;
+        private readonly int _waiterID = Guid.NewGuid().GetHashCode();
 
         private bool _shouldWander;
         private const float DistanceThreshold = 0.1f;
@@ -43,7 +47,6 @@ namespace Minion
         {
             _mainCamera = Camera.main;
             _blackboard = GetComponent<CharacterBlackboard>();
-            InteractableState = GetComponent<MinionInteractable>();
             pathDisplayer = GetComponent<DisplayAgentPath>();
 
             navMeshAgent = GetComponent<NavMeshAgent>();
@@ -52,12 +55,10 @@ namespace Minion
 
             stateMachine = new MinionStateMachine();
             _minionIdleState = new MinionIdleState(this, stateMachine);
-            _minionAssignmentState = new MinionAssignmentState(this, stateMachine);
             _minionMovingState = new MinionMovingState(this, stateMachine);
             _minionWorkingState = new MinionWorkingState(this, stateMachine);
 
             stateMachine.RegisterState(_minionIdleState);
-            stateMachine.RegisterState(_minionAssignmentState);
             stateMachine.RegisterState(_minionMovingState);
             stateMachine.RegisterState(_minionWorkingState);
 
@@ -120,6 +121,14 @@ namespace Minion
             stateMachine.ChangeState(MinionStateID.Idle);
         }
 
+        public void OnInteract(InteractableBase interactableBase)
+        {
+            if (stateMachine.GetCurrentState().GetID() == MinionStateID.Idle)
+            {
+                ((MinionIdleState)stateMachine.GetCurrentState()).OnInteraction(interactableBase);
+            }
+        }
+
         public void SetWandering(bool isWandering)
         {
             _shouldWander = isWandering;
@@ -170,6 +179,11 @@ namespace Minion
             }
 
             return v;
+        }
+
+        public IConsumable GetConsumable()
+        {
+            throw new NotImplementedException();
         }
     }
 }

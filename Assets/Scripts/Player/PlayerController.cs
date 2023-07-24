@@ -52,12 +52,12 @@ namespace Player
 
         private void OnEnable()
         {
-            InteractionSystem.OnInteract += OnInteraction;
+            MouseInteraction.OnInteract += OnInteraction;
         }
 
         private void OnDisable()
         {
-            InteractionSystem.OnInteract -= OnInteraction;
+            MouseInteraction.OnInteract -= OnInteraction;
         }
 
         private void OnInteraction(InteractableBase interactable)

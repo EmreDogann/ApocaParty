@@ -2,7 +2,7 @@
 {
     public interface IInteractionHandler
     {
-        public InteractableBase CheckForInteraction(bool assignmentMode);
+        public InteractableBase CheckForInteraction();
 
         public bool WasInteractedThisFrame();
     }
