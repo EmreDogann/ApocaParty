@@ -291,7 +291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 136
   _interactAction: {fileID: -5519726930694964752, guid: 1fd9d9af030accf4e8cfdbe36d107005, type: 3}
   _altInteractAction: {fileID: -5871860320606234851, guid: 1fd9d9af030accf4e8cfdbe36d107005, type: 3}
 --- !u!4 &1295153185

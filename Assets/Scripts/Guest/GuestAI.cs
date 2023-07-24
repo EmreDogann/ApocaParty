@@ -50,9 +50,10 @@ namespace Guest
         [SerializeField] private MoodType startingMood;
 
         [Separator("AI Behaviour")]
-        [Range(0.0f, 1.0f)] [SerializeField] private float walkToDrinksChance;
-
-        [Range(0.0f, 1.0f)] public float wanderWhenHappyChance = 0.2f;
+        [Range(0.0f, 1.0f)] public float chanceToSpillDrink;
+        public float spillDrinkCheckFrequency;
+        [Range(0.0f, 1.0f)] public float walkToDrinksChance;
+        [Range(0.0f, 1.0f)] public float chanceToWander = 0.2f;
         public float wanderCheckFrequency = 5.0f;
 
         [Separator("Debugging")]
@@ -232,8 +233,10 @@ namespace Guest
                         : eventData.moodCost);
                     break;
                 case PartyEventType.PowerOutage:
+                    needSystem.ChangeMood(eventData.moodCost);
                     break;
                 case PartyEventType.BuntingFall:
+                    needSystem.ChangeMood(eventData.moodCost);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

@@ -5,6 +5,7 @@ namespace Guest.States
     public class GuestMoveToSeatState : GuestState
     {
         private const float DistanceThreshold = 0.01f;
+        private float _currentTime;
         public GuestMoveToSeatState(GuestAI guest, GuestStateMachine stateMachine) : base(guest, stateMachine) {}
 
         public override GuestStateID GetID()
@@ -15,13 +16,24 @@ namespace Guest.States
         public override void Enter()
         {
             guest.SetDestination(guest.GetSeatTransform().position);
+            _currentTime = 0.0f;
         }
 
         public override void Tick()
         {
+            _currentTime += Time.deltaTime;
             if (guest.CurrentConsumable != null)
             {
                 guest.CurrentConsumable.GetTransform().position = guest.GetHoldingTransform().position;
+                if (_currentTime > guest.spillDrinkCheckFrequency)
+                {
+                    _currentTime = 0.0f;
+                    if (Random.Range(0.0f, 1.0f) < guest.chanceToSpillDrink)
+                    {
+                        guest.CurrentConsumable.Spill();
+                        guest.CurrentConsumable = null;
+                    }
+                }
             }
 
             if (Vector3.SqrMagnitude(guest.transform.position - guest.navMeshAgent.destination) <

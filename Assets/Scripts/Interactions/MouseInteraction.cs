@@ -141,7 +141,15 @@ namespace Interactions
 
             if (_hit.collider)
             {
-                newTarget = _hit.collider.GetComponent<InteractableBase>();
+                var interactableBases = _hit.collider.GetComponents<InteractableBase>();
+                foreach (InteractableBase interactable in interactableBases)
+                {
+                    if (interactable.IsInteractable || interactable.IsHoverable)
+                    {
+                        newTarget = interactable;
+                        break;
+                    }
+                }
             }
 
             if (newTarget == _hoverTarget)

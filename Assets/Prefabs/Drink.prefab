@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 6214276227280722246}
   - component: {fileID: 6214276227280722245}
   - component: {fileID: 6214276227280722244}
-  m_Layer: 0
+  - component: {fileID: 7454578327367652881}
+  m_Layer: 7
   m_Name: Drink
-  m_TagString: Untagged
+  m_TagString: Spillable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -115,11 +116,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   consumeReward:
-    needType: 1
+    needType: 2
     moodPoints: 1
     needMetrics:
       hunger: 0.2
-      thirst: 0.4
-      enjoyment: 0.2
+      thirst: 0.6
+      enjoyment: 0.1
       movement: 0
-  _isConsumed: 0
+  spillSprite: {fileID: 476240921, guid: bb6d5f588e9a2ba48b7f28593567099f, type: 3}
+--- !u!114 &7454578327367652881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6214276227280722242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bffc9391ed034ed8af61cdebc38e72d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HoldDuration>k__BackingField: 0
+  <HoldInteract>k__BackingField: 0
+  <IsInteractable>k__BackingField: 0
+  <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.1

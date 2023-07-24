@@ -1,17 +1,22 @@
 ﻿using System;
+using Interactions.Interactables;
 using MyBox;
 using UnityEngine;
 
 namespace Consumable
 {
-    [RequireComponent(typeof(SpriteRenderer))]
+    [RequireComponent(typeof(SpriteRenderer), typeof(CircleCollider2D), typeof(SpillInteractable))]
     public class Drink : MonoBehaviour, IConsumable, IConsumableInternal
     {
         [SerializeField] private ConsumedData consumeReward;
+        [SerializeField] private Sprite spillSprite;
 
-        [SerializeField] private bool _isConsumed;
+        [ReadOnly] private bool _isConsumed;
         [ReadOnly] private bool _isClaimed;
+        private SpillInteractable _spillInteractable;
         private SpriteRenderer _spriteRenderer;
+        private CircleCollider2D _collider2D;
+        private Sprite _originalSprite;
 
         public event Action OnClaim;
 
@@ -20,6 +25,14 @@ namespace Consumable
             _isClaimed = false;
             _isConsumed = false;
             _spriteRenderer = GetComponent<SpriteRenderer>();
+
+            _collider2D = GetComponent<CircleCollider2D>();
+            _collider2D.enabled = false;
+
+            _spillInteractable = GetComponent<SpillInteractable>();
+            _spillInteractable.SetInteractableActive(false);
+
+            _originalSprite = _spriteRenderer.sprite;
         }
 
         public Transform GetTransform()
@@ -32,6 +45,25 @@ namespace Consumable
             _isConsumed = true;
             _spriteRenderer.enabled = false;
             return consumeReward;
+        }
+
+        public void Spill()
+        {
+            _spriteRenderer.sprite = spillSprite;
+            _collider2D.enabled = true;
+            _spillInteractable.SetInteractableActive(true);
+        }
+
+        public bool IsSpilled()
+        {
+            return _spillInteractable.IsInteractable || _spillInteractable.IsHoverable;
+        }
+
+        public void Cleanup()
+        {
+            Consume();
+            _spriteRenderer.sprite = _originalSprite;
+            _spillInteractable.SetInteractableActive(false);
         }
 
         public void Claim()
@@ -75,6 +107,7 @@ namespace Consumable
             _isConsumed = false;
             _isClaimed = false;
             _spriteRenderer.enabled = true;
+            _collider2D.enabled = false;
         }
     }
 }

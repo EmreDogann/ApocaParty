@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
+using Audio;
 using Consumable;
+using DG.Tweening;
 using Electricity;
 using GuestRequests;
 using GuestRequests.Requests;
@@ -10,6 +13,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using Utils;
+using Random = UnityEngine.Random;
 
 namespace Player
 {
@@ -25,6 +29,17 @@ namespace Player
         [Separator("Path Rendering")]
         [SerializeField] private DisplayAgentPath pathDisplayer;
 
+        [Separator("Other Settings")]
+        [Range(0.0f, 1.0f)] public float chanceToSpillFood;
+        [Range(0.0f, 1.0f)] public float chanceToSlip;
+        public float spillFoodCheckFrequency;
+        [SerializeField] private AudioSO slipAudio;
+        [SerializeField] private float cleanupTime;
+
+        private float _spillFoodTimer;
+        private bool _isSlipping;
+        private bool _isCleaningUp;
+
         private NavMeshAgent _agent;
         private Camera _mainCamera;
         private PlateMouseInteraction _plateInteraction;
@@ -34,6 +49,8 @@ namespace Player
         private IConsumable _holdingConsumable;
         private IConsumable _targetConsumable;
         private readonly int _waiterID = Guid.NewGuid().GetHashCode();
+
+        private int _spillLayer;
 
         private void Awake()
         {
@@ -45,6 +62,8 @@ namespace Player
             _agent.updateRotation = false;
             _agent.updateUpAxis = false;
             _agent.SetAreaCost(ignoreAreaCosts, 1.0f);
+
+            _spillLayer = LayerMask.NameToLayer("Drink");
         }
 
         private void OnEnable()
@@ -129,6 +148,10 @@ namespace Player
 
                     foodRequest.AssignOwner(this);
                     break;
+                case SpillInteractable spillInteractable:
+                    _target = spillInteractable.transform;
+                    _targetConsumable = spillInteractable.Consumable;
+                    break;
                 case null:
                     break;
             }
@@ -142,7 +165,7 @@ namespace Player
 
         private void Update()
         {
-            if (Time.timeScale == 0.0f)
+            if (Time.timeScale == 0.0f || _isSlipping || _isCleaningUp)
             {
                 return;
             }
@@ -192,11 +215,36 @@ namespace Player
             }
         }
 
+        private void Slip()
+        {
+            _isSlipping = true;
+            _agent.ResetPath();
+            pathDisplayer.HidePath();
+
+            transform.DOShakeRotation(1.5f, new Vector3(0.0f, 0.0f, 40.0f), 5, 1, true, ShakeRandomnessMode.Harmonic)
+                .OnComplete(
+                    () => { _isSlipping = false; });
+            slipAudio.Play(transform.position);
+        }
+
+        private IEnumerator CleanupSpill(SpillInteractable spillInteractable)
+        {
+            _isCleaningUp = true;
+            _agent.ResetPath();
+            pathDisplayer.HidePath();
+
+            yield return new WaitForSeconds(cleanupTime);
+
+            spillInteractable.Consumable.Cleanup();
+            _isCleaningUp = false;
+        }
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (_targetConsumable != null)
             {
-                if (_targetConsumable == other.GetComponent<IConsumable>())
+                IConsumable consumable = other.GetComponent<IConsumable>();
+                if (_targetConsumable == consumable && !consumable.IsSpilled())
                 {
                     _holdingConsumable = _targetConsumable;
                     _holdingConsumable.Claim();
@@ -212,6 +260,48 @@ namespace Player
                     waiterTarget.WaiterInteracted(this);
                     _target = null;
                     _holdingConsumable = null;
+                }
+            }
+        }
+
+        private void OnTriggerStay2D(Collider2D other)
+        {
+            if (_isCleaningUp || _isSlipping || _agent.hasPath)
+            {
+                return;
+            }
+
+            if (_target != null)
+            {
+                SpillInteractable spillInteractable = other.GetComponent<SpillInteractable>();
+                if (spillInteractable != null && ReferenceEquals(_targetConsumable, spillInteractable.Consumable))
+                {
+                    StartCoroutine(CleanupSpill(spillInteractable));
+                    _target = null;
+                    _holdingConsumable = null;
+                    _targetConsumable = null;
+                    return;
+                }
+            }
+
+            if (other.gameObject.layer != _spillLayer)
+            {
+                return;
+            }
+
+            _spillFoodTimer += Time.deltaTime;
+            if (_spillFoodTimer > spillFoodCheckFrequency)
+            {
+                _spillFoodTimer = 0.0f;
+                if (_holdingConsumable != null && Random.Range(0.0f, 1.0f) < chanceToSpillFood)
+                {
+                    _holdingConsumable.Spill();
+                    _holdingConsumable = null;
+                    Slip();
+                }
+                else if (Random.Range(0.0f, 1.0f) < chanceToSlip)
+                {
+                    Slip();
                 }
             }
         }

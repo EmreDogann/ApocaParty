@@ -3,13 +3,14 @@ using UnityEngine;
 
 namespace LlamAcademy.Spring.Runtime
 {
-    public class SpringToRotation : BaseSpringBehaviour, ISpringTo<Vector3>, ISpringTo<Quaternion>, INudgeable<Vector3>, INudgeable<Quaternion>
+    public class SpringToRotation : BaseSpringBehaviour, ISpringTo<Vector3>, ISpringTo<Quaternion>, INudgeable<Vector3>,
+        INudgeable<Quaternion>
     {
         private SpringVector3 Spring;
 
         private void Awake()
         {
-            Spring = new SpringVector3()
+            Spring = new SpringVector3
             {
                 StartValue = transform.rotation.eulerAngles,
                 EndValue = transform.rotation.eulerAngles,
@@ -38,7 +39,7 @@ namespace LlamAcademy.Spring.Runtime
             if (Mathf.Approximately(Spring.CurrentVelocity.sqrMagnitude, 0))
             {
                 Spring.Reset();
-                Spring.StartValue = transform.eulerAngles;
+                Spring.StartValue = transform.localEulerAngles;
                 Spring.EndValue = TargetRotation.eulerAngles;
             }
             else
@@ -46,9 +47,9 @@ namespace LlamAcademy.Spring.Runtime
                 Spring.UpdateEndValue(TargetRotation.eulerAngles, Spring.CurrentVelocity);
             }
 
-            while (!Mathf.Approximately(0, 1 - Quaternion.Dot(transform.rotation, TargetRotation)))
+            while (!Mathf.Approximately(0, 1 - Quaternion.Dot(transform.localRotation, TargetRotation)))
             {
-                transform.rotation = Quaternion.Euler(Spring.Evaluate(Time.deltaTime));
+                transform.localRotation = Quaternion.Euler(Spring.Evaluate(Time.deltaTime));
 
                 yield return null;
             }
@@ -78,18 +79,18 @@ namespace LlamAcademy.Spring.Runtime
         private IEnumerator HandleNudge(Vector3 Amount)
         {
             Spring.Reset();
-            Spring.StartValue = transform.rotation.eulerAngles;
-            Spring.EndValue = transform.rotation.eulerAngles;
+            Spring.StartValue = transform.localRotation.eulerAngles;
+            Spring.EndValue = transform.localRotation.eulerAngles;
             Spring.InitialVelocity = Amount;
-            Quaternion targetRotation = transform.rotation;
-            transform.rotation = Quaternion.Euler(Spring.Evaluate(Time.deltaTime));
+            Quaternion targetRotation = transform.localRotation;
+            transform.localRotation = Quaternion.Euler(Spring.Evaluate(Time.deltaTime));
 
             while (!Mathf.Approximately(
-                0,
-                1 - Quaternion.Dot(targetRotation, transform.rotation)
-            ))
+                       0,
+                       1 - Quaternion.Dot(targetRotation, transform.localRotation)
+                   ))
             {
-                transform.rotation = Quaternion.Euler(Spring.Evaluate(Time.deltaTime));
+                transform.localRotation = Quaternion.Euler(Spring.Evaluate(Time.deltaTime));
 
                 yield return null;
             }

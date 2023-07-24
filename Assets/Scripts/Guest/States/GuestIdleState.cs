@@ -42,7 +42,7 @@ namespace Guest.States
             if (_currentWanderTime >= guest.wanderCheckFrequency)
             {
                 float randomChance = Random.Range(0.0f, 1.0f);
-                if (randomChance <= guest.wanderWhenHappyChance)
+                if (randomChance <= guest.chanceToWander)
                 {
                     _stateMachine.ChangeState(GuestStateID.Wander);
                 }
