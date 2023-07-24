@@ -233,8 +233,10 @@ namespace Guest
                         : eventData.moodCost);
                     break;
                 case PartyEventType.PowerOutage:
+                    needSystem.ChangeMood(eventData.moodCost);
                     break;
                 case PartyEventType.BuntingFall:
+                    needSystem.ChangeMood(eventData.moodCost);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
