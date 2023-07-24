@@ -56,9 +56,9 @@ namespace Minion.States
 
                     switch (request)
                     {
-                        // case FoodRequest _:
-                        //     minion.image.sprite = minion.actorData.kitchenIcon;
-                        //     break;
+                        case FoodRequest _:
+                            // TODO: Play error sound.
+                            return;
                         case DrinkRefillRequest _:
                             if (DrinksTable.Instance.IsDrinksTableFull())
                             {
