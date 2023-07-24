@@ -264,6 +264,9 @@ namespace Guest
 
                     break;
             }
+
+            _waiterID = 0;
+            _isAssignedWaiter = false;
         }
 
         public bool IsAssignedWaiter()

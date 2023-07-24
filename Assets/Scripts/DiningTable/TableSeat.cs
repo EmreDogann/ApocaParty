@@ -78,6 +78,9 @@ namespace DiningTable
 
             _consumable = waiter.GetConsumable();
             OnFoodArrival?.Invoke();
+            
+            _waiterID = 0;
+            _isAssignedWaiter = false;
         }
 
         public Transform GetDestinationTransform()

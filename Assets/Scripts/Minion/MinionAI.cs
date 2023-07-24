@@ -36,7 +36,6 @@ namespace Minion
         private MinionWorkingState _minionWorkingState;
         private CharacterBlackboard _blackboard;
 
-        [HideInInspector] public Transform target;
         [HideInInspector] public IConsumable HoldingConsumable;
         [HideInInspector] public IConsumable TargetConsumable;
         [HideInInspector] public readonly int WaiterID = Guid.NewGuid().GetHashCode();
@@ -207,7 +206,6 @@ namespace Minion
             if (waiterTarget != null && waiterTarget.GetWaiterID() == WaiterID)
             {
                 waiterTarget.WaiterInteracted(this);
-                target = null;
                 HoldingConsumable = null;
             }
         }
