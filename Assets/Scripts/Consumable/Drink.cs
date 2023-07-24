@@ -50,7 +50,7 @@ namespace Consumable
             return _isConsumed;
         }
 
-        public bool IsOnTable()
+        public bool IsAvailable()
         {
             return !_isClaimed && !_isConsumed && _spriteRenderer.enabled;
         }

@@ -29,7 +29,7 @@ namespace Player
         private NavMeshAgent _agent;
         private Camera _mainCamera;
         private CharacterBlackboard _blackboard;
-        private PlateMouseInteraction plateInteraction;
+        private PlateMouseInteraction _plateInteraction;
 
         private Request _currentRequest;
         private Transform _target;
@@ -43,7 +43,7 @@ namespace Player
             _mainCamera = Camera.main;
             _agent = GetComponent<NavMeshAgent>();
             pathDisplayer = GetComponent<DisplayAgentPath>();
-            plateInteraction = GetComponent<PlateMouseInteraction>();
+            _plateInteraction = GetComponent<PlateMouseInteraction>();
 
             _agent.updateRotation = false;
             _agent.updateUpAxis = false;
@@ -52,20 +52,26 @@ namespace Player
 
         private void OnEnable()
         {
-            InteractionSystem.OnInteract += OnInteraction;
+            MouseInteraction.OnInteract += OnInteraction;
         }
 
         private void OnDisable()
         {
-            InteractionSystem.OnInteract -= OnInteraction;
+            MouseInteraction.OnInteract -= OnInteraction;
         }
 
         private void OnInteraction(InteractableBase interactable)
         {
+            if (_currentRequest != null || _holdingConsumable != null)
+            {
+                return;
+            }
+
             switch (interactable)
             {
                 case IInteractableRequest interactableRequest:
-                    switch (interactableRequest.GetRequest())
+                    Request request = interactableRequest.GetRequest();
+                    switch (request)
                     {
                         case PowerRequest _:
                             if (ElectricalBox.IsPowerOn())
@@ -73,38 +79,60 @@ namespace Player
                                 return;
                             }
 
-                            if (!interactableRequest.GetRequest().TryStartRequest())
-                            {
-                                return;
-                            }
-
-                            _currentRequest = interactableRequest.GetRequest();
-                            _currentRequest.AssignOwner(this);
-                            _currentRequest.ActivateRequest();
-
-                            _currentRequest.OnRequestCompleted += OnRequestCompleted;
                             break;
                         case FoodRequest _:
-                            if (interactableRequest.GetRequest().IsRequestFailed())
+                            if (request.IsRequestFailed())
                             {
-                                SetDestinationAndDisplayPath(interactableRequest.GetRequest().transform.position);
+                                SetDestinationAndDisplayPath(request.transform.position);
                             }
-                            else if (_holdingConsumable == null &&
-                                     interactableRequest.GetRequest().IsRequestCompleted())
+                            else if (_holdingConsumable == null && request.IsRequestCompleted())
                             {
-                                _targetConsumable = interactableRequest.GetRequest() as IConsumable;
-                                // SetDestinationAndDisplayPath(interactableRequest.GetRequest().transform.position);
-
+                                _targetConsumable = request as IConsumable;
+                                _targetConsumable.Claim();
                                 _target = null;
+                            }
+
+                            return;
+                        case DrinkRefillRequest _:
+                            if (DrinksTable.Instance.IsDrinksTableFull())
+                            {
+                                return;
                             }
 
                             break;
                     }
 
+                    if (request.IsRequestStarted() || !request.TryStartRequest() || request.GetRequestOwner() != null)
+                    {
+                        return;
+                    }
+
+                    SetDestinationAndDisplayPath(request.GetStartingPosition());
+                    _currentRequest = request;
+                    _currentRequest.AssignOwner(this);
+
+                    _currentRequest.OnRequestCompleted += OnRequestCompleted;
+
                     break;
                 case GuestInteractable guestInteractable:
                     _target = guestInteractable.WaiterTarget.GetDestinationTransform();
                     guestInteractable.WaiterTarget.GiveWaiterID(_waiterID);
+                    break;
+                case FridgeInteractable fridgeInteractable:
+                    FoodRequest foodRequest = fridgeInteractable.Fridge.TryGetFood();
+                    if (foodRequest == null)
+                    {
+                        // TODO: Play error sound.
+                        return;
+                    }
+
+                    SetDestinationAndDisplayPath(foodRequest.GetStartingPosition());
+                    _currentRequest = foodRequest;
+                    _currentRequest.OnRequestCompleted += OnRequestCompleted;
+
+                    foodRequest.AssignOwner(this);
+                    break;
+                case null:
                     break;
             }
         }
@@ -129,7 +157,7 @@ namespace Player
                 _holdingConsumable.GetTransform().position = holderTransform.position;
                 if (_target == null)
                 {
-                    switch (plateInteraction.CheckForPlateInteraction())
+                    switch (_plateInteraction.CheckForPlateInteraction())
                     {
                         case PlateInteractable plateInteractable:
                             _target = plateInteractable.WaiterTarget.GetDestinationTransform();
@@ -145,13 +173,13 @@ namespace Player
                 SetDestinationAndDisplayPath(_target.position);
             }
 
-            if (_currentRequest)
+            if (_currentRequest && _currentRequest.IsRequestStarted())
             {
-                _currentRequest.UpdateRequest(Time.deltaTime);
+                _currentRequest.UpdateRequest(Time.deltaTime * 2.0f);
                 return;
             }
 
-            if (moveButton.action.WasPressedThisFrame())
+            if (moveButton.action.WasPressedThisFrame() && !_currentRequest)
             {
                 Vector3 mouseWorldPosition = _mainCamera.ScreenToWorldPoint(Mouse.current.position.value);
                 mouseWorldPosition.z = 0;
@@ -160,6 +188,11 @@ namespace Player
 
             if (Vector3.SqrMagnitude(transform.position - _agent.destination) < distanceThreshold * distanceThreshold)
             {
+                if (_currentRequest != null)
+                {
+                    _currentRequest.ActivateRequest();
+                }
+
                 pathDisplayer.HidePath();
             }
         }
@@ -204,7 +237,7 @@ namespace Player
             return transform.position;
         }
 
-        public Transform GetHoldingPosition()
+        public Transform GetHoldingTransform()
         {
             return holderTransform;
         }

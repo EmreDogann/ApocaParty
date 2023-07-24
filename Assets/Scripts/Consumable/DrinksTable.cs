@@ -8,6 +8,12 @@ namespace Consumable
 {
     public class DrinksTable : MonoBehaviour
     {
+        private class DrinkData
+        {
+            public bool IsAssigned;
+            public Drink Drink;
+        }
+
         [SerializeField] private RequestInteractable drinksTableInteractable;
 
         [SerializeField] private GameObject drinkPrefab;
@@ -16,7 +22,7 @@ namespace Consumable
         [Min(0.0f)] [SerializeField] private float hSpacing = 0.5f;
         [Min(0.0f)] [SerializeField] private float vSpacing = 0.5f;
 
-        private readonly List<Drink> _drinks = new List<Drink>();
+        private readonly List<DrinkData> _drinks = new List<DrinkData>();
         private readonly List<Vector2> _drinkPositions = new List<Vector2>();
         public static DrinksTable Instance { get; private set; }
 
@@ -35,7 +41,11 @@ namespace Consumable
             for (int i = 0; i < drinkPoolSize; i++)
             {
                 Drink drink = Instantiate(drinkPrefab, transform).GetComponent<Drink>();
-                _drinks.Add(drink);
+                _drinks.Add(new DrinkData
+                {
+                    IsAssigned = false,
+                    Drink = drink
+                });
 
                 if (i >= tableCapacity)
                 {
@@ -81,7 +91,7 @@ namespace Consumable
                     rowIndex * (hSpacing / 2.0f) + i % (tableCapacity / 2) * hSpacing,
                     -rowIndex * vSpacing
                 );
-                _drinks[i].transform.localPosition = position;
+                _drinks[i].Drink.transform.localPosition = position;
             }
         }
 
@@ -92,7 +102,7 @@ namespace Consumable
 
             for (int i = 0; i < drinkPoolSize; i++)
             {
-                _drinks[i].OnClaim += OnDrinkClaim;
+                _drinks[i].Drink.OnClaim += OnDrinkClaim;
             }
         }
 
@@ -103,7 +113,7 @@ namespace Consumable
 
             for (int i = 0; i < drinkPoolSize; i++)
             {
-                _drinks[i].OnClaim -= OnDrinkClaim;
+                _drinks[i].Drink.OnClaim -= OnDrinkClaim;
             }
         }
 
@@ -115,11 +125,12 @@ namespace Consumable
         [CanBeNull]
         public Drink TryGetDrink()
         {
-            foreach (Drink drink in _drinks)
+            foreach (DrinkData data in _drinks)
             {
-                if (drink.IsOnTable())
+                if (!data.IsAssigned)
                 {
-                    return drink;
+                    data.IsAssigned = true;
+                    return data.Drink;
                 }
             }
 
@@ -129,9 +140,9 @@ namespace Consumable
         public bool IsDrinksTableFull()
         {
             int availableCount = 0;
-            foreach (Drink drink in _drinks)
+            foreach (DrinkData data in _drinks)
             {
-                if (drink.IsOnTable())
+                if (data.Drink.IsAvailable() && !data.IsAssigned)
                 {
                     availableCount++;
                 }
@@ -144,11 +155,11 @@ namespace Consumable
         {
             if (eventData.eventType == PartyEventType.FamineAtDrinks)
             {
-                foreach (Drink drink in _drinks)
+                foreach (DrinkData data in _drinks)
                 {
-                    if (drink.IsOnTable())
+                    if (data.Drink.IsAvailable())
                     {
-                        drink.Consume();
+                        data.Drink.Consume();
                     }
                 }
 
@@ -160,12 +171,12 @@ namespace Consumable
         {
             foreach (Vector2 position in _drinkPositions)
             {
-                foreach (Drink drink in _drinks)
+                foreach (DrinkData data in _drinks)
                 {
-                    if (!drink.IsVisible())
+                    if (!data.Drink.IsVisible())
                     {
-                        ((IConsumableInternal)drink).ResetConsumable();
-                        drink.transform.localPosition = position;
+                        ((IConsumableInternal)data.Drink).ResetConsumable();
+                        data.Drink.transform.localPosition = position;
                         break;
                     }
                 }

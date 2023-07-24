@@ -23,7 +23,7 @@ namespace Guest.States
         {
             if (guest.CurrentConsumable != null)
             {
-                guest.CurrentConsumable.GetTransform().position = guest.GetHoldingPosition().position;
+                guest.CurrentConsumable.GetTransform().position = guest.GetHoldingTransform().position;
             }
 
             _currentTime += Time.deltaTime;

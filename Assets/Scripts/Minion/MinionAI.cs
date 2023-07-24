@@ -1,37 +1,44 @@
+using System;
 using Actors;
+using Consumable;
 using GuestRequests;
-using Interactions.Interactables;
+using Interactions;
 using Minion.States;
 using Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 namespace Minion
 {
-    [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent), typeof(MinionInteractable))]
-    [RequireComponent(typeof(DisplayAgentPath))]
-    public class MinionAI : MonoBehaviour, IRequestOwner
+    [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent), typeof(DisplayAgentPath))]
+    [RequireComponent(typeof(PlateMouseInteraction))]
+    public class MinionAI : MonoBehaviour, IRequestOwner, IWaiter
     {
-        public MinionStateMachine stateMachine;
-        public NavMeshAgent navMeshAgent { get; private set; }
-        public MinionInteractable InteractableState { get; private set; }
+        public MinionStateMachine StateMachine;
+        public NavMeshAgent NavMeshAgent { get; private set; }
 
         public DisplayAgentPath pathDisplayer;
 
         public SpriteRenderer image;
         [SerializeField] private Transform holderTransform;
-        [SerializeField] private TextMeshProUGUI AIState;
+        [SerializeField] private TextMeshProUGUI aiState;
 
-        public Camera _mainCamera { get; private set; }
+        public Camera MainCamera { get; private set; }
         [HideInInspector] public Request currentRequest;
         public MinionActorSO actorData;
 
+        [HideInInspector] public PlateMouseInteraction plateInteraction;
+
         private MinionIdleState _minionIdleState;
-        private MinionAssignmentState _minionAssignmentState;
         private MinionMovingState _minionMovingState;
         private MinionWorkingState _minionWorkingState;
         private CharacterBlackboard _blackboard;
+
+        [HideInInspector] public IConsumable HoldingConsumable;
+        [HideInInspector] public IConsumable TargetConsumable;
+        [HideInInspector] public readonly int WaiterID = Guid.NewGuid().GetHashCode();
 
         private bool _shouldWander;
         private const float DistanceThreshold = 0.1f;
@@ -41,28 +48,26 @@ namespace Minion
 
         private void Start()
         {
-            _mainCamera = Camera.main;
+            MainCamera = Camera.main;
             _blackboard = GetComponent<CharacterBlackboard>();
-            InteractableState = GetComponent<MinionInteractable>();
             pathDisplayer = GetComponent<DisplayAgentPath>();
+            plateInteraction = GetComponent<PlateMouseInteraction>();
 
-            navMeshAgent = GetComponent<NavMeshAgent>();
-            navMeshAgent.updateRotation = false;
-            navMeshAgent.updateUpAxis = false;
+            NavMeshAgent = GetComponent<NavMeshAgent>();
+            NavMeshAgent.updateRotation = false;
+            NavMeshAgent.updateUpAxis = false;
 
-            stateMachine = new MinionStateMachine();
-            _minionIdleState = new MinionIdleState(this, stateMachine);
-            _minionAssignmentState = new MinionAssignmentState(this, stateMachine);
-            _minionMovingState = new MinionMovingState(this, stateMachine);
-            _minionWorkingState = new MinionWorkingState(this, stateMachine);
+            StateMachine = new MinionStateMachine();
+            _minionIdleState = new MinionIdleState(this, StateMachine);
+            _minionMovingState = new MinionMovingState(this, StateMachine);
+            _minionWorkingState = new MinionWorkingState(this, StateMachine);
 
-            stateMachine.RegisterState(_minionIdleState);
-            stateMachine.RegisterState(_minionAssignmentState);
-            stateMachine.RegisterState(_minionMovingState);
-            stateMachine.RegisterState(_minionWorkingState);
+            StateMachine.RegisterState(_minionIdleState);
+            StateMachine.RegisterState(_minionMovingState);
+            StateMachine.RegisterState(_minionWorkingState);
 
             // Initial state
-            stateMachine.ChangeState(MinionStateID.Idle);
+            StateMachine.ChangeState(MinionStateID.Idle);
         }
 
         private void Update()
@@ -72,14 +77,14 @@ namespace Minion
                 return;
             }
 
-            stateMachine.UpdateState();
-            AIState.text = stateMachine.GetCurrentState().GetID().ToString();
+            StateMachine.UpdateState();
+            aiState.text = StateMachine.GetCurrentState().GetID().ToString();
 
-            _blackboard.IsMoving = navMeshAgent.hasPath;
+            _blackboard.IsMoving = NavMeshAgent.hasPath;
 
             if (_shouldWander)
             {
-                if (Vector3.SqrMagnitude(transform.position - navMeshAgent.destination) <
+                if (Vector3.SqrMagnitude(transform.position - NavMeshAgent.destination) <
                     DistanceThreshold * DistanceThreshold)
                 {
                     _currentWanderTime += Time.deltaTime;
@@ -88,19 +93,19 @@ namespace Minion
                 if (_currentWanderTime >= WanderWaitTime)
                 {
                     _currentWanderTime = 0.0f;
-                    navMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius));
+                    NavMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius));
                 }
             }
         }
 
         public void SetDestination(Vector3 target)
         {
-            navMeshAgent.SetDestination(target);
+            NavMeshAgent.SetDestination(target);
         }
 
         public void SetDestinationAndDisplayPath(Vector3 target)
         {
-            navMeshAgent.SetDestination(target);
+            NavMeshAgent.SetDestination(target);
             pathDisplayer.DisplayPath();
         }
 
@@ -109,7 +114,7 @@ namespace Minion
             return transform.position;
         }
 
-        public Transform GetHoldingPosition()
+        public Transform GetHoldingTransform()
         {
             return holderTransform;
         }
@@ -117,7 +122,15 @@ namespace Minion
         public void OwnerRemoved()
         {
             currentRequest = null;
-            stateMachine.ChangeState(MinionStateID.Idle);
+            StateMachine.ChangeState(MinionStateID.Idle);
+        }
+
+        public void OnInteract(InteractableBase interactableBase)
+        {
+            if (StateMachine.GetCurrentState().GetID() == MinionStateID.Idle)
+            {
+                ((MinionIdleState)StateMachine.GetCurrentState()).OnInteraction(interactableBase);
+            }
         }
 
         public void SetWandering(bool isWandering)
@@ -128,7 +141,7 @@ namespace Minion
                 return;
             }
 
-            navMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius));
+            NavMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius));
             _currentWanderTime = 0.0f;
         }
 
@@ -145,7 +158,7 @@ namespace Minion
                 Vector3 randomDirection = ClampMagnitude(Random.insideUnitCircle * radius, Mathf.Infinity, 2.0f);
                 randomDirection += position;
 
-                if (!NavMesh.Raycast(position, randomDirection, out NavMeshHit raycastHit, navMeshAgent.areaMask))
+                if (!NavMesh.Raycast(position, randomDirection, out NavMeshHit raycastHit, NavMeshAgent.areaMask))
                 {
                     finalPosition = raycastHit.position;
                     break;
@@ -170,6 +183,31 @@ namespace Minion
             }
 
             return v;
+        }
+
+        public IConsumable GetConsumable()
+        {
+            return HoldingConsumable;
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (TargetConsumable != null)
+            {
+                if (TargetConsumable == other.GetComponent<IConsumable>())
+                {
+                    HoldingConsumable = TargetConsumable;
+                    HoldingConsumable.Claim();
+                    TargetConsumable = null;
+                }
+            }
+
+            IWaiterTarget waiterTarget = other.GetComponent<IWaiterTarget>();
+            if (waiterTarget != null && waiterTarget.GetWaiterID() == WaiterID)
+            {
+                waiterTarget.WaiterInteracted(this);
+                HoldingConsumable = null;
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ namespace GuestRequests
         public float TotalDuration { get; private set; }
 
         [SerializeField] protected bool resetRequestOnCompletion;
+        [SerializeField] protected bool returnTransformsOnCompletion;
         [SerializeField] protected Transform requestResetPosition;
 
         [SerializeReference] protected List<Job> _jobs = new List<Job>();
@@ -27,6 +28,7 @@ namespace GuestRequests
 
         protected IRequestOwner _owner;
         protected SpriteRenderer _requestImage;
+        protected Vector3 startingPosition;
 
         protected bool _isRequestSetup;
         protected RequestInteractable _requestInteractable;
@@ -43,6 +45,15 @@ namespace GuestRequests
             TotalProgressPercentage = 1.0f;
             _requestImage = GetComponent<SpriteRenderer>();
             _requestInteractable = GetComponent<RequestInteractable>();
+
+            if (requestResetPosition == null)
+            {
+                startingPosition = transform.position;
+            }
+            else
+            {
+                startingPosition = requestResetPosition.position;
+            }
 
             ResetRequest();
         }
@@ -74,7 +85,10 @@ namespace GuestRequests
             if (IsRequestCompleted())
             {
                 Debug.Log("Request Finished!");
-                ReleaseAllTransformHandles();
+                if (returnTransformsOnCompletion)
+                {
+                    ReleaseAllTransformHandles();
+                }
 
                 _owner = null;
                 OnRequestCompleted?.Invoke();
@@ -134,7 +148,11 @@ namespace GuestRequests
             _isRequestSetup = false;
 
             _transformPairHandles = new Dictionary<ITransformProvider, TransformHandle>();
-            transform.position = requestResetPosition.position;
+            if (requestResetPosition != null)
+            {
+                transform.position = startingPosition;
+            }
+
             TotalProgressPercentage = 0.0f;
             CurrentJobIndex = -1;
         }
@@ -179,8 +197,9 @@ namespace GuestRequests
                     foreach (var entry in _transformPairHandles)
                     {
                         entry.Key.ReturnTransform(entry.Value);
-                        _transformPairHandles[entry.Key] = null;
                     }
+
+                    _transformPairHandles.Clear();
 
                     _isRequestSetup = false;
                     return false;

@@ -1,4 +1,5 @@
-﻿using Consumable;
+﻿using System;
+using Consumable;
 using MyBox;
 using UnityEngine;
 
@@ -11,6 +12,14 @@ namespace GuestRequests.Requests
 
         [ReadOnly] private bool _isConsumed;
 
+        public event Action<FoodRequest> OnConsumed;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            _requestImage.enabled = false;
+        }
+
         public Transform GetTransform()
         {
             return transform;
@@ -21,8 +30,9 @@ namespace GuestRequests.Requests
             _isConsumed = true;
             _requestImage.enabled = false;
             _requestInteractable.SetInteractableActive(true);
-
             ResetRequest();
+
+            OnConsumed?.Invoke(this);
             return consumeReward;
         }
 
@@ -36,9 +46,19 @@ namespace GuestRequests.Requests
             return _isConsumed;
         }
 
-        public bool IsOnTable()
+        public bool IsAvailable()
         {
             return !IsConsumed() && _requestImage.enabled;
+        }
+
+        public void SetStartingPosition(Vector3 position)
+        {
+            startingPosition = position;
+        }
+
+        public void SetInteractableActive(bool isInteractable)
+        {
+            _requestInteractable.SetInteractableActive(isInteractable);
         }
     }
 }

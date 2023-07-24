@@ -16,7 +16,12 @@ namespace Minion.States
 
         public override void Tick()
         {
-            if (Vector3.SqrMagnitude(minion.transform.position - minion.navMeshAgent.destination) <
+            if (minion.HoldingConsumable != null)
+            {
+                minion.HoldingConsumable.GetTransform().position = minion.GetHoldingTransform().position;
+            }
+
+            if (Vector3.SqrMagnitude(minion.transform.position - minion.NavMeshAgent.destination) <
                 DistanceThreshold * DistanceThreshold)
             {
                 _stateMachine.ChangeState(minion.currentRequest ? MinionStateID.Working : MinionStateID.Idle);

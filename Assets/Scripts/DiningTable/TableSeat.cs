@@ -14,6 +14,7 @@ namespace DiningTable
         public event Action OnFoodArrival;
         private IConsumable _consumable;
         private int _waiterID;
+        private bool _isAssignedWaiter;
 
         private void Awake()
         {
@@ -77,6 +78,9 @@ namespace DiningTable
 
             _consumable = waiter.GetConsumable();
             OnFoodArrival?.Invoke();
+            
+            _waiterID = 0;
+            _isAssignedWaiter = false;
         }
 
         public Transform GetDestinationTransform()
@@ -84,9 +88,15 @@ namespace DiningTable
             return deliverySpot;
         }
 
+        public bool IsAssignedWaiter()
+        {
+            return _isAssignedWaiter;
+        }
+
         public void GiveWaiterID(int waiterID)
         {
             _waiterID = waiterID;
+            _isAssignedWaiter = true;
         }
 
         public int GetWaiterID()

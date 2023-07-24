@@ -3,7 +3,6 @@ namespace Minion
     public enum MinionStateID
     {
         Idle,
-        Assignment,
         Working,
         Moving
     }

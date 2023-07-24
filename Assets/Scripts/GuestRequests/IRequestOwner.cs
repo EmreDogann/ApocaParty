@@ -9,7 +9,7 @@ namespace GuestRequests
 
         public Vector3 GetPosition();
 
-        public Transform GetHoldingPosition();
+        public Transform GetHoldingTransform();
 
         public void OwnerRemoved();
 

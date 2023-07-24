@@ -28,7 +28,7 @@ namespace GuestRequests.Jobs
             if (followerSprite)
             {
                 _followerTransform = followerSprite.GetComponent<Transform>();
-                Transform holder = JobOwner.GetRequestOwner().GetHoldingPosition();
+                Transform holder = JobOwner.GetRequestOwner().GetHoldingTransform();
                 _followerTransform.position = holder.position;
 
                 _prevFollowerSpriteSL = followerSprite.sortingLayerID;
@@ -43,7 +43,7 @@ namespace GuestRequests.Jobs
                 return;
             }
 
-            Transform holder = JobOwner.GetRequestOwner().GetHoldingPosition();
+            Transform holder = JobOwner.GetRequestOwner().GetHoldingTransform();
             _followerTransform.position = holder.position;
         }
 

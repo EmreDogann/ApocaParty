@@ -51,8 +51,7 @@ namespace Guest
         [SerializeField] private MoodType startingMood;
 
         [Separator("AI Behaviour")]
-        [ConditionalField(nameof(_guestType), false, GuestType.Famine)] [Range(0.0f, 1.0f)]
-        [SerializeField] private float walkToDrinksChance;
+        [Range(0.0f, 1.0f)] [SerializeField] private float walkToDrinksChance;
 
         [Range(0.0f, 1.0f)] public float wanderWhenHappyChance = 0.2f;
         public float wanderCheckFrequency = 5.0f;
@@ -75,6 +74,7 @@ namespace Guest
         [field: SerializeReference] public TableSeat AssignedTableSeat { get; private set; }
 
         private int _waiterID;
+        private bool _isAssignedWaiter;
 
         private void Awake()
         {
@@ -163,7 +163,7 @@ namespace Guest
             return transform.position;
         }
 
-        public Transform GetHoldingPosition()
+        public Transform GetHoldingTransform()
         {
             return holderTransform;
         }
@@ -264,11 +264,20 @@ namespace Guest
 
                     break;
             }
+
+            _waiterID = 0;
+            _isAssignedWaiter = false;
+        }
+
+        public bool IsAssignedWaiter()
+        {
+            return _isAssignedWaiter;
         }
 
         public void GiveWaiterID(int waiterID)
         {
             _waiterID = waiterID;
+            _isAssignedWaiter = true;
         }
 
         public int GetWaiterID()
