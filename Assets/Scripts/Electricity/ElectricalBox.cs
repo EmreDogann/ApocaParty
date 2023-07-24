@@ -37,9 +37,9 @@ namespace Electricity
             _requestInteractable.SetInteractableActive(false);
 
             _powerOutageEvent = GetComponent<PowerOutageEvent>();
-            _appliances = FindObjectsOfType<MonoBehaviour>()
+            _appliances = FindObjectsOfType<MonoBehaviour>(true)
                 .OfType<IElectricalAppliance>()
-                .Where(a => ((MonoBehaviour)a).enabled)
+                // .Where(a => ((MonoBehaviour)a).enabled)
                 .ToList();
         }
 

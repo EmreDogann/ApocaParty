@@ -54,7 +54,10 @@ namespace Interactions
 
         private void Update()
         {
-            CheckForInteraction();
+            if (!_isPaused)
+            {
+                CheckForInteraction();
+            }
         }
 
         public InteractableBase CheckForInteraction()

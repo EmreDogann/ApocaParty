@@ -13,8 +13,7 @@ using Utils;
 
 namespace Player
 {
-    [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent), typeof(DisplayAgentPath))]
-    [RequireComponent(typeof(PlateMouseInteraction))]
+    [RequireComponent(typeof(NavMeshAgent), typeof(DisplayAgentPath), typeof(PlateMouseInteraction))]
     public class PlayerController : MonoBehaviour, IRequestOwner, IWaiter
     {
         [Separator("Movement")]
@@ -28,7 +27,6 @@ namespace Player
 
         private NavMeshAgent _agent;
         private Camera _mainCamera;
-        private CharacterBlackboard _blackboard;
         private PlateMouseInteraction _plateInteraction;
 
         private Request _currentRequest;
@@ -39,7 +37,6 @@ namespace Player
 
         private void Awake()
         {
-            _blackboard = GetComponent<CharacterBlackboard>();
             _mainCamera = Camera.main;
             _agent = GetComponent<NavMeshAgent>();
             pathDisplayer = GetComponent<DisplayAgentPath>();
@@ -149,8 +146,6 @@ namespace Player
             {
                 return;
             }
-
-            _blackboard.IsMoving = _agent.hasPath;
 
             if (_holdingConsumable != null)
             {

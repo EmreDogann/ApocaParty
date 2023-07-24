@@ -58,7 +58,7 @@ namespace DiningTable
 
         public bool IsSeatAvailable()
         {
-            return _isAssigned;
+            return !_isAssigned;
         }
 
         public void AssignSeat()
@@ -78,7 +78,7 @@ namespace DiningTable
 
             _consumable = waiter.GetConsumable();
             OnFoodArrival?.Invoke();
-            
+
             _waiterID = 0;
             _isAssignedWaiter = false;
         }
