@@ -20,7 +20,6 @@ namespace Minion.States
 
         public override void Enter()
         {
-            minion.image.sprite = minion.actorData.defaultIcon;
             _currentWanderTime = 0.0f;
         }
 
@@ -113,10 +112,6 @@ namespace Minion.States
                             break;
                         case BuntingRequest _:
                             minion.image.sprite = minion.actorData.eventIcon;
-                            break;
-                        default:
-                            // TODO: Play error sound.
-                            minion.image.sprite = minion.actorData.defaultIcon;
                             break;
                     }
 

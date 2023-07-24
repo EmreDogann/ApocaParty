@@ -6,13 +6,14 @@ using UnityEngine;
 
 namespace GuestRequests.Requests
 {
-    [RequireComponent(typeof(SpillInteractable))]
+    [RequireComponent(typeof(SpillInteractable), typeof(Collider2D))]
     public class FoodRequest : Request, IConsumable
     {
         [Separator("Consumable Stats")]
         [SerializeField] private ConsumedData consumeReward;
         [SerializeField] private Sprite spillSprite;
         private SpillInteractable _spillInteractable;
+        private Collider2D _collider2D;
 
         private Sprite _originalSprite;
 
@@ -24,8 +25,17 @@ namespace GuestRequests.Requests
         {
             base.Awake();
             _requestImage.enabled = false;
+            _collider2D = GetComponent<Collider2D>();
+            _collider2D.enabled = false;
+
             _spillInteractable = GetComponent<SpillInteractable>();
             _spillInteractable.SetInteractableActive(false);
+        }
+
+        public override void ActivateRequest()
+        {
+            base.ActivateRequest();
+            _collider2D.enabled = true;
         }
 
         public Transform GetTransform()
@@ -38,6 +48,7 @@ namespace GuestRequests.Requests
             _isConsumed = true;
             _requestImage.enabled = false;
             _requestInteractable.SetInteractableActive(true);
+            _collider2D.enabled = false;
             ResetRequest();
 
             OnConsumed?.Invoke(this);

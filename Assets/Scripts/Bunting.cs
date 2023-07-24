@@ -8,10 +8,11 @@ using UnityEngine;
 [RequireComponent(typeof(RequestInteractable))]
 public class Bunting : MonoBehaviour
 {
-    [SerializeField] private float buntingFallChance = 0.1f;
+    [Range(0.0f, 1.0f)] [SerializeField] private float buntingFallChance = 0.1f;
     [SerializeField] private float buntingFallCooldown = 10.0f;
     [SerializeField] private float buntingFallCheckFrequency = 0.5f;
     [SerializeField] private Sprite buntingFallenSprite;
+    [SerializeField] private Vector2 buntingFallOffset;
 
     private float _currentTime;
     private bool _isBuntingFallen;
@@ -57,6 +58,7 @@ public class Bunting : MonoBehaviour
         {
             _isBuntingFallen = true;
             _spriteRenderer.sprite = buntingFallenSprite;
+            transform.position += (Vector3)buntingFallOffset;
 
             _buntingFallEvent.TriggerEvent();
             _requestInteractable.SetInteractableActive(true);
@@ -69,5 +71,6 @@ public class Bunting : MonoBehaviour
     {
         _requestInteractable.SetInteractableActive(false);
         _isBuntingFallen = false;
+        transform.position -= (Vector3)buntingFallOffset;
     }
 }

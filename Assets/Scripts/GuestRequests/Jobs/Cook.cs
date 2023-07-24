@@ -70,15 +70,15 @@ namespace GuestRequests.Jobs
                     fireParticleSystem.Play();
                     foodBurningEvent?.TriggerEvent();
 
-                    _cookingAudio.Stop();
-                    _burningAudio.Play(transformPair.GetChildTransform().position, true);
+                    _cookingAudio.Stop(true, 3.0f);
+                    _burningAudio.Play(transformPair.GetChildTransform().position, true, 3.0f);
                 }
             }
         }
 
         public override void Exit()
         {
-            _cookingAudio.Stop();
+            _cookingAudio.Stop(true, 3.0f);
             requestSpriteRenderer.sprite = cookedFoodIcon;
 
             _stovePositionProvider.TurnOffAppliance(JobOwner.TryGetTransformHandle(_stovePositionProvider));
@@ -92,7 +92,7 @@ namespace GuestRequests.Jobs
         {
             _stovePositionProvider.TurnOffAppliance(JobOwner.TryGetTransformHandle(_stovePositionProvider));
             fireParticleSystem.Stop();
-            _burningAudio.Stop();
+            _burningAudio.Stop(true, 5.0f);
         }
 
         public override float GetProgressPercentage()

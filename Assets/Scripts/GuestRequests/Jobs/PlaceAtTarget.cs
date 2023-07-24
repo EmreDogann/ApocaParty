@@ -12,6 +12,7 @@ namespace GuestRequests.Jobs
 
         private TransformPair transformPair;
         private Transform _followerTransform;
+        private Quaternion staringRotation;
 
         internal override void Initialize(IJobOwner jobOwner)
         {
@@ -28,6 +29,7 @@ namespace GuestRequests.Jobs
             transformPair =
                 transformProvider.Value.GetTransformPair(JobOwner.TryGetTransformHandle(transformProvider.Value));
             _followerTransform = spriteToPlace.GetComponent<Transform>();
+            // staringRotation = _followerTransform.localRotation;
         }
 
         public override void Tick(float deltaTime)
@@ -38,6 +40,13 @@ namespace GuestRequests.Jobs
             }
 
             _followerTransform.position = transformPair.GetChildTransform().position;
+            _followerTransform.localRotation = transformPair.GetChildTransform().localRotation;
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+            // _followerTransform.localRotation = staringRotation;
         }
 
         public override float GetProgressPercentage()

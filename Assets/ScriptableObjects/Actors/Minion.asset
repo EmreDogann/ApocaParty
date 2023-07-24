@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Minion
   m_EditorClassIdentifier: 
   name: Minion
-  sprite: {fileID: 21300000, guid: 2285aa6105100444abbc0086e03dbe5d, type: 3}
-  defaultIcon: {fileID: 21300000, guid: 2285aa6105100444abbc0086e03dbe5d, type: 3}
-  kitchenIcon: {fileID: 21300000, guid: b0a9ce22cbfd4db46af36789ecf8e19d, type: 3}
-  musicIcon: {fileID: 21300000, guid: 61dd680c2271d774385324f940a90f84, type: 3}
-  eventIcon: {fileID: 21300000, guid: a63256c5438a8a04590b27ade82410b7, type: 3}
+  sprite: {fileID: 21300000, guid: 524b9d0fd4847f945a705f67070f2265, type: 3}
+  defaultIcon: {fileID: 21300000, guid: 524b9d0fd4847f945a705f67070f2265, type: 3}
+  kitchenIcon: {fileID: 21300000, guid: 03d020b33f3087c4ab5e78925fc40064, type: 3}
+  musicIcon: {fileID: 21300000, guid: 2821603a368ef4240aeff05d7f3118df, type: 3}
+  eventIcon: {fileID: 21300000, guid: da4a9523aa708bf41bc427abb910eb15, type: 3}

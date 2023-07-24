@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using Events;
@@ -30,6 +29,8 @@ namespace Audio
         private List<AudioEmitter> _audioEmitters;
         private List<AudioHandle> _audioHandles;
         private AudioEmitter _musicEmitter;
+        private AudioSource _musicEmitterCrossFade;
+        private AudioSource _musicEmitterTransition;
 
         private int _currentAudioSourceIndex;
 
@@ -45,6 +46,8 @@ namespace Audio
             _audioEmitters = new List<AudioEmitter>();
             _audioHandles = new List<AudioHandle>();
             _musicEmitter = null;
+            _musicEmitterCrossFade = Instantiate(audioSourcePrefab, transform).GetComponent<AudioSource>();
+            _musicEmitterTransition = Instantiate(audioSourcePrefab, transform).GetComponent<AudioSource>();
 
             for (int i = 0; i < audioSourcePoolSize; i++)
             {
@@ -78,10 +81,13 @@ namespace Audio
             sfxAudioChannel.OnAudioPlay2D -= PlaySoundEffect2D;
             sfxAudioChannel.OnAudioPlayAttached -= PlaySoundEffectAttached;
             sfxAudioChannel.OnAudioStop -= StopSoundEffect;
+            sfxAudioChannel.OnAudioFade -= FadeSoundEffect;
 
             musicAudioChannel.OnAudioPlay -= PlayMusic;
             musicAudioChannel.OnAudioPlay2D -= PlayMusic2D;
             musicAudioChannel.OnAudioStop -= StopMusic;
+            musicAudioChannel.OnAudioFade -= FadeMusic;
+            musicAudioChannel.OnAudioCrossFade -= CrossFadeMusic;
         }
 
         private void Update()
@@ -267,7 +273,7 @@ namespace Audio
             return AudioHandle.Invalid;
         }
 
-        public bool StopSoundEffect(AudioHandle handle)
+        public bool StopSoundEffect(AudioHandle handle, SoundFade soundFade)
         {
             int handleIndex = _audioHandles.FindIndex(x => x == handle);
 
@@ -278,21 +284,38 @@ namespace Audio
 
             AudioHandle foundHandle = _audioHandles[handleIndex];
 
-            _audioEmitters[foundHandle.ID].Source.DOFade(0.0f, 0.5f).onComplete = () =>
+            if (soundFade != null)
+            {
+                _audioEmitters[foundHandle.ID].Source.DOFade(0.0f, soundFade.Duration).onComplete = () =>
+                {
+                    _audioEmitters[foundHandle.ID].Source.Stop();
+                };
+            }
+            else
             {
                 _audioEmitters[foundHandle.ID].Source.Stop();
-            };
+            }
+
             _audioEmitters[foundHandle.ID].IsPaused = false;
 
             _audioHandles.RemoveAt(handleIndex);
             return true;
         }
 
-        public bool StopMusic(AudioHandle handle)
+        public bool StopMusic(AudioHandle handle, SoundFade soundFade)
         {
             if (_musicEmitter != null && _musicEmitter.Source.isPlaying)
             {
-                _musicEmitter.Source.DOFade(0.0f, 2.0f).onComplete = () => { _musicEmitter.Source.Stop(); };
+                if (soundFade != null)
+                {
+                    _musicEmitter.Source.DOFade(0.0f, soundFade.Duration).onComplete =
+                        () => { _musicEmitter.Source.Stop(); };
+                }
+                else
+                {
+                    _musicEmitter.Source.Stop();
+                }
+
                 return true;
             }
 
@@ -317,12 +340,61 @@ namespace Audio
 
         private bool FadeMusic(AudioHandle handle, float to, float duration)
         {
-            throw new NotImplementedException();
+            if (_musicEmitter != null && _musicEmitter.Source.isPlaying)
+            {
+                _musicEmitter.Source.DOKill();
+                _musicEmitter.Source.DOFade(to, duration);
+                return true;
+            }
+
+            return false;
         }
 
-        private bool CrossFadeMusic(AudioHandle handle, float duration)
+        private bool CrossFadeMusic(AudioSO audio, AudioSO transitionAudio, float duration)
         {
-            throw new NotImplementedException();
+            if (_musicEmitter == null || !_musicEmitter.Source.isPlaying)
+            {
+                return false;
+            }
+
+            _musicEmitterCrossFade.Stop();
+            _musicEmitterTransition.Stop();
+
+            _musicEmitterCrossFade.outputAudioMixerGroup = _musicEmitter.Source.outputAudioMixerGroup;
+            _musicEmitterCrossFade.transform.position = _musicEmitter.Source.transform.position;
+            _musicEmitterCrossFade.clip = _musicEmitter.Source.clip;
+            _musicEmitterCrossFade.volume = _musicEmitter.Source.volume;
+            _musicEmitterCrossFade.pitch = _musicEmitter.Source.pitch;
+            _musicEmitterCrossFade.spatialBlend = _musicEmitter.Source.spatialBlend;
+            _musicEmitterCrossFade.loop = _musicEmitter.Source.loop;
+            _musicEmitterCrossFade.time = _musicEmitter.Source.time;
+
+            _musicEmitterTransition.outputAudioMixerGroup = _musicEmitter.Source.outputAudioMixerGroup;
+            _musicEmitterTransition.transform.position = _musicEmitter.Source.transform.position;
+            _musicEmitterTransition.clip = transitionAudio.GetAudioClip();
+            _musicEmitterTransition.volume = Random.Range(transitionAudio.volume.Min, transitionAudio.volume.Max);
+            _musicEmitterTransition.pitch = _musicEmitter.Source.pitch;
+            _musicEmitterTransition.spatialBlend = _musicEmitter.Source.spatialBlend;
+            _musicEmitterTransition.loop = _musicEmitter.Source.loop;
+            _musicEmitterTransition.time = 0f;
+
+            float prevVolume = _musicEmitter.Source.volume;
+            // _musicEmitter.Source.Stop();
+            _musicEmitter.Source.clip = audio.GetAudioClip();
+            _musicEmitter.Source.volume = 0.0f;
+            // _musicEmitter.Source.time = 0.0f;
+            _musicEmitter.Source.Play();
+            _musicEmitter.Source.DOFade(prevVolume, duration).OnComplete(() =>
+            {
+                _musicEmitterTransition.DOFade(0.0f, 2.0f).OnComplete(
+                    () => { _musicEmitterTransition.Stop(); });
+            });
+
+            _musicEmitterCrossFade.Play();
+            _musicEmitterCrossFade.DOFade(0.0f, duration / 2.0f).OnComplete(() => { _musicEmitterCrossFade.Stop(); });
+
+            _musicEmitterTransition.Play();
+            return true;
         }
 
         private void OnPauseEvent(bool isPaused)

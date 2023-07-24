@@ -12,9 +12,9 @@ namespace Electricity
     public class ElectricalBox : MonoBehaviour
     {
         private List<IElectricalAppliance> _appliances;
-        [SerializeField] private float powerOutageCheckFrequency = 6.0f;
+        [Range(0.0f, 1.0f)] [SerializeField] private float powerOutageChance = 0.1f;
         [SerializeField] private float powerOutageCooldown = 10.0f;
-        [SerializeField] private float powerOutageChance = 0.1f;
+        [SerializeField] private float powerOutageCheckFrequency = 6.0f;
 
         private PowerOutageEvent _powerOutageEvent;
         private RequestInteractable _requestInteractable;
@@ -62,7 +62,7 @@ namespace Electricity
                     }
                 }
 
-                if (Random.Range(0.0f, 1.0f) < powerOutageChance)
+                if (Random.Range(0.0f, 1.0f) <= powerOutageChance)
                 {
                     _isPowerOn = false;
                     _currentTime -= powerOutageCooldown;

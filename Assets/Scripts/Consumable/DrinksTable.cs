@@ -10,21 +10,26 @@ namespace Consumable
     {
         private class DrinkData
         {
-            public bool IsAssigned;
+            public bool IsOnTable;
             public Drink Drink;
         }
 
         [SerializeField] private RequestInteractable drinksTableInteractable;
 
         [SerializeField] private GameObject drinkPrefab;
+        [SerializeField] private Transform drinksTableCover;
+
         [SerializeField] private int drinkPoolSize = 12;
         [SerializeField] private int tableCapacity = 6;
         [Min(0.0f)] [SerializeField] private float hSpacing = 0.5f;
         [Min(0.0f)] [SerializeField] private float vSpacing = 0.5f;
 
-        private readonly List<DrinkData> _drinks = new List<DrinkData>();
+        private readonly List<Drink> _allDrinks = new List<Drink>();
+        private readonly List<Drink> _drinksOnTable = new List<Drink>();
         private readonly List<Vector2> _drinkPositions = new List<Vector2>();
         public static DrinksTable Instance { get; private set; }
+
+        private Vector2 drinksTableFullScale;
 
         private void Awake()
         {
@@ -37,62 +42,22 @@ namespace Consumable
                 Destroy(gameObject);
             }
 
-            int rowIndex = -1;
             for (int i = 0; i < drinkPoolSize; i++)
             {
                 Drink drink = Instantiate(drinkPrefab, transform).GetComponent<Drink>();
-                _drinks.Add(new DrinkData
-                {
-                    IsAssigned = false,
-                    Drink = drink
-                });
+                bool onTable = i < tableCapacity;
+                _allDrinks.Add(drink);
 
-                if (i >= tableCapacity)
+                if (onTable)
                 {
-                    drink.Hide();
-                    continue;
+                    _drinksOnTable.Add(drink);
                 }
-
-                drink.Show();
-
-                if (i % (tableCapacity / 2) == 0)
-                {
-                    rowIndex++;
-                    rowIndex %= 2;
-                }
-
-
-                Vector2 position = new Vector2(rowIndex * (hSpacing / 2.0f) + i % (tableCapacity / 2) * hSpacing,
-                    -rowIndex * vSpacing);
-                _drinkPositions.Add(position);
-                drink.transform.localPosition = position;
             }
+
+            drinksTableFullScale = drinksTableCover.localScale;
+            drinksTableCover.localScale = new Vector3(drinksTableFullScale.x, 0.0f, 0.0f);
 
             drinksTableInteractable.SetInteractableActive(false);
-        }
-
-        private void OnValidate()
-        {
-            if (_drinks.Count <= 0)
-            {
-                return;
-            }
-
-            int rowIndex = -1;
-            for (int i = 0; i < drinkPoolSize; i++)
-            {
-                if (i % (tableCapacity / 2) == 0)
-                {
-                    rowIndex++;
-                    rowIndex %= 2;
-                }
-
-                Vector2 position = new Vector2(
-                    rowIndex * (hSpacing / 2.0f) + i % (tableCapacity / 2) * hSpacing,
-                    -rowIndex * vSpacing
-                );
-                _drinks[i].Drink.transform.localPosition = position;
-            }
         }
 
         private void OnEnable()
@@ -102,7 +67,7 @@ namespace Consumable
 
             for (int i = 0; i < drinkPoolSize; i++)
             {
-                _drinks[i].Drink.OnClaim += OnDrinkClaim;
+                _allDrinks[i].OnClaim += OnDrinkClaim;
             }
         }
 
@@ -113,25 +78,33 @@ namespace Consumable
 
             for (int i = 0; i < drinkPoolSize; i++)
             {
-                _drinks[i].Drink.OnClaim -= OnDrinkClaim;
+                _allDrinks[i].OnClaim -= OnDrinkClaim;
             }
         }
 
-        private void OnDrinkClaim()
+        private void OnDrinkClaim(Drink drink)
         {
-            drinksTableInteractable.SetInteractableActive(true);
+            for (int i = _drinksOnTable.Count - 1; i >= 0; i--)
+            {
+                if (drink == _drinksOnTable[i])
+                {
+                    drinksTableInteractable.SetInteractableActive(true);
+                    _drinksOnTable.RemoveAt(i);
+                    if (_drinksOnTable.Count % 2 == 0)
+                    {
+                        drinksTableCover.localScale += new Vector3(0.0f, drinksTableFullScale.y * (1 / 3.0f), 0.0f);
+                    }
+                }
+            }
         }
 
         [CanBeNull]
         public Drink TryGetDrink()
         {
-            foreach (DrinkData data in _drinks)
+            foreach (Drink drink in _drinksOnTable)
             {
-                if (!data.IsAssigned)
-                {
-                    data.IsAssigned = true;
-                    return data.Drink;
-                }
+                drink.Consume();
+                return drink;
             }
 
             return null;
@@ -139,28 +112,16 @@ namespace Consumable
 
         public bool IsDrinksTableFull()
         {
-            int availableCount = 0;
-            foreach (DrinkData data in _drinks)
-            {
-                if (data.Drink.IsAvailable() && !data.IsAssigned)
-                {
-                    availableCount++;
-                }
-            }
-
-            return availableCount >= tableCapacity;
+            return _drinksOnTable.Count >= tableCapacity;
         }
 
         private void OnFamineEvent(PartyEventData eventData)
         {
             if (eventData.eventType == PartyEventType.FamineAtDrinks)
             {
-                foreach (DrinkData data in _drinks)
+                for (int i = _drinksOnTable.Count - 1; i >= 0; i--)
                 {
-                    if (data.Drink.IsAvailable())
-                    {
-                        data.Drink.Consume();
-                    }
+                    _drinksOnTable[i].Consume();
                 }
 
                 drinksTableInteractable.SetInteractableActive(true);
@@ -169,18 +130,21 @@ namespace Consumable
 
         private void RefillDrinks()
         {
-            foreach (Vector2 position in _drinkPositions)
+            foreach (Drink drink in _allDrinks)
             {
-                foreach (DrinkData data in _drinks)
+                if (_drinksOnTable.Contains(drink))
                 {
-                    if (!data.Drink.IsVisible())
-                    {
-                        ((IConsumableInternal)data.Drink).ResetConsumable();
-                        data.Drink.transform.localPosition = position;
-                        break;
-                    }
+                    continue;
+                }
+
+                if (drink.IsConsumed())
+                {
+                    ((IConsumableInternal)drink).ResetConsumable();
+                    _drinksOnTable.Add(drink);
                 }
             }
+
+            drinksTableCover.localScale = new Vector3(drinksTableFullScale.x, 0.0f, 0.0f);
 
             drinksTableInteractable.SetInteractableActive(false);
         }

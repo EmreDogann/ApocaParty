@@ -170,7 +170,7 @@ namespace Audio
             return audioMixer;
         }
 
-        public void Play(Vector3 positionWorldSpace = default, bool fadeIn = false)
+        public void Play(Vector3 positionWorldSpace = default, bool fadeIn = false, float fadeDuration = 1.0f)
         {
             if (clips.Length == 0)
             {
@@ -191,7 +191,7 @@ namespace Audio
                 {
                     FadeType = FadeType.FadeIn,
                     Volume = audioEventData.Volume,
-                    Duration = 1.0f
+                    Duration = fadeDuration
                 };
             }
 
@@ -203,7 +203,7 @@ namespace Audio
             }
         }
 
-        public void Play2D(bool fadeIn = false)
+        public void Play2D(bool fadeIn = false, float fadeDuration = 1.0f)
         {
             if (clips.Length == 0)
             {
@@ -224,7 +224,7 @@ namespace Audio
                 {
                     FadeType = FadeType.FadeIn,
                     Volume = audioEventData.Volume,
-                    Duration = 1.0f
+                    Duration = fadeDuration
                 };
             }
 
@@ -236,7 +236,7 @@ namespace Audio
             }
         }
 
-        public void PlayAttached(GameObject gameObject, bool fadeIn = false)
+        public void PlayAttached(GameObject gameObject, bool fadeIn = false, float fadeDuration = 1.0f)
         {
             if (clips.Length == 0)
             {
@@ -257,7 +257,7 @@ namespace Audio
                 {
                     FadeType = FadeType.FadeIn,
                     Volume = audioEventData.Volume,
-                    Duration = 1.0f
+                    Duration = fadeDuration
                 };
             }
 
@@ -273,13 +273,13 @@ namespace Audio
         {
             if (_audioHandle.Count < 1)
             {
-                audioEvent.RaiseStopEvent(AudioHandle.Invalid);
+                audioEvent.RaiseStopEvent(AudioHandle.Invalid, null);
                 return;
             }
 
             foreach (AudioHandle handle in _audioHandle)
             {
-                bool handleFound = audioEvent.RaiseStopEvent(handle);
+                bool handleFound = audioEvent.RaiseStopEvent(handle, null);
 
                 if (!handleFound)
                 {
@@ -291,16 +291,27 @@ namespace Audio
             _audioHandleData.Clear();
         }
 
-        public void Stop()
+        public void Stop(bool fadeOut = false, float fadeDuration = 1.0f)
         {
             if (_audioHandle.Count < 1)
             {
-                audioEvent.RaiseStopEvent(AudioHandle.Invalid);
+                audioEvent.RaiseStopEvent(AudioHandle.Invalid, null);
                 return;
             }
 
             AudioHandle handle = _audioHandle[^1];
-            bool handleFound = audioEvent.RaiseStopEvent(handle);
+            SoundFade soundFade = null;
+            if (fadeOut)
+            {
+                soundFade = new SoundFade
+                {
+                    FadeType = FadeType.FadeOut,
+                    Volume = 0.0f,
+                    Duration = fadeDuration
+                };
+            }
+
+            bool handleFound = audioEvent.RaiseStopEvent(handle, soundFade);
 
             if (!handleFound)
             {
@@ -318,8 +329,15 @@ namespace Audio
                 return;
             }
 
-            AudioHandle handle = _audioHandle[^1];
-            audioEvent.OnAudioFade(handle, to, duration);
+            foreach (AudioHandle handle in _audioHandle)
+            {
+                bool handleFound = audioEvent.RaiseFadeEvent(handle, to, duration);
+
+                if (!handleFound)
+                {
+                    Debug.LogWarning($"Audio {handle.Audio.name} could not be stopped. Handle is stale.");
+                }
+            }
         }
 
         public void UnFadeAudio(float duration)
@@ -329,8 +347,20 @@ namespace Audio
                 return;
             }
 
-            AudioHandle handle = _audioHandle[^1];
-            audioEvent.OnAudioFade(handle, _audioHandleData[handle].Volume, duration);
+            foreach (AudioHandle handle in _audioHandle)
+            {
+                bool handleFound = audioEvent.RaiseFadeEvent(handle, _audioHandleData[handle].Volume, duration);
+
+                if (!handleFound)
+                {
+                    Debug.LogWarning($"Audio {handle.Audio.name} could not be stopped. Handle is stale.");
+                }
+            }
+        }
+
+        public void CrossFadeAudio(AudioSO transitionAudio, float duration)
+        {
+            audioEvent.RaiseCrossFadeEvent(this, transitionAudio, duration);
         }
     }
 }

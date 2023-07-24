@@ -59,6 +59,9 @@ TagManager:
   - name: Particles
     uniqueID: 3619473565
     locked: 0
+  - name: TopLayer
+    uniqueID: 1588641705
+    locked: 0
   - name: DebugUI
     uniqueID: 1064973643
     locked: 0

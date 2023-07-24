@@ -1,11 +1,13 @@
 ﻿using System;
 using Interactions.Interactables;
 using MyBox;
+using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Consumable
 {
-    [RequireComponent(typeof(SpriteRenderer), typeof(CircleCollider2D), typeof(SpillInteractable))]
+    [RequireComponent(typeof(SpriteRenderer), typeof(Collider2D), typeof(SpillInteractable))]
     public class Drink : MonoBehaviour, IConsumable, IConsumableInternal
     {
         [SerializeField] private ConsumedData consumeReward;
@@ -15,10 +17,10 @@ namespace Consumable
         [ReadOnly] private bool _isClaimed;
         private SpillInteractable _spillInteractable;
         private SpriteRenderer _spriteRenderer;
-        private CircleCollider2D _collider2D;
+        private Collider2D _collider2D;
         private Sprite _originalSprite;
 
-        public event Action OnClaim;
+        public event Action<Drink> OnClaim;
 
         private void Awake()
         {
@@ -26,13 +28,14 @@ namespace Consumable
             _isConsumed = false;
             _spriteRenderer = GetComponent<SpriteRenderer>();
 
-            _collider2D = GetComponent<CircleCollider2D>();
+            _collider2D = GetComponent<Collider2D>();
             _collider2D.enabled = false;
 
             _spillInteractable = GetComponent<SpillInteractable>();
             _spillInteractable.SetInteractableActive(false);
 
             _originalSprite = _spriteRenderer.sprite;
+            _spriteRenderer.enabled = false;
         }
 
         public Transform GetTransform()
@@ -42,16 +45,23 @@ namespace Consumable
 
         public ConsumedData Consume()
         {
+            if (!_isClaimed)
+            {
+                Claim();
+            }
+
             _isConsumed = true;
             _spriteRenderer.enabled = false;
             return consumeReward;
         }
 
+        [ButtonMethod]
         public void Spill()
         {
             _spriteRenderer.sprite = spillSprite;
             _collider2D.enabled = true;
             _spillInteractable.SetInteractableActive(true);
+            transform.localRotation = Quaternion.Euler(0.0f, 0.0f, Random.Range(50.0f, 150.0f));
         }
 
         public bool IsSpilled()
@@ -64,12 +74,13 @@ namespace Consumable
             Consume();
             _spriteRenderer.sprite = _originalSprite;
             _spillInteractable.SetInteractableActive(false);
+            transform.localRotation = quaternion.identity;
         }
 
         public void Claim()
         {
             _isClaimed = true;
-            OnClaim?.Invoke();
+            OnClaim?.Invoke(this);
         }
 
         public bool IsClaimed()

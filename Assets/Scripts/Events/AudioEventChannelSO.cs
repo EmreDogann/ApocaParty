@@ -72,13 +72,13 @@ namespace Events
             return audioHandle;
         }
 
-        public bool RaiseStopEvent(AudioHandle audioKey)
+        public bool RaiseStopEvent(AudioHandle audioKey, SoundFade soundFade)
         {
             bool requestSucceed = false;
 
             if (OnAudioStop != null)
             {
-                requestSucceed = OnAudioStop.Invoke(audioKey);
+                requestSucceed = OnAudioStop.Invoke(audioKey, soundFade);
             }
             else
             {
@@ -108,13 +108,13 @@ namespace Events
             return requestSucceed;
         }
 
-        public bool RaiseCrossFadeEvent(AudioHandle audioKey, float duration)
+        public bool RaiseCrossFadeEvent(AudioSO audio, AudioSO transitionAudio, float duration)
         {
             bool requestSucceed = false;
 
             if (OnAudioStop != null)
             {
-                requestSucceed = OnAudioCrossFade.Invoke(audioKey, duration);
+                requestSucceed = OnAudioCrossFade.Invoke(audio, transitionAudio, duration);
             }
             else
             {
@@ -135,9 +135,9 @@ namespace Events
     public delegate AudioHandle AudioPlayAttachedAction(AudioSO audio, AudioEventData audioEventData,
         GameObject gameObject);
 
-    public delegate bool AudioStopAction(AudioHandle emitterKey);
+    public delegate bool AudioStopAction(AudioHandle emitterKey, SoundFade soundFade);
 
     public delegate bool AudioFadeAction(AudioHandle emitterKey, float to, float duration);
 
-    public delegate bool AudioCrossFadeAction(AudioHandle emitterKey, float duration);
+    public delegate bool AudioCrossFadeAction(AudioSO audio, AudioSO transitionAudio, float duration);
 }

@@ -8,7 +8,6 @@ using UnityEngine;
 namespace GuestRequests
 {
     [Serializable]
-    [RequireComponent(typeof(SpriteRenderer))]
     public class Request : MonoBehaviour, IJobOwner
     {
         protected List<ITransformProvider> _requiredTransformProviders = new List<ITransformProvider>();
@@ -43,7 +42,7 @@ namespace GuestRequests
             }
 
             TotalProgressPercentage = 1.0f;
-            _requestImage = GetComponent<SpriteRenderer>();
+            _requestImage = transform.GetComponentInChildren<SpriteRenderer>();
             _requestInteractable = GetComponent<RequestInteractable>();
 
             if (requestResetPosition == null)
