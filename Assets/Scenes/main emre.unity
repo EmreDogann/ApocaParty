@@ -24693,7 +24693,6 @@ MonoBehaviour:
   currentRequest: {fileID: 0}
   actorData: {fileID: 11400000, guid: de36024e2d67fc541b6e3074943d513c, type: 2}
   plateInteraction: {fileID: 0}
-  target: {fileID: 0}
 --- !u!114 &754063269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43666,8 +43665,9 @@ MonoBehaviour:
   actorName: {fileID: 1647593198}
   messageText: {fileID: 1614674434}
   backgroundBox: {fileID: 622847523}
-  animationSpeed: 0.05
-  confirmAction: {fileID: 4111037088096962617, guid: 1fd9d9af030accf4e8cfdbe36d107005, type: 3}
+  animationSpeed: 0.03
+  keyboardConfirmAction: {fileID: 4111037088096962617, guid: 1fd9d9af030accf4e8cfdbe36d107005, type: 3}
+  mouseConfirmAction: {fileID: -5519726930694964752, guid: 1fd9d9af030accf4e8cfdbe36d107005, type: 3}
 --- !u!114 &1115179765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54235,7 +54235,6 @@ MonoBehaviour:
   currentRequest: {fileID: 0}
   actorData: {fileID: 11400000, guid: de36024e2d67fc541b6e3074943d513c, type: 2}
   plateInteraction: {fileID: 0}
-  target: {fileID: 0}
 --- !u!114 &1538724060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60186,7 +60185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c219e2b600bc9544c8c3972778e0ec2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  conversation: {fileID: 0}
+  conversation: {fileID: 11400000, guid: ef4012687eea44a47abcf7197eafe2a3, type: 2}
 --- !u!114 &1605618393
 MonoBehaviour:
   m_ObjectHideFlags: 0

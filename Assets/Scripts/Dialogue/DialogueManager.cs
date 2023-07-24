@@ -25,7 +25,8 @@ namespace Dialogue
         [SerializeField] private float animationSpeed = 0.05f;
 
         [Separator("Controls")]
-        public InputActionReference confirmAction;
+        public InputActionReference keyboardConfirmAction;
+        public InputActionReference mouseConfirmAction;
 
         private Message[] _currentMessages;
         private int _messageIndex;
@@ -34,11 +35,11 @@ namespace Dialogue
         public bool DialogueIsPlaying { get; private set; }
 
         private BoolEventListener _listener;
-        private Coroutine animationCoroutine;
+        private Coroutine _animationCoroutine;
 
-        private Action callback;
+        private Action _callback;
 
-        private readonly string[] connectives =
+        private readonly string[] _connectives =
         {
             "also, ",
             "and "
@@ -62,32 +63,32 @@ namespace Dialogue
         {
             _currentMessages = messages;
             _messageIndex = 0;
-            _listener.Event.Raise(true);
             DialogueIsPlaying = true;
 
             UIManager.Instance.Show(dialogueView);
-            DisplayMessage();
+            _animationCoroutine = StartCoroutine(DisplayMessage());
+            _listener.Event.Raise(true);
         }
 
         public void OpenRandomDialogue(Message[] messages, Action callbackAction)
         {
-            callback = callbackAction;
+            _callback = callbackAction;
             for (int i = 1; i < messages.Length; i++)
             {
                 StringBuilder stringBuilder = new StringBuilder(messages[i].text);
                 stringBuilder[0] = char.ToLower(stringBuilder[0]);
-                stringBuilder.Insert(0, connectives[Random.Range(0, connectives.Length)]);
+                stringBuilder.Insert(0, _connectives[Random.Range(0, _connectives.Length)]);
 
                 messages[i].text = stringBuilder.ToString();
             }
 
             _currentMessages = messages;
             _messageIndex = 0;
-            _listener.Event.Raise(true);
             DialogueIsPlaying = true;
 
             UIManager.Instance.Show(dialogueView);
-            animationCoroutine = StartCoroutine(DisplayMessage());
+            _animationCoroutine = StartCoroutine(DisplayMessage());
+            _listener.Event.Raise(true);
         }
 
 
@@ -96,9 +97,15 @@ namespace Dialogue
             ActorSO actorToDisplay = _currentMessages[_messageIndex].actor;
             actorName.text = actorToDisplay.name;
             actorImage.sprite = actorToDisplay.sprite;
+
             messageText.text = string.Empty;
             foreach (char c in _currentMessages[_messageIndex].text)
             {
+                while (UIManager.Instance.GetCurrentView() != dialogueView)
+                {
+                    yield return null;
+                }
+
                 messageText.text += c;
                 yield return new WaitForSecondsRealtime(animationSpeed);
             }
@@ -120,7 +127,7 @@ namespace Dialogue
             _messageIndex++;
             if (_messageIndex < _currentMessages.Length)
             {
-                animationCoroutine = StartCoroutine(DisplayMessage());
+                _animationCoroutine = StartCoroutine(DisplayMessage());
             }
             else
             {
@@ -135,12 +142,14 @@ namespace Dialogue
             DialogueIsPlaying = false;
             _listener.Event.Raise(false);
 
-            callback?.Invoke();
+            _callback?.Invoke();
         }
 
         private void Update()
         {
-            if (confirmAction.action.WasPressedThisFrame() && UIManager.Instance.GetCurrentView() == dialogueView)
+            if ((keyboardConfirmAction.action.WasPressedThisFrame() ||
+                 mouseConfirmAction.action.WasPressedThisFrame()) &&
+                UIManager.Instance.GetCurrentView() == dialogueView)
             {
                 if (_messageIndex >= _currentMessages.Length)
                 {
@@ -149,9 +158,9 @@ namespace Dialogue
 
                 if (messageText.text != _currentMessages[_messageIndex].text)
                 {
-                    if (animationCoroutine != null)
+                    if (_animationCoroutine != null)
                     {
-                        StopCoroutine(animationCoroutine);
+                        StopCoroutine(_animationCoroutine);
                     }
 
                     DisplayEntireMessage();
