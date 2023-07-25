@@ -15,17 +15,17 @@ MonoBehaviour:
   Enabled: 1
   KeepActiveSceneAsActive: 1
   _mainSceneProvider:
-    rid: 8197751375377727490
+    rid: 5171001552874242048
   _mainSceneLoadedHandler:
-    rid: 8197751375377727494
+    rid: 5171001552874242049
   _playmodeExitedHandler:
-    rid: 8197751375377727492
+    rid: 5171001552874242050
   references:
     version: 2
     RefIds:
-    - rid: 8197751375377727490
+    - rid: 5171001552874242048
       type: {class: FirstSceneInBuildSettings, ns: Ems.MainSceneAutoLoading.MainSceneProviders, asm: Ems.MainSceneAutoLoading.Editor}
-    - rid: 8197751375377727492
+    - rid: 5171001552874242049
+      type: {class: LoadAllLoadedScenes, ns: Ems.MainSceneAutoLoading.MainSceneLoadedHandlers, asm: Ems.MainSceneAutoLoading.Editor}
+    - rid: 5171001552874242050
       type: {class: RestoreSceneManagerSetup, ns: Ems.MainSceneAutoLoading.PlaymodeExitedHandlers, asm: Ems.MainSceneAutoLoading.Editor}
-    - rid: 8197751375377727494
-      type: {class: LoadAllLoadedScenesAdditive, ns: Ems.MainSceneAutoLoading.MainSceneLoadedHandlers, asm: Ems.MainSceneAutoLoading.Editor}
