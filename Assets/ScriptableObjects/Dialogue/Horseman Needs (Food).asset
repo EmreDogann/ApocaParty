@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 344b2dbfdfa8494a9e534af677af91e9, type: 3}
+  m_Name: Horseman Needs (Food)
+  m_EditorClassIdentifier: 
+  script: {fileID: 4900000, guid: a6b79caf129491b40bcc922402908f27, type: 3}
+  messagesToRandomlyPick:
+  - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    text: 'Where is my food!? '
+  - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    text: 'I hunger destruction and a good meal '
+  - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    text: 'I''m hungry now. You give food. Now. '
+  - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    text: "Cthulhu\u2026I\u2019m starving\u2026 you don\u2019t want me starving do
+      you?"
+  - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    text: Tell me, is seafood on the menu, Ctulhu?

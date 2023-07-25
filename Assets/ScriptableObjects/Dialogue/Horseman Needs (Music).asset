@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 344b2dbfdfa8494a9e534af677af91e9, type: 3}
+  m_Name: Horseman Needs (Music)
+  m_EditorClassIdentifier: 
+  script: {fileID: 4900000, guid: a51c421baecbc6342b384483ba2d4150, type: 3}
+  messagesToRandomlyPick:
+  - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    text: 'I need a better song than this. '
+  - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    text: 'Put a new song on Cthulhu '
+  - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    text: "We\u2019ve listened to this song for too long. Change it."
+  - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    text: "This song won\u2019t help me end the world, Cthulhu please change it. "
+  - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    text: "Trust me, this song I\u2019m suggesting is better."

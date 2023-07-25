@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4963797790964ff282185709717fe5a4, type: 3}
+  m_Name: Game Intro
+  m_EditorClassIdentifier: 
+  script: {fileID: 4900000, guid: 3b602eaefe54ac4459f4d8e40f3af3be, type: 3}
+  messages:
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: "And sent! Phew, it\u2019s a little close to the party but I\u2019m sure
+      the horsemen can sense the impending doom coming even if they lose their invite. "
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: "Maybe if I\u2019m lucky, they\u2019ll start to feel FOMO when other horsemen
+      get here and they\u2019ll race their way over here to my party! "
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: "I still can\u2019t believe Azathoth is finally waking up soon. Only 24
+      hours left! Hopefully he will enjoy the party when he wakes up and starts the
+      end of the world. "
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: 'Nothing must go wrong! I swear on my name! '
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: "Wait, a horseman is already here!? But we haven\u2019t fully finished
+      the food! The music isn\u2019t even on! Aaa!"
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: ' I need to get this party started!'

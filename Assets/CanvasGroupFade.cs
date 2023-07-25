@@ -16,6 +16,7 @@ public class CanvasGroupFade : MonoBehaviour
     [SerializeField] private bool fadeOnAwake;
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private float beforeWaitTime;
+    [SerializeField] private float afterWaitTime;
 
     [Separator("Fade Settings")]
     [SerializeField] private float duration;
@@ -30,14 +31,19 @@ public class CanvasGroupFade : MonoBehaviour
     {
         if (fadeOnAwake)
         {
-            if (fadeType == FadeType.FadeIn)
-            {
-                StartCoroutine(FadeIn());
-            }
-            else
-            {
-                StartCoroutine(FadeOut());
-            }
+            StartFade();
+        }
+    }
+
+    public void StartFade()
+    {
+        if (fadeType == FadeType.FadeIn)
+        {
+            StartCoroutine(FadeIn());
+        }
+        else
+        {
+            StartCoroutine(FadeOut());
         }
     }
 
@@ -50,6 +56,7 @@ public class CanvasGroupFade : MonoBehaviour
         yield return Fade(startValue, endValue, duration, easingFunction.GetFunction());
         _canvasGroup.blocksRaycasts = true;
 
+        yield return new WaitForSecondsRealtime(afterWaitTime);
         OnFadeComplete?.Invoke();
     }
 
@@ -62,6 +69,7 @@ public class CanvasGroupFade : MonoBehaviour
         yield return Fade(startValue, endValue, duration, easingFunction.GetFunction());
         _canvasGroup.blocksRaycasts = false;
 
+        yield return new WaitForSecondsRealtime(afterWaitTime);
         OnFadeComplete?.Invoke();
     }
 

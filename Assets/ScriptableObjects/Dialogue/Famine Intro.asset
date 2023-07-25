@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4963797790964ff282185709717fe5a4, type: 3}
+  m_Name: Famine Intro
+  m_EditorClassIdentifier: 
+  script: {fileID: 4900000, guid: e062a9e73fa16784f87c1e82e16c5eca, type: 3}
+  messages:
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: 'Famine! Welcome, welcome! '
+  - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    text: "Cthulhu! Love the place you have here darling, it\u2019s so\u2026 devoid
+      of life"
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: Hahaha, glad you like it?
+  - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    text: 'Not as much as I love free food, which should include the free drinks
+      and music right? '
+  - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    text: "Excellent. Now why don\u2019t you run along to get me and my boys a drink
+      or two."

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4963797790964ff282185709717fe5a4, type: 3}
+  m_Name: War Intro
+  m_EditorClassIdentifier: 
+  script: {fileID: 4900000, guid: 5ea8a84d0a54a374baedad1baa8346a1, type: 3}
+  messages:
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: 'Oh no, War is here! I need to go to them quickly before they get violent '
+  - actor: {fileID: 11400000, guid: a46d66b071e11894382e22785614aebf, type: 2}
+    text: 'Cthulhu, when is the end of the world? '
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: "It\u2019s happening soon, War. This is just a party for Azathoth so that
+      they can start it! "
+  - actor: {fileID: 11400000, guid: a46d66b071e11894382e22785614aebf, type: 2}
+    text: Grrr. So I need to wait huh? When does War wait?
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: We have free food! And drinks! And music! So you can wait comfortably with
+      the other horsemen
+  - actor: {fileID: 11400000, guid: a46d66b071e11894382e22785614aebf, type: 2}
+    text: "Fine\u2026 but I\u2019m only happy when I\u2019m drinking the blood of
+      my enemies"

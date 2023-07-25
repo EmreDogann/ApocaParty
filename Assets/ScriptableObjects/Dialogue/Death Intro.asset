@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4963797790964ff282185709717fe5a4, type: 3}
+  m_Name: Death Intro
+  m_EditorClassIdentifier: 
+  script: {fileID: 4900000, guid: 51e17c092b7df8d449a71002487e5a76, type: 3}
+  messages:
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: 'Oh my god, Death is here! Death! Hi, Death! Welcome to the party! '
+  - actor: {fileID: 11400000, guid: 5971c80eec1fb98418a81b40aaaa13f3, type: 2}
+    text: "\u270B\uFE0E\U0001F4EA\uFE0E \u264E\uFE0E\u264F\uFE0E\u264B\uFE0E\u29EB\uFE0E\u2652\uFE0E
+      \u2652\uFE0E\u264B\uFE0E\u2B27\uFE0E \u264B\uFE0E\u2752\uFE0E\u2752\uFE0E\u2653\uFE0E\u2756\uFE0E\u264F\uFE0E\u264E\uFE0E\U0001F4EC\uFE0E
+      (Translation: I, death has arrived)"
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: "Yes, you certainly did. I\u2026 uh\u2026 "
+  - actor: {fileID: 11400000, guid: 5971c80eec1fb98418a81b40aaaa13f3, type: 2}
+    text: "\U0001F4A7\uFE0E\u25FB\uFE0E\u264F\uFE0E\u264B\uFE0E\U0001F675 \u25FB\uFE0E\u2752\uFE0E\u25A1\uFE0E\u25FB\uFE0E\u264F\uFE0E\u2752\uFE0E\u25CF\uFE0E\u2353\uFE0E\U0001F4EA\uFE0E
+      \U0001F44D\uFE0E\u2652\uFE0E\u2653\uFE0E\u25CF\uFE0E\u264E\uFE0E\U0001F4EC\uFE0E
+      (Translation: Speak properly, Child.)"
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: "Right, right, right. Uh\u2026 why brought you here? You\u2019re usually
+      so busy."
+  - actor: {fileID: 11400000, guid: 5971c80eec1fb98418a81b40aaaa13f3, type: 2}
+    text: "\u270C\uFE0E \u2652\uFE0E\u25A1\uFE0E\u25CF\uFE0E\u2653\uFE0E\u264E\uFE0E\u264B\uFE0E\u2353\uFE0E\U0001F4EC\uFE0E
+      (Translation:A holiday.)"
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: "Right because if the end of the world happens, hell would be on earth.
+      You don\u2019t need to do anything! "
+  - actor: {fileID: 11400000, guid: 5971c80eec1fb98418a81b40aaaa13f3, type: 2}
+    text: "\u270B\uFE0E\u25A0\uFE0E\u264E\uFE0E\u264F\uFE0E\u264F\uFE0E\u264E\uFE0E\U0001F4EC\uFE0E\U0001F4EC\uFE0E\U0001F4EC\uFE0E
+      \u25A0\uFE0E\u25A1\uFE0E\u2B25\uFE0E \u25CF\uFE0E\u264F\uFE0E\u29EB\uFE0E \u274D\uFE0E\u264F\uFE0E
+      \u2752\uFE0E\u264F\uFE0E\u25CF\uFE0E\u264B\uFE0E\u2327\uFE0E\U0001F4EC\uFE0E
+      (Translation: Indeed... Now let me relax.)"
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: Of course, Death. This way to your seat.

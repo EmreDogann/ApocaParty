@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4963797790964ff282185709717fe5a4, type: 3}
+  m_Name: Pestilence Intro
+  m_EditorClassIdentifier: 
+  script: {fileID: 4900000, guid: 727a0ec9c026c3a42ade27c970c1deb0, type: 3}
+  messages:
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: 'Oh Pestilence is here! Finally a horseman who I can get along with. '
+  - actor: {fileID: 11400000, guid: 3ab10c4128a84ae4db0526b00a80795c, type: 2}
+    text: 'Cthulhu! The place looks amazing, very rotten and horrible '
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: 'Hahaha, thank you! Are you excited for the end of the world? '
+  - actor: {fileID: 11400000, guid: 3ab10c4128a84ae4db0526b00a80795c, type: 2}
+    text: 'Oh yes, I have my fun corrupting people into being anti-vax and anti-science
+      but there is nothing more fun than a plague '
+  - actor: {fileID: 11400000, guid: 3ab10c4128a84ae4db0526b00a80795c, type: 2}
+    text: How exciting!
