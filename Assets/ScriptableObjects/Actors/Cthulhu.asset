@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99c21ae7af2849079e4c46c654f625cc, type: 3}
-  m_Name: CthUwU
+  m_Name: Cthulhu
   m_EditorClassIdentifier: 
-  name: CthUwU
+  name: Cthulhu
   sprite: {fileID: 21300000, guid: d4b0b2e900ddda249926d87c4669554d, type: 3}

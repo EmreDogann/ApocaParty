@@ -28,6 +28,9 @@ namespace Dialogue
         public InputActionReference keyboardConfirmAction;
         public InputActionReference mouseConfirmAction;
 
+        [Separator("Other")]
+        [SerializeField] private bool useUIViewSystem;
+
         private Message[] _currentMessages;
         private int _messageIndex;
 
@@ -67,7 +70,11 @@ namespace Dialogue
             _messageIndex = 0;
             DialogueIsPlaying = true;
 
-            UIManager.Instance.Show(dialogueView);
+            if (useUIViewSystem)
+            {
+                UIManager.Instance.Show(dialogueView);
+            }
+
             _animationCoroutine = StartCoroutine(DisplayMessage());
             _listener.Event.Raise(true);
         }
@@ -88,7 +95,11 @@ namespace Dialogue
             _messageIndex = 0;
             DialogueIsPlaying = true;
 
-            UIManager.Instance.Show(dialogueView);
+            if (useUIViewSystem)
+            {
+                UIManager.Instance.Show(dialogueView);
+            }
+
             _animationCoroutine = StartCoroutine(DisplayMessage());
             _listener.Event.Raise(true);
         }
@@ -97,13 +108,29 @@ namespace Dialogue
         private IEnumerator DisplayMessage()
         {
             ActorSO actorToDisplay = _currentMessages[_messageIndex].actor;
-            actorName.text = actorToDisplay.name;
-            actorImage.sprite = actorToDisplay.sprite;
+            if (actorToDisplay)
+            {
+                actorName.text = actorToDisplay.name;
+                actorImage.sprite = actorToDisplay.sprite;
+
+                Color color = actorImage.color;
+                color.a = 1;
+                actorImage.color = color;
+            }
+            else
+            {
+                actorName.text = "";
+                actorImage.sprite = null;
+
+                Color color = actorImage.color;
+                color.a = 0;
+                actorImage.color = color;
+            }
 
             messageText.text = string.Empty;
             foreach (char c in _currentMessages[_messageIndex].text)
             {
-                while (UIManager.Instance.GetCurrentView() != dialogueView)
+                while (useUIViewSystem && UIManager.Instance.GetCurrentView() != dialogueView)
                 {
                     yield return null;
                 }
@@ -140,7 +167,11 @@ namespace Dialogue
         private IEnumerator ExitDialogue()
         {
             yield return new WaitForSecondsRealtime(0.1f);
-            UIManager.Instance.Back();
+            if (useUIViewSystem)
+            {
+                UIManager.Instance.Back();
+            }
+
             DialogueIsPlaying = false;
             _listener.Event.Raise(false);
 
@@ -150,9 +181,13 @@ namespace Dialogue
 
         private void Update()
         {
-            if ((keyboardConfirmAction.action.WasPressedThisFrame() ||
-                 mouseConfirmAction.action.WasPressedThisFrame()) &&
-                UIManager.Instance.GetCurrentView() == dialogueView)
+            if (useUIViewSystem && UIManager.Instance.GetCurrentView() != dialogueView)
+            {
+                return;
+            }
+
+            if (keyboardConfirmAction.action.WasPressedThisFrame() ||
+                mouseConfirmAction.action.WasPressedThisFrame())
             {
                 if (_messageIndex >= _currentMessages.Length)
                 {

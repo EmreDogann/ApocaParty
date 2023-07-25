@@ -1,15 +1,30 @@
+using System;
 using TMPro;
 using UnityEngine;
 
 namespace UI.Components
 {
-    public class Timer : MonoBehaviour
+    public class DoomsdayTimer : MonoBehaviour
     {
         public float timeValue = 90.0f;
         public TextMeshProUGUI timeText;
+        [SerializeField] private float doomsdayTimerInterval;
+
+        public static event Action DoomsdayReminder;
+        public static event Action DoomsdayArrived;
+
+        private float _currentTime;
 
         private void Update()
         {
+            _currentTime += Time.deltaTime;
+
+            if (_currentTime > doomsdayTimerInterval)
+            {
+                _currentTime = 0.0f;
+                DoomsdayReminder?.Invoke();
+            }
+
             if (timeValue > 0.0f)
             {
                 timeValue -= Time.deltaTime;

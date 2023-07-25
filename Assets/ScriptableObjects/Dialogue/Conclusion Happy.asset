@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4963797790964ff282185709717fe5a4, type: 3}
+  m_Name: Conclusion Happy
+  m_EditorClassIdentifier: 
+  script: {fileID: 4900000, guid: aa8a99392c0e7c1469f62f8660def601, type: 3}
+  messages:
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: It is time! DoomsDay is upon us! Azathoth will now wake from their slumber!
+  - actor: {fileID: 0}
+    text: "\u2026 "
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: ' Azathoth! Azathoth! What do you think about the party I made for you? '
+  - actor: {fileID: 0}
+    text: "\u2026  "
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: " Oh I\u2019m so glad you like it!! Look see, I invited your friends, the
+      four horsemen!"
+  - actor: {fileID: 0}
+    text: "\u2026 "
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: "Yeah! They all came here for you! They\u2019re all so excited to see you
+      end the world! "
+  - actor: {fileID: 0}
+    text: "\u2026 "
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    text: "Yes you did wake up to a world ready to die, and we\u2019re all ready
+      for it."

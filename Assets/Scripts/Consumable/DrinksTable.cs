@@ -8,12 +8,6 @@ namespace Consumable
 {
     public class DrinksTable : MonoBehaviour
     {
-        private class DrinkData
-        {
-            public bool IsOnTable;
-            public Drink Drink;
-        }
-
         [SerializeField] private RequestInteractable drinksTableInteractable;
 
         [SerializeField] private GameObject drinkPrefab;
@@ -21,15 +15,12 @@ namespace Consumable
 
         [SerializeField] private int drinkPoolSize = 12;
         [SerializeField] private int tableCapacity = 6;
-        [Min(0.0f)] [SerializeField] private float hSpacing = 0.5f;
-        [Min(0.0f)] [SerializeField] private float vSpacing = 0.5f;
 
         private readonly List<Drink> _allDrinks = new List<Drink>();
         private readonly List<Drink> _drinksOnTable = new List<Drink>();
-        private readonly List<Vector2> _drinkPositions = new List<Vector2>();
         public static DrinksTable Instance { get; private set; }
 
-        private Vector2 drinksTableFullScale;
+        private Vector2 _drinksTableFullScale;
 
         private void Awake()
         {
@@ -54,8 +45,8 @@ namespace Consumable
                 }
             }
 
-            drinksTableFullScale = drinksTableCover.localScale;
-            drinksTableCover.localScale = new Vector3(drinksTableFullScale.x, 0.0f, 0.0f);
+            _drinksTableFullScale = drinksTableCover.localScale;
+            drinksTableCover.localScale = new Vector3(_drinksTableFullScale.x, 0.0f, 0.0f);
 
             drinksTableInteractable.SetInteractableActive(false);
         }
@@ -92,7 +83,7 @@ namespace Consumable
                     _drinksOnTable.RemoveAt(i);
                     if (_drinksOnTable.Count % 2 == 0)
                     {
-                        drinksTableCover.localScale += new Vector3(0.0f, drinksTableFullScale.y * (1 / 3.0f), 0.0f);
+                        drinksTableCover.localScale += new Vector3(0.0f, _drinksTableFullScale.y * (1 / 3.0f), 0.0f);
                     }
                 }
             }
@@ -144,7 +135,7 @@ namespace Consumable
                 }
             }
 
-            drinksTableCover.localScale = new Vector3(drinksTableFullScale.x, 0.0f, 0.0f);
+            drinksTableCover.localScale = new Vector3(_drinksTableFullScale.x, 0.0f, 0.0f);
 
             drinksTableInteractable.SetInteractableActive(false);
         }

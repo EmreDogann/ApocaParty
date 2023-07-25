@@ -112,6 +112,7 @@ namespace Guest
 
         private void OnEnable()
         {
+            VibeMeter.VibeCheck += VibeCheck;
             PartyEvent.OnPartyEvent += OnPartyEvent;
             needSystem.OnNewNeed += OnNewNeed;
 
@@ -123,6 +124,7 @@ namespace Guest
 
         private void OnDisable()
         {
+            VibeMeter.VibeCheck -= VibeCheck;
             PartyEvent.OnPartyEvent -= OnPartyEvent;
             needSystem.OnNewNeed -= OnNewNeed;
 
@@ -130,11 +132,6 @@ namespace Guest
             {
                 AssignedTableSeat.OnFoodArrival -= OnFoodArrival;
             }
-        }
-
-        public void ActivateAI()
-        {
-            _isAIActive = true;
         }
 
         private void Update()
@@ -148,6 +145,11 @@ namespace Guest
             AIState.text = stateMachine.GetCurrentState().GetID().ToString();
         }
 
+        private void VibeCheck()
+        {
+            VibeMeter.ChangeVibe.Invoke(needSystem.IsSatisfied() ? 1 : -1);
+        }
+
         public void AssignTableSeat(TableSeat tableSeat)
         {
             tableSeat.AssignSeat();
@@ -155,6 +157,11 @@ namespace Guest
             SetDestination(tableSeat.transform.position);
 
             AssignedTableSeat.OnFoodArrival += OnFoodArrival;
+        }
+
+        public void ActivateAI()
+        {
+            _isAIActive = true;
         }
 
         public void SetDestination(Vector3 target)
@@ -226,6 +233,7 @@ namespace Guest
                     needSystem.TryFulfillNeed(NeedType.Music, eventData.needsCost, eventData.moodCost);
                     break;
                 case PartyEventType.MusicMachineBreaks:
+                    needSystem.ChangeMood(eventData.moodCost);
                     break;
                 case PartyEventType.FoodBurning:
                     needSystem.ChangeMood(_guestType == GuestType.Famine

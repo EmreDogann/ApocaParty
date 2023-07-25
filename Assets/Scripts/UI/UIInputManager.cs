@@ -1,6 +1,4 @@
 ﻿using System;
-using Events;
-using MyBox;
 using UI.Views;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,7 +9,6 @@ namespace UI
     public class UIInputManager : MonoBehaviour
     {
         public static Action<bool> OnCancelEvent;
-        [OverrideLabel("On Game Pause Event")] [SerializeField] private BoolEventChannelSO onGamePauseSOEvent;
         private InputAction _cancel;
         private InputSystemUIInputModule _uiInputModule;
 

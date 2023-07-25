@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Azathoth
   m_EditorClassIdentifier: 
   name: Azathoth
-  sprite: {fileID: 21300000, guid: 1eace9200f4bc7149b8152b8b9bf7f5c, type: 3}
+  sprite: {fileID: 21300000, guid: 466488eef9607704eb548ee1397f1317, type: 3}
