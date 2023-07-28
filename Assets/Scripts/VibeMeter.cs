@@ -46,14 +46,18 @@ public class VibeMeter : MonoBehaviour
         {
             onGameWin?.Invoke();
         }
+        else
+        {
+            onGameLose?.Invoke();
+        }
 
-        onGameLose?.Invoke();
         OnGamePauseEvent?.Raise(true);
     }
 
     private void ChangeVibeCallback(float vibeValue)
     {
         _vibeMeter += vibeValue;
+        _vibeMeter = Mathf.Clamp(_vibeMeter, 0.0f, 100.0f);
     }
 
     private void DoomsdayReminder()

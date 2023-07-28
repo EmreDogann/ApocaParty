@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68d6c0431815f3d4c87073fbdb5bca34, type: 3}
+  m_Name: Bad Music Loop
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: d98504bb3c5cbc34bb70c6643e023a50, type: 3}
+  audioMixer: {fileID: 7265425719115995459, guid: 04f137b61e667dc49a2cdb18829ed819, type: 2}
+  volume:
+    Min: 0.3491643
+    Max: 0.3491643
+  useSemitones: 0
+  semitones:
+    Min: 0
+    Max: 0
+  pitch:
+    Min: 1
+    Max: 1
+  Looping: 1
+  CanBePaused: 0
+  playOrder: 1
+  currentPlayIndex: 0
+  audioEvent: {fileID: 11400000, guid: 79e2bd370be5765448a58fbaf8f680a8, type: 2}

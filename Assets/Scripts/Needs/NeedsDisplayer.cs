@@ -58,7 +58,7 @@ namespace Needs
                 iconData.needResolved = false;
                 _currentlyActiveIcons.Add(iconData);
 
-                UpdateDisplay();
+                // UpdateDisplay();
             }
         }
 
@@ -71,7 +71,7 @@ namespace Needs
                 iconData.needResolved = false;
                 _currentlyActiveIcons.Remove(iconData);
 
-                UpdateDisplay();
+                // UpdateDisplay();
             }
         }
 

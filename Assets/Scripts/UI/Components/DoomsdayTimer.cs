@@ -14,9 +14,15 @@ namespace UI.Components
         public static event Action DoomsdayArrived;
 
         private float _currentTime;
+        private bool canCount;
 
         private void Update()
         {
+            if (!canCount)
+            {
+                return;
+            }
+
             _currentTime += Time.deltaTime;
 
             if (_currentTime > doomsdayTimerInterval)
@@ -32,6 +38,12 @@ namespace UI.Components
             else
             {
                 timeValue = 0.0f;
+            }
+
+            if (timeValue <= 0.0f)
+            {
+                canCount = false;
+                DoomsdayArrived?.Invoke();
             }
 
             DisplayTime(timeValue);
@@ -52,6 +64,16 @@ namespace UI.Components
             float seconds = Mathf.FloorToInt(timeToDisplay % 60.0f);
 
             timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        }
+
+        public void StartTimer()
+        {
+            canCount = true;
+        }
+
+        public void StopTimer()
+        {
+            canCount = false;
         }
     }
 }

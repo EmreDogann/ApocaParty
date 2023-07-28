@@ -273,6 +273,14 @@ namespace Player
 
             if (_target != null)
             {
+                IWaiterTarget waiterTarget = other.GetComponent<IWaiterTarget>();
+                if (waiterTarget != null && waiterTarget.GetWaiterID() == _waiterID)
+                {
+                    waiterTarget.WaiterInteracted(this);
+                    _target = null;
+                    _holdingConsumable = null;
+                }
+
                 SpillInteractable spillInteractable = other.GetComponent<SpillInteractable>();
                 if (spillInteractable != null && ReferenceEquals(_targetConsumable, spillInteractable.Consumable))
                 {

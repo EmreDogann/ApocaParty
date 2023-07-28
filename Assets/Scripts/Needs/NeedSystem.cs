@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dialogue;
 using JetBrains.Annotations;
+using MyBox;
 using UnityEngine;
 using Utils;
 
@@ -78,7 +79,9 @@ namespace Needs
         [SerializeField] private NeedsDisplayer needsDisplayer;
         [SerializeField] private float needCooldown = 10.0f;
 
-        [SerializeField] private Mood mood;
+        [SerializeField] private bool enableMoods;
+
+        [ConditionalField(nameof(enableMoods))] [SerializeField] private Mood mood;
 
         [Tooltip("The point at which the guest will generate a need to satisfy the respective metric.")]
         [MetricsRange(0.0f, 1.0f)] [SerializeField] private NeedMetrics _metricsThreshold;
@@ -109,13 +112,20 @@ namespace Needs
         {
             _currentMetrics -= _metricsDepletionRate * Time.deltaTime;
 
-            mood.Tick();
+            if (enableMoods)
+            {
+                mood.Tick();
+            }
 
             for (int i = _currentNeeds.Count - 1; i >= 0; i--)
             {
                 if (_currentNeeds[i].IsExpired())
                 {
-                    mood.ChangeMood(-1);
+                    if (enableMoods)
+                    {
+                        mood.ChangeMood(-1);
+                    }
+
                     _currentMetrics += _currentNeeds[i].GetPunishment();
                     RemoveNeed(_currentNeeds[i]);
 
@@ -166,7 +176,11 @@ namespace Needs
                 if (need.GetNeedType() == needType)
                 {
                     _currentMetrics += metricsReward;
-                    mood.ChangeMood(moodReward);
+                    if (enableMoods)
+                    {
+                        mood.ChangeMood(moodReward);
+                    }
+
                     RemoveNeed(need);
 
                     _currentTime = 0.0f;
@@ -198,23 +212,33 @@ namespace Needs
 
         public bool IsSatisfied()
         {
-            return mood.IsSatisfied();
+            return enableMoods && mood.IsSatisfied();
         }
 
         public void ChangeMood(MoodType moodType)
         {
-            mood.ChangeMood(moodType);
+            if (enableMoods)
+            {
+                mood.ChangeMood(moodType);
+            }
         }
 
         public void ChangeMood(int moodPoints)
         {
-            mood.ChangeMood(moodPoints);
+            if (enableMoods)
+            {
+                mood.ChangeMood(moodPoints);
+            }
         }
 
         private void AddNeed(INeed need)
         {
-            needsDisplayer.AddDisplay(need.GetNeedType());
-            _currentNeeds.Add(need);
+            if (need.GetNeedType() != NeedType.Drink)
+            {
+                needsDisplayer.AddDisplay(need.GetNeedType());
+                _currentNeeds.Add(need);
+            }
+
             OnNewNeed?.Invoke(need);
         }
 

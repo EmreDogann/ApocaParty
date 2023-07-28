@@ -343,7 +343,7 @@ namespace Audio
             if (_musicEmitter != null && _musicEmitter.Source.isPlaying)
             {
                 _musicEmitter.Source.DOKill();
-                _musicEmitter.Source.DOFade(to, duration);
+                _musicEmitter.Source.DOFade(to, duration).SetUpdate(true);
                 return true;
             }
 

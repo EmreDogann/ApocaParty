@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Text;
 using Actors;
+using Audio;
 using Events;
 using MyBox;
 using TMPro;
@@ -29,6 +30,7 @@ namespace Dialogue
         public InputActionReference mouseConfirmAction;
 
         [Separator("Other")]
+        public AudioSO confirmAudio;
         [SerializeField] private bool useUIViewSystem;
 
         private Message[] _currentMessages;
@@ -47,6 +49,8 @@ namespace Dialogue
             "also, ",
             "and "
         };
+
+        private bool canContinueToNextLine;
 
         private void Awake()
         {
@@ -107,11 +111,18 @@ namespace Dialogue
 
         private IEnumerator DisplayMessage()
         {
+            canContinueToNextLine = false;
+
             ActorSO actorToDisplay = _currentMessages[_messageIndex].actor;
             if (actorToDisplay)
             {
                 actorName.text = actorToDisplay.name;
-                actorImage.sprite = actorToDisplay.sprite;
+                actorImage.sprite = actorToDisplay.sprite ? actorToDisplay.sprite : null;
+
+                if (_currentMessages[_messageIndex].playActorSound)
+                {
+                    actorToDisplay.voice.Play2D();
+                }
 
                 Color color = actorImage.color;
                 color.a = 1;
@@ -127,28 +138,38 @@ namespace Dialogue
                 actorImage.color = color;
             }
 
-            messageText.text = string.Empty;
-            foreach (char c in _currentMessages[_messageIndex].text)
+            messageText.text = _currentMessages[_messageIndex].text;
+            messageText.maxVisibleCharacters = 0;
+
+            bool isAddingRichTextTag = false;
+            foreach (char letter in messageText.text)
             {
                 while (useUIViewSystem && UIManager.Instance.GetCurrentView() != dialogueView)
                 {
                     yield return null;
                 }
 
-                messageText.text += c;
-                yield return new WaitForSecondsRealtime(animationSpeed);
+                if (messageText.maxVisibleCharacters == _currentMessages[_messageIndex].text.Length)
+                {
+                    break;
+                }
+
+                if (letter == '<' || isAddingRichTextTag)
+                {
+                    isAddingRichTextTag = true;
+                    if (letter == '>')
+                    {
+                        isAddingRichTextTag = false;
+                    }
+                }
+                else
+                {
+                    messageText.maxVisibleCharacters++;
+                    yield return new WaitForSecondsRealtime(animationSpeed);
+                }
             }
-        }
 
-        private void DisplayEntireMessage()
-        {
-            messageText.text = string.Empty;
-            Message messageToDisplay = _currentMessages[_messageIndex];
-            messageText.text = messageToDisplay.text;
-
-            ActorSO actorToDisplay = messageToDisplay.actor;
-            actorName.text = actorToDisplay.name;
-            actorImage.sprite = actorToDisplay.sprite;
+            canContinueToNextLine = true;
         }
 
         public void NextMessage()
@@ -156,6 +177,11 @@ namespace Dialogue
             _messageIndex++;
             if (_messageIndex < _currentMessages.Length)
             {
+                if (_animationCoroutine != null)
+                {
+                    StopCoroutine(_animationCoroutine);
+                }
+
                 _animationCoroutine = StartCoroutine(DisplayMessage());
             }
             else
@@ -186,26 +212,21 @@ namespace Dialogue
                 return;
             }
 
-            if (keyboardConfirmAction.action.WasPressedThisFrame() ||
-                mouseConfirmAction.action.WasPressedThisFrame())
+            if (keyboardConfirmAction.action.WasPressedThisFrame() || mouseConfirmAction.action.WasPressedThisFrame())
             {
-                if (_messageIndex >= _currentMessages.Length)
+                if (canContinueToNextLine)
                 {
-                    return;
-                }
-
-                if (messageText.text != _currentMessages[_messageIndex].text)
-                {
-                    if (_animationCoroutine != null)
+                    confirmAudio.Play2D();
+                    if (_messageIndex >= _currentMessages.Length)
                     {
-                        StopCoroutine(_animationCoroutine);
+                        return;
                     }
 
-                    DisplayEntireMessage();
+                    NextMessage();
                 }
                 else
                 {
-                    NextMessage();
+                    messageText.maxVisibleCharacters = _currentMessages[_messageIndex].text.Length;
                 }
             }
         }

@@ -16,12 +16,14 @@ namespace Dialogue
         public Message[] messagesToRandomlyPick;
         private List<ActorSO> _allActors;
 
+#if UNITY_EDITOR
         [ButtonMethod]
         private void ParseScript()
         {
             _allActors = GetAllActorInstances();
             messagesToRandomlyPick = Messages.ParseMessages(script, _allActors);
         }
+#endif
 
         [ButtonMethod]
         private void ClearParsedScript()
@@ -35,6 +37,7 @@ namespace Dialogue
             return new Message(message.actor, message.text);
         }
 
+#if UNITY_EDITOR
         private List<ActorSO> GetAllActorInstances()
         {
             string[] guids =
@@ -49,5 +52,6 @@ namespace Dialogue
 
             return a;
         }
+#endif
     }
 }

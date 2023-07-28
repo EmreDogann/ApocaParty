@@ -15,7 +15,6 @@ namespace Guest.States
 
         public override void Enter()
         {
-            guest.image.sprite = guest.actorData.sprite;
             _currentWanderTime = 0.0f;
         }
 

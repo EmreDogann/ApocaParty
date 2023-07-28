@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcba7afa53054780a3060d068cc0f1c0, type: 3}
+  m_Name: War Mood
+  m_EditorClassIdentifier: 
+  _moodThresholds:
+  - moodType: 0
+    threshold: 0.25
+    moodSprite: {fileID: 21300000, guid: 24854cf8bcd39d744991a8d506fbca71, type: 3}
+  - moodType: 1
+    threshold: 0.5
+    moodSprite: {fileID: 21300000, guid: caeffef05ce4e86419042594546e2884, type: 3}
+  - moodType: 2
+    threshold: 0.75
+    moodSprite: {fileID: 21300000, guid: ca1f8f25ab6d0194e9e5257b572acd2f, type: 3}
+  - moodType: 3
+    threshold: 1
+    moodSprite: {fileID: 21300000, guid: f7d75099c27469d40b319cdd47536396, type: 3}

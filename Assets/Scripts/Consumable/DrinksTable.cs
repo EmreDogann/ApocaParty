@@ -94,7 +94,6 @@ namespace Consumable
         {
             foreach (Drink drink in _drinksOnTable)
             {
-                drink.Consume();
                 return drink;
             }
 

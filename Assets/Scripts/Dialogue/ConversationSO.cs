@@ -14,12 +14,14 @@ namespace Dialogue
         public Message[] messages;
         private List<ActorSO> _allActors;
 
+#if UNITY_EDITOR
         [ButtonMethod]
         private void ParseScript()
         {
             _allActors = GetAllActorInstances();
             messages = Messages.ParseMessages(script, _allActors);
         }
+#endif
 
         [ButtonMethod]
         private void ClearParsedScript()
@@ -27,6 +29,7 @@ namespace Dialogue
             messages = Array.Empty<Message>();
         }
 
+#if UNITY_EDITOR
         private List<ActorSO> GetAllActorInstances()
         {
             string[] guids =
@@ -41,5 +44,6 @@ namespace Dialogue
 
             return a;
         }
+#endif
     }
 }

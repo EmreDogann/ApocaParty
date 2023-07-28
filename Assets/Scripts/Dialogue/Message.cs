@@ -14,6 +14,7 @@ namespace Dialogue
         }
 
         public ActorSO actor;
+        public bool playActorSound;
 
         [TextArea(3, 5)]
         public string text;

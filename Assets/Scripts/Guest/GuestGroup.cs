@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Dialogue;
 using DiningTable;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Guest
 {
@@ -20,6 +22,7 @@ namespace Guest
         [field: SerializeReference] public GroupType GroupType { get; private set; }
 
         private bool _arrivalTriggered;
+        private Action currentCallback;
 
         private void Awake()
         {
@@ -59,6 +62,9 @@ namespace Guest
 
                 if (guestsArrived == _guests.Count)
                 {
+                    currentCallback?.Invoke();
+                    currentCallback = null;
+
                     if (arrivalConversation != null)
                     {
                         DialogueManager.Instance.OpenDialogue(arrivalConversation.messages, SitDown);
@@ -73,8 +79,10 @@ namespace Guest
             }
         }
 
-        public void Arrive(List<Transform> arrivalSpots)
+        public void Arrive(List<Transform> arrivalSpots, Action callback = null)
         {
+            currentCallback = callback;
+
             int index = 0;
             foreach (GuestAI guestAI in _guests)
             {

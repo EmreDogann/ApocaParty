@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Famine
   sprite: {fileID: 21300000, guid: 204340c47b946c2418976f486b29ee08, type: 3}
+  voice: {fileID: 11400000, guid: 8b2c213f1a8cac54baebcc6bca17aab1, type: 2}

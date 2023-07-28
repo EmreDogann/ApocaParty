@@ -1,4 +1,5 @@
-﻿using MyBox;
+﻿using Audio;
+using MyBox;
 using UnityEngine;
 
 namespace Actors
@@ -8,5 +9,6 @@ namespace Actors
     {
         public new string name;
         [OverrideLabel("Dialogue Avatar")] public Sprite sprite;
+        public AudioSO voice;
     }
 }

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcba7afa53054780a3060d068cc0f1c0, type: 3}
+  m_Name: Death Mood
+  m_EditorClassIdentifier: 
+  _moodThresholds:
+  - moodType: 0
+    threshold: 0.25
+    moodSprite: {fileID: 21300000, guid: a64056547ed6cd245882ae8668069ee8, type: 3}
+  - moodType: 1
+    threshold: 0.5
+    moodSprite: {fileID: 21300000, guid: eda253e3acb6d3b45a0ad004dcef2975, type: 3}
+  - moodType: 2
+    threshold: 0.75
+    moodSprite: {fileID: 21300000, guid: c854ace817ca8644daa0e7762baa147d, type: 3}
+  - moodType: 3
+    threshold: 1
+    moodSprite: {fileID: 21300000, guid: 651de5bd9ac17724880f7e7aa1a659e9, type: 3}

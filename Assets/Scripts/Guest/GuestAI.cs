@@ -147,7 +147,10 @@ namespace Guest
 
         private void VibeCheck()
         {
-            VibeMeter.ChangeVibe.Invoke(needSystem.IsSatisfied() ? 1 : -1);
+            if (_guestType != GuestType.Henchmen)
+            {
+                VibeMeter.ChangeVibe.Invoke(needSystem.IsSatisfied() ? 5 : -5);
+            }
         }
 
         public void AssignTableSeat(TableSeat tableSeat)
@@ -263,25 +266,37 @@ namespace Guest
 
         public void WaiterInteracted(IWaiter waiter)
         {
-            switch (stateMachine.GetCurrentState().GetID())
+            // switch (stateMachine.GetCurrentState().GetID())
+            // {
+            //     case GuestStateID.Wander:
+            //         stateMachine.ChangeState(GuestStateID.MoveToSeat);
+            //         break;
+            //     case GuestStateID.Idle:
+            //         var messages = needSystem.GetUnknownNeedConversations();
+            //         if (messages.Count > 0)
+            //         {
+            //             foreach (Message message in messages)
+            //             {
+            //                 message.actor = actorData;
+            //             }
+            //
+            //             DialogueManager.Instance.OpenRandomDialogue(messages.ToArray(),
+            //                 OnWaiterInteractDialogueFinished);
+            //         }
+            //
+            //         break;
+            // }
+
+            var messages = needSystem.GetUnknownNeedConversations();
+            if (messages.Count > 0)
             {
-                case GuestStateID.Wander:
-                    stateMachine.ChangeState(GuestStateID.MoveToSeat);
-                    break;
-                case GuestStateID.Idle:
-                    var messages = needSystem.GetUnknownNeedConversations();
-                    if (messages.Count > 0)
-                    {
-                        foreach (Message message in messages)
-                        {
-                            message.actor = actorData;
-                        }
+                foreach (Message message in messages)
+                {
+                    message.actor = actorData;
+                }
 
-                        DialogueManager.Instance.OpenRandomDialogue(messages.ToArray(),
-                            OnWaiterInteractDialogueFinished);
-                    }
-
-                    break;
+                DialogueManager.Instance.OpenRandomDialogue(messages.ToArray(),
+                    OnWaiterInteractDialogueFinished);
             }
 
             _waiterID = 0;
