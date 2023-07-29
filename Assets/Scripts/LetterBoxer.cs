@@ -25,7 +25,7 @@ public class LetterBoxer : MonoBehaviour
         cam = GetComponent<Camera>();
 
         // add the letterboxing camera
-        AddLetterBoxingCamera();
+        // AddLetterBoxingCamera();
 
         // perform sizing if onAwake is set
         if (onAwake)

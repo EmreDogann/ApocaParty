@@ -52,6 +52,8 @@ namespace Player
 
         private int _spillLayer;
 
+        private bool _isPlayerInputActive = true;
+
         private void Awake()
         {
             _mainCamera = Camera.main;
@@ -197,7 +199,7 @@ namespace Player
                 return;
             }
 
-            if (moveButton.action.WasPressedThisFrame() && !_currentRequest)
+            if (moveButton.action.WasPressedThisFrame() && !_currentRequest && _isPlayerInputActive)
             {
                 Vector3 mouseWorldPosition = _mainCamera.ScreenToWorldPoint(Mouse.current.position.value);
                 mouseWorldPosition.z = 0;
@@ -348,6 +350,11 @@ namespace Player
         public int GetWaiterID()
         {
             return _waiterID;
+        }
+
+        public void SetPlayerInputActive(bool playerInput)
+        {
+            _isPlayerInputActive = playerInput;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using GuestRequests.Jobs;
+﻿using Audio;
+using GuestRequests.Jobs;
 using GuestRequests.Requests;
 using Interactions.Interactables;
 using PartyEvents;
@@ -8,10 +9,13 @@ using UnityEngine;
 [RequireComponent(typeof(RequestInteractable))]
 public class Bunting : MonoBehaviour
 {
+    [SerializeField] private Sprite buntingFallenSprite;
+    [SerializeField] private AudioSO fallAudio;
+    [SerializeField] private AudioSO fixAudio;
+
     [Range(0.0f, 1.0f)] [SerializeField] private float buntingFallChance = 0.1f;
     [SerializeField] private float buntingFallCooldown = 10.0f;
     [SerializeField] private float buntingFallCheckFrequency = 0.5f;
-    [SerializeField] private Sprite buntingFallenSprite;
     [SerializeField] private Vector2 buntingFallOffset;
 
     private float _currentTime;
@@ -57,6 +61,7 @@ public class Bunting : MonoBehaviour
         if (Random.Range(0.0f, 1.0f) < buntingFallChance)
         {
             _isBuntingFallen = true;
+            fallAudio.Play(transform.position);
             _spriteRenderer.sprite = buntingFallenSprite;
             transform.position += (Vector3)buntingFallOffset;
 
@@ -70,6 +75,7 @@ public class Bunting : MonoBehaviour
     private void BuntingFixed()
     {
         _requestInteractable.SetInteractableActive(false);
+        fixAudio.Play(transform.position);
         _isBuntingFallen = false;
         transform.position -= (Vector3)buntingFallOffset;
     }

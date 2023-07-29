@@ -20,6 +20,7 @@ namespace Dialogue
     {
         public View dialogueView;
         public Image actorImage;
+        public GameObject continueIcon;
         public TextMeshProUGUI actorName;
         public TextMeshProUGUI messageText;
         public RectTransform backgroundBox;
@@ -42,7 +43,8 @@ namespace Dialogue
         private BoolEventListener _listener;
         private Coroutine _animationCoroutine;
 
-        private Action _callback;
+        private Action _onEndCallback;
+        private Action<float> _progressCallback;
 
         private readonly string[] _connectives =
         {
@@ -66,12 +68,14 @@ namespace Dialogue
             _listener = GetComponent<BoolEventListener>();
         }
 
-        public void OpenDialogue(Message[] messages, Action callbackAction = null)
+        public void OpenDialogue(Message[] messages, Action onEndCallback = null, Action<float> progressCallback = null)
         {
-            _callback = callbackAction;
+            _onEndCallback = onEndCallback;
+            _progressCallback = progressCallback;
 
             _currentMessages = messages;
             _messageIndex = 0;
+            continueIcon.SetActive(false);
             DialogueIsPlaying = true;
 
             if (useUIViewSystem)
@@ -83,9 +87,12 @@ namespace Dialogue
             _listener.Event.Raise(true);
         }
 
-        public void OpenRandomDialogue(Message[] messages, Action callbackAction)
+        public void OpenRandomDialogue(Message[] messages, Action onEndCallback = null,
+            Action<float> progressCallback = null)
         {
-            _callback = callbackAction;
+            _onEndCallback = onEndCallback;
+            _progressCallback = progressCallback;
+
             for (int i = 1; i < messages.Length; i++)
             {
                 StringBuilder stringBuilder = new StringBuilder(messages[i].text);
@@ -97,6 +104,7 @@ namespace Dialogue
 
             _currentMessages = messages;
             _messageIndex = 0;
+            continueIcon.SetActive(false);
             DialogueIsPlaying = true;
 
             if (useUIViewSystem)
@@ -112,6 +120,7 @@ namespace Dialogue
         private IEnumerator DisplayMessage()
         {
             canContinueToNextLine = false;
+            continueIcon.SetActive(false);
 
             ActorSO actorToDisplay = _currentMessages[_messageIndex].actor;
             if (actorToDisplay)
@@ -141,6 +150,9 @@ namespace Dialogue
             messageText.text = _currentMessages[_messageIndex].text;
             messageText.maxVisibleCharacters = 0;
 
+            float messageProgress = _messageIndex / (float)_currentMessages.Length;
+            float messageContribution = 1 / (float)_currentMessages.Length;
+
             bool isAddingRichTextTag = false;
             foreach (char letter in messageText.text)
             {
@@ -167,6 +179,14 @@ namespace Dialogue
                     messageText.maxVisibleCharacters++;
                     yield return new WaitForSecondsRealtime(animationSpeed);
                 }
+
+                _progressCallback?.Invoke(messageProgress + messageContribution *
+                    (messageText.maxVisibleCharacters / (float)_currentMessages[_messageIndex].text.Length));
+            }
+
+            if (!IsEndOfConversation())
+            {
+                continueIcon.SetActive(true);
             }
 
             canContinueToNextLine = true;
@@ -175,6 +195,7 @@ namespace Dialogue
         public void NextMessage()
         {
             _messageIndex++;
+
             if (_messageIndex < _currentMessages.Length)
             {
                 if (_animationCoroutine != null)
@@ -188,11 +209,13 @@ namespace Dialogue
             {
                 StartCoroutine(ExitDialogue());
             }
+
+            _progressCallback?.Invoke(_messageIndex / (float)_currentMessages.Length);
         }
 
         private IEnumerator ExitDialogue()
         {
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return null;
             if (useUIViewSystem)
             {
                 UIManager.Instance.Back();
@@ -201,8 +224,14 @@ namespace Dialogue
             DialogueIsPlaying = false;
             _listener.Event.Raise(false);
 
-            _callback?.Invoke();
-            _callback = null;
+            _onEndCallback?.Invoke();
+            _onEndCallback = null;
+            _progressCallback = null;
+        }
+
+        private bool IsEndOfConversation()
+        {
+            return _messageIndex + 1 == _currentMessages.Length;
         }
 
         private void Update()

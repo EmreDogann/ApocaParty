@@ -1,13 +1,19 @@
 using System;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Timeline;
-using UnityEngine.UI;
 
 [Serializable]
 public class TextSwitcherBehaviour : PlayableBehaviour
 {
+    public bool keepTextOnFinish;
     public Color color = Color.white;
-    public int fontSize = 14;
+    public float fontSize = 14;
     public string text;
+
+    public bool becameInactiveThisFrame;
+
+    public override void OnBehaviourPause(Playable playable, FrameData info)
+    {
+        becameInactiveThisFrame = true;
+    }
 }

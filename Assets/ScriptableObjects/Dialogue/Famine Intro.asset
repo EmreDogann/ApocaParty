@@ -15,15 +15,20 @@ MonoBehaviour:
   script: {fileID: 4900000, guid: e062a9e73fa16784f87c1e82e16c5eca, type: 3}
   messages:
   - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    playActorSound: 1
     text: 'Famine! Welcome, welcome! '
   - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    playActorSound: 1
     text: "Cthulhu! Love the place you have here darling, it\u2019s so\u2026 devoid
       of life"
   - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    playActorSound: 0
     text: Hahaha, glad you like it?
   - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    playActorSound: 1
     text: 'Not as much as I love free food, which should include the free drinks
       and music right? '
   - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    playActorSound: 0
     text: "Excellent. Now why don\u2019t you run along to get me and my boys a drink
       or two."

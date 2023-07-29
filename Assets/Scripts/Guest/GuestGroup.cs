@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Dialogue;
 using DiningTable;
@@ -15,7 +16,7 @@ namespace Guest
         Death
     }
 
-    public class GuestGroup : MonoBehaviour
+    public class GuestGroup : MonoBehaviour, IGuestGroup
     {
         private readonly List<GuestAI> _guests = new List<GuestAI>();
         [SerializeField] private ConversationSO arrivalConversation;
@@ -39,43 +40,35 @@ namespace Guest
 
         private void Update()
         {
-            if (_arrivalTriggered)
+            if (!_arrivalTriggered)
             {
-                int guestsArrived = 0;
-                foreach (GuestAI guest in _guests)
+                return;
+            }
+
+            int guestsArrived = 0;
+            foreach (GuestAI guest in _guests)
+            {
+                if (HasReachedDestination(guest))
                 {
-                    if (guest.navMeshAgent.pathPending)
-                    {
-                        continue;
-                    }
+                    guestsArrived++;
+                }
+            }
 
-                    if (!(guest.navMeshAgent.remainingDistance <= guest.navMeshAgent.stoppingDistance))
-                    {
-                        continue;
-                    }
+            if (guestsArrived == _guests.Count)
+            {
+                currentCallback?.Invoke();
+                currentCallback = null;
 
-                    if (!guest.navMeshAgent.hasPath || guest.navMeshAgent.velocity.sqrMagnitude == 0f)
-                    {
-                        guestsArrived++;
-                    }
+                if (arrivalConversation != null)
+                {
+                    DialogueManager.Instance.OpenDialogue(arrivalConversation.messages, SitDown);
+                }
+                else
+                {
+                    SitDown();
                 }
 
-                if (guestsArrived == _guests.Count)
-                {
-                    currentCallback?.Invoke();
-                    currentCallback = null;
-
-                    if (arrivalConversation != null)
-                    {
-                        DialogueManager.Instance.OpenDialogue(arrivalConversation.messages, SitDown);
-                    }
-                    else
-                    {
-                        SitDown();
-                    }
-
-                    _arrivalTriggered = false;
-                }
+                _arrivalTriggered = false;
             }
         }
 
@@ -98,6 +91,11 @@ namespace Guest
             _arrivalTriggered = true;
         }
 
+        public GroupType GetGroupType()
+        {
+            return GroupType;
+        }
+
         public void SitDown()
         {
             var tableSeats = DiningTableSupplier.GetAvailableSeats(_guests.Count);
@@ -106,10 +104,41 @@ namespace Guest
             {
                 for (int i = 0; i < _guests.Count; i++)
                 {
-                    _guests[i].AssignTableSeat(tableSeats[i]);
+                    _guests[i].AssignTableSeat(tableSeats[i], true);
                     _guests[i].ActivateAI();
                 }
             }
+        }
+
+        private IEnumerator WaitForSitDown(GuestAI guest)
+        {
+            while (!HasReachedDestination(guest))
+            {
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(2.0f);
+            guest.ActivateAI();
+        }
+
+        private bool HasReachedDestination(GuestAI guest)
+        {
+            if (guest.navMeshAgent.pathPending)
+            {
+                return false;
+            }
+
+            if (!(guest.navMeshAgent.remainingDistance <= guest.navMeshAgent.stoppingDistance))
+            {
+                return false;
+            }
+
+            if (!guest.navMeshAgent.hasPath || guest.navMeshAgent.velocity.sqrMagnitude == 0f)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -46,7 +46,7 @@ namespace Player
                 return;
             }
 
-            if (_isPathDisplayed && _agent.hasPath)
+            if (_agent.hasPath)
             {
                 marker.transform.position = _agent.destination;
 

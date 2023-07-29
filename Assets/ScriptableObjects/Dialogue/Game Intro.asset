@@ -32,8 +32,11 @@ MonoBehaviour:
     text: 'Nothing must go wrong! I swear on my name! '
   - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
     playActorSound: 0
+    text: ...
+  - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    playActorSound: 0
     text: Wait, a horseman is already here!? But we haven't fully finished the food!
       The music isn't even on! Aaa!
   - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
     playActorSound: 0
-    text: ' I need to get this party started!'
+    text: I need to get this party started!

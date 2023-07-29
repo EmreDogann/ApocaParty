@@ -46,6 +46,8 @@ namespace Minion
         private float _currentWanderTime;
         private const float SearchRadius = 3.0f;
 
+        [SerializeField] private bool _isAIActive;
+
         private void Start()
         {
             MainCamera = Camera.main;
@@ -72,7 +74,7 @@ namespace Minion
 
         private void Update()
         {
-            if (Time.timeScale == 0.0f)
+            if (Time.timeScale == 0.0f || !_isAIActive)
             {
                 return;
             }
@@ -96,6 +98,11 @@ namespace Minion
                     NavMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius));
                 }
             }
+        }
+
+        public void SetActiveMinionAI(bool isActive)
+        {
+            _isAIActive = isActive;
         }
 
         public void SetDestination(Vector3 target)

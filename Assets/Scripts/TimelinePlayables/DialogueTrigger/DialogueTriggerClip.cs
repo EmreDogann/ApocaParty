@@ -15,7 +15,8 @@ namespace TimelinePlayables.DialogueTrigger
         public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
         {
             var playable = ScriptPlayable<DialogueTriggerBehaviour>.Create(graph, template);
-            DialogueTriggerBehaviour clone = playable.GetBehaviour();
+            DialogueTriggerBehaviour behaviour = playable.GetBehaviour();
+
             return playable;
         }
     }

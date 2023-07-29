@@ -328,6 +328,62 @@
             ]
         },
         {
+            "name": "PlayerTutorial",
+            "id": "bcdacf3a-1e6a-4a2d-86c9-521c710154fe",
+            "actions": [
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "7b49ebf4-09a2-4896-afec-06f773185599",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2aeb8914-1644-4f9a-9105-e52f35c18843",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "MinionTutorial",
+            "id": "0aa86e38-2127-4491-b483-3b29f834267c",
+            "actions": [
+                {
+                    "name": "InteractAlt",
+                    "type": "Button",
+                    "id": "2254719a-81c3-4529-b679-cde08863e916",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "01c98370-4c2e-48a2-b0ff-9dd13b623f21",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "InteractAlt",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "UI",
             "id": "cdcb3d7a-7c8a-44d7-94a5-390bf457f085",
             "actions": [

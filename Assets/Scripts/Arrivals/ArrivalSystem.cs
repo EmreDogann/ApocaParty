@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Audio;
 using Guest;
 using MyBox;
 using UI.Components;
@@ -12,16 +13,17 @@ namespace Arrivals
     {
         [SerializeField] private List<Transform> arrivalSpots;
         [SerializeField] private List<GroupType> arrivalOrder;
+        [SerializeField] private AudioSO guestArrivalAudio;
         [SerializeField] private Transform door;
 
-        private List<GuestGroup> _guestGroups = new List<GuestGroup>();
+        private List<IGuestGroup> _guestGroups = new List<IGuestGroup>();
         private int _currentIndex;
         [SerializeField] private bool arriveOnStart;
 
         private void Awake()
         {
             _guestGroups = FindObjectsOfType<MonoBehaviour>(true)
-                .OfType<GuestGroup>()
+                .OfType<IGuestGroup>()
                 .ToList();
             _currentIndex = 0;
         }
@@ -44,6 +46,7 @@ namespace Arrivals
         private IEnumerator WaitOneFrameForGuestsArrival()
         {
             yield return null;
+            RingDoorbell();
             GuestsArrive();
         }
 
@@ -65,18 +68,23 @@ namespace Arrivals
 
             door.gameObject.SetActive(false);
 
-            foreach (GuestGroup guestGroup in _guestGroups)
+            foreach (IGuestGroup guestGroup in _guestGroups)
             {
-                if (guestGroup.GroupType == arrivalOrder[_currentIndex])
+                if (guestGroup.GetGroupType() == arrivalOrder[_currentIndex])
                 {
-                    guestGroup.Arrive(arrivalSpots, GuestsArrived);
+                    guestGroup.Arrive(arrivalSpots, AfterGuestsArrived);
                     _currentIndex++;
                     break;
                 }
             }
         }
 
-        private void GuestsArrived()
+        public void RingDoorbell()
+        {
+            guestArrivalAudio.Play(door.position);
+        }
+
+        private void AfterGuestsArrived()
         {
             door.gameObject.SetActive(true);
         }

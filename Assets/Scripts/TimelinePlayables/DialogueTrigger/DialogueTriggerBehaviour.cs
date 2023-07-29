@@ -8,11 +8,13 @@ namespace TimelinePlayables.DialogueTrigger
     public class DialogueTriggerBehaviour : PlayableBehaviour
     {
         public ConversationSO dialogueConversation;
+        public bool followProgress;
         public bool jumpToEnd;
 
         private PlayableGraph _graph;
         private Playable _thisPlayable;
         private bool _began;
+        private float _startingTime;
 
         public override void OnPlayableCreate(Playable playable)
         {
@@ -29,7 +31,9 @@ namespace TimelinePlayables.DialogueTrigger
                 {
                     //Pause without breaking the current animation states. Work around for 2018.2
                     _graph.GetRootPlayable(0).SetSpeed(0);
-                    DialogueManager.Instance.OpenDialogue(dialogueConversation.messages, OnDialogueEnd);
+                    _startingTime = (float)_graph.GetRootPlayable(0).GetTime();
+                    DialogueManager.Instance.OpenDialogue(dialogueConversation.messages, OnDialogueEnd,
+                        followProgress ? OnDialogueProgress : null);
                     _began = true;
                 }
                 else
@@ -47,16 +51,28 @@ namespace TimelinePlayables.DialogueTrigger
         public void OnDialogueEnd()
         {
             //Unpause
-            _graph.GetRootPlayable(0).SetSpeed(1);
-            if (jumpToEnd)
+            if (_graph.IsValid())
             {
-                JumpToEndOfPlayable();
+                _graph.GetRootPlayable(0).SetSpeed(1);
+                if (jumpToEnd)
+                {
+                    JumpToEndOfPlayable();
+                }
+            }
+        }
+
+        public void OnDialogueProgress(float progressPercentage)
+        {
+            if (_graph.IsValid())
+            {
+                _graph.GetRootPlayable(0)
+                    .SetTime(_startingTime + (float)_thisPlayable.GetDuration() * progressPercentage);
             }
         }
 
         private void JumpToEndOfPlayable()
         {
-            _graph.GetRootPlayable(0).SetTime(_graph.GetRootPlayable(0).GetTime() + _thisPlayable.GetDuration());
+            _graph.GetRootPlayable(0).SetTime(_startingTime + _thisPlayable.GetDuration());
         }
     }
 }

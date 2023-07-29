@@ -195,7 +195,6 @@ namespace Needs
             var messages = new List<Message>(_currentNeeds.Count);
             foreach (INeed need in _currentNeeds)
             {
-                Debug.Log(need.GetNeedType());
                 if (!needsDisplayer.IsNeedResolved(need.GetNeedType()))
                 {
                     messages.Add(need.GetRandomConversations().GetRandomMessage());
@@ -248,7 +247,15 @@ namespace Needs
             _currentNeeds.Remove(need);
         }
 
-        private void TryAddNeed(NeedType needType)
+        public void ClearNeeds()
+        {
+            for (int i = _currentNeeds.Count - 1; i >= 0; i--)
+            {
+                RemoveNeed(_currentNeeds[i]);
+            }
+        }
+
+        public void TryAddNeed(NeedType needType)
         {
             if (_currentNeeds.FirstOrDefault(x => x.GetNeedType() == needType) == null)
             {

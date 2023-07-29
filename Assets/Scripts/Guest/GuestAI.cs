@@ -153,11 +153,14 @@ namespace Guest
             }
         }
 
-        public void AssignTableSeat(TableSeat tableSeat)
+        public void AssignTableSeat(TableSeat tableSeat, bool goToSeat)
         {
             tableSeat.AssignSeat();
             AssignedTableSeat = tableSeat;
-            SetDestination(tableSeat.transform.position);
+            if (goToSeat)
+            {
+                SetDestination(tableSeat.transform.position);
+            }
 
             AssignedTableSeat.OnFoodArrival += OnFoodArrival;
         }
