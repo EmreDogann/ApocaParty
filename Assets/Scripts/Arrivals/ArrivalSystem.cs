@@ -15,6 +15,7 @@ namespace Arrivals
         [SerializeField] private List<GroupType> arrivalOrder;
         [SerializeField] private AudioSO guestArrivalAudio;
         [SerializeField] private Transform door;
+        [SerializeField] private Transform doorArchway;
 
         private List<IGuestGroup> _guestGroups = new List<IGuestGroup>();
         private int _currentIndex;
@@ -66,6 +67,7 @@ namespace Arrivals
                 return;
             }
 
+            doorArchway.gameObject.SetActive(true);
             door.gameObject.SetActive(false);
 
             foreach (IGuestGroup guestGroup in _guestGroups)
@@ -86,6 +88,7 @@ namespace Arrivals
 
         private void AfterGuestsArrived()
         {
+            doorArchway.gameObject.SetActive(false);
             door.gameObject.SetActive(true);
         }
     }

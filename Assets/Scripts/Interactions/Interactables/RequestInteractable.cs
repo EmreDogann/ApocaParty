@@ -8,21 +8,21 @@ namespace Interactions.Interactables
         [SerializeField] protected Request request;
         [SerializeField] protected float hoverScaleAmount = 1.5f;
 
-        private bool isHovering;
+        private bool _isHovering;
 
         public override void OnStartHover()
         {
             base.OnStartHover();
 
             transform.localScale *= hoverScaleAmount;
-            isHovering = true;
+            _isHovering = true;
         }
 
         public override void OnEndHover()
         {
             base.OnEndHover();
             transform.localScale /= hoverScaleAmount;
-            isHovering = false;
+            _isHovering = false;
         }
 
         public void SetInteractableActive(bool isInteractable)
@@ -30,7 +30,7 @@ namespace Interactions.Interactables
             IsInteractable = isInteractable;
             IsHoverable = isInteractable;
 
-            if (!isInteractable && isHovering)
+            if (!isInteractable && _isHovering)
             {
                 OnEndHover();
             }

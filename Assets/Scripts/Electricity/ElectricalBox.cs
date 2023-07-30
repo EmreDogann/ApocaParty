@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Audio;
 using Interactions.Interactables;
 using PartyEvents;
 using UnityEngine;
@@ -15,6 +16,10 @@ namespace Electricity
         [Range(0.0f, 1.0f)] [SerializeField] private float powerOutageChance = 0.1f;
         [SerializeField] private float powerOutageCooldown = 10.0f;
         [SerializeField] private float powerOutageCheckFrequency = 6.0f;
+        [SerializeField] private ParticleSystem badHighlight;
+
+        [SerializeField] private AudioSO outageAudio;
+        [SerializeField] private AudioSO fixAudio;
 
         private PowerOutageEvent _powerOutageEvent;
         private RequestInteractable _requestInteractable;
@@ -39,7 +44,7 @@ namespace Electricity
             _powerOutageEvent = GetComponent<PowerOutageEvent>();
             _appliances = FindObjectsOfType<MonoBehaviour>(true)
                 .OfType<IElectricalAppliance>()
-                // .Where(a => ((MonoBehaviour)a).enabled)
+                .Where(a => ((MonoBehaviour)a).isActiveAndEnabled)
                 .ToList();
         }
 
@@ -65,8 +70,11 @@ namespace Electricity
                 if (Random.Range(0.0f, 1.0f) <= powerOutageChance)
                 {
                     _isPowerOn = false;
-                    _currentTime -= powerOutageCooldown;
+                    _currentTime = -powerOutageCooldown;
                     _requestInteractable.SetInteractableActive(true);
+
+                    outageAudio.Play(transform.position);
+                    badHighlight.Play();
 
                     OnPowerOutage?.Invoke();
                     _powerOutageEvent.TriggerEvent();
@@ -77,6 +85,9 @@ namespace Electricity
         public void PowerFixed()
         {
             _isPowerOn = true;
+            fixAudio.Play(transform.position);
+            badHighlight.Stop();
+
             _requestInteractable.SetInteractableActive(false);
             OnPowerFixed?.Invoke();
         }

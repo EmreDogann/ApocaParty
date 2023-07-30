@@ -9,30 +9,32 @@ namespace GuestRequests.Jobs
     public class Cook : Job
     {
         [SerializeField] private AudioSO _cookingAudio;
+        [SerializeField] private AudioSO _burningStartAudio;
         [SerializeField] private AudioSO _burningAudio;
         [SerializeField] private KitchenTopProvider _stovePositionProvider;
         // ReSharper disable FieldCanBeMadeReadOnly.Local
         [SerializeField] private float _fireChance = 0.05f;
         [SerializeField] private float _fireCheckFrequency = 0.4f;
         // ReSharper restore FieldCanBeMadeReadOnly.Local
-        [SerializeField] private PartyEvent foodBurningEvent;
-        [SerializeField] private ParticleSystem fireParticleSystem;
-        [SerializeField] private SpriteRenderer requestSpriteRenderer;
-        [SerializeField] private Sprite cookedFoodIcon;
+        [SerializeField] private PartyEvent _foodBurningEvent;
+        [SerializeField] private ParticleSystem _fireParticleSystem;
+        [SerializeField] private ParticleSystem _badHighlightParticleSystem;
+        [SerializeField] private SpriteRenderer _requestSpriteRenderer;
+        [SerializeField] private Sprite _cookedFoodIcon;
         public float Duration = 1.0f;
 
         private float _currentCookTime;
         private bool _isFoodBurning;
         private bool _hasFoodAlreadyBurned;
-        private TransformPair transformPair;
+        private TransformPair _transformPair;
         private bool _isPowerOut;
 
         public override void Enter()
         {
             base.Enter();
-            transformPair =
+            _transformPair =
                 _stovePositionProvider.GetTransformPair(JobOwner.TryGetTransformHandle(_stovePositionProvider));
-            _cookingAudio.Play(transformPair.GetChildTransform().position);
+            _cookingAudio.Play(_transformPair.GetChildTransform().position);
 
             _currentCookTime = 0.0f;
             _isFoodBurning = false;
@@ -67,11 +69,13 @@ namespace GuestRequests.Jobs
                     _isFoodBurning = true;
                     _hasFoodAlreadyBurned = true;
 
-                    fireParticleSystem.Play();
-                    foodBurningEvent?.TriggerEvent();
+                    _badHighlightParticleSystem.Play();
+                    _fireParticleSystem.Play();
+                    _foodBurningEvent?.TriggerEvent();
 
                     _cookingAudio.Stop(true, 3.0f);
-                    _burningAudio.Play(transformPair.GetChildTransform().position, true, 3.0f);
+                    _burningStartAudio.Play(_transformPair.GetChildTransform().position);
+                    _burningAudio.Play(_transformPair.GetChildTransform().position, true, 3.0f);
                 }
             }
         }
@@ -79,7 +83,7 @@ namespace GuestRequests.Jobs
         public override void Exit()
         {
             _cookingAudio.Stop(true, 3.0f);
-            requestSpriteRenderer.sprite = cookedFoodIcon;
+            _requestSpriteRenderer.sprite = _cookedFoodIcon;
 
             _stovePositionProvider.TurnOffAppliance(JobOwner.TryGetTransformHandle(_stovePositionProvider));
             JobOwner.ReturnTransformHandle(_stovePositionProvider);
@@ -91,7 +95,8 @@ namespace GuestRequests.Jobs
         public override void FailJob()
         {
             _stovePositionProvider.TurnOffAppliance(JobOwner.TryGetTransformHandle(_stovePositionProvider));
-            fireParticleSystem.Stop();
+            _badHighlightParticleSystem.Stop();
+            _fireParticleSystem.Stop();
             _burningAudio.Stop(true, 5.0f);
         }
 

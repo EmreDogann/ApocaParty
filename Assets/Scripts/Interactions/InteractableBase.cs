@@ -15,29 +15,32 @@ namespace Interactions
 
         protected float HoldProgress = 0.0f;
 
+        public event Action OnInteracted;
+
         public virtual void OnStartHover()
         {
-            Debug.Log("Start Hovered: " + gameObject.name);
+            // Debug.Log("Start Hovered: " + gameObject.name);
         }
 
         public virtual void OnStartInteract()
         {
-            Debug.Log("Start Interacted: " + gameObject.name);
+            // Debug.Log("Start Interacted: " + gameObject.name);
         }
 
         public virtual void OnInteract()
         {
-            Debug.Log("Interacted: " + gameObject.name);
+            OnInteracted?.Invoke();
+            // Debug.Log("Interacted: " + gameObject.name);
         }
 
         public virtual void OnEndInteract()
         {
-            Debug.Log("End Interacted: " + gameObject.name);
+            // Debug.Log("End Interacted: " + gameObject.name);
         }
 
         public virtual void OnEndHover()
         {
-            Debug.Log("End Hovered: " + gameObject.name);
+            // Debug.Log("End Hovered: " + gameObject.name);
         }
 
         public bool IsHoldInteractFinished()

@@ -8,14 +8,13 @@ using Random = UnityEngine.Random;
 
 namespace Guest
 {
-    [RequireComponent(typeof(PlayableDirector))]
     public class TutorialGuestGroup : MonoBehaviour, IGuestGroup
     {
         private readonly List<GuestAI> _guests = new List<GuestAI>();
         [field: SerializeReference] public GroupType GroupType { get; private set; }
 
-        private Action currentCallback;
-        private PlayableDirector _director;
+        private Action _currentCallback;
+        [SerializeField] private PlayableDirector director;
         private List<TableSeat> _availableTableSeats;
 
         protected void Awake()
@@ -29,15 +28,11 @@ namespace Guest
                     _guests.Add(guest);
                 }
             }
-
-            _director = GetComponent<PlayableDirector>();
         }
-
-        private void Update() {}
 
         public void Arrive(List<Transform> arrivalSpots, Action callback = null)
         {
-            currentCallback = callback;
+            _currentCallback = callback;
 
             int index = 0;
             foreach (GuestAI guestAI in _guests)
@@ -75,16 +70,16 @@ namespace Guest
                 yield return null;
             }
 
-            currentCallback?.Invoke();
-            currentCallback = null;
+            _currentCallback?.Invoke();
+            _currentCallback = null;
 
             _availableTableSeats = DiningTableSupplier.GetAvailableSeats(_guests.Count);
-            _director.Play();
+            director.Play();
         }
 
         public void SitDownHenchmen(bool activateOnSitdown)
         {
-            _director.playableGraph.GetRootPlayable(0).SetSpeed(0);
+            director.playableGraph.GetRootPlayable(0).SetSpeed(0);
             if (_availableTableSeats.Count > 0)
             {
                 var henchmen = new List<GuestAI>();
@@ -133,7 +128,7 @@ namespace Guest
                 }
             }
 
-            _director.playableGraph.GetRootPlayable(0).SetSpeed(1);
+            director.playableGraph.GetRootPlayable(0).SetSpeed(1);
         }
 
         private bool HasReachedDestination(GuestAI guest)

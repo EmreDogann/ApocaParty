@@ -11,8 +11,6 @@ namespace Interactions
         private RaycastHit2D _hit;
         private Camera _mainCamera;
 
-        [SerializeField] private InputActionReference _interactAction;
-
         private void Awake()
         {
             _mainCamera = Camera.main;
@@ -22,7 +20,7 @@ namespace Interactions
         {
             RaycastForInteractable();
 
-            if (!_interactAction.action.WasPressedThisFrame() || !_hoverTarget || !_hoverTarget.IsInteractable)
+            if (!InputManager.Instance.InteractPressed || !_hoverTarget || !_hoverTarget.IsInteractable)
             {
                 return null;
             }

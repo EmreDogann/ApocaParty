@@ -14,10 +14,6 @@ namespace Interactions
         private RaycastHit2D _hit;
         private Camera _mainCamera;
 
-        [SerializeField] private InputActionReference _interactAction;
-        [SerializeField] private InputActionReference _altInteractAction;
-        private bool _isInteractPressed;
-
         private bool _isPaused;
         private BoolEventListener _onGamePausedEvent;
 
@@ -32,23 +28,11 @@ namespace Interactions
 
         private void OnEnable()
         {
-            _interactAction.action.started += OnInteractAction;
-            _interactAction.action.canceled += OnInteractAction;
-
-            _altInteractAction.action.started += OnInteractAction;
-            _altInteractAction.action.canceled += OnInteractAction;
-
             _onGamePausedEvent.Response.AddListener(OnGamePause);
         }
 
         private void OnDisable()
         {
-            _interactAction.action.started -= OnInteractAction;
-            _interactAction.action.canceled -= OnInteractAction;
-
-            _altInteractAction.action.started -= OnInteractAction;
-            _altInteractAction.action.canceled -= OnInteractAction;
-
             _onGamePausedEvent.Response.RemoveListener(OnGamePause);
         }
 
@@ -90,20 +74,19 @@ namespace Interactions
             }
             else
             {
-                if (_interactAction.action.WasPressedThisFrame())
+                if (WasInteractedThisFrame())
                 {
                     _activeTarget = _hoverTarget;
                     _activeTarget?.OnStartInteract();
-                    OnInteract?.Invoke(_activeTarget);
+                    if (InputManager.Instance.InteractPressed)
+                    {
+                        OnInteract?.Invoke(_activeTarget);
+                    }
 
-                    return _activeTarget;
-                }
-
-                if (_altInteractAction.action.WasPressedThisFrame())
-                {
-                    _activeTarget = _hoverTarget;
-                    _activeTarget?.OnStartInteract();
-                    OnAltInteract?.Invoke(_activeTarget);
+                    if (InputManager.Instance.InteractAltPressed)
+                    {
+                        OnAltInteract?.Invoke(_activeTarget);
+                    }
 
                     return _activeTarget;
                 }
@@ -114,7 +97,12 @@ namespace Interactions
 
         public bool WasInteractedThisFrame()
         {
-            return _interactAction.action.WasPressedThisFrame() || _altInteractAction.action.WasPressedThisFrame();
+            return InputManager.Instance.InteractPressed || InputManager.Instance.InteractAltPressed;
+        }
+
+        public bool IsInteracting()
+        {
+            return InputManager.Instance.InteractHeld || InputManager.Instance.InteractAltHeld;
         }
 
         private void StopInteraction()
@@ -168,14 +156,6 @@ namespace Interactions
             }
 
             _hoverTarget = newTarget;
-        }
-
-        private void OnInteractAction(InputAction.CallbackContext ctx)
-        {
-            if (_activeTarget && ctx.action.IsPressed())
-            {
-                StopInteraction();
-            }
         }
 
         private void OnGamePause(bool isPaused)

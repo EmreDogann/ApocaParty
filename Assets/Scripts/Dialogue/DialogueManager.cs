@@ -10,6 +10,7 @@ using UI;
 using UI.Views;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -18,6 +19,7 @@ namespace Dialogue
     [RequireComponent(typeof(BoolEventListener))]
     public class DialogueManager : MonoBehaviour
     {
+        [Separator("UI Components")]
         public View dialogueView;
         public Image actorImage;
         public GameObject continueIcon;
@@ -25,10 +27,6 @@ namespace Dialogue
         public TextMeshProUGUI messageText;
         public RectTransform backgroundBox;
         [SerializeField] private float animationSpeed = 0.05f;
-
-        [Separator("Controls")]
-        public InputActionReference keyboardConfirmAction;
-        public InputActionReference mouseConfirmAction;
 
         [Separator("Other")]
         public AudioSO confirmAudio;
@@ -46,13 +44,17 @@ namespace Dialogue
         private Action _onEndCallback;
         private Action<float> _progressCallback;
 
+        private InputSystemUIInputModule _uiInputModule;
+        private InputAction _keyboardConfirmAction;
+        private InputAction _mouseConfirmAction;
+
         private readonly string[] _connectives =
         {
             "also, ",
             "and "
         };
 
-        private bool canContinueToNextLine;
+        private bool _canContinueToNextLine;
 
         private void Awake()
         {
@@ -66,6 +68,14 @@ namespace Dialogue
             }
 
             _listener = GetComponent<BoolEventListener>();
+
+            _uiInputModule = GameObject.FindGameObjectWithTag("EventSystem").GetComponent<InputSystemUIInputModule>();
+
+            if (_uiInputModule != null)
+            {
+                _keyboardConfirmAction = _uiInputModule.submit.action;
+                _mouseConfirmAction = _uiInputModule.leftClick.action;
+            }
         }
 
         public void OpenDialogue(Message[] messages, Action onEndCallback = null, Action<float> progressCallback = null)
@@ -119,7 +129,7 @@ namespace Dialogue
 
         private IEnumerator DisplayMessage()
         {
-            canContinueToNextLine = false;
+            _canContinueToNextLine = false;
             continueIcon.SetActive(false);
 
             ActorSO actorToDisplay = _currentMessages[_messageIndex].actor;
@@ -189,7 +199,7 @@ namespace Dialogue
                 continueIcon.SetActive(true);
             }
 
-            canContinueToNextLine = true;
+            _canContinueToNextLine = true;
         }
 
         public void NextMessage()
@@ -241,9 +251,9 @@ namespace Dialogue
                 return;
             }
 
-            if (keyboardConfirmAction.action.WasPressedThisFrame() || mouseConfirmAction.action.WasPressedThisFrame())
+            if (_keyboardConfirmAction.WasPressedThisFrame() || _mouseConfirmAction.WasPressedThisFrame())
             {
-                if (canContinueToNextLine)
+                if (_canContinueToNextLine)
                 {
                     confirmAudio.Play2D();
                     if (_messageIndex >= _currentMessages.Length)

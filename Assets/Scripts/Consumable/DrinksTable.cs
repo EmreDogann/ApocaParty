@@ -8,6 +8,7 @@ namespace Consumable
 {
     public class DrinksTable : MonoBehaviour
     {
+        [SerializeField] private ParticleSystem emptyTableParticleSystem;
         [SerializeField] private RequestInteractable drinksTableInteractable;
 
         [SerializeField] private GameObject drinkPrefab;
@@ -97,6 +98,8 @@ namespace Consumable
                 return drink;
             }
 
+            emptyTableParticleSystem.Play();
+
             return null;
         }
 
@@ -134,8 +137,8 @@ namespace Consumable
                 }
             }
 
+            emptyTableParticleSystem.Stop();
             drinksTableCover.localScale = new Vector3(_drinksTableFullScale.x, 0.0f, 0.0f);
-
             drinksTableInteractable.SetInteractableActive(false);
         }
     }

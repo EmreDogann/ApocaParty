@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using GuestRequests.Requests;
 using Interactions.Interactables;
+using MyBox;
 using TransformProvider;
 using UnityEngine;
 
@@ -15,10 +16,13 @@ namespace GuestRequests
             new Dictionary<ITransformProvider, TransformHandle>();
         public float TotalDuration { get; private set; }
 
-        [SerializeField] protected bool resetRequestOnCompletion;
-        [SerializeField] protected bool returnTransformsOnCompletion;
+        [Separator("On Completion")]
+        [OverrideLabel("Reset Request")] [SerializeField] protected bool resetRequestOnCompletion;
+        [OverrideLabel("Return Transforms")] [SerializeField] protected bool returnTransformsOnCompletion;
+        [OverrideLabel("Enable Interactable")] [SerializeField] protected bool enableInteractableOnCompletion;
         [SerializeField] protected Transform requestResetPosition;
 
+        [Space]
         [SerializeReference] protected List<Job> _jobs = new List<Job>();
         protected float TotalProgressPercentage;
         protected float CurrentTime;
@@ -92,7 +96,10 @@ namespace GuestRequests
                 _owner = null;
                 OnRequestCompleted?.Invoke();
 
-                _requestInteractable?.SetInteractableActive(true);
+                if (enableInteractableOnCompletion)
+                {
+                    _requestInteractable?.SetInteractableActive(true);
+                }
 
                 if (resetRequestOnCompletion)
                 {

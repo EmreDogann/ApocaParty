@@ -11,7 +11,6 @@ using Interactions.Interactables;
 using MyBox;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem;
 using Utils;
 using Random = UnityEngine.Random;
 
@@ -21,7 +20,7 @@ namespace Player
     public class PlayerController : MonoBehaviour, IRequestOwner, IWaiter
     {
         [Separator("Movement")]
-        [SerializeField] private InputActionReference moveButton;
+        // [SerializeField] private InputActionReference moveButton;
         [SerializeField] private float distanceThreshold = 0.01f;
         [NavMeshSelector] [SerializeField] private int ignoreAreaCosts;
         [SerializeField] private Transform holderTransform;
@@ -199,12 +198,12 @@ namespace Player
                 return;
             }
 
-            if (moveButton.action.WasPressedThisFrame() && !_currentRequest && _isPlayerInputActive)
-            {
-                Vector3 mouseWorldPosition = _mainCamera.ScreenToWorldPoint(Mouse.current.position.value);
-                mouseWorldPosition.z = 0;
-                SetDestinationAndDisplayPath(mouseWorldPosition);
-            }
+            // if (moveButton.action.WasPressedThisFrame() && !_currentRequest && _isPlayerInputActive)
+            // {
+            //     Vector3 mouseWorldPosition = _mainCamera.ScreenToWorldPoint(Mouse.current.position.value);
+            //     mouseWorldPosition.z = 0;
+            //     SetDestinationAndDisplayPath(mouseWorldPosition);
+            // }
 
             if (Vector3.SqrMagnitude(transform.position - _agent.destination) < distanceThreshold * distanceThreshold)
             {
