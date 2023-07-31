@@ -21,6 +21,7 @@ namespace Interactions
         private BoolEventListener _onGamePausedEvent;
 
         public static Action<InteractableBase> OnInteract;
+        public static Action<InteractableBase> OnHover;
         public static Action<InteractableBase> OnAltInteract;
 
         private void Awake()
@@ -158,6 +159,7 @@ namespace Interactions
                 newTarget.OnStartHover();
             }
 
+            OnHover?.Invoke(newTarget);
             _hoverTarget = newTarget;
         }
 

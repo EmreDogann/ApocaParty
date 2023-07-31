@@ -78,4 +78,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Aa]rt/*
 /[Aa]ssets/[Aa]udio/*
 
+# Plugins
 /[Aa]ssets/VFX_Klaus/*
+/[Aa]ssets/Fullscreen/*
