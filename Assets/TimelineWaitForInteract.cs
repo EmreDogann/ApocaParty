@@ -23,6 +23,7 @@ public class TimelineWaitForInteract : MonoBehaviour
         if (_waitingForInteract)
         {
             _currentDirector.playableGraph.GetRootPlayable(0).SetSpeed(1);
+            _currentDirector = null;
             _waitingForInteract = false;
         }
     }

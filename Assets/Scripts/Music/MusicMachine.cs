@@ -3,39 +3,42 @@ using DG.Tweening;
 using Electricity;
 using Events;
 using GuestRequests.Requests;
+using MyBox;
 using PartyEvents;
 using UI.Components;
 using UnityEngine;
 
 namespace Music
 {
-    [RequireComponent(typeof(MusicMachineBreaksEvent), typeof(MusicRequest))]
+    [RequireComponent(typeof(MusicRequest))]
     public class MusicMachine : MonoBehaviour
     {
+        [Separator("Machine Breaking")]
+        [SerializeField] private bool enableBreaking;
         [Range(0.0f, 1.0f)] [SerializeField] private float machineBreakChance;
         [SerializeField] private float machineBreakCheckFrequency;
         [SerializeField] private float machineBreakCooldown;
+
+        [Separator("Audio")]
         [SerializeField] private AudioSO goodMusic;
         [SerializeField] private AudioSO badMusic;
         [SerializeField] private AudioSO transitionAudio;
         // [SerializeField] private AudioSO breakAudio;
-
         [SerializeField] private bool playMusicOnAwake;
-
         [SerializeField] private float musicTransitionDuration;
 
+        [Separator("Events")]
         [SerializeField] private BoolEventListener onGamePausedListener;
+        [SerializeField] private MusicMachineBreaksEvent machineBreaksEvent;
 
         private bool _isBroken;
         private float _currentTime;
-        private MusicMachineBreaksEvent _machineBreaksEvent;
         private MusicRequest _musicRequest;
 
         private Tweener _tweener;
 
         private void Awake()
         {
-            _machineBreaksEvent = GetComponent<MusicMachineBreaksEvent>();
             _musicRequest = GetComponent<MusicRequest>();
             _isBroken = false;
 
@@ -86,21 +89,21 @@ namespace Music
 
         private void OnMusicRequestCompleted()
         {
-            // breakAudio.Play();
-            goodMusic.CrossFadeAudio(transitionAudio, musicTransitionDuration);
-            _tweener.Kill(true);
-            if (_isBroken)
+            if (enableBreaking)
             {
+                goodMusic.CrossFadeAudio(transitionAudio, musicTransitionDuration);
+                _tweener.Kill(true);
                 _isBroken = false;
-                // breakAudio.Play();
-                // goodMusic.CrossFadeAudio(transitionAudio, musicTransitionDuration);
-                // _tweener.Kill(true);
+            }
+            else
+            {
+                StartMusic();
             }
         }
 
         private void Update()
         {
-            if (_isBroken || !ElectricalBox.IsPowerOn())
+            if (!enableBreaking || _isBroken || !ElectricalBox.IsPowerOn())
             {
                 return;
             }
@@ -120,7 +123,7 @@ namespace Music
         private void BreakMachine()
         {
             _isBroken = true;
-            _machineBreaksEvent.TriggerEvent();
+            machineBreaksEvent.TriggerEvent();
             _tweener = transform.DOShakeRotation(5.0f, new Vector3(0.0f, 0.0f, 5.0f), 20, 5, false,
                     ShakeRandomnessMode.Harmonic)
                 .SetEase(Ease.Linear)

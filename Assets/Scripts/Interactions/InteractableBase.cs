@@ -24,12 +24,12 @@ namespace Interactions
 
         public virtual void OnStartInteract()
         {
+            OnInteracted?.Invoke();
             // Debug.Log("Start Interacted: " + gameObject.name);
         }
 
         public virtual void OnInteract()
         {
-            OnInteracted?.Invoke();
             // Debug.Log("Interacted: " + gameObject.name);
         }
 

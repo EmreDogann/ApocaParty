@@ -46,7 +46,7 @@ namespace Minion.States
                 }
             }
 
-            if (!minion.IsWandering())
+            if (minion.enableWandering && !minion.IsWandering())
             {
                 _currentWanderTime += Time.deltaTime;
             }

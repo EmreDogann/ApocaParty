@@ -1,5 +1,5 @@
 using System;
-using MyBox;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -8,23 +8,15 @@ namespace TimelinePlayables.ChangeSortOrder
     [Serializable]
     public class ChangeSortOrderBehaviour : PlayableBehaviour
     {
-        public SpriteRenderer spriteRenderer;
-        [Separator("Initial Sorting Layer")]
-        public bool overrideInitialSorting;
-        [ConditionalField(nameof(overrideInitialSorting))] [SpriteLayer] [SerializeField] private int initSortingLayer;
-        [ConditionalField(nameof(overrideInitialSorting))] [SerializeField] private int initSortingOrder;
+        [HideInInspector] public List<SpriteSortData> spriteDatas;
 
-        [Separator("Target Sorting Layer")]
-        [SpriteLayer] [SerializeField] private int targetSortingLayer;
-        [SerializeField] private int targetSortingOrder;
-        public bool resetToInitialOnFinished;
+        [HideInInspector] public int targetSortingLayer;
+        [HideInInspector] public int targetSortingOrder;
+        [HideInInspector] public bool resetToInitialOnFinished;
 
         private PlayableGraph _graph;
         private Playable _thisPlayable;
         private bool _began;
-
-        private int _startingSortLayer;
-        private int _startingSortOrder;
 
         public override void OnPlayableCreate(Playable playable)
         {
@@ -38,12 +30,28 @@ namespace TimelinePlayables.ChangeSortOrder
             if (!_began)
             {
                 _began = true;
-                _startingSortLayer = spriteRenderer.sortingLayerID;
-                _startingSortOrder = spriteRenderer.sortingOrder;
+                foreach (SpriteSortData spriteData in spriteDatas)
+                {
+                    if (spriteData.spriteRenderer == null)
+                    {
+                        continue;
+                    }
+
+                    spriteData.startingSortLayer = spriteData.spriteRenderer.sortingLayerID;
+                    spriteData.startingSortOrder = spriteData.spriteRenderer.sortingOrder;
+                }
             }
 
-            spriteRenderer.sortingLayerID = targetSortingLayer;
-            spriteRenderer.sortingOrder = targetSortingOrder;
+            foreach (SpriteSortData spriteData in spriteDatas)
+            {
+                if (spriteData.spriteRenderer == null)
+                {
+                    continue;
+                }
+
+                spriteData.spriteRenderer.sortingLayerID = targetSortingLayer;
+                spriteData.spriteRenderer.sortingOrder = targetSortingOrder;
+            }
         }
 
         public override void OnBehaviourPause(Playable playable, FrameData info)
@@ -58,11 +66,45 @@ namespace TimelinePlayables.ChangeSortOrder
             if (info.effectivePlayState == PlayState.Paused ||
                 playable.GetGraph().GetRootPlayable(0).IsDone())
             {
-                if (resetToInitialOnFinished)
+                if (!resetToInitialOnFinished)
                 {
-                    spriteRenderer.sortingLayerID = overrideInitialSorting ? initSortingLayer : _startingSortLayer;
-                    spriteRenderer.sortingOrder = overrideInitialSorting ? initSortingOrder : _startingSortOrder;
+                    return;
                 }
+
+                foreach (SpriteSortData spriteData in spriteDatas)
+                {
+                    if (spriteData.spriteRenderer == null)
+                    {
+                        continue;
+                    }
+
+                    spriteData.spriteRenderer.sortingLayerID = spriteData.overrideInitialSorting
+                        ? spriteData.initSortingLayer
+                        : spriteData.startingSortLayer;
+                    spriteData.spriteRenderer.sortingOrder = spriteData.overrideInitialSorting
+                        ? spriteData.initSortingLayer
+                        : spriteData.startingSortLayer;
+                }
+            }
+        }
+
+        public override void OnPlayableDestroy(Playable playable)
+        {
+            base.OnPlayableDestroy(playable);
+
+            foreach (SpriteSortData spriteData in spriteDatas)
+            {
+                if (spriteData.spriteRenderer == null)
+                {
+                    continue;
+                }
+
+                spriteData.spriteRenderer.sortingLayerID = spriteData.overrideInitialSorting
+                    ? spriteData.initSortingLayer
+                    : spriteData.startingSortLayer;
+                spriteData.spriteRenderer.sortingOrder = spriteData.overrideInitialSorting
+                    ? spriteData.initSortingLayer
+                    : spriteData.startingSortLayer;
             }
         }
     }

@@ -8,6 +8,8 @@ using UnityEngine;
 [RequireComponent(typeof(BuntingFallEvent), typeof(BuntingRequest), typeof(RequestInteractable))]
 public class Bunting : MonoBehaviour
 {
+    [SerializeField] private bool enableBuntingFalling;
+
     [SerializeField] private SpriteRenderer buntingUpSprite;
     [SerializeField] private SpriteRenderer buntingDownSprite;
     [SerializeField] private AudioSO fallAudio;
@@ -39,9 +41,26 @@ public class Bunting : MonoBehaviour
         FixBunting.BuntingFixed -= BuntingFixed;
     }
 
+    public void SetBuntingFallActive(bool isActive)
+    {
+        enableBuntingFalling = isActive;
+    }
+
+    public void TriggerBuntingFall()
+    {
+        _isBuntingFallen = true;
+        fallAudio.Play(transform.position);
+
+        buntingUpSprite.transform.gameObject.SetActive(false);
+        buntingDownSprite.transform.gameObject.SetActive(true);
+
+        _buntingFallEvent.TriggerEvent();
+        _requestInteractable.SetInteractableActive(true);
+    }
+
     private void Update()
     {
-        if (_isBuntingFallen)
+        if (!enableBuntingFalling || _isBuntingFallen)
         {
             return;
         }
@@ -56,15 +75,7 @@ public class Bunting : MonoBehaviour
         _currentTime = 0.0f;
         if (Random.Range(0.0f, 1.0f) < buntingFallChance)
         {
-            _isBuntingFallen = true;
-            fallAudio.Play(transform.position);
-
-            buntingUpSprite.transform.gameObject.SetActive(false);
-            buntingDownSprite.transform.gameObject.SetActive(true);
-
-            _buntingFallEvent.TriggerEvent();
-            _requestInteractable.SetInteractableActive(true);
-
+            TriggerBuntingFall();
             _currentTime = -buntingFallCooldown;
         }
     }

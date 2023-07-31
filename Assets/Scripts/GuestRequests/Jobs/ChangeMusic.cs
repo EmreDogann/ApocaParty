@@ -11,7 +11,10 @@ namespace GuestRequests.Jobs
         public override void Exit()
         {
             base.Exit();
-            MusicPlayEvent.TriggerEvent();
+            if (MusicPlayEvent != null)
+            {
+                MusicPlayEvent.TriggerEvent();
+            }
         }
 
         public override float GetProgressPercentage()

@@ -1,12 +1,15 @@
 ﻿using System;
 using Events;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace Interactions
 {
     public class MouseInteraction : MonoBehaviour, IInteractionHandler
     {
+        [SerializeField] private bool blockedByUI;
+
         [SerializeField] private LayerMask mask;
 
         private InteractableBase _hoverTarget;
@@ -127,7 +130,7 @@ namespace Interactions
                 Vector2.zero, Mathf.Infinity, mask);
             InteractableBase newTarget = null;
 
-            if (_hit.collider)
+            if (_hit.collider && !IsBlockedByUI())
             {
                 var interactableBases = _hit.collider.GetComponents<InteractableBase>();
                 foreach (InteractableBase interactable in interactableBases)
@@ -161,6 +164,11 @@ namespace Interactions
         private void OnGamePause(bool isPaused)
         {
             _isPaused = isPaused;
+        }
+
+        private bool IsBlockedByUI()
+        {
+            return blockedByUI && EventSystem.current.IsPointerOverGameObject();
         }
     }
 }

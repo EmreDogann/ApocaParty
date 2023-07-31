@@ -39,8 +39,7 @@ public class InputManager : MonoBehaviour
 
         _playerInput = GetComponent<PlayerInput>();
 
-        _interactAction = _playerInput.currentActionMap["Interact"];
-        _interactAltAction = _playerInput.currentActionMap["InteractAlt"];
+        SetupActions();
     }
 
     private void OnEnable()
@@ -55,14 +54,28 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        InteractPressed = _interactAction.WasPressedThisFrame();
-        InteractHeld = _interactAction.IsPressed();
-        InteractAltPressed = _interactAltAction.WasPressedThisFrame();
-        InteractAltHeld = _interactAltAction.IsPressed();
+        if (_interactAction != null)
+        {
+            InteractPressed = _interactAction.WasPressedThisFrame();
+            InteractHeld = _interactAction.IsPressed();
+        }
+
+        if (_interactAltAction != null)
+        {
+            InteractAltPressed = _interactAltAction.WasPressedThisFrame();
+            InteractAltHeld = _interactAltAction.IsPressed();
+        }
     }
 
     private void SwitchActionMap(string actionMapName)
     {
         _playerInput.SwitchCurrentActionMap(actionMapName);
+        SetupActions();
+    }
+
+    private void SetupActions()
+    {
+        _interactAction = _playerInput.currentActionMap.FindAction("Interact");
+        _interactAltAction = _playerInput.currentActionMap.FindAction("InteractAlt");
     }
 }

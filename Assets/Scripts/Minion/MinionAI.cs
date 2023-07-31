@@ -40,6 +40,7 @@ namespace Minion
         [HideInInspector] public IConsumable TargetConsumable;
         [HideInInspector] public readonly int WaiterID = Guid.NewGuid().GetHashCode();
 
+        public bool enableWandering;
         private bool _shouldWander;
         private const float DistanceThreshold = 0.1f;
         private const float WanderWaitTime = 3.0f;
@@ -103,6 +104,11 @@ namespace Minion
         public void SetActiveMinionAI(bool isActive)
         {
             _isAIActive = isActive;
+        }
+
+        public void SetActiveWandering(bool isActive)
+        {
+            enableWandering = isActive;
         }
 
         public void SetDestination(Vector3 target)
