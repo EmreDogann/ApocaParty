@@ -4,6 +4,7 @@ using Consumable;
 using GuestRequests;
 using Interactions;
 using Minion.States;
+using MyBox;
 using Player;
 using TMPro;
 using UnityEngine;
@@ -19,16 +20,22 @@ namespace Minion
         public MinionStateMachine StateMachine;
         public NavMeshAgent NavMeshAgent { get; private set; }
 
+        [Separator("General")]
         public DisplayAgentPath pathDisplayer;
-
-        public SpriteRenderer image;
         [SerializeField] private Transform holderTransform;
+        public bool enableWandering;
+        [SerializeField] private bool _isAIActive;
+
+        [Separator("UI")]
+        public SpriteRenderer image;
         [SerializeField] private TextMeshProUGUI aiState;
+        public ProgressBar progressBar;
+
+        [Separator("Other Data")]
+        public MinionActorSO actorData;
 
         public Camera MainCamera { get; private set; }
         [HideInInspector] public Request currentRequest;
-        public MinionActorSO actorData;
-
         [HideInInspector] public PlateMouseInteraction plateInteraction;
 
         private MinionIdleState _minionIdleState;
@@ -40,14 +47,11 @@ namespace Minion
         [HideInInspector] public IConsumable TargetConsumable;
         [HideInInspector] public readonly int WaiterID = Guid.NewGuid().GetHashCode();
 
-        public bool enableWandering;
         private bool _shouldWander;
         private const float DistanceThreshold = 0.1f;
         private const float WanderWaitTime = 3.0f;
         private float _currentWanderTime;
         private const float SearchRadius = 3.0f;
-
-        [SerializeField] private bool _isAIActive;
 
         private void Start()
         {

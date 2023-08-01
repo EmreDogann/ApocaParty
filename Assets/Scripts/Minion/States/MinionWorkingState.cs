@@ -21,6 +21,8 @@ namespace Minion.States
 
             minion.currentRequest.OnRequestCompleted += OnRequestCompleted;
             minion.currentRequest.ActivateRequest();
+
+            minion.progressBar.SetProgressBarActive(true);
         }
 
         public override void Tick()
@@ -31,12 +33,18 @@ namespace Minion.States
             }
 
             minion.currentRequest.UpdateRequest(Time.deltaTime);
+            if (minion.currentRequest)
+            {
+                minion.progressBar.SetProgressBarPercentage(minion.currentRequest.GetProgress());
+            }
         }
 
         public override void Exit()
         {
             ElectricalBox.OnPowerOutage -= OnPowerOutage;
             ElectricalBox.OnPowerFixed -= OnPowerFixed;
+
+            minion.progressBar.SetProgressBarActive(false);
         }
 
         private void OnRequestCompleted()
