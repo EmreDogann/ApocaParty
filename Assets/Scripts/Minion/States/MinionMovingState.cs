@@ -25,6 +25,9 @@ namespace Minion.States
                     minion.HoldingConsumable.Claim();
                     minion.HoldingConsumable.SetSorting(minion.image.sortingLayerID, minion.image.sortingOrder + 1);
                     minion.TargetConsumable = null;
+
+                    minion.NavMeshAgent.SetDestination(minion.RandomNavmeshLocation(minion.transform.position,
+                        minion.SearchRadius * 0.6f));
                 }
 
                 _stateMachine.ChangeState(minion.currentRequest ? MinionStateID.Working : MinionStateID.Idle);

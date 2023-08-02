@@ -171,7 +171,7 @@ namespace Guest
 
         public void SetDestinationAndDisplayPath(Vector3 target)
         {
-            navMeshAgent.SetDestination(target);
+            SetDestination(target);
         }
 
         public Vector3 GetPosition()

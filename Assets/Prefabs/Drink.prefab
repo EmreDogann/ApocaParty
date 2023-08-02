@@ -132,8 +132,8 @@ MonoBehaviour:
       hunger: 0.2
       thirst: 0.6
       enjoyment: 0.1
-      movement: 0
   spillSprite: {fileID: 21300000, guid: 3f945dc164e74ea47af35e7da2315077, type: 3}
+  spillSound: {fileID: 11400000, guid: 36b06a9db8cd538488a00557f344dafa, type: 2}
 --- !u!114 &7454578327367652881
 MonoBehaviour:
   m_ObjectHideFlags: 0

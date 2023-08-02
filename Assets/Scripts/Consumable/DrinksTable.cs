@@ -22,8 +22,9 @@ namespace Consumable
         [SerializeField] private int drinkPoolSize = 12;
         [SerializeField] private int tableCapacity = 6;
 
-        private readonly List<Drink> _allDrinks = new List<Drink>();
-        private readonly List<Drink> _availableDrinks = new List<Drink>();
+        private List<Drink> _allDrinks;
+        private List<Drink> _availableDrinks;
+        private int _drinksOnTableCount;
         public static DrinksTable Instance { get; private set; }
 
         private Vector2 _drinksTableFullScale;
@@ -39,17 +40,20 @@ namespace Consumable
                 Destroy(gameObject);
             }
 
+            _allDrinks = new List<Drink>();
+            _availableDrinks = new List<Drink>();
             for (int i = 0; i < drinkPoolSize; i++)
             {
                 Drink drink = Instantiate(drinkPrefab, transform).GetComponent<Drink>();
-                bool onTable = i < tableCapacity;
                 _allDrinks.Add(drink);
 
-                if (onTable)
+                if (i < tableCapacity)
                 {
                     _availableDrinks.Add(drink);
                 }
             }
+
+            _drinksOnTableCount = _availableDrinks.Count;
 
             _drinksTableFullScale = drinksTableCover.localScale;
             drinksTableCover.localScale = new Vector3(_drinksTableFullScale.x, 0.0f, 0.0f);
@@ -81,16 +85,11 @@ namespace Consumable
 
         private void OnDrinkClaim(Drink drink)
         {
-            int drinksOnTable = tableCapacity;
-            for (int i = _availableDrinks.Count - 1; i >= 0; i--)
-            {
-                if (drink.IsClaimed())
-                {
-                    drinksOnTable--;
-                }
-            }
+            _drinksOnTableCount--;
 
-            if (drinksOnTable % 2 == 0)
+            Debug.Log(_drinksOnTableCount);
+
+            if (_drinksOnTableCount % 2 == 0)
             {
                 drinksTableCover.localScale += new Vector3(0.0f, _drinksTableFullScale.y * (1 / 3.0f), 0.0f);
             }
@@ -103,10 +102,15 @@ namespace Consumable
             {
                 Drink drink = _availableDrinks[^1];
                 _availableDrinks.RemoveAt(_availableDrinks.Count - 1);
+
+                if (_availableDrinks.Count == 0)
+                {
+                    emptyTableParticleSystem.Play();
+                }
+
                 return drink;
             }
 
-            emptyTableParticleSystem.Play();
             return null;
         }
 
@@ -117,9 +121,12 @@ namespace Consumable
                 Drink drink = _availableDrinks[^1];
                 _availableDrinks.RemoveAt(_availableDrinks.Count - 1);
                 drink.Consume();
-            }
 
-            emptyTableParticleSystem.Play();
+                if (_availableDrinks.Count == 0)
+                {
+                    emptyTableParticleSystem.Play();
+                }
+            }
         }
 
         public bool IsDrinkAvailable()
@@ -140,13 +147,32 @@ namespace Consumable
                 {
                     _availableDrinks[i].Consume();
                 }
+
+                _availableDrinks.Clear();
             }
         }
 
+        [ButtonMethod]
+        private void EmptyTable()
+        {
+            for (int i = _availableDrinks.Count - 1; i >= 0; i--)
+            {
+                _availableDrinks[i].Consume();
+            }
+
+            _availableDrinks.Clear();
+        }
+
+        [ButtonMethod]
         private void RefillDrinks()
         {
             foreach (Drink drink in _allDrinks)
             {
+                if (_availableDrinks.Count == tableCapacity)
+                {
+                    break;
+                }
+
                 if (_availableDrinks.Contains(drink))
                 {
                     continue;
@@ -158,6 +184,8 @@ namespace Consumable
                     _availableDrinks.Add(drink);
                 }
             }
+
+            _drinksOnTableCount = _availableDrinks.Count;
 
             refillSound.Play(transform.position);
 

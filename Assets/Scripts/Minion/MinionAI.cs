@@ -45,12 +45,13 @@ namespace Minion
         [HideInInspector] public readonly int WaiterID = Guid.NewGuid().GetHashCode();
 
         private bool _shouldWander;
-        private const float DistanceThreshold = 0.1f;
-        private const float WanderWaitTime = 3.0f;
+        private readonly float DistanceThreshold = 0.1f;
+        private readonly float WanderWaitTime = 3.0f;
         private float _currentWanderTime;
-        private const float SearchRadius = 3.0f;
+        internal float SearchRadius = 3.0f;
 
         private bool _isAIActive;
+        private int _characterLayerMask;
 
         private void Awake()
         {
@@ -77,6 +78,8 @@ namespace Minion
             {
                 SetActiveMinionAI(true);
             }
+
+            _characterLayerMask = LayerMask.NameToLayer("Character");
         }
 
         private void Update()
@@ -172,7 +175,7 @@ namespace Minion
             return _shouldWander;
         }
 
-        private Vector3 RandomNavmeshLocation(Vector3 position, float radius)
+        internal Vector3 RandomNavmeshLocation(Vector3 position, float radius)
         {
             Vector3 finalPosition = position;
             for (int i = 0; i < 30; i++)
@@ -182,8 +185,11 @@ namespace Minion
 
                 if (!NavMesh.Raycast(position, randomDirection, out NavMeshHit raycastHit, NavMeshAgent.areaMask))
                 {
-                    finalPosition = raycastHit.position;
-                    break;
+                    if (Physics2D.OverlapCircle(raycastHit.position, 1.0f, 1 << _characterLayerMask) == null)
+                    {
+                        finalPosition = raycastHit.position;
+                        break;
+                    }
                 }
             }
 
@@ -219,6 +225,8 @@ namespace Minion
             {
                 waiterTarget.WaiterInteracted(this);
                 HoldingConsumable = null;
+
+                NavMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius * 0.3f));
             }
         }
     }

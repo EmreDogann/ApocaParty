@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 5299949603845958432}
   - component: {fileID: 5299949603845958435}
   - component: {fileID: 5299949603845958434}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Henchman
   m_TagString: Guest
   m_Icon: {fileID: 0}
@@ -264,7 +264,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.7
+  m_Radius: 0.6
 --- !u!114 &5299949603845958433
 MonoBehaviour:
   m_ObjectHideFlags: 0
