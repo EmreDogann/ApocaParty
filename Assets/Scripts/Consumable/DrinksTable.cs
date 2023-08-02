@@ -54,7 +54,6 @@ namespace Consumable
             _drinksTableFullScale = drinksTableCover.localScale;
             drinksTableCover.localScale = new Vector3(_drinksTableFullScale.x, 0.0f, 0.0f);
 
-            // drinksTableInteractable.SetInteractableActive(false);
             drinksTableInteractable.SetInteractableActive(true);
         }
 
@@ -98,7 +97,6 @@ namespace Consumable
         }
 
         [CanBeNull]
-        [ButtonMethod]
         public Drink TryGetDrink()
         {
             if (_availableDrinks.Count > 0)
@@ -112,6 +110,18 @@ namespace Consumable
             return null;
         }
 
+        public void Tutorial_TryGetDrink()
+        {
+            if (_availableDrinks.Count > 0)
+            {
+                Drink drink = _availableDrinks[^1];
+                _availableDrinks.RemoveAt(_availableDrinks.Count - 1);
+                drink.Consume();
+            }
+
+            emptyTableParticleSystem.Play();
+        }
+
         public bool IsDrinkAvailable()
         {
             return _availableDrinks.Count > 0;
@@ -122,15 +132,6 @@ namespace Consumable
             return _availableDrinks.Count >= tableCapacity;
         }
 
-        [ButtonMethod]
-        private void EmptyTable()
-        {
-            for (int i = _availableDrinks.Count - 1; i >= 0; i--)
-            {
-                _availableDrinks[i].Consume();
-            }
-        }
-
         private void OnFamineEvent(PartyEventData eventData)
         {
             if (eventData.eventType == PartyEventType.FamineAtDrinks)
@@ -139,12 +140,9 @@ namespace Consumable
                 {
                     _availableDrinks[i].Consume();
                 }
-
-                // drinksTableInteractable.SetInteractableActive(true);
             }
         }
 
-        [ButtonMethod]
         private void RefillDrinks()
         {
             foreach (Drink drink in _allDrinks)
@@ -165,7 +163,6 @@ namespace Consumable
 
             emptyTableParticleSystem.Stop();
             drinksTableCover.localScale = new Vector3(_drinksTableFullScale.x, 0.0f, 0.0f);
-            // drinksTableInteractable.SetInteractableActive(false);
         }
     }
 }

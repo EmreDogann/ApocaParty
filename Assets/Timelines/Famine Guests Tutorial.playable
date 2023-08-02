@@ -200,6 +200,30 @@ MonoBehaviour:
   m_Retroactive: 1
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: d2790cce73f1bb64fa7bc49e28b49e1f, type: 2}
+--- !u!114 &-7505979324395998539
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b46e36075dd1c124a8422c228e75e1fb, type: 3}
+  m_Name: Signal Track (4)
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips: []
+  m_Markers:
+    m_Objects:
+    - {fileID: 6531696235504767982}
 --- !u!114 &-7143890086439810498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -313,7 +337,6 @@ MonoBehaviour:
       hunger: 0
       thirst: 0
       enjoyment: 0
-      movement: 0
     moodReward: 0
   guest:
     exposedName: 0e1d0708a799faa47bcbfef60591d109
@@ -365,6 +388,30 @@ MonoBehaviour:
   m_Clips: []
   m_Markers:
     m_Objects: []
+--- !u!114 &-3742567147962404065
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b46e36075dd1c124a8422c228e75e1fb, type: 3}
+  m_Name: Signal Track (5)
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips: []
+  m_Markers:
+    m_Objects:
+    - {fileID: 2840473746174718044}
 --- !u!114 &-3231415144200013366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -617,6 +664,8 @@ MonoBehaviour:
   - {fileID: -2869782145777234596}
   - {fileID: 1002298456197147551}
   - {fileID: 1129348598883459789}
+  - {fileID: -3742567147962404065}
+  - {fileID: -7505979324395998539}
   - {fileID: -3231415144200013366}
   - {fileID: -8642044815218577594}
   - {fileID: 9030932836650209798}
@@ -690,6 +739,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fde0d25a170598d46a0b9dc16b4527a5, type: 3}
   m_Name: ActivationPlayableAsset(Clone)(Clone)(Clone)(Clone)
   m_EditorClassIdentifier: 
+--- !u!114 &2840473746174718044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
+  m_Name: Signal Emitter(Clone)(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  m_Time: 0
+  m_Retroactive: 1
+  m_EmitOnce: 0
+  m_Asset: {fileID: 11400000, guid: 4959cf7890329c6459837e75df22ad47, type: 2}
 --- !u!114 &3055961446851848514
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -710,7 +775,6 @@ MonoBehaviour:
       hunger: 0
       thirst: 0
       enjoyment: 0
-      movement: 0
     moodReward: 0
   guest:
     exposedName: bcfb8b7ffc947e1429a4f9ba8d4912a1
@@ -792,6 +856,22 @@ MonoBehaviour:
   m_Retroactive: 1
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: d2790cce73f1bb64fa7bc49e28b49e1f, type: 2}
+--- !u!114 &6531696235504767982
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
+  m_Name: Signal Emitter(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  m_Time: 9.400000000000002
+  m_Retroactive: 1
+  m_EmitOnce: 0
+  m_Asset: {fileID: 11400000, guid: 4959cf7890329c6459837e75df22ad47, type: 2}
 --- !u!114 &7681255119729681708
 MonoBehaviour:
   m_ObjectHideFlags: 1
