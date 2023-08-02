@@ -14,7 +14,6 @@ using Random = UnityEngine.Random;
 namespace Minion
 {
     [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent), typeof(DisplayAgentPath))]
-    [RequireComponent(typeof(PlateMouseInteraction))]
     public class MinionAI : MonoBehaviour, IRequestOwner, IWaiter
     {
         public MinionStateMachine StateMachine;
@@ -36,7 +35,6 @@ namespace Minion
 
         public Camera MainCamera { get; private set; }
         [HideInInspector] public Request currentRequest;
-        [HideInInspector] public PlateMouseInteraction plateInteraction;
 
         private MinionIdleState _minionIdleState;
         private MinionMovingState _minionMovingState;
@@ -58,7 +56,6 @@ namespace Minion
         {
             MainCamera = Camera.main;
             pathDisplayer = GetComponent<DisplayAgentPath>();
-            plateInteraction = GetComponent<PlateMouseInteraction>();
 
             NavMeshAgent = GetComponent<NavMeshAgent>();
             NavMeshAgent.updateRotation = false;

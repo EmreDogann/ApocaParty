@@ -28,22 +28,6 @@ namespace Minion.States
             if (minion.HoldingConsumable != null)
             {
                 minion.HoldingConsumable.GetTransform().position = minion.GetHoldingTransform().position;
-                switch (minion.plateInteraction.CheckForPlateInteraction())
-                {
-                    case PlateInteractable plateInteractable:
-                        if (plateInteractable.WaiterTarget.IsAssignedWaiter())
-                        {
-                            return;
-                        }
-
-                        minion.SetDestinationAndDisplayPath(plateInteractable.WaiterTarget.GetDestinationTransform()
-                            .position);
-                        plateInteractable.WaiterTarget.GiveWaiterID(minion.WaiterID);
-
-                        minion.SetWandering(false);
-                        _stateMachine.ChangeState(MinionStateID.Moving);
-                        break;
-                }
             }
 
             if (minion.enableWandering && !minion.IsWandering())
