@@ -28,6 +28,11 @@ namespace TransformProvider
             }
         }
 
+        public bool IsTransformAvailable()
+        {
+            return !_transformPair.IsAssigned();
+        }
+
         public TransformHandle TryAcquireTransform()
         {
             if (!_transformPair.IsAssigned())

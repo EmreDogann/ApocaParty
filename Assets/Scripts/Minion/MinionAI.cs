@@ -209,16 +209,6 @@ namespace Minion
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (TargetConsumable != null)
-            {
-                if (TargetConsumable == other.GetComponent<IConsumable>())
-                {
-                    HoldingConsumable = TargetConsumable;
-                    HoldingConsumable.Claim();
-                    TargetConsumable = null;
-                }
-            }
-
             IWaiterTarget waiterTarget = other.GetComponent<IWaiterTarget>();
             if (waiterTarget != null && waiterTarget.GetWaiterID() == WaiterID)
             {

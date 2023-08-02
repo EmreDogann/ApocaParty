@@ -11,6 +11,7 @@ using Interactions.Interactables;
 using MyBox;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem;
 using Utils;
 using Random = UnityEngine.Random;
 
@@ -19,6 +20,9 @@ namespace Player
     [RequireComponent(typeof(NavMeshAgent), typeof(DisplayAgentPath), typeof(PlateMouseInteraction))]
     public class PlayerController : MonoBehaviour, IRequestOwner, IWaiter
     {
+        [Separator("General")]
+        [SerializeField] private SpriteRenderer spriteRenderer;
+
         [Separator("Movement")]
         // [SerializeField] private InputActionReference moveButton;
         [SerializeField] private float distanceThreshold = 0.01f;
@@ -28,7 +32,10 @@ namespace Player
         [Separator("Path Rendering")]
         [SerializeField] private DisplayAgentPath pathDisplayer;
 
-        [Separator("Other Settings")]
+        [Separator("UI")]
+        [SerializeField] private ProgressBar progressBar;
+
+        [Separator("Spill Settings")]
         [Range(0.0f, 1.0f)] public float chanceToSpillFood;
         [Range(0.0f, 1.0f)] public float chanceToSlip;
         public float spillFoodCheckFrequency;
@@ -84,10 +91,11 @@ namespace Player
                 return;
             }
 
+            Request request;
             switch (interactable)
             {
                 case IInteractableRequest interactableRequest:
-                    Request request = interactableRequest.GetRequest();
+                    request = interactableRequest.GetRequest();
                     switch (request)
                     {
                         case PowerRequest _:
@@ -97,26 +105,31 @@ namespace Player
                             }
 
                             break;
-                        case FoodRequest _:
-                            if (request.IsRequestFailed())
+                        case FoodRequest foodRequest:
+                            if (foodRequest.IsRequestFailed())
                             {
-                                SetDestinationAndDisplayPath(request.transform.position);
+                                SetDestinationAndDisplayPath(foodRequest.transform.position);
                             }
-                            else if (_holdingConsumable == null && request.IsRequestCompleted())
+                            else if (_holdingConsumable == null && foodRequest.IsRequestCompleted())
                             {
-                                _targetConsumable = request as IConsumable;
-                                _targetConsumable.Claim();
+                                _targetConsumable = foodRequest;
+                                // _targetConsumable.Claim();
+                                if (_targetConsumable != null)
+                                {
+                                    SetDestinationAndDisplayPath(_targetConsumable.GetTransform().position);
+                                }
+
                                 _target = null;
                             }
 
                             return;
-                        case DrinkRefillRequest _:
-                            if (DrinksTable.Instance.IsDrinksTableFull())
-                            {
-                                return;
-                            }
-
-                            break;
+                        // case DrinkRefillRequest _:
+                        //     if (DrinksTable.Instance.IsDrinksTableFull())
+                        //     {
+                        //         return;
+                        //     }
+                        //
+                        //     break;
                     }
 
                     if (request.IsRequestStarted() || !request.TryStartRequest() || request.GetRequestOwner() != null)
@@ -135,19 +148,48 @@ namespace Player
                     _target = guestInteractable.WaiterTarget.GetDestinationTransform();
                     guestInteractable.WaiterTarget.GiveWaiterID(_waiterID);
                     break;
-                case FridgeInteractable fridgeInteractable:
-                    FoodRequest foodRequest = fridgeInteractable.Fridge.TryGetFood();
-                    if (foodRequest == null)
+                case FoodPileInteractable foodPileInteractable:
+                    request = foodPileInteractable.FoodPile.TryGetFood();
+                    if (request == null)
                     {
-                        // TODO: Play error sound.
                         return;
                     }
 
-                    SetDestinationAndDisplayPath(foodRequest.GetStartingPosition());
-                    _currentRequest = foodRequest;
-                    _currentRequest.OnRequestCompleted += OnRequestCompleted;
+                    SetDestinationAndDisplayPath(request.GetStartingPosition());
+                    _currentRequest = request;
+                    request.AssignOwner(this);
 
-                    foodRequest.AssignOwner(this);
+                    _currentRequest.OnRequestCompleted += OnRequestCompleted;
+                    break;
+                case DrinksTableInteractable drinksTableInteractable:
+                    if (drinksTableInteractable.IsDrinkAvailable())
+                    {
+                        if (_holdingConsumable == null)
+                        {
+                            _targetConsumable = drinksTableInteractable.TryGetDrink();
+                            if (_targetConsumable != null)
+                            {
+                                SetDestinationAndDisplayPath(_targetConsumable.GetTransform().position);
+                            }
+
+                            _target = null;
+                        }
+                    }
+                    else
+                    {
+                        request = drinksTableInteractable.TryRefill();
+                        if (request == null)
+                        {
+                            return;
+                        }
+
+                        SetDestinationAndDisplayPath(request.GetStartingPosition());
+                        _currentRequest = request;
+                        _currentRequest.AssignOwner(this);
+
+                        _currentRequest.OnRequestCompleted += OnRequestCompleted;
+                    }
+
                     break;
                 case SpillInteractable spillInteractable:
                     _target = spillInteractable.transform;
@@ -162,6 +204,7 @@ namespace Player
         {
             _currentRequest.OnRequestCompleted -= OnRequestCompleted;
             _currentRequest = null;
+            progressBar.SetProgressBarActive(false);
         }
 
         private void Update()
@@ -195,21 +238,38 @@ namespace Player
             if (_currentRequest && _currentRequest.IsRequestStarted())
             {
                 _currentRequest.UpdateRequest(Time.deltaTime * 2.0f);
+                if (_currentRequest)
+                {
+                    progressBar.SetProgressBarPercentage(_currentRequest.GetProgress());
+                }
+
                 return;
             }
 
-            // if (moveButton.action.WasPressedThisFrame() && !_currentRequest && _isPlayerInputActive)
-            // {
-            //     Vector3 mouseWorldPosition = _mainCamera.ScreenToWorldPoint(Mouse.current.position.value);
-            //     mouseWorldPosition.z = 0;
-            //     SetDestinationAndDisplayPath(mouseWorldPosition);
-            // }
+            if (InputManager.Instance.InteractPressed && !_currentRequest && _isPlayerInputActive)
+            {
+                Vector3 mouseWorldPosition = _mainCamera.ScreenToWorldPoint(Mouse.current.position.value);
+                mouseWorldPosition.z = 0;
+                SetDestinationAndDisplayPath(mouseWorldPosition);
+            }
 
             if (Vector3.SqrMagnitude(transform.position - _agent.destination) < distanceThreshold * distanceThreshold)
             {
                 if (_currentRequest != null)
                 {
                     _currentRequest.ActivateRequest();
+                    progressBar.SetProgressBarActive(true);
+                }
+
+                if (_targetConsumable != null && !_targetConsumable.IsSpilled())
+                {
+                    _holdingConsumable = _targetConsumable;
+                    _holdingConsumable.Claim();
+
+                    _holdingConsumable.SetSorting(spriteRenderer.sortingLayerID, spriteRenderer.sortingOrder + 1);
+                    _holdingConsumable.GetTransform().position = holderTransform.position;
+
+                    _targetConsumable = null;
                 }
 
                 pathDisplayer.HidePath();
@@ -242,17 +302,6 @@ namespace Player
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (_targetConsumable != null)
-            {
-                IConsumable consumable = other.GetComponent<IConsumable>();
-                if (_targetConsumable == consumable && !consumable.IsSpilled())
-                {
-                    _holdingConsumable = _targetConsumable;
-                    _holdingConsumable.Claim();
-                    _targetConsumable = null;
-                }
-            }
-
             if (_target != null)
             {
                 IWaiterTarget waiterTarget = other.GetComponent<IWaiterTarget>();
@@ -293,25 +342,31 @@ namespace Player
                 }
             }
 
-            if (other.gameObject.layer != _spillLayer)
+            if (other.gameObject.layer != _spillLayer ||
+                _holdingConsumable != null && other.gameObject == _holdingConsumable.GetTransform().gameObject)
             {
                 return;
             }
 
             _spillFoodTimer += Time.deltaTime;
-            if (_spillFoodTimer > spillFoodCheckFrequency)
+            if (_spillFoodTimer < spillFoodCheckFrequency)
             {
-                _spillFoodTimer = 0.0f;
-                if (_holdingConsumable != null && Random.Range(0.0f, 1.0f) < chanceToSpillFood)
+                return;
+            }
+
+            _spillFoodTimer = 0.0f;
+            if (_holdingConsumable != null)
+            {
+                if (Random.Range(0.0f, 1.0f) < chanceToSpillFood)
                 {
                     _holdingConsumable.Spill();
                     _holdingConsumable = null;
                     Slip();
                 }
-                else if (Random.Range(0.0f, 1.0f) < chanceToSlip)
-                {
-                    Slip();
-                }
+            }
+            else if (Random.Range(0.0f, 1.0f) < chanceToSlip)
+            {
+                Slip();
             }
         }
 

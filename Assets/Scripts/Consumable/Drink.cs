@@ -38,6 +38,12 @@ namespace Consumable
             _spriteRenderer.enabled = false;
         }
 
+        public void SetSorting(int layer, int order)
+        {
+            _spriteRenderer.sortingLayerID = layer;
+            _spriteRenderer.sortingOrder = order;
+        }
+
         public Transform GetTransform()
         {
             return transform;
@@ -51,7 +57,7 @@ namespace Consumable
             }
 
             _isConsumed = true;
-            _spriteRenderer.enabled = false;
+            Hide();
             return consumeReward;
         }
 
@@ -80,6 +86,7 @@ namespace Consumable
         public void Claim()
         {
             _isClaimed = true;
+            Show();
             OnClaim?.Invoke(this);
         }
 
@@ -117,7 +124,7 @@ namespace Consumable
         {
             _isConsumed = false;
             _isClaimed = false;
-            _spriteRenderer.enabled = true;
+            _spriteRenderer.enabled = false;
             _collider2D.enabled = false;
         }
     }

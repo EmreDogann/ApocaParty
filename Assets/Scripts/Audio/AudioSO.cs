@@ -63,7 +63,7 @@ namespace Audio
 
 
         [ButtonMethod]
-        private void PlayPreview()
+        public void PlayPreview()
         {
             PlayPreview(previewer);
         }

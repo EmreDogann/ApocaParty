@@ -6,7 +6,7 @@ namespace GuestRequests.Requests
     {
         public override Vector3 GetStartingPosition()
         {
-            return startingPosition;
+            return StartingPosition;
         }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Audio;
 using GuestRequests.Requests;
 using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Consumable
 {
-    public class Fridge : MonoBehaviour
+    public class FoodPile : MonoBehaviour
     {
         private class FoodRequestData
         {
@@ -14,6 +15,7 @@ namespace Consumable
         }
 
         [SerializeField] private Transform foodRequestsHolder;
+        [SerializeField] private AudioSO foodUnavailableSound;
 
         private readonly List<FoodRequestData> _foodRequests = new List<FoodRequestData>();
 
@@ -67,6 +69,7 @@ namespace Consumable
                 }
             }
 
+            foodUnavailableSound.Play2D();
             return null;
         }
     }

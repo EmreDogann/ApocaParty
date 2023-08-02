@@ -41,6 +41,19 @@ namespace TransformProvider
             }
         }
 
+        public bool IsTransformAvailable()
+        {
+            foreach (var entry in _assignedKitchenAppliances)
+            {
+                if (!entry.Value.Item1.IsAssigned())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public TransformHandle TryAcquireTransform()
         {
             foreach (var entry in _assignedKitchenAppliances)

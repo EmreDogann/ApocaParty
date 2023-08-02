@@ -15,6 +15,7 @@ namespace Consumable
 
     public interface IConsumable
     {
+        public void SetSorting(int layer, int order);
         public Transform GetTransform();
         public ConsumedData Consume();
         public void Spill();

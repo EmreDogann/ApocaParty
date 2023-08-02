@@ -24,7 +24,8 @@ namespace GuestRequests.Editor
             FixBunting,
             ChangeSprite,
             ShowOrHideSprite,
-            FixPowerOutage
+            FixPowerOutage,
+            Wait
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
@@ -215,6 +216,7 @@ namespace GuestRequests.Editor
                 case FieldType.ChangeSprite: return new ChangeSprite();
                 case FieldType.ShowOrHideSprite: return new ShowOrHideSprite();
                 case FieldType.FixPowerOutage: return new FixPowerOutage();
+                case FieldType.Wait: return new Wait();
                 case FieldType.None: return null;
                 default:
                     Debug.Log($"Unknown field type {fieldType}.");

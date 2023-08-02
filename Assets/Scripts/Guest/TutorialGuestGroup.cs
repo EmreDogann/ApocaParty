@@ -12,9 +12,10 @@ namespace Guest
     {
         private readonly List<GuestAI> _guests = new List<GuestAI>();
         [field: SerializeReference] public GroupType GroupType { get; private set; }
+        [SerializeField] private PlayableDirector director;
+        [SerializeField] private bool deactivateOnAwake;
 
         private Action _currentCallback;
-        [SerializeField] private PlayableDirector director;
         private List<TableSeat> _availableTableSeats;
 
         protected void Awake()
@@ -24,7 +25,11 @@ namespace Guest
                 GuestAI guest = transform.GetChild(i).GetComponent<GuestAI>();
                 if (guest != null)
                 {
-                    guest.transform.gameObject.SetActive(false);
+                    if (deactivateOnAwake)
+                    {
+                        guest.transform.gameObject.SetActive(false);
+                    }
+
                     _guests.Add(guest);
                 }
             }
@@ -80,6 +85,8 @@ namespace Guest
         public void SitDownHenchmen(bool activateOnSitdown)
         {
             director.playableGraph.GetRootPlayable(0).SetSpeed(0);
+            _availableTableSeats ??= DiningTableSupplier.GetAvailableSeats(_guests.Count);
+
             if (_availableTableSeats.Count > 0)
             {
                 var henchmen = new List<GuestAI>();
@@ -117,8 +124,6 @@ namespace Guest
 
                 yield return null;
             }
-
-            yield return new WaitForSeconds(2.0f);
 
             if (activateOnSitdown)
             {

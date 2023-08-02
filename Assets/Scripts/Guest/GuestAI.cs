@@ -13,7 +13,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using Utils;
-using Random = UnityEngine.Random;
 
 namespace Guest
 {
@@ -202,26 +201,26 @@ namespace Guest
             switch (need.GetNeedType())
             {
                 case NeedType.Drink:
-                    IConsumable consumable = DrinksTable.Instance.TryGetDrink();
-                    if (consumable == null)
-                    {
-                        return;
-                    }
-
-                    if (_guestType is GuestType.Famine)
-                    {
-                        if (Random.Range(0.0f, 1.0f) <= walkToDrinksChance)
-                        {
-                            CurrentConsumable = consumable;
-                            stateMachine.ChangeState(GuestStateID.GetConsumable);
-                        }
-                    }
-                    else if (_guestType is GuestType.Henchmen)
-                    {
-                        CurrentConsumable = consumable;
-                        stateMachine.ChangeState(GuestStateID.GetConsumable);
-                    }
-
+                    // IConsumable consumable = DrinksTable.Instance.TryGetDrink();
+                    // if (consumable == null)
+                    // {
+                    //     return;
+                    // }
+                    //
+                    // if (_guestType is GuestType.Famine)
+                    // {
+                    //     if (Random.Range(0.0f, 1.0f) <= walkToDrinksChance)
+                    //     {
+                    //         CurrentConsumable = consumable;
+                    //         stateMachine.ChangeState(GuestStateID.GetConsumable);
+                    //     }
+                    // }
+                    // else if (_guestType is GuestType.Henchmen)
+                    // {
+                    //     CurrentConsumable = consumable;
+                    //     stateMachine.ChangeState(GuestStateID.GetConsumable);
+                    // }
+                    //
                     break;
             }
         }

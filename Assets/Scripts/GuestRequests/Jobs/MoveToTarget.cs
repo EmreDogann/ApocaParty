@@ -80,10 +80,7 @@ namespace GuestRequests.Jobs
                                      transformPair.GetParentTransform().position);
             return sqrDistance < distanceThreshold * distanceThreshold
                 ? 1.0f
-                : (_enterTargetDistance -
-                   Vector3.SqrMagnitude(JobOwner.GetRequestOwner().GetPosition() -
-                                        transformPair.GetParentTransform().position)) /
-                  _enterTargetDistance;
+                : Mathf.Clamp01((_enterTargetDistance - sqrDistance) / _enterTargetDistance);
         }
 
         public override float GetTotalDuration()

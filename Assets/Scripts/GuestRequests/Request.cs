@@ -14,27 +14,28 @@ namespace GuestRequests
         protected List<ITransformProvider> _requiredTransformProviders = new List<ITransformProvider>();
         protected Dictionary<ITransformProvider, TransformHandle> _transformPairHandles =
             new Dictionary<ITransformProvider, TransformHandle>();
-        public float TotalDuration { get; private set; }
 
         [Separator("On Completion")]
-        [OverrideLabel("Reset Request")] [SerializeField] protected bool resetRequestOnCompletion;
-        [OverrideLabel("Return Transforms")] [SerializeField] protected bool returnTransformsOnCompletion;
-        [OverrideLabel("Enable Interactable")] [SerializeField] protected bool enableInteractableOnCompletion;
-        [SerializeField] protected Transform requestResetPosition;
+        [OverrideLabel("Reset Request")] [SerializeField] protected bool resetRequest_OnCompletion;
+        [OverrideLabel("Return Transforms")] [SerializeField] protected bool returnTransforms_OnCompletion;
+        [OverrideLabel("Enable Interactable")] [SerializeField] protected bool enableInteractable_OnCompletion;
+        [OverrideLabel("Restore Starting Position")] [SerializeField] protected bool restoreStartPos_OnCompletion;
+        [ConditionalField(nameof(restoreStartPos_OnCompletion))] [SerializeField] protected Transform startingPosition;
 
-        [Space]
+        [Separator("Jobs")]
         [SerializeReference] protected List<Job> _jobs = new List<Job>();
+        protected float DurationProgressPercentage;
         protected float TotalProgressPercentage;
-        protected float CurrentTime;
 
         protected int CurrentJobIndex;
+        protected int JobsWithDurationCount;
 
-        protected IRequestOwner _owner;
-        protected SpriteRenderer _requestImage;
-        protected Vector3 startingPosition;
+        protected IRequestOwner Owner;
+        protected SpriteRenderer RequestImage;
+        protected Vector3 StartingPosition;
 
-        protected bool _isRequestSetup;
-        protected RequestInteractable _requestInteractable;
+        protected bool IsRequestSetup;
+        protected RequestInteractable RequestInteractable;
 
         public event Action OnRequestCompleted;
 
@@ -43,19 +44,19 @@ namespace GuestRequests
             foreach (Job job in _jobs)
             {
                 job.Initialize(this);
+                if (job.HasDuration())
+                {
+                    JobsWithDurationCount++;
+                }
             }
 
-            TotalProgressPercentage = 1.0f;
-            _requestImage = transform.GetComponentInChildren<SpriteRenderer>();
-            _requestInteractable = GetComponent<RequestInteractable>();
+            // TotalProgressPercentage = 1.0f;
+            RequestImage = transform.GetComponentInChildren<SpriteRenderer>();
+            RequestInteractable = GetComponent<RequestInteractable>();
 
-            if (requestResetPosition == null)
+            if (startingPosition != null)
             {
-                startingPosition = transform.position;
-            }
-            else
-            {
-                startingPosition = requestResetPosition.position;
+                StartingPosition = startingPosition.position;
             }
 
             ResetRequest();
@@ -71,37 +72,48 @@ namespace GuestRequests
 
         public virtual void UpdateRequest(float deltaTime)
         {
-            CurrentTime += deltaTime;
             _jobs[CurrentJobIndex].Tick(deltaTime);
 
             if (IsRequestFailed())
             {
-                _requestInteractable?.SetInteractableActive(true);
+                if (RequestInteractable != null)
+                {
+                    RequestInteractable.SetInteractableActive(true);
+                }
             }
 
             if (_jobs[CurrentJobIndex].GetProgressPercentage() >= 1.0f)
             {
-                NextJob();
+                if (_jobs[CurrentJobIndex].HasDuration())
+                {
+                    DurationProgressPercentage += 1.0f / JobsWithDurationCount;
+                }
+
                 TotalProgressPercentage += 1.0f / _jobs.Count;
+
+                NextJob();
             }
 
             if (IsRequestCompleted())
             {
                 Debug.Log("Request Finished!");
-                if (returnTransformsOnCompletion)
+                if (returnTransforms_OnCompletion)
                 {
                     ReleaseAllTransformHandles();
                 }
 
-                _owner = null;
+                Owner = null;
                 OnRequestCompleted?.Invoke();
 
-                if (enableInteractableOnCompletion)
+                if (enableInteractable_OnCompletion)
                 {
-                    _requestInteractable?.SetInteractableActive(true);
+                    if (RequestInteractable != null)
+                    {
+                        RequestInteractable.SetInteractableActive(true);
+                    }
                 }
 
-                if (resetRequestOnCompletion)
+                if (resetRequest_OnCompletion)
                 {
                     ResetRequest();
                 }
@@ -125,12 +137,18 @@ namespace GuestRequests
 
         public float GetProgress()
         {
-            return TotalProgressPercentage + _jobs[CurrentJobIndex].GetProgressPercentage();
+            if (_jobs[CurrentJobIndex].HasDuration())
+            {
+                return DurationProgressPercentage +
+                       _jobs[CurrentJobIndex].GetProgressPercentage() / JobsWithDurationCount;
+            }
+
+            return DurationProgressPercentage;
         }
 
         public void AssignOwner(IRequestOwner owner)
         {
-            _owner = owner;
+            Owner = owner;
         }
 
         public virtual Vector3 GetStartingPosition()
@@ -145,20 +163,16 @@ namespace GuestRequests
                 return;
             }
 
-            foreach (Job job in _jobs)
-            {
-                TotalDuration += job.GetTotalDuration();
-            }
-
             ReleaseAllTransformHandles();
-            _isRequestSetup = false;
+            IsRequestSetup = false;
 
             _transformPairHandles = new Dictionary<ITransformProvider, TransformHandle>();
-            if (requestResetPosition != null)
+            if (restoreStartPos_OnCompletion)
             {
-                transform.position = startingPosition;
+                transform.position = StartingPosition;
             }
 
+            DurationProgressPercentage = 0.0f;
             TotalProgressPercentage = 0.0f;
             CurrentJobIndex = -1;
         }
@@ -170,20 +184,24 @@ namespace GuestRequests
                 return;
             }
 
-            if (!_isRequestSetup)
+            if (!IsRequestSetup)
             {
                 Debug.LogWarning("Request cannot be activated, needs to be setup first.");
                 if (!TryStartRequest())
                 {
                     Debug.LogWarning("Request could not be setup, aborting request.");
-                    _owner.OwnerRemoved();
-                    _owner = null;
+                    Owner.OwnerRemoved();
+                    Owner = null;
                     return;
                 }
             }
 
-            _requestInteractable?.SetInteractableActive(false);
-            CurrentTime = 0.0f;
+            if (RequestInteractable != null)
+            {
+                RequestInteractable.SetInteractableActive(false);
+            }
+
+            DurationProgressPercentage = 0.0f;
             TotalProgressPercentage = 0.0f;
             NextJob();
         }
@@ -207,14 +225,14 @@ namespace GuestRequests
 
                     _transformPairHandles.Clear();
 
-                    _isRequestSetup = false;
+                    IsRequestSetup = false;
                     return false;
                 }
 
                 _transformPairHandles[transformProvider] = handle;
             }
 
-            _isRequestSetup = true;
+            IsRequestSetup = true;
             return true;
         }
 
@@ -238,7 +256,7 @@ namespace GuestRequests
 
         public IRequestOwner GetRequestOwner()
         {
-            return _owner;
+            return Owner;
         }
 
         public TransformHandle TryGetTransformHandle(ITransformProvider transformProvider)
@@ -273,8 +291,8 @@ namespace GuestRequests
                 if (IsRequestFailed())
                 {
                     _jobs[CurrentJobIndex].FailJob();
-                    _owner.OwnerRemoved();
-                    _owner = null;
+                    Owner.OwnerRemoved();
+                    Owner = null;
 
                     ResetRequest();
                 }

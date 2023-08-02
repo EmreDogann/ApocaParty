@@ -9,14 +9,10 @@ namespace TimelinePlayables.FocusSprite
     [Serializable]
     public class FocusSpriteBehaviour : PlayableBehaviour
     {
-        [HideInInspector] public List<SpriteFocusData> spriteDatas;
-        [HideInInspector] public Canvas fadedFocusCanvas;
+        public List<SpriteFocusData> spriteDatas;
+        public Canvas fadedFocusCanvas;
 
-        [HideInInspector] public bool canClickTargets;
-        [HideInInspector] public bool enableChangingSorting;
-
-        [HideInInspector] public bool resetPositionOnFinished;
-        [HideInInspector] public bool resetSortingOnFinished;
+        public bool canClickTargets;
 
         private PlayableGraph _graph;
         private Playable _thisPlayable;
@@ -38,15 +34,13 @@ namespace TimelinePlayables.FocusSprite
             {
                 if (canClickTargets)
                 {
-                    spriteData.spriteRenderer.transform.position = new Vector3(spriteData.startingPosition.x,
-                        spriteData.startingPosition.y, fadedFocusCanvas.transform.position.z * 1.1f);
+                    Transform transform = spriteData.spriteRenderer.transform;
+                    transform.position = new Vector3(transform.position.x,
+                        transform.position.y, fadedFocusCanvas.transform.position.z * 1.1f);
                 }
 
-                if (enableChangingSorting)
-                {
-                    spriteData.spriteRenderer.sortingLayerID = fadedFocusCanvas.sortingLayerID;
-                    spriteData.spriteRenderer.sortingOrder = fadedFocusCanvas.sortingOrder;
-                }
+                spriteData.spriteRenderer.sortingLayerID = fadedFocusCanvas.sortingLayerID;
+                spriteData.spriteRenderer.sortingOrder = fadedFocusCanvas.sortingOrder + 1;
             }
         }
 
@@ -65,24 +59,15 @@ namespace TimelinePlayables.FocusSprite
 
         private void ResetData()
         {
-            if (!canClickTargets && !enableChangingSorting ||
-                !resetPositionOnFinished && !resetSortingOnFinished)
-            {
-                return;
-            }
-
             foreach (SpriteFocusData spriteData in spriteDatas.Where(spriteData => spriteData.spriteRenderer != null))
             {
-                if (canClickTargets && resetPositionOnFinished)
-                {
-                    spriteData.spriteRenderer.transform.position = spriteData.startingPosition;
-                }
+                Vector3 transformPosition = spriteData.spriteRenderer.transform.position;
+                transformPosition.z = spriteData.startingZPosition;
 
-                if (enableChangingSorting && resetSortingOnFinished)
-                {
-                    spriteData.spriteRenderer.sortingLayerID = spriteData.startingSortLayer;
-                    spriteData.spriteRenderer.sortingOrder = spriteData.startingSortLayer;
-                }
+                spriteData.spriteRenderer.transform.position = transformPosition;
+
+                spriteData.spriteRenderer.sortingLayerID = spriteData.startingSortLayer;
+                spriteData.spriteRenderer.sortingOrder = spriteData.startingSortOrder;
             }
         }
     }

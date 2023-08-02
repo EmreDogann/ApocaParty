@@ -35,6 +35,20 @@ namespace TransformProvider
             }
         }
 
+
+        public bool IsTransformAvailable()
+        {
+            foreach (var entry in _assignedCounterSpots)
+            {
+                if (!entry.Value.IsAssigned())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public TransformHandle TryAcquireTransform()
         {
             foreach (var entry in _assignedCounterSpots)

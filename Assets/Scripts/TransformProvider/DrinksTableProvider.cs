@@ -35,6 +35,19 @@ namespace TransformProvider
             }
         }
 
+        public bool IsTransformAvailable()
+        {
+            foreach (var entry in _assignedDrinksSpots)
+            {
+                if (!entry.Value.IsAssigned())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public TransformHandle TryAcquireTransform()
         {
             foreach (var entry in _assignedDrinksSpots)

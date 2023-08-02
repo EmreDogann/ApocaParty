@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Interactions.Interactables
 {
-    public class FridgeInteractable : InteractableBase
+    public class FoodPileInteractable : InteractableBase
     {
-        [field: SerializeReference] public Fridge Fridge { get; private set; }
+        [field: SerializeReference] public FoodPile FoodPile { get; private set; }
         [SerializeField] protected float hoverScaleAmount = 1.5f;
 
         public override void OnStartHover()

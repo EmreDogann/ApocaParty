@@ -16,6 +16,8 @@ namespace GuestRequests.Requests
         private Collider2D _collider2D;
 
         private Sprite _originalSprite;
+        private int _originalSortLayer;
+        private int _originalSortOrder;
 
         [ReadOnly] private bool _isConsumed;
 
@@ -24,7 +26,10 @@ namespace GuestRequests.Requests
         protected override void Awake()
         {
             base.Awake();
-            _requestImage.enabled = false;
+            _originalSortLayer = RequestImage.sortingLayerID;
+            _originalSortOrder = RequestImage.sortingOrder;
+
+            RequestImage.enabled = false;
             _collider2D = GetComponent<Collider2D>();
             _collider2D.enabled = false;
 
@@ -38,6 +43,12 @@ namespace GuestRequests.Requests
             _collider2D.enabled = true;
         }
 
+        public void SetSorting(int layer, int order)
+        {
+            RequestImage.sortingLayerID = layer;
+            RequestImage.sortingOrder = order;
+        }
+
         public Transform GetTransform()
         {
             return transform;
@@ -46,10 +57,13 @@ namespace GuestRequests.Requests
         public ConsumedData Consume()
         {
             _isConsumed = true;
-            _requestImage.enabled = false;
-            _requestInteractable.SetInteractableActive(true);
+            RequestImage.enabled = false;
+            RequestInteractable.SetInteractableActive(true);
             _collider2D.enabled = false;
             ResetRequest();
+
+            RequestImage.sortingLayerID = _originalSortLayer;
+            RequestImage.sortingOrder = _originalSortOrder;
 
             OnConsumed?.Invoke(this);
             return consumeReward;
@@ -57,8 +71,8 @@ namespace GuestRequests.Requests
 
         public void Spill()
         {
-            _requestImage.sprite = spillSprite;
-            _requestInteractable.SetInteractableActive(false);
+            RequestImage.sprite = spillSprite;
+            RequestInteractable.SetInteractableActive(false);
             _spillInteractable.SetInteractableActive(true);
         }
 
@@ -70,12 +84,12 @@ namespace GuestRequests.Requests
         public void Cleanup()
         {
             Consume();
-            _requestImage.sprite = _originalSprite;
+            RequestImage.sprite = _originalSprite;
         }
 
         public void Claim()
         {
-            _requestInteractable.SetInteractableActive(false);
+            RequestInteractable.SetInteractableActive(false);
         }
 
         public bool IsConsumed()
@@ -85,17 +99,17 @@ namespace GuestRequests.Requests
 
         public bool IsAvailable()
         {
-            return !IsConsumed() && _requestImage.enabled;
+            return !IsConsumed() && RequestImage.enabled;
         }
 
         public void SetStartingPosition(Vector3 position)
         {
-            startingPosition = position;
+            StartingPosition = position;
         }
 
         public void SetInteractableActive(bool isInteractable)
         {
-            _requestInteractable.SetInteractableActive(isInteractable);
+            RequestInteractable.SetInteractableActive(isInteractable);
         }
     }
 }

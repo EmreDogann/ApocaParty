@@ -122,8 +122,8 @@ namespace Minion.States
                     minion.SetWandering(false);
                     _stateMachine.ChangeState(MinionStateID.Moving);
                     break;
-                case FridgeInteractable fridgeInteractable:
-                    FoodRequest foodRequest = fridgeInteractable.Fridge.TryGetFood();
+                case FoodPileInteractable fridgeInteractable:
+                    FoodRequest foodRequest = fridgeInteractable.FoodPile.TryGetFood();
                     if (foodRequest == null)
                     {
                         // TODO: Play error sound.
@@ -138,6 +138,40 @@ namespace Minion.States
                     minion.SetWandering(false);
                     minion.image.sprite = minion.actorData.kitchenIcon;
                     _stateMachine.ChangeState(MinionStateID.Moving);
+                    break;
+                case DrinksTableInteractable drinksTableInteractable:
+                    if (drinksTableInteractable.IsDrinkAvailable())
+                    {
+                        if (minion.HoldingConsumable == null)
+                        {
+                            minion.TargetConsumable = drinksTableInteractable.TryGetDrink();
+                            if (minion.TargetConsumable != null)
+                            {
+                                minion.SetDestinationAndDisplayPath(minion.TargetConsumable.GetTransform().position);
+
+                                minion.SetWandering(false);
+                                minion.image.sprite = minion.actorData.eventIcon;
+                                _stateMachine.ChangeState(MinionStateID.Moving);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        request = drinksTableInteractable.TryRefill();
+                        if (request == null)
+                        {
+                            return;
+                        }
+
+                        minion.SetDestinationAndDisplayPath(request.GetStartingPosition());
+                        minion.currentRequest = request;
+                        minion.currentRequest.AssignOwner(minion);
+
+                        minion.SetWandering(false);
+                        minion.image.sprite = minion.actorData.eventIcon;
+                        _stateMachine.ChangeState(MinionStateID.Moving);
+                    }
+
                     break;
                 case null:
                     _stateMachine.ChangeState(MinionStateID.Idle);

@@ -1,4 +1,5 @@
 ﻿using System;
+using MyBox;
 using UnityEngine;
 
 namespace Interactions
@@ -6,7 +7,8 @@ namespace Interactions
     [Serializable]
     public abstract class InteractableBase : MonoBehaviour, IInteractable
     {
-        [SerializeField] private string tooltipName;
+        [Separator("Base Interactable Settings")]
+        [SerializeField] protected string tooltipName;
 
         [field: SerializeField] public float HoldDuration { get; protected set; }
         [field: SerializeField] public bool HoldInteract { get; protected set; }
@@ -50,7 +52,7 @@ namespace Interactions
             return HoldProgress >= HoldDuration;
         }
 
-        public string GetTooltipName()
+        public virtual string GetTooltipName()
         {
             return tooltipName;
         }

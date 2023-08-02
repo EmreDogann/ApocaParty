@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Audio;
 using Interactions.Interactables;
 using JetBrains.Annotations;
+using MyBox;
 using PartyEvents;
 using UnityEngine;
 
@@ -8,9 +10,12 @@ namespace Consumable
 {
     public class DrinksTable : MonoBehaviour
     {
+        [Separator("General")]
         [SerializeField] private ParticleSystem emptyTableParticleSystem;
-        [SerializeField] private RequestInteractable drinksTableInteractable;
+        [SerializeField] private DrinksTableInteractable drinksTableInteractable;
+        [SerializeField] private AudioSO refillSound;
 
+        [Separator("Drinks")]
         [SerializeField] private GameObject drinkPrefab;
         [SerializeField] private Transform drinksTableCover;
 
@@ -18,7 +23,7 @@ namespace Consumable
         [SerializeField] private int tableCapacity = 6;
 
         private readonly List<Drink> _allDrinks = new List<Drink>();
-        private readonly List<Drink> _drinksOnTable = new List<Drink>();
+        private readonly List<Drink> _availableDrinks = new List<Drink>();
         public static DrinksTable Instance { get; private set; }
 
         private Vector2 _drinksTableFullScale;
@@ -42,14 +47,15 @@ namespace Consumable
 
                 if (onTable)
                 {
-                    _drinksOnTable.Add(drink);
+                    _availableDrinks.Add(drink);
                 }
             }
 
             _drinksTableFullScale = drinksTableCover.localScale;
             drinksTableCover.localScale = new Vector3(_drinksTableFullScale.x, 0.0f, 0.0f);
 
-            drinksTableInteractable.SetInteractableActive(false);
+            // drinksTableInteractable.SetInteractableActive(false);
+            drinksTableInteractable.SetInteractableActive(true);
         }
 
         private void OnEnable()
@@ -76,56 +82,74 @@ namespace Consumable
 
         private void OnDrinkClaim(Drink drink)
         {
-            for (int i = _drinksOnTable.Count - 1; i >= 0; i--)
+            int drinksOnTable = tableCapacity;
+            for (int i = _availableDrinks.Count - 1; i >= 0; i--)
             {
-                if (drink == _drinksOnTable[i])
+                if (drink.IsClaimed())
                 {
-                    drinksTableInteractable.SetInteractableActive(true);
-                    _drinksOnTable.RemoveAt(i);
-                    if (_drinksOnTable.Count % 2 == 0)
-                    {
-                        drinksTableCover.localScale += new Vector3(0.0f, _drinksTableFullScale.y * (1 / 3.0f), 0.0f);
-                    }
+                    drinksOnTable--;
                 }
+            }
+
+            if (drinksOnTable % 2 == 0)
+            {
+                drinksTableCover.localScale += new Vector3(0.0f, _drinksTableFullScale.y * (1 / 3.0f), 0.0f);
             }
         }
 
         [CanBeNull]
+        [ButtonMethod]
         public Drink TryGetDrink()
         {
-            foreach (Drink drink in _drinksOnTable)
+            if (_availableDrinks.Count > 0)
             {
+                Drink drink = _availableDrinks[^1];
+                _availableDrinks.RemoveAt(_availableDrinks.Count - 1);
                 return drink;
             }
 
             emptyTableParticleSystem.Play();
-
             return null;
+        }
+
+        public bool IsDrinkAvailable()
+        {
+            return _availableDrinks.Count > 0;
         }
 
         public bool IsDrinksTableFull()
         {
-            return _drinksOnTable.Count >= tableCapacity;
+            return _availableDrinks.Count >= tableCapacity;
+        }
+
+        [ButtonMethod]
+        private void EmptyTable()
+        {
+            for (int i = _availableDrinks.Count - 1; i >= 0; i--)
+            {
+                _availableDrinks[i].Consume();
+            }
         }
 
         private void OnFamineEvent(PartyEventData eventData)
         {
             if (eventData.eventType == PartyEventType.FamineAtDrinks)
             {
-                for (int i = _drinksOnTable.Count - 1; i >= 0; i--)
+                for (int i = _availableDrinks.Count - 1; i >= 0; i--)
                 {
-                    _drinksOnTable[i].Consume();
+                    _availableDrinks[i].Consume();
                 }
 
-                drinksTableInteractable.SetInteractableActive(true);
+                // drinksTableInteractable.SetInteractableActive(true);
             }
         }
 
+        [ButtonMethod]
         private void RefillDrinks()
         {
             foreach (Drink drink in _allDrinks)
             {
-                if (_drinksOnTable.Contains(drink))
+                if (_availableDrinks.Contains(drink))
                 {
                     continue;
                 }
@@ -133,13 +157,15 @@ namespace Consumable
                 if (drink.IsConsumed())
                 {
                     ((IConsumableInternal)drink).ResetConsumable();
-                    _drinksOnTable.Add(drink);
+                    _availableDrinks.Add(drink);
                 }
             }
 
+            refillSound.Play(transform.position);
+
             emptyTableParticleSystem.Stop();
             drinksTableCover.localScale = new Vector3(_drinksTableFullScale.x, 0.0f, 0.0f);
-            drinksTableInteractable.SetInteractableActive(false);
+            // drinksTableInteractable.SetInteractableActive(false);
         }
     }
 }

@@ -8,6 +8,8 @@ namespace GuestRequests
     public abstract class Job
     {
         [field: SerializeReference] public string JobName { get; protected set; }
+        [SerializeField] private bool hasDuration;
+
         protected float _currentTime;
         protected IJobOwner JobOwner;
 
@@ -38,6 +40,11 @@ namespace GuestRequests
 
         public abstract float GetProgressPercentage();
         public abstract float GetTotalDuration();
+
+        public bool HasDuration()
+        {
+            return hasDuration;
+        }
 
         public virtual bool IsFailed()
         {

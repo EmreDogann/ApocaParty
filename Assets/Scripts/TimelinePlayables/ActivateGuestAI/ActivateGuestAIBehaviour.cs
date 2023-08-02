@@ -1,5 +1,6 @@
 using System;
 using Guest;
+using UnityEngine;
 using UnityEngine.Playables;
 
 namespace TimelinePlayables.ActivateGuestAI
@@ -7,7 +8,7 @@ namespace TimelinePlayables.ActivateGuestAI
     [Serializable]
     public class ActivateGuestAIBehaviour : PlayableBehaviour
     {
-        public GuestAI guestAI;
+        [HideInInspector] public GuestAI guestAI;
 
         private PlayableGraph _graph;
         private Playable _thisPlayable;
