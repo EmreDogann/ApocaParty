@@ -24,7 +24,7 @@ namespace Minion
         public DisplayAgentPath pathDisplayer;
         [SerializeField] private Transform holderTransform;
         public bool enableWandering;
-        [SerializeField] private bool _isAIActive;
+        [SerializeField] private bool activateAIOnAwake;
 
         [Separator("UI")]
         public SpriteRenderer image;
@@ -41,7 +41,6 @@ namespace Minion
         private MinionIdleState _minionIdleState;
         private MinionMovingState _minionMovingState;
         private MinionWorkingState _minionWorkingState;
-        private CharacterBlackboard _blackboard;
 
         [HideInInspector] public IConsumable HoldingConsumable;
         [HideInInspector] public IConsumable TargetConsumable;
@@ -53,10 +52,11 @@ namespace Minion
         private float _currentWanderTime;
         private const float SearchRadius = 3.0f;
 
-        private void Start()
+        private bool _isAIActive;
+
+        private void Awake()
         {
             MainCamera = Camera.main;
-            _blackboard = GetComponent<CharacterBlackboard>();
             pathDisplayer = GetComponent<DisplayAgentPath>();
             plateInteraction = GetComponent<PlateMouseInteraction>();
 
@@ -75,6 +75,11 @@ namespace Minion
 
             // Initial state
             StateMachine.ChangeState(MinionStateID.Idle);
+
+            if (activateAIOnAwake)
+            {
+                SetActiveMinionAI(true);
+            }
         }
 
         private void Update()
@@ -86,8 +91,6 @@ namespace Minion
 
             StateMachine.UpdateState();
             aiState.text = StateMachine.GetCurrentState().GetID().ToString();
-
-            _blackboard.IsMoving = NavMeshAgent.hasPath;
 
             if (_shouldWander)
             {

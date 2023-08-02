@@ -10,8 +10,7 @@ namespace Needs.Needs
         {
             hunger = -0.5f,
             thirst = 0.0f,
-            enjoyment = -0.4f,
-            movement = 0.2f
+            enjoyment = -0.4f
         };
         [SerializeField] private float expirationTime = 20.0f;
         [SerializeField] private RandomConversationSO randomConversations;

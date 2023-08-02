@@ -7,8 +7,7 @@ namespace Needs
         None,
         Food,
         Drink,
-        Music,
-        Movement
+        Music
     }
     public interface INeed
     {

@@ -62,11 +62,6 @@ namespace Minion.States
 
         public void OnInteraction(InteractableBase interactable)
         {
-            if (minion.HoldingConsumable != null)
-            {
-                return;
-            }
-
             switch (interactable)
             {
                 case IInteractableRequest requestInteractable:
@@ -122,8 +117,16 @@ namespace Minion.States
                     minion.SetWandering(false);
                     _stateMachine.ChangeState(MinionStateID.Moving);
                     break;
-                case FoodPileInteractable fridgeInteractable:
-                    FoodRequest foodRequest = fridgeInteractable.FoodPile.TryGetFood();
+                case GuestInteractable guestInteractable:
+                    minion.SetDestinationAndDisplayPath(guestInteractable.WaiterTarget.GetDestinationTransform()
+                        .position);
+                    guestInteractable.WaiterTarget.GiveWaiterID(minion.WaiterID);
+
+                    minion.SetWandering(false);
+                    _stateMachine.ChangeState(MinionStateID.Moving);
+                    break;
+                case FoodPileInteractable foodPileInteractable:
+                    FoodRequest foodRequest = foodPileInteractable.FoodPile.TryGetFood();
                     if (foodRequest == null)
                     {
                         // TODO: Play error sound.

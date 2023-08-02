@@ -11,7 +11,6 @@ namespace Utils.Editor
         private SerializedProperty _hungerProperty;
         private SerializedProperty _thirstProperty;
         private SerializedProperty _enjoymentProperty;
-        private SerializedProperty _movementProperty;
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
@@ -57,7 +56,6 @@ namespace Utils.Editor
                     _hungerProperty = property.FindPropertyRelative(nameof(NeedMetrics.hunger));
                     _thirstProperty = property.FindPropertyRelative(nameof(NeedMetrics.thirst));
                     _enjoymentProperty = property.FindPropertyRelative(nameof(NeedMetrics.enjoyment));
-                    _movementProperty = property.FindPropertyRelative(nameof(NeedMetrics.movement));
                     _isFirstRun = false;
                 }
 
@@ -90,9 +88,6 @@ namespace Utils.Editor
 
                 position.y += yIncrement;
                 EditorGUI.Slider(position, _enjoymentProperty, range.Min, range.Max, _enjoymentProperty.displayName);
-
-                position.y += yIncrement;
-                EditorGUI.Slider(position, _movementProperty, range.Min, range.Max, _movementProperty.displayName);
 
                 EditorGUI.indentLevel--;
             }

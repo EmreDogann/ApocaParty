@@ -233,6 +233,7 @@ namespace Player
 
             if (Vector3.SqrMagnitude(transform.position - _agent.destination) < distanceThreshold * distanceThreshold)
             {
+                _target = null;
                 pathDisplayer.HidePath();
 
                 if (_currentRequest != null)
@@ -251,12 +252,6 @@ namespace Player
                     _holdingConsumable.GetTransform().position = holderTransform.position;
 
                     _targetConsumable = null;
-                    return;
-                }
-
-                if (_target != null)
-                {
-                    _target = null;
                 }
             }
         }

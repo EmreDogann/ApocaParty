@@ -15,14 +15,12 @@ namespace Needs
         public float hunger;
         public float thirst;
         public float enjoyment;
-        public float movement;
 
         public static NeedMetrics operator +(NeedMetrics a, NeedMetrics b)
         {
             a.hunger = Mathf.Clamp(a.hunger + b.hunger, 0.0f, 1.0f);
             a.thirst = Mathf.Clamp(a.thirst + b.thirst, 0.0f, 1.0f);
             a.enjoyment = Mathf.Clamp(a.enjoyment + b.enjoyment, 0.0f, 1.0f);
-            a.movement = Mathf.Clamp(a.movement + b.movement, 0.0f, 1.0f);
 
             return a;
         }
@@ -32,7 +30,6 @@ namespace Needs
             a.hunger = Mathf.Clamp(a.hunger - b.hunger, 0.0f, 1.0f);
             a.thirst = Mathf.Clamp(a.thirst - b.thirst, 0.0f, 1.0f);
             a.enjoyment = Mathf.Clamp(a.enjoyment - b.enjoyment, 0.0f, 1.0f);
-            a.movement = Mathf.Clamp(a.movement - b.movement, 0.0f, 1.0f);
 
             return a;
         }
@@ -43,8 +40,7 @@ namespace Needs
             {
                 hunger = a.hunger * value,
                 thirst = a.thirst * value,
-                enjoyment = a.enjoyment * value,
-                movement = a.movement * value
+                enjoyment = a.enjoyment * value
             };
 
             return metric;
@@ -56,8 +52,7 @@ namespace Needs
             {
                 hunger = a.hunger * value,
                 thirst = a.thirst * value,
-                enjoyment = a.enjoyment * value,
-                movement = a.movement * value
+                enjoyment = a.enjoyment * value
             };
 
             return metric;
@@ -70,7 +65,6 @@ namespace Needs
             hunger = value;
             thirst = value;
             enjoyment = value;
-            movement = value;
         }
     }
 
@@ -160,11 +154,6 @@ namespace Needs
             if (_currentMetrics.enjoyment < _metricsThreshold.enjoyment)
             {
                 TryAddNeed(NeedType.Music);
-            }
-
-            if (_currentMetrics.movement < _metricsThreshold.movement)
-            {
-                TryAddNeed(NeedType.Movement);
             }
         }
 

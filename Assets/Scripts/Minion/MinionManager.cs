@@ -2,6 +2,7 @@
 using System.Linq;
 using Audio;
 using Interactions;
+using Interactions.Interactables;
 using UnityEngine;
 
 namespace Minion
@@ -45,11 +46,14 @@ namespace Minion
 
         private void OnAltInteract(InteractableBase interactable)
         {
+            bool isGuest = interactable is GuestInteractable;
+
             float minDistance = Mathf.Infinity;
             MinionAI closestMinion = null;
             foreach (MinionAI minion in _minions)
             {
-                if (minion.StateMachine.GetCurrentState().GetID() != MinionStateID.Idle)
+                if (minion.StateMachine.GetCurrentState().GetID() != MinionStateID.Idle ||
+                    isGuest && minion.HoldingConsumable == null || !isGuest && minion.HoldingConsumable != null)
                 {
                     continue;
                 }

@@ -1752,17 +1752,14 @@ MonoBehaviour:
     hunger: 0.475
     thirst: 0.6
     enjoyment: 0.5
-    movement: 0.4
   _metricsDepletionRate:
     hunger: 0.002
     thirst: 0.002
     enjoyment: 0.002
-    movement: 0.002
   _currentMetrics:
     hunger: 0.5
     thirst: 0.5
     enjoyment: 0.5
-    movement: 0.5
 --- !u!114 &95452310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1952,45 +1949,8 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: 0
-    movement: 0
   expirationTime: 30
   randomConversations: {fileID: 11400000, guid: 1213ba7202b965944b43d76f08d9cfd1, type: 2}
---- !u!21 &111852675
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &158285456
 GameObject:
   m_ObjectHideFlags: 0
@@ -2532,7 +2492,6 @@ MonoBehaviour:
     hunger: -0.3
     thirst: 0
     enjoyment: 0
-    movement: 0
   moodPoints: -1
 --- !u!114 &169186470
 MonoBehaviour:
@@ -2558,17 +2517,14 @@ MonoBehaviour:
     hunger: 0.475
     thirst: 0.6
     enjoyment: 0.5
-    movement: 0.4
   _metricsDepletionRate:
     hunger: 0.002
     thirst: 0.002
     enjoyment: 0.002
-    movement: 0.002
   _currentMetrics:
     hunger: 0.5
     thirst: 0.5
     enjoyment: 0.5
-    movement: 0.5
 --- !u!58 &169186471
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3221,7 +3177,6 @@ MonoBehaviour:
       hunger: 0.5
       thirst: 0
       enjoyment: 0.2
-      movement: 0
   spillSprite: {fileID: 21300000, guid: 0a2e64bb4d9f9fb439f4ba2c7ae83105, type: 3}
   references:
     version: 2
@@ -3743,42 +3698,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a47990e3a2b28f04d9da86109f586d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!21 &261575845
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &261599761
 GameObject:
   m_ObjectHideFlags: 0
@@ -3878,7 +3797,6 @@ MonoBehaviour:
       hunger: 0.5
       thirst: 0
       enjoyment: 0.2
-      movement: 0
   spillSprite: {fileID: 21300000, guid: 0a2e64bb4d9f9fb439f4ba2c7ae83105, type: 3}
   references:
     version: 2
@@ -4642,7 +4560,6 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: 0
-    movement: 0
   expirationTime: 30
   randomConversations: {fileID: 11400000, guid: 1213ba7202b965944b43d76f08d9cfd1, type: 2}
 --- !u!1 &336424055
@@ -4812,7 +4729,6 @@ MonoBehaviour:
       hunger: 0.5
       thirst: 0
       enjoyment: 0.2
-      movement: 0
   spillSprite: {fileID: 21300000, guid: b0eb22d7c97e3de4f9cc725cdf733fdd, type: 3}
   references:
     version: 2
@@ -5546,10 +5462,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 2003452203}
     m_Modifications:
     - target: {fileID: 5299949603845958435, guid: 78779a700465a714194af07a1dc43e85, type: 3}
-      propertyPath: activateAIOnAwake
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5299949603845958435, guid: 78779a700465a714194af07a1dc43e85, type: 3}
       propertyPath: <AssignedTableSeat>k__BackingField
       value: 
       objectReference: {fileID: 1865434704}
@@ -5660,16 +5572,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cefe7a67daf4f58be6b0ced7dac3f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconSpacing: 0
+  useUnresolvedSymbol: 0
   unresolvedRequestSprite: {fileID: 1082511088}
   _needsIconDatas:
   - NeedType: 1
     SpriteRenderer: {fileID: 1324671893}
-    requestSprite: {fileID: 0}
     needResolved: 0
   - NeedType: 3
     SpriteRenderer: {fileID: 2001064798}
-    requestSprite: {fileID: 0}
     needResolved: 0
 --- !u!1 &428441202
 GameObject:
@@ -11101,7 +11011,6 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: 0
-    movement: 0
   expirationTime: 30
   randomConversations: {fileID: 11400000, guid: 1213ba7202b965944b43d76f08d9cfd1, type: 2}
 --- !u!1 &482618676
@@ -11331,7 +11240,6 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: 0
-    movement: 0.3
   moodPoints: 1
 --- !u!114 &490362097
 MonoBehaviour:
@@ -11420,7 +11328,6 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: -0.2
-    movement: 0
   moodPoints: -1
 --- !u!114 &490362101
 MonoBehaviour:
@@ -11665,7 +11572,6 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: 0
-    movement: 0
   expirationTime: 30
   randomConversations: {fileID: 11400000, guid: a95ef6fc209bce948b7563ebd34393eb, type: 2}
 --- !u!1 &511284919
@@ -12624,16 +12530,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cefe7a67daf4f58be6b0ced7dac3f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconSpacing: 0
+  useUnresolvedSymbol: 1
   unresolvedRequestSprite: {fileID: 1206833403}
   _needsIconDatas:
   - NeedType: 1
     SpriteRenderer: {fileID: 2110269305}
-    requestSprite: {fileID: 0}
+    needResolved: 0
+  - NeedType: 2
+    SpriteRenderer: {fileID: 1286948524}
     needResolved: 0
   - NeedType: 3
     SpriteRenderer: {fileID: 1286948524}
-    requestSprite: {fileID: 0}
     needResolved: 0
 --- !u!1 &566290694
 GameObject:
@@ -18157,7 +18064,6 @@ MonoBehaviour:
       hunger: 0.5
       thirst: 0
       enjoyment: 0.2
-      movement: 0
   spillSprite: {fileID: 21300000, guid: 0a2e64bb4d9f9fb439f4ba2c7ae83105, type: 3}
   references:
     version: 2
@@ -18400,17 +18306,14 @@ MonoBehaviour:
     hunger: 0.475
     thirst: 0.6
     enjoyment: 0.5
-    movement: 0.4
   _metricsDepletionRate:
     hunger: 0.002
     thirst: 0.002
     enjoyment: 0.002
-    movement: 0.002
   _currentMetrics:
     hunger: 0.5
     thirst: 0.5
     enjoyment: 0.5
-    movement: 0.5
 --- !u!114 &686878712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18625,7 +18528,6 @@ MonoBehaviour:
       hunger: 0.5
       thirst: 0
       enjoyment: 0.2
-      movement: 0
   spillSprite: {fileID: 21300000, guid: b0eb22d7c97e3de4f9cc725cdf733fdd, type: 3}
   references:
     version: 2
@@ -18954,6 +18856,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 708025167}
   m_CullTransparentMesh: 1
+--- !u!21 &713980734
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &716766974
 GameObject:
   m_ObjectHideFlags: 0
@@ -19569,7 +19507,6 @@ MonoBehaviour:
       hunger: 0.5
       thirst: 0
       enjoyment: 0.2
-      movement: 0
   spillSprite: {fileID: 21300000, guid: 0a2e64bb4d9f9fb439f4ba2c7ae83105, type: 3}
   references:
     version: 2
@@ -19851,7 +19788,7 @@ MonoBehaviour:
   pathDisplayer: {fileID: 754063274}
   holderTransform: {fileID: 2030473880}
   enableWandering: 0
-  _isAIActive: 1
+  activateAIOnAwake: 1
   image: {fileID: 1522357477}
   aiState: {fileID: 161511143}
   progressBar: {fileID: 5434562460609369399}
@@ -20266,16 +20203,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cefe7a67daf4f58be6b0ced7dac3f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconSpacing: 0
+  useUnresolvedSymbol: 0
   unresolvedRequestSprite: {fileID: 1859945629}
   _needsIconDatas:
   - NeedType: 1
     SpriteRenderer: {fileID: 1429165589}
-    requestSprite: {fileID: 0}
     needResolved: 0
   - NeedType: 3
     SpriteRenderer: {fileID: 1430437007}
-    requestSprite: {fileID: 0}
     needResolved: 0
 --- !u!1 &805540051
 GameObject:
@@ -21154,7 +21089,6 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: 0
-    movement: 0
   expirationTime: 30
   randomConversations: {fileID: 11400000, guid: 1213ba7202b965944b43d76f08d9cfd1, type: 2}
 --- !u!1001 &850670925
@@ -22514,6 +22448,42 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!21 &970094149
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &993686738
 GameObject:
   m_ObjectHideFlags: 0
@@ -22562,7 +22532,6 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: 0
-    movement: 0
   expirationTime: 30
   randomConversations: {fileID: 11400000, guid: c75a242e8ae70b74d92f99a376d5b23e, type: 2}
 --- !u!1 &1002653104
@@ -22956,7 +22925,6 @@ MonoBehaviour:
       hunger: 0.5
       thirst: 0
       enjoyment: 0.2
-      movement: 0
   spillSprite: {fileID: 21300000, guid: 0a2e64bb4d9f9fb439f4ba2c7ae83105, type: 3}
   references:
     version: 2
@@ -24037,7 +24005,6 @@ MonoBehaviour:
       hunger: 0.5
       thirst: 0
       enjoyment: 0.2
-      movement: 0
   spillSprite: {fileID: 21300000, guid: b0eb22d7c97e3de4f9cc725cdf733fdd, type: 3}
   references:
     version: 2
@@ -30281,7 +30248,6 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: 0
-    movement: 0
   moodPoints: -1
 --- !u!114 &1271352287
 MonoBehaviour:
@@ -30710,7 +30676,6 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: 0
-    movement: 0
   moodPoints: -1
 --- !u!114 &1295558828
 MonoBehaviour:
@@ -36793,7 +36758,6 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: 0
-    movement: 0
   expirationTime: 30
   randomConversations: {fileID: 11400000, guid: c75a242e8ae70b74d92f99a376d5b23e, type: 2}
 --- !u!1 &1354302445
@@ -36987,8 +36951,7 @@ MonoBehaviour:
   expiryPunishment:
     hunger: 0
     thirst: 0
-    enjoyment: 0
-    movement: 0
+    enjoyment: -0.5
   expirationTime: 30
   randomConversations: {fileID: 11400000, guid: c75a242e8ae70b74d92f99a376d5b23e, type: 2}
 --- !u!1 &1374427231
@@ -43539,7 +43502,7 @@ MonoBehaviour:
   pathDisplayer: {fileID: 1538724054}
   holderTransform: {fileID: 1161070037}
   enableWandering: 0
-  _isAIActive: 1
+  activateAIOnAwake: 1
   image: {fileID: 1996456030}
   aiState: {fileID: 1347968202}
   progressBar: {fileID: 292827850}
@@ -43805,16 +43768,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cefe7a67daf4f58be6b0ced7dac3f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconSpacing: 0
+  useUnresolvedSymbol: 0
   unresolvedRequestSprite: {fileID: 1324036744}
   _needsIconDatas:
   - NeedType: 1
     SpriteRenderer: {fileID: 1556630752}
-    requestSprite: {fileID: 0}
     needResolved: 0
   - NeedType: 3
     SpriteRenderer: {fileID: 817330208}
-    requestSprite: {fileID: 0}
     needResolved: 0
 --- !u!1 &1556630750
 GameObject:
@@ -43945,10 +43906,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   expiryPunishment:
-    hunger: 0
+    hunger: -0.5
     thirst: 0
-    enjoyment: 0
-    movement: 0
+    enjoyment: -0.4
   expirationTime: 30
   randomConversations: {fileID: 11400000, guid: a95ef6fc209bce948b7563ebd34393eb, type: 2}
 --- !u!1 &1560122536
@@ -43999,7 +43959,6 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: 0
-    movement: 0
   expirationTime: 30
   randomConversations: {fileID: 11400000, guid: a95ef6fc209bce948b7563ebd34393eb, type: 2}
 --- !u!1 &1573403825
@@ -44913,7 +44872,7 @@ MonoBehaviour:
   pathDisplayer: {fileID: 1642062916}
   holderTransform: {fileID: 1232475332}
   enableWandering: 0
-  _isAIActive: 1
+  activateAIOnAwake: 1
   image: {fileID: 336424058}
   aiState: {fileID: 29859585}
   progressBar: {fileID: 1015704828}
@@ -45094,6 +45053,42 @@ Transform:
   m_Father: {fileID: 744024074}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &1675107817
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1001 &1678714183
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45277,7 +45272,6 @@ MonoBehaviour:
       hunger: 0.5
       thirst: 0
       enjoyment: 0.2
-      movement: 0
   spillSprite: {fileID: 21300000, guid: b0eb22d7c97e3de4f9cc725cdf733fdd, type: 3}
   references:
     version: 2
@@ -45656,7 +45650,6 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: 0
-    movement: 0
   expirationTime: 30
   randomConversations: {fileID: 11400000, guid: a95ef6fc209bce948b7563ebd34393eb, type: 2}
 --- !u!1 &1722470805
@@ -45798,42 +45791,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1723594750}
   m_CullTransparentMesh: 1
---- !u!21 &1725369709
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &1734596299
 GameObject:
   m_ObjectHideFlags: 0
@@ -45927,7 +45884,6 @@ MonoBehaviour:
     hunger: -0.3
     thirst: 0
     enjoyment: 0
-    movement: 0
   moodPoints: -1
 --- !u!114 &1746893840
 MonoBehaviour:
@@ -45953,17 +45909,14 @@ MonoBehaviour:
     hunger: 0.475
     thirst: 0.6
     enjoyment: 0.5
-    movement: 0.4
   _metricsDepletionRate:
     hunger: 0.002
     thirst: 0.002
     enjoyment: 0.002
-    movement: 0.002
   _currentMetrics:
     hunger: 0.5
     thirst: 0.5
     enjoyment: 0.5
-    movement: 0.5
 --- !u!114 &1746893841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46122,7 +46075,6 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: 0
-    movement: 0
   expirationTime: 30
   randomConversations: {fileID: 11400000, guid: c75a242e8ae70b74d92f99a376d5b23e, type: 2}
 --- !u!1 &1769155861
@@ -46275,17 +46227,14 @@ MonoBehaviour:
     hunger: 0.475
     thirst: 0.6
     enjoyment: 0.5
-    movement: 0.4
   _metricsDepletionRate:
     hunger: 0.002
     thirst: 0.002
     enjoyment: 0.002
-    movement: 0.002
   _currentMetrics:
     hunger: 0.5
     thirst: 0.5
     enjoyment: 0.5
-    movement: 0.5
 --- !u!114 &1776559401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46569,7 +46518,6 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: 0
-    movement: 0
   moodPoints: -1
 --- !u!1 &1807281803
 GameObject:
@@ -46988,11 +46936,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   expiryPunishment:
     hunger: 0
-    thirst: 0
-    enjoyment: 0
-    movement: 0
+    thirst: -0.5
+    enjoyment: -0.2
   expirationTime: 30
-  randomConversations: {fileID: 11400000, guid: 1213ba7202b965944b43d76f08d9cfd1, type: 2}
+  randomConversations: {fileID: 11400000, guid: 2b4ec5a29b6ab19458164eb94e246c11, type: 2}
 --- !u!1 &1846744168
 GameObject:
   m_ObjectHideFlags: 0
@@ -47301,7 +47248,6 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: 0
-    movement: 0
   expirationTime: 30
   randomConversations: {fileID: 11400000, guid: a95ef6fc209bce948b7563ebd34393eb, type: 2}
 --- !u!1 &1917510745
@@ -47372,7 +47318,6 @@ MonoBehaviour:
       hunger: 0.5
       thirst: 0
       enjoyment: 0.2
-      movement: 0
   spillSprite: {fileID: 21300000, guid: b0eb22d7c97e3de4f9cc725cdf733fdd, type: 3}
   references:
     version: 2
@@ -47766,7 +47711,6 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: 0
-    movement: 0
   expirationTime: 30
   randomConversations: {fileID: 11400000, guid: c75a242e8ae70b74d92f99a376d5b23e, type: 2}
 --- !u!1 &1976179942
@@ -48513,6 +48457,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionMap: 1
+--- !u!21 &2078386679
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &2081128087
 GameObject:
   m_ObjectHideFlags: 0
@@ -48636,16 +48616,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cefe7a67daf4f58be6b0ced7dac3f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconSpacing: 0
+  useUnresolvedSymbol: 0
   unresolvedRequestSprite: {fileID: 1820428383}
   _needsIconDatas:
   - NeedType: 1
     SpriteRenderer: {fileID: 515446579}
-    requestSprite: {fileID: 0}
     needResolved: 0
   - NeedType: 3
     SpriteRenderer: {fileID: 1298906235}
-    requestSprite: {fileID: 0}
     needResolved: 0
 --- !u!1 &2093667803
 GameObject:
@@ -48681,42 +48659,6 @@ Transform:
   m_Father: {fileID: 169186461}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &2098502558
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1001 &2105885223
 PrefabInstance:
   m_ObjectHideFlags: 0

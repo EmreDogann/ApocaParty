@@ -183,8 +183,7 @@ MonoBehaviour:
     hunger: 0
     thirst: -0.5
     enjoyment: -0.2
-    movement: 0
-  expirationTime: 20
+  expirationTime: 30
   randomConversations: {fileID: 0}
 --- !u!1 &5299949603845958439
 GameObject:
@@ -318,7 +317,7 @@ MonoBehaviour:
   holderTransform: {fileID: 5299949604859386391}
   actorData: {fileID: 0}
   startingMood: 2
-  activateAIOnAwake: 0
+  activateAIOnAwake: 1
   chanceToSpillDrink: 0.3
   spillDrinkCheckFrequency: 2
   walkToDrinksChance: 0.1
@@ -350,17 +349,14 @@ MonoBehaviour:
     hunger: 0.475
     thirst: 0.6
     enjoyment: 0.5
-    movement: 0.4
   _metricsDepletionRate:
     hunger: 0.002
     thirst: 0.002
     enjoyment: 0.002
-    movement: 0.002
   _currentMetrics:
     hunger: 0.5
     thirst: 0.5
     enjoyment: 0.5
-    movement: 0.5
 --- !u!1 &5299949604069071811
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,8 +382,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5299949604069071811}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.79, y: 0.32, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalPosition: {x: 0.596, y: 0.479, z: 0}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5299949604328445000}
@@ -493,8 +489,7 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: -0.5
-    movement: 0.1
-  expirationTime: 20
+  expirationTime: 30
   randomConversations: {fileID: 0}
 --- !u!1 &5299949604327381274
 GameObject:
@@ -643,16 +638,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cefe7a67daf4f58be6b0ced7dac3f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconSpacing: 0
+  useUnresolvedSymbol: 0
   unresolvedRequestSprite: {fileID: 5299949604069071809}
   _needsIconDatas:
   - NeedType: 1
     SpriteRenderer: {fileID: 5299949604852122135}
-    requestSprite: {fileID: 0}
+    needResolved: 0
+  - NeedType: 2
+    SpriteRenderer: {fileID: 5299949605186795926}
     needResolved: 0
   - NeedType: 3
     SpriteRenderer: {fileID: 5299949604816884375}
-    requestSprite: {fileID: 0}
     needResolved: 0
 --- !u!1 &5299949604506477558
 GameObject:
@@ -765,8 +761,7 @@ MonoBehaviour:
     hunger: -0.5
     thirst: 0
     enjoyment: -0.4
-    movement: 0.2
-  expirationTime: 20
+  expirationTime: 30
   randomConversations: {fileID: 0}
 --- !u!1 &5299949604816884361
 GameObject:
@@ -793,8 +788,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5299949604816884361}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.79299986, y: 0.29999995, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalPosition: {x: -0.78, y: 0.188, z: 0}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5299949604328445000}
@@ -841,15 +836,15 @@ SpriteRenderer:
   m_SortingLayerID: -29931941
   m_SortingLayer: 2
   m_SortingOrder: 1
-  m_Sprite: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Sprite: {fileID: 21300000, guid: 6717841806b8f1248b8a7b40c127e3af, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.8027119, y: 0.74}
+  m_Size: {x: 3.06, y: 1.97}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &5299949604852122121
@@ -878,7 +873,7 @@ Transform:
   m_GameObject: {fileID: 5299949604852122121}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.78, y: -0.26, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5299949604328445000}
@@ -925,15 +920,15 @@ SpriteRenderer:
   m_SortingLayerID: -29931941
   m_SortingLayer: 2
   m_SortingOrder: 1
-  m_Sprite: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Sprite: {fileID: 21300000, guid: 95dbc20236fe4a046a279ee9a9f37267, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.8027119, y: 0.74}
+  m_Size: {x: 2.7, y: 2.78}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &5299949604859386390
@@ -992,8 +987,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5299949605186795912}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.9419994, y: -0.5799999, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalPosition: {x: -1.228, y: -0.039, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5299949604328445000}
@@ -1040,7 +1035,7 @@ SpriteRenderer:
   m_SortingLayerID: -29931941
   m_SortingLayer: 2
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 6717841806b8f1248b8a7b40c127e3af, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4832b15f8ad90324a82dea43c8e47d0d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
