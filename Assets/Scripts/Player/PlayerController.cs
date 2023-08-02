@@ -11,20 +11,18 @@ using Interactions.Interactables;
 using MyBox;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem;
 using Utils;
 using Random = UnityEngine.Random;
 
 namespace Player
 {
-    [RequireComponent(typeof(NavMeshAgent), typeof(DisplayAgentPath), typeof(PlateMouseInteraction))]
+    [RequireComponent(typeof(NavMeshAgent), typeof(DisplayAgentPath))]
     public class PlayerController : MonoBehaviour, IRequestOwner, IWaiter
     {
         [Separator("General")]
         [SerializeField] private SpriteRenderer spriteRenderer;
 
         [Separator("Movement")]
-        // [SerializeField] private InputActionReference moveButton;
         [SerializeField] private float distanceThreshold = 0.01f;
         [NavMeshSelector] [SerializeField] private int ignoreAreaCosts;
         [SerializeField] private Transform holderTransform;
@@ -48,7 +46,6 @@ namespace Player
 
         private NavMeshAgent _agent;
         private Camera _mainCamera;
-        private PlateMouseInteraction _plateInteraction;
 
         private Request _currentRequest;
         private Transform _target;
@@ -65,7 +62,6 @@ namespace Player
             _mainCamera = Camera.main;
             _agent = GetComponent<NavMeshAgent>();
             pathDisplayer = GetComponent<DisplayAgentPath>();
-            _plateInteraction = GetComponent<PlateMouseInteraction>();
 
             _agent.updateRotation = false;
             _agent.updateUpAxis = false;
@@ -86,7 +82,7 @@ namespace Player
 
         private void OnInteraction(InteractableBase interactable)
         {
-            if (_currentRequest != null || _holdingConsumable != null)
+            if (_currentRequest != null)
             {
                 return;
             }
@@ -123,13 +119,6 @@ namespace Player
                             }
 
                             return;
-                        // case DrinkRefillRequest _:
-                        //     if (DrinksTable.Instance.IsDrinksTableFull())
-                        //     {
-                        //         return;
-                        //     }
-                        //
-                        //     break;
                     }
 
                     if (request.IsRequestStarted() || !request.TryStartRequest() || request.GetRequestOwner() != null)
@@ -217,17 +206,6 @@ namespace Player
             if (_holdingConsumable != null)
             {
                 _holdingConsumable.GetTransform().position = holderTransform.position;
-                if (_target == null)
-                {
-                    switch (_plateInteraction.CheckForPlateInteraction())
-                    {
-                        case PlateInteractable plateInteractable:
-                            _target = plateInteractable.WaiterTarget.GetDestinationTransform();
-                            plateInteractable.WaiterTarget.GiveWaiterID(_waiterID);
-
-                            break;
-                    }
-                }
             }
 
             if (_target != null)
@@ -246,19 +224,22 @@ namespace Player
                 return;
             }
 
-            if (InputManager.Instance.InteractPressed && !_currentRequest && _isPlayerInputActive)
-            {
-                Vector3 mouseWorldPosition = _mainCamera.ScreenToWorldPoint(Mouse.current.position.value);
-                mouseWorldPosition.z = 0;
-                SetDestinationAndDisplayPath(mouseWorldPosition);
-            }
+            // if (InputManager.Instance.InteractPressed && !_currentRequest && _isPlayerInputActive)
+            // {
+            //     Vector3 mouseWorldPosition = _mainCamera.ScreenToWorldPoint(Mouse.current.position.value);
+            //     mouseWorldPosition.z = 0;
+            //     SetDestinationAndDisplayPath(mouseWorldPosition);
+            // }
 
             if (Vector3.SqrMagnitude(transform.position - _agent.destination) < distanceThreshold * distanceThreshold)
             {
+                pathDisplayer.HidePath();
+
                 if (_currentRequest != null)
                 {
                     _currentRequest.ActivateRequest();
                     progressBar.SetProgressBarActive(true);
+                    return;
                 }
 
                 if (_targetConsumable != null && !_targetConsumable.IsSpilled())
@@ -270,9 +251,13 @@ namespace Player
                     _holdingConsumable.GetTransform().position = holderTransform.position;
 
                     _targetConsumable = null;
+                    return;
                 }
 
-                pathDisplayer.HidePath();
+                if (_target != null)
+                {
+                    _target = null;
+                }
             }
         }
 
@@ -302,10 +287,10 @@ namespace Player
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (_target != null)
+            if (_target == null)
             {
                 IWaiterTarget waiterTarget = other.GetComponent<IWaiterTarget>();
-                if (waiterTarget != null && waiterTarget.GetWaiterID() == _waiterID)
+                if (waiterTarget != null && waiterTarget.IsAssignedWaiter() && waiterTarget.GetWaiterID() == _waiterID)
                 {
                     waiterTarget.WaiterInteracted(this);
                     _target = null;
@@ -321,16 +306,18 @@ namespace Player
                 return;
             }
 
-            if (_target != null)
+            if (_target == null)
             {
                 IWaiterTarget waiterTarget = other.GetComponent<IWaiterTarget>();
-                if (waiterTarget != null && waiterTarget.GetWaiterID() == _waiterID)
+                if (waiterTarget != null && waiterTarget.IsAssignedWaiter() && waiterTarget.GetWaiterID() == _waiterID)
                 {
                     waiterTarget.WaiterInteracted(this);
                     _target = null;
                     _holdingConsumable = null;
                 }
-
+            }
+            else
+            {
                 SpillInteractable spillInteractable = other.GetComponent<SpillInteractable>();
                 if (spillInteractable != null && ReferenceEquals(_targetConsumable, spillInteractable.Consumable))
                 {
@@ -394,6 +381,11 @@ namespace Player
         public void OwnerRemoved()
         {
             _currentRequest = null;
+        }
+
+        public OwnerType GetOwnerType()
+        {
+            return OwnerType.Player;
         }
 
         public IConsumable GetConsumable()

@@ -2,6 +2,13 @@
 
 namespace GuestRequests
 {
+    public enum OwnerType
+    {
+        Player,
+        Minion,
+        Guest
+    }
+
     public interface IRequestOwner
     {
         public void SetDestination(Vector3 target);
@@ -13,6 +20,6 @@ namespace GuestRequests
 
         public void OwnerRemoved();
 
-        // public void SetAnimation();
+        public OwnerType GetOwnerType();
     }
 }

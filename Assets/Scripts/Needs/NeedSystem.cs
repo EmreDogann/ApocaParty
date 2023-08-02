@@ -197,7 +197,11 @@ namespace Needs
             {
                 if (!needsDisplayer.IsNeedResolved(need.GetNeedType()))
                 {
-                    messages.Add(need.GetRandomConversations().GetRandomMessage());
+                    RandomConversationSO randomConversation = need.GetRandomConversations();
+                    if (randomConversation != null)
+                    {
+                        messages.Add(randomConversation.GetRandomMessage());
+                    }
                 }
             }
 
@@ -232,12 +236,8 @@ namespace Needs
 
         private void AddNeed(INeed need)
         {
-            if (need.GetNeedType() != NeedType.Drink)
-            {
-                needsDisplayer.AddDisplay(need.GetNeedType());
-                _currentNeeds.Add(need);
-            }
-
+            needsDisplayer.AddDisplay(need.GetNeedType());
+            _currentNeeds.Add(need);
             OnNewNeed?.Invoke(need);
         }
 

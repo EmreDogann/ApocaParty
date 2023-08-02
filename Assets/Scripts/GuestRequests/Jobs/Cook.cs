@@ -58,7 +58,8 @@ namespace GuestRequests.Jobs
                 base.Tick(deltaTime);
                 _currentCookTime += deltaTime;
 
-                if (_hasFoodAlreadyBurned || _currentCookTime <= _fireCheckFrequency)
+                if (JobOwner.GetRequestOwner().GetOwnerType() == OwnerType.Player || _hasFoodAlreadyBurned ||
+                    _currentCookTime <= _fireCheckFrequency)
                 {
                     return;
                 }

@@ -142,6 +142,11 @@ namespace Minion
             StateMachine.ChangeState(MinionStateID.Idle);
         }
 
+        public OwnerType GetOwnerType()
+        {
+            return OwnerType.Minion;
+        }
+
         public void OnInteract(InteractableBase interactableBase)
         {
             if (StateMachine.GetCurrentState().GetID() == MinionStateID.Idle)

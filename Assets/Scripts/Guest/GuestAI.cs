@@ -1,10 +1,10 @@
-using System;
 using Actors;
 using Consumable;
 using Dialogue;
 using DiningTable;
 using Guest.States;
 using GuestRequests;
+using GuestRequests.Requests;
 using Interactions.Interactables;
 using MyBox;
 using Needs;
@@ -49,6 +49,8 @@ namespace Guest
         [SerializeField] private MoodType startingMood;
 
         [Separator("AI Behaviour")]
+        [SerializeField] private bool activateAIOnAwake;
+
         [Range(0.0f, 1.0f)] public float chanceToSpillDrink;
         public float spillDrinkCheckFrequency;
         [Range(0.0f, 1.0f)] public float walkToDrinksChance;
@@ -107,6 +109,11 @@ namespace Guest
             stateMachine.ChangeState(GuestStateID.Idle);
 
             navMeshAgent.SetAreaCost(ignoreAreaCosts, 1.0f);
+
+            if (activateAIOnAwake)
+            {
+                ActivateAI();
+            }
         }
 
         private void OnEnable()
@@ -114,11 +121,6 @@ namespace Guest
             VibeMeter.VibeCheck += VibeCheck;
             PartyEvent.OnPartyEvent += OnPartyEvent;
             needSystem.OnNewNeed += OnNewNeed;
-
-            if (AssignedTableSeat)
-            {
-                AssignedTableSeat.OnFoodArrival += OnFoodArrival;
-            }
         }
 
         private void OnDisable()
@@ -126,11 +128,6 @@ namespace Guest
             VibeMeter.VibeCheck -= VibeCheck;
             PartyEvent.OnPartyEvent -= OnPartyEvent;
             needSystem.OnNewNeed -= OnNewNeed;
-
-            if (AssignedTableSeat)
-            {
-                AssignedTableSeat.OnFoodArrival -= OnFoodArrival;
-            }
         }
 
         private void Update()
@@ -160,8 +157,6 @@ namespace Guest
             {
                 SetDestination(tableSeat.transform.position);
             }
-
-            AssignedTableSeat.OnFoodArrival += OnFoodArrival;
         }
 
         public void ActivateAI()
@@ -191,6 +186,11 @@ namespace Guest
 
         public void OwnerRemoved() {}
 
+        public OwnerType GetOwnerType()
+        {
+            return OwnerType.Guest;
+        }
+
         public Transform GetSeatTransform()
         {
             return AssignedTableSeat.GetSeatTransform();
@@ -201,26 +201,20 @@ namespace Guest
             switch (need.GetNeedType())
             {
                 case NeedType.Drink:
-                    // IConsumable consumable = DrinksTable.Instance.TryGetDrink();
-                    // if (consumable == null)
-                    // {
-                    //     return;
-                    // }
-                    //
-                    // if (_guestType is GuestType.Famine)
-                    // {
-                    //     if (Random.Range(0.0f, 1.0f) <= walkToDrinksChance)
-                    //     {
-                    //         CurrentConsumable = consumable;
-                    //         stateMachine.ChangeState(GuestStateID.GetConsumable);
-                    //     }
-                    // }
-                    // else if (_guestType is GuestType.Henchmen)
-                    // {
-                    //     CurrentConsumable = consumable;
-                    //     stateMachine.ChangeState(GuestStateID.GetConsumable);
-                    // }
-                    //
+                    if (!DrinksTable.Instance.IsDrinkAvailable())
+                    {
+                        return;
+                    }
+
+                    if (_guestType is GuestType.Famine or GuestType.Henchmen)
+                    {
+                        if (Random.Range(0.0f, 1.0f) <= walkToDrinksChance)
+                        {
+                            CurrentConsumable = DrinksTable.Instance.TryGetDrink();
+                            stateMachine.ChangeState(GuestStateID.GetConsumable);
+                        }
+                    }
+
                     break;
             }
         }
@@ -251,14 +245,7 @@ namespace Guest
                 case PartyEventType.BuntingFall:
                     needSystem.ChangeMood(eventData.moodCost);
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
-        }
-
-        private void OnFoodArrival()
-        {
-            stateMachine.ChangeState(GuestStateID.MoveToSeat);
         }
 
         private void OnWaiterInteractDialogueFinished()
@@ -268,29 +255,8 @@ namespace Guest
 
         public void WaiterInteracted(IWaiter waiter)
         {
-            // switch (stateMachine.GetCurrentState().GetID())
-            // {
-            //     case GuestStateID.Wander:
-            //         stateMachine.ChangeState(GuestStateID.MoveToSeat);
-            //         break;
-            //     case GuestStateID.Idle:
-            //         var messages = needSystem.GetUnknownNeedConversations();
-            //         if (messages.Count > 0)
-            //         {
-            //             foreach (Message message in messages)
-            //             {
-            //                 message.actor = actorData;
-            //             }
-            //
-            //             DialogueManager.Instance.OpenRandomDialogue(messages.ToArray(),
-            //                 OnWaiterInteractDialogueFinished);
-            //         }
-            //
-            //         break;
-            // }
-
             var messages = needSystem.GetUnknownNeedConversations();
-            if (messages.Count > 0)
+            if (_guestType != GuestType.Henchmen && messages.Count > 0)
             {
                 foreach (Message message in messages)
                 {
@@ -299,6 +265,33 @@ namespace Guest
 
                 DialogueManager.Instance.OpenRandomDialogue(messages.ToArray(),
                     OnWaiterInteractDialogueFinished);
+            }
+            else
+            {
+                IConsumable consumable = waiter.GetConsumable();
+                if (consumable != null)
+                {
+                    switch (consumable)
+                    {
+                        case FoodRequest _:
+                            consumable.GetTransform().position = AssignedTableSeat.GetPlateTransform().position;
+                            AssignedTableSeat.SetFood(consumable);
+                            break;
+                        case Drink _:
+                            if (stateMachine.GetCurrentState().GetID() == GuestStateID.GetConsumable)
+                            {
+                                return;
+                            }
+
+                            CurrentConsumable = consumable;
+                            break;
+                    }
+
+                    if (stateMachine.GetCurrentState().GetID() != GuestStateID.MoveToSeat)
+                    {
+                        stateMachine.ChangeState(GuestStateID.MoveToSeat);
+                    }
+                }
             }
 
             _waiterID = 0;
@@ -323,11 +316,6 @@ namespace Guest
 
         public Transform GetDestinationTransform()
         {
-            if (stateMachine.GetCurrentState().GetID() == GuestStateID.Wander)
-            {
-                return transform;
-            }
-
             return AssignedTableSeat.GetDestinationTransform();
         }
     }

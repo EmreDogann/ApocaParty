@@ -49,7 +49,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.51347184, y: 0.021041512}
+  m_Offset: {x: 0.661784, y: 0.043365717}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -60,7 +60,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5.023127, y: 3.2858822}
+  m_Size: {x: 4.726503, y: 2.4853911}
   m_EdgeRadius: 0
 --- !u!114 &2833652554369799452
 MonoBehaviour:
@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deliverySpot: {fileID: 743088692652580073}
+  plateTransform: {fileID: 2833652555326270591}
 --- !u!1 &2833652555326270590
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,6 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcf9d134903b43bbaa301edbc86cfb63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tooltipName: 
   <HoldDuration>k__BackingField: 0
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 1

@@ -951,7 +951,7 @@ GameObject:
   - component: {fileID: 44960088}
   - component: {fileID: 44960090}
   - component: {fileID: 44960089}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: FollowDirection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1560,42 +1560,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.06, y: 1.97}
   m_EdgeRadius: 0
---- !u!21 &63467999
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &81586546
 GameObject:
   m_ObjectHideFlags: 0
@@ -1817,6 +1781,7 @@ MonoBehaviour:
   holderTransform: {fileID: 1232008289}
   actorData: {fileID: 11400000, guid: a46d66b071e11894382e22785614aebf, type: 2}
   startingMood: 3
+  activateAIOnAwake: 0
   chanceToSpillDrink: 0.3
   spillDrinkCheckFrequency: 2
   walkToDrinksChance: 0.1
@@ -1990,6 +1955,42 @@ MonoBehaviour:
     movement: 0
   expirationTime: 30
   randomConversations: {fileID: 11400000, guid: 1213ba7202b965944b43d76f08d9cfd1, type: 2}
+--- !u!21 &111852675
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &158285456
 GameObject:
   m_ObjectHideFlags: 0
@@ -2439,6 +2440,7 @@ MonoBehaviour:
   holderTransform: {fileID: 538963628}
   actorData: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
   startingMood: 0
+  activateAIOnAwake: 0
   chanceToSpillDrink: 0.3
   spillDrinkCheckFrequency: 2
   walkToDrinksChance: 0.1
@@ -3741,6 +3743,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a47990e3a2b28f04d9da86109f586d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!21 &261575845
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &261599761
 GameObject:
   m_ObjectHideFlags: 0
@@ -5403,42 +5441,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!21 &408475324
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &412937038
 GameObject:
   m_ObjectHideFlags: 0
@@ -5543,6 +5545,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2003452203}
     m_Modifications:
+    - target: {fileID: 5299949603845958435, guid: 78779a700465a714194af07a1dc43e85, type: 3}
+      propertyPath: activateAIOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299949603845958435, guid: 78779a700465a714194af07a1dc43e85, type: 3}
+      propertyPath: <AssignedTableSeat>k__BackingField
+      value: 
+      objectReference: {fileID: 1865434704}
     - target: {fileID: 5299949603845958436, guid: 78779a700465a714194af07a1dc43e85, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -18419,6 +18429,7 @@ MonoBehaviour:
   holderTransform: {fileID: 1062607188}
   actorData: {fileID: 11400000, guid: 5971c80eec1fb98418a81b40aaaa13f3, type: 2}
   startingMood: 3
+  activateAIOnAwake: 0
   chanceToSpillDrink: 0.3
   spillDrinkCheckFrequency: 2
   walkToDrinksChance: 0.1
@@ -20871,6 +20882,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2003452203}
     m_Modifications:
+    - target: {fileID: 5299949603845958435, guid: 78779a700465a714194af07a1dc43e85, type: 3}
+      propertyPath: activateAIOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299949603845958435, guid: 78779a700465a714194af07a1dc43e85, type: 3}
+      propertyPath: <AssignedTableSeat>k__BackingField
+      value: 
+      objectReference: {fileID: 2147196902}
     - target: {fileID: 5299949603845958436, guid: 78779a700465a714194af07a1dc43e85, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -21569,42 +21588,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocityThreshold: 0.1
   flipAxis: {x: 0, y: 1, z: 0}
---- !u!21 &882259569
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &895755948
 GameObject:
   m_ObjectHideFlags: 0
@@ -42572,42 +42555,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1416108276}
   m_CullTransparentMesh: 1
---- !u!21 &1423905798
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &1429165587
 GameObject:
   m_ObjectHideFlags: 0
@@ -44385,7 +44332,6 @@ GameObject:
   - component: {fileID: 1605618390}
   - component: {fileID: 1605618396}
   - component: {fileID: 1605618397}
-  - component: {fileID: 1605618398}
   - component: {fileID: 1605618399}
   - component: {fileID: 1605618400}
   m_Layer: 0
@@ -44512,21 +44458,6 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &1605618398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1605618386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81a6b54bf269469f982c2e1accf8781b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mask:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!114 &1605618399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45867,6 +45798,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1723594750}
   m_CullTransparentMesh: 1
+--- !u!21 &1725369709
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &1734596299
 GameObject:
   m_ObjectHideFlags: 0
@@ -46015,6 +45982,7 @@ MonoBehaviour:
   holderTransform: {fileID: 1894149850}
   actorData: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
   startingMood: 0
+  activateAIOnAwake: 0
   chanceToSpillDrink: 0.3
   spillDrinkCheckFrequency: 2
   walkToDrinksChance: 0.1
@@ -46050,7 +46018,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d0537f4707343be9dd3e444702cf25d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltipName: 
+  tooltipName: Famine
   <HoldDuration>k__BackingField: 0
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
@@ -46336,6 +46304,7 @@ MonoBehaviour:
   holderTransform: {fileID: 261599762}
   actorData: {fileID: 11400000, guid: 3ab10c4128a84ae4db0526b00a80795c, type: 2}
   startingMood: 3
+  activateAIOnAwake: 0
   chanceToSpillDrink: 0.3
   spillDrinkCheckFrequency: 2
   walkToDrinksChance: 0.1
@@ -47164,6 +47133,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1865434704 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2833652554369799455, guid: 2df009fc18420f847b9ef2580f80341a, type: 3}
+  m_PrefabInstance: {fileID: 1678714183}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4ac3d9c3e44d3b9958a5d3a1d7e54c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1865745166
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47251,7 +47231,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1894149850}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48701,6 +48681,42 @@ Transform:
   m_Father: {fileID: 169186461}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &2098502558
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1001 &2105885223
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49019,6 +49035,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2833652554369799451, guid: 2df009fc18420f847b9ef2580f80341a, type: 3}
   m_PrefabInstance: {fileID: 2147196900}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2147196902 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2833652554369799455, guid: 2df009fc18420f847b9ef2580f80341a, type: 3}
+  m_PrefabInstance: {fileID: 2147196900}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4ac3d9c3e44d3b9958a5d3a1d7e54c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &1572211912506859716
 ParticleSystem:
   m_ObjectHideFlags: 0
