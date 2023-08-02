@@ -25,7 +25,6 @@ namespace Dialogue
         public GameObject continueIcon;
         public TextMeshProUGUI actorName;
         public TextMeshProUGUI messageText;
-        public RectTransform backgroundBox;
         [SerializeField] private float animationSpeed = 0.05f;
 
         [Separator("Other")]
@@ -144,7 +143,7 @@ namespace Dialogue
                 }
 
                 Color color = actorImage.color;
-                color.a = 1;
+                color.a = actorToDisplay.sprite ? 1 : 0;
                 actorImage.color = color;
             }
             else

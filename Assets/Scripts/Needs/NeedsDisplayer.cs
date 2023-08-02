@@ -19,18 +19,21 @@ namespace Needs
         [SerializeField] private bool useUnresolvedSymbol;
         [ConditionalField(nameof(useUnresolvedSymbol))] [SerializeField] private SpriteRenderer unresolvedRequestSprite;
         [SerializeField] private List<NeedsIconData> _needsIconDatas;
-        private List<NeedsIconData> _currentlyActiveIcons;
-
+        private readonly List<Vector3> _iconPositions = new List<Vector3>();
+        private readonly List<Vector3> _availableIconPositions = new List<Vector3>();
+        private readonly List<NeedsIconData> _currentlyActiveIcons = new List<NeedsIconData>();
 
         private void Awake()
         {
             unresolvedRequestSprite.enabled = false;
 
-            _currentlyActiveIcons = new List<NeedsIconData>();
             foreach (NeedsIconData needIcon in _needsIconDatas)
             {
                 needIcon.SpriteRenderer.enabled = false;
+                _iconPositions.Add(needIcon.SpriteRenderer.transform.localPosition);
             }
+
+            _availableIconPositions.AddRange(_iconPositions);
         }
 
         public void AddDisplay(NeedType needType)
@@ -48,6 +51,12 @@ namespace Needs
                 {
                     iconData.SpriteRenderer.enabled = true;
                     iconData.needResolved = true;
+
+                    if (_availableIconPositions.Count > 0)
+                    {
+                        iconData.SpriteRenderer.transform.localPosition = _availableIconPositions[^1];
+                        _availableIconPositions.RemoveAt(_availableIconPositions.Count - 1);
+                    }
                 }
 
                 _currentlyActiveIcons.Add(iconData);
@@ -62,6 +71,8 @@ namespace Needs
                 iconData.SpriteRenderer.enabled = false;
                 iconData.needResolved = false;
                 _currentlyActiveIcons.Remove(iconData);
+
+                _availableIconPositions.Add(iconData.SpriteRenderer.transform.localPosition);
             }
         }
 

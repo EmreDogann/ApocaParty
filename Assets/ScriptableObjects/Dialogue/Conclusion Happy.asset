@@ -15,23 +15,31 @@ MonoBehaviour:
   script: {fileID: 4900000, guid: aa8a99392c0e7c1469f62f8660def601, type: 3}
   messages:
   - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
+    playActorSound: 0
     text: It is time! DoomsDay is upon us! Azathoth will now wake from their slumber!
-  - actor: {fileID: 0}
-    text: "\u2026 "
+  - actor: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
+    playActorSound: 0
+    text: '... '
   - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
-    text: ' Azathoth! Azathoth! What do you think about the party I made for you? '
-  - actor: {fileID: 0}
-    text: "\u2026  "
+    playActorSound: 1
+    text: 'Azathoth! Azathoth! What do you think about the party I made for you? '
+  - actor: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
+    playActorSound: 1
+    text: '...  '
   - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
-    text: " Oh I\u2019m so glad you like it!! Look see, I invited your friends, the
-      four horsemen!"
-  - actor: {fileID: 0}
-    text: "\u2026 "
+    playActorSound: 0
+    text: Oh I'm so glad you like it!! Look see, I invited your friends, the four
+      horsemen!
+  - actor: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
+    playActorSound: 0
+    text: '... '
   - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
-    text: "Yeah! They all came here for you! They\u2019re all so excited to see you
-      end the world! "
-  - actor: {fileID: 0}
-    text: "\u2026 "
+    playActorSound: 1
+    text: 'Yeah! They all came here for you! They''re all so excited to see you end
+      the world! '
+  - actor: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
+    playActorSound: 0
+    text: '... '
   - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
-    text: "Yes you did wake up to a world ready to die, and we\u2019re all ready
-      for it."
+    playActorSound: 0
+    text: Yes you did wake up to a world ready to die, and we're all ready for it.

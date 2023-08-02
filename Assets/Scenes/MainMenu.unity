@@ -3677,10 +3677,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd133141bb73e6438f794f27466724c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickAudio: {fileID: 11400000, guid: 6ecdb8dff463d8d40997adfa4276fa48, type: 2}
-  hoverAudio: {fileID: 11400000, guid: f9c3ca201dc3641449be45a46eb2ae1a, type: 2}
-  backAudio: {fileID: 11400000, guid: 80a54870a5745674db78cd15a5ad5704, type: 2}
-  pauseAudio: {fileID: 11400000, guid: fa08ff87cc3c8e949b38eb22cf8a45f6, type: 2}
+  clickAudio: {fileID: 11400000, guid: 1990cd7808e4cd64c90f2150b58b6299, type: 2}
+  hoverAudio: {fileID: 11400000, guid: aad1f17ce6cf39049ad245212c7f50b0, type: 2}
+  backAudio: {fileID: 11400000, guid: f8fd129a4287464468c4df9881d51013, type: 2}
+  pauseAudio: {fileID: 11400000, guid: 1990cd7808e4cd64c90f2150b58b6299, type: 2}
 --- !u!114 &1612019702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4709,6 +4709,10 @@ PrefabInstance:
     - target: {fileID: 384973889261908767, guid: a6ca8fcb7415e4d4a9711b53e4c7b416, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -402.77383
+      objectReference: {fileID: 0}
+    - target: {fileID: 585962271680321292, guid: a6ca8fcb7415e4d4a9711b53e4c7b416, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 639617093249490932, guid: a6ca8fcb7415e4d4a9711b53e4c7b416, type: 3}
       propertyPath: m_AnchorMax.x
