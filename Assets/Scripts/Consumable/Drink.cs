@@ -94,6 +94,8 @@ namespace Consumable
         public void Cleanup()
         {
             Consume();
+            _collider2D.enabled = false;
+
             _spriteRenderer.sprite = _originalSprite;
             _spillInteractable.SetInteractableActive(false);
             transform.localRotation = quaternion.identity;
