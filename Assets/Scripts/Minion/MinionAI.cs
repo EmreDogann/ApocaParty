@@ -13,7 +13,7 @@ using Random = UnityEngine.Random;
 
 namespace Minion
 {
-    [RequireComponent(typeof(CharacterBlackboard), typeof(NavMeshAgent), typeof(DisplayAgentPath))]
+    [RequireComponent(typeof(NavMeshAgent), typeof(DisplayAgentPath))]
     public class MinionAI : MonoBehaviour, IRequestOwner, IWaiter
     {
         public MinionStateMachine StateMachine;

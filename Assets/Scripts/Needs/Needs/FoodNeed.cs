@@ -14,11 +14,21 @@ namespace Needs.Needs
         };
         [SerializeField] private float expirationTime = 20.0f;
         [SerializeField] private RandomConversationSO randomConversations;
-        private float _startTime;
+        private float _currentTime;
 
         public void Awake()
         {
-            _startTime = Time.time;
+            ResetNeed();
+        }
+
+        public void UpdateTimer(float deltaTime)
+        {
+            _currentTime += deltaTime;
+        }
+
+        public void ResetNeed()
+        {
+            _currentTime = 0.0f;
         }
 
         public NeedType GetNeedType()
@@ -33,7 +43,7 @@ namespace Needs.Needs
 
         public bool IsExpired()
         {
-            return Time.time - _startTime >= expirationTime;
+            return _currentTime >= expirationTime;
         }
 
         public RandomConversationSO GetRandomConversations()

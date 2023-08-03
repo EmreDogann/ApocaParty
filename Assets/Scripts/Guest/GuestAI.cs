@@ -54,8 +54,6 @@ namespace Guest
         [Range(0.0f, 1.0f)] public float chanceToSpillDrink;
         public float spillDrinkCheckFrequency;
         [Range(0.0f, 1.0f)] public float walkToDrinksChance;
-        [Range(0.0f, 1.0f)] public float chanceToWander = 0.2f;
-        public float wanderCheckFrequency = 5.0f;
 
         [Separator("Debugging")]
         [SerializeField] private TextMeshProUGUI AIState;
@@ -65,7 +63,6 @@ namespace Guest
 
         private GuestIdleState _guestIdleState;
         private GuestMovingState _guestMovingState;
-        private GuestWanderState _guestWanderState;
         private GuestConsumeState _guestConsumeState;
         private GuestGetConsumableState _guestGetConsumableState;
         private GuestMoveToSeatState _guestMoveToSeatState;
@@ -93,14 +90,12 @@ namespace Guest
             stateMachine = new GuestStateMachine();
             _guestIdleState = new GuestIdleState(this, stateMachine);
             _guestMovingState = new GuestMovingState(this, stateMachine);
-            _guestWanderState = new GuestWanderState(this, stateMachine);
             _guestConsumeState = new GuestConsumeState(this, stateMachine);
             _guestGetConsumableState = new GuestGetConsumableState(this, stateMachine);
             _guestMoveToSeatState = new GuestMoveToSeatState(this, stateMachine);
 
             stateMachine.RegisterState(_guestIdleState);
             stateMachine.RegisterState(_guestMovingState);
-            stateMachine.RegisterState(_guestWanderState);
             stateMachine.RegisterState(_guestConsumeState);
             stateMachine.RegisterState(_guestGetConsumableState);
             stateMachine.RegisterState(_guestMoveToSeatState);
@@ -212,6 +207,7 @@ namespace Guest
                         {
                             CurrentConsumable = DrinksTable.Instance.TryGetDrink();
                             stateMachine.ChangeState(GuestStateID.GetConsumable);
+                            InteractableState.SetInteractableActive(false);
                         }
                     }
 
@@ -251,6 +247,16 @@ namespace Guest
         private void OnWaiterInteractDialogueFinished()
         {
             needSystem.ResolveNeeds();
+        }
+
+        public bool HasRequest()
+        {
+            return _guestType != GuestType.Henchmen && needSystem.HasUnresolvedNeed();
+        }
+
+        public bool HasConsumable()
+        {
+            return CurrentConsumable != null || AssignedTableSeat.HasFood();
         }
 
         public void WaiterInteracted(IWaiter waiter)

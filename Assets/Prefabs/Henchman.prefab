@@ -197,8 +197,8 @@ GameObject:
   - component: {fileID: 5299949603845958446}
   - component: {fileID: 6096621258488373828}
   - component: {fileID: 5299949603845958433}
-  - component: {fileID: 5299949603845958432}
   - component: {fileID: 5299949603845958435}
+  - component: {fileID: 5299949603845958432}
   - component: {fileID: 5299949603845958434}
   m_Layer: 8
   m_Name: Henchman
@@ -283,22 +283,6 @@ MonoBehaviour:
   <IsInteractable>k__BackingField: 1
   <IsHoverable>k__BackingField: 1
   hoverScaleAmount: 1.1
---- !u!114 &5299949603845958432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5299949603845958439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da45ed20cf1bd504e98c242ffc41366d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scaleSpring: {fileID: 5299949604327381272}
-  footstepForce: 1
-  footstepStride: 1.5
-  footstepSoundEffect: {fileID: 11400000, guid: 7fffb5d22ea178c46aade40d1dee45a1, type: 2}
 --- !u!114 &5299949603845958435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,10 +305,24 @@ MonoBehaviour:
   chanceToSpillDrink: 0.3
   spillDrinkCheckFrequency: 2
   walkToDrinksChance: 0.1
-  chanceToWander: 0.2
-  wanderCheckFrequency: 5
   AIState: {fileID: 5299949603486632934}
   <AssignedTableSeat>k__BackingField: {fileID: 0}
+--- !u!114 &5299949603845958432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5299949603845958439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da45ed20cf1bd504e98c242ffc41366d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleSpring: {fileID: 5299949604327381272}
+  footstepForce: 1
+  footstepStride: 1.5
+  footstepSoundEffect: {fileID: 11400000, guid: 7fffb5d22ea178c46aade40d1dee45a1, type: 2}
 --- !u!114 &5299949603845958434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,8 +425,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -29931941
-  m_SortingLayer: 2
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 0f37aa350a2c64648b32a3ba99a2abc7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -833,8 +831,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -29931941
-  m_SortingLayer: 2
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 6717841806b8f1248b8a7b40c127e3af, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -917,8 +915,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -29931941
-  m_SortingLayer: 2
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 95dbc20236fe4a046a279ee9a9f37267, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1032,8 +1030,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -29931941
-  m_SortingLayer: 2
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 4832b15f8ad90324a82dea43c8e47d0d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

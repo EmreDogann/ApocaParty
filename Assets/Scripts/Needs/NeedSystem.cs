@@ -113,6 +113,7 @@ namespace Needs
 
             for (int i = _currentNeeds.Count - 1; i >= 0; i--)
             {
+                _currentNeeds[i].UpdateTimer(Time.deltaTime);
                 if (_currentNeeds[i].IsExpired())
                 {
                     if (enableMoods)
@@ -177,6 +178,19 @@ namespace Needs
                     break;
                 }
             }
+        }
+
+        public bool HasUnresolvedNeed()
+        {
+            foreach (INeed need in _currentNeeds)
+            {
+                if (!needsDisplayer.IsNeedResolved(need.GetNeedType()))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public List<Message> GetUnknownNeedConversations()
@@ -251,6 +265,7 @@ namespace Needs
                 INeed need = GenerateNeed(needType);
                 if (need != null)
                 {
+                    need.ResetNeed();
                     AddNeed(need);
                 }
             }

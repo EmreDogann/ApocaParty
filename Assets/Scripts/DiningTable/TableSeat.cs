@@ -30,6 +30,11 @@ namespace DiningTable
             _consumable = consumable;
         }
 
+        public bool HasFood()
+        {
+            return _consumable != null;
+        }
+
         public IConsumable GetFood()
         {
             IConsumable consumable = _consumable;

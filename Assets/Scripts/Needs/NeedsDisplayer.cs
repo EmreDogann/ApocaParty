@@ -73,6 +73,11 @@ namespace Needs
                 _currentlyActiveIcons.Remove(iconData);
 
                 _availableIconPositions.Add(iconData.SpriteRenderer.transform.localPosition);
+
+                if (_currentlyActiveIcons.Count == 0)
+                {
+                    unresolvedRequestSprite.enabled = false;
+                }
             }
         }
 

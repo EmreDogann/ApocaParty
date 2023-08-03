@@ -48,7 +48,8 @@ namespace Player
         private Camera _mainCamera;
 
         private Request _currentRequest;
-        private Transform _target;
+        private Transform _targetDestination;
+        private IWaiterTarget _waiterTarget;
         private IConsumable _holdingConsumable;
         private IConsumable _targetConsumable;
         private readonly int _waiterID = Guid.NewGuid().GetHashCode();
@@ -109,13 +110,13 @@ namespace Player
                             else if (_holdingConsumable == null && foodRequest.IsRequestCompleted())
                             {
                                 _targetConsumable = foodRequest;
-                                // _targetConsumable.Claim();
+                                _targetConsumable.Claim();
                                 if (_targetConsumable != null)
                                 {
                                     SetDestinationAndDisplayPath(_targetConsumable.GetTransform().position);
                                 }
 
-                                _target = null;
+                                _targetDestination = null;
                             }
 
                             return;
@@ -134,8 +135,20 @@ namespace Player
 
                     break;
                 case GuestInteractable guestInteractable:
-                    _target = guestInteractable.WaiterTarget.GetDestinationTransform();
-                    guestInteractable.WaiterTarget.GiveWaiterID(_waiterID);
+                    if (guestInteractable.WaiterTarget.HasRequest() ||
+                        !guestInteractable.WaiterTarget.HasConsumable() && _holdingConsumable != null)
+                    {
+                        _waiterTarget = guestInteractable.WaiterTarget;
+                        _targetDestination = _waiterTarget.GetDestinationTransform();
+
+                        _waiterTarget.GiveWaiterID(_waiterID);
+                    }
+                    else
+                    {
+                        // TODO: Play error sound.
+                        Debug.Log("PlayerController - Play Guest Interact Error Sound");
+                    }
+
                     break;
                 case FoodPileInteractable foodPileInteractable:
                     request = foodPileInteractable.FoodPile.TryGetFood();
@@ -161,7 +174,7 @@ namespace Player
                                 SetDestinationAndDisplayPath(_targetConsumable.GetTransform().position);
                             }
 
-                            _target = null;
+                            _targetDestination = null;
                         }
                     }
                     else
@@ -181,7 +194,7 @@ namespace Player
 
                     break;
                 case SpillInteractable spillInteractable:
-                    _target = spillInteractable.transform;
+                    _targetDestination = spillInteractable.transform;
                     _targetConsumable = spillInteractable.Consumable;
                     break;
                 case null:
@@ -208,9 +221,9 @@ namespace Player
                 _holdingConsumable.GetTransform().position = holderTransform.position;
             }
 
-            if (_target != null)
+            if (_targetDestination != null)
             {
-                SetDestinationAndDisplayPath(_target.position);
+                SetDestinationAndDisplayPath(_targetDestination.position);
             }
 
             if (_currentRequest && _currentRequest.IsRequestStarted())
@@ -233,7 +246,7 @@ namespace Player
 
             if (Vector3.SqrMagnitude(transform.position - _agent.destination) < distanceThreshold * distanceThreshold)
             {
-                _target = null;
+                _targetDestination = null;
                 pathDisplayer.HidePath();
 
                 if (_currentRequest != null)
@@ -252,6 +265,20 @@ namespace Player
                     _holdingConsumable.GetTransform().position = holderTransform.position;
 
                     _targetConsumable = null;
+                    return;
+                }
+
+                if (_waiterTarget != null && _waiterTarget.IsAssignedWaiter() &&
+                    _waiterTarget.GetWaiterID() == _waiterID)
+                {
+                    _waiterTarget.WaiterInteracted(this);
+
+                    if (!_waiterTarget.HasRequest())
+                    {
+                        _holdingConsumable = null;
+                    }
+
+                    _waiterTarget = null;
                 }
             }
         }
@@ -280,19 +307,19 @@ namespace Player
             _isCleaningUp = false;
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (_target == null)
-            {
-                IWaiterTarget waiterTarget = other.GetComponent<IWaiterTarget>();
-                if (waiterTarget != null && waiterTarget.IsAssignedWaiter() && waiterTarget.GetWaiterID() == _waiterID)
-                {
-                    waiterTarget.WaiterInteracted(this);
-                    _target = null;
-                    _holdingConsumable = null;
-                }
-            }
-        }
+        // private void OnTriggerEnter2D(Collider2D other)
+        // {
+        //     if (_target == null)
+        //     {
+        //         IWaiterTarget waiterTarget = other.GetComponent<IWaiterTarget>();
+        //         if (waiterTarget != null && waiterTarget.IsAssignedWaiter() && waiterTarget.GetWaiterID() == _waiterID)
+        //         {
+        //             waiterTarget.WaiterInteracted(this);
+        //             _target = null;
+        //             _holdingConsumable = null;
+        //         }
+        //     }
+        // }
 
         private void OnTriggerStay2D(Collider2D other)
         {
@@ -301,27 +328,14 @@ namespace Player
                 return;
             }
 
-            if (_target == null)
+            SpillInteractable spillInteractable = other.GetComponent<SpillInteractable>();
+            if (spillInteractable != null && ReferenceEquals(_targetConsumable, spillInteractable.Consumable))
             {
-                IWaiterTarget waiterTarget = other.GetComponent<IWaiterTarget>();
-                if (waiterTarget != null && waiterTarget.IsAssignedWaiter() && waiterTarget.GetWaiterID() == _waiterID)
-                {
-                    waiterTarget.WaiterInteracted(this);
-                    _target = null;
-                    _holdingConsumable = null;
-                }
-            }
-            else
-            {
-                SpillInteractable spillInteractable = other.GetComponent<SpillInteractable>();
-                if (spillInteractable != null && ReferenceEquals(_targetConsumable, spillInteractable.Consumable))
-                {
-                    StartCoroutine(CleanupSpill(spillInteractable));
-                    _target = null;
-                    _holdingConsumable = null;
-                    _targetConsumable = null;
-                    return;
-                }
+                StartCoroutine(CleanupSpill(spillInteractable));
+                _targetDestination = null;
+                _holdingConsumable = null;
+                _targetConsumable = null;
+                return;
             }
 
             if (other.gameObject.layer != _spillLayer ||

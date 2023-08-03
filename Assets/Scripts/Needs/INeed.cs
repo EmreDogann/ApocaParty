@@ -11,6 +11,8 @@ namespace Needs
     }
     public interface INeed
     {
+        public void UpdateTimer(float deltaTime);
+        public void ResetNeed();
         public NeedType GetNeedType();
         public NeedMetrics GetPunishment();
         public bool IsExpired();

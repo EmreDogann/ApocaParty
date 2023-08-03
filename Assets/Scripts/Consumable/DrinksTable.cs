@@ -149,6 +149,7 @@ namespace Consumable
                 }
 
                 _availableDrinks.Clear();
+                emptyTableParticleSystem.Play();
             }
         }
 
@@ -161,6 +162,7 @@ namespace Consumable
             }
 
             _availableDrinks.Clear();
+            emptyTableParticleSystem.Play();
         }
 
         [ButtonMethod]

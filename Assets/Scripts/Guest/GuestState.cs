@@ -5,7 +5,6 @@ namespace Guest
         Idle,
         Moving,
         Consume,
-        Wander,
         GetConsumable,
         MoveToSeat
     }
