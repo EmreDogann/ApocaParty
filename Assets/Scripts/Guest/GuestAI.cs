@@ -249,7 +249,7 @@ namespace Guest
             needSystem.ResolveNeeds();
         }
 
-        public bool HasRequest()
+        public bool HasUnknownRequest()
         {
             return _guestType != GuestType.Henchmen && needSystem.HasUnresolvedNeed();
         }

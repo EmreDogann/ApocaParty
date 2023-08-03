@@ -221,12 +221,15 @@ namespace Minion
         private void OnTriggerEnter2D(Collider2D other)
         {
             IWaiterTarget waiterTarget = other.GetComponent<IWaiterTarget>();
-            if (waiterTarget != null && waiterTarget.GetWaiterID() == WaiterID)
+            if (waiterTarget != null && waiterTarget.IsAssignedWaiter() && waiterTarget.GetWaiterID() == WaiterID)
             {
                 waiterTarget.WaiterInteracted(this);
-                HoldingConsumable = null;
-
-                NavMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius * 0.3f));
+                if (!waiterTarget.HasUnknownRequest())
+                {
+                    NavMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius * 0.2f));
+                    pathDisplayer.HidePath();
+                    HoldingConsumable = null;
+                }
             }
         }
     }

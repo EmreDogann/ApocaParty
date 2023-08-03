@@ -135,7 +135,7 @@ namespace Player
 
                     break;
                 case GuestInteractable guestInteractable:
-                    if (guestInteractable.WaiterTarget.HasRequest() ||
+                    if (guestInteractable.WaiterTarget.HasUnknownRequest() ||
                         !guestInteractable.WaiterTarget.HasConsumable() && _holdingConsumable != null)
                     {
                         _waiterTarget = guestInteractable.WaiterTarget;
@@ -273,7 +273,7 @@ namespace Player
                 {
                     _waiterTarget.WaiterInteracted(this);
 
-                    if (!_waiterTarget.HasRequest())
+                    if (!_waiterTarget.HasUnknownRequest())
                     {
                         _holdingConsumable = null;
                     }
