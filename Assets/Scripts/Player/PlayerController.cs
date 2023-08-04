@@ -46,7 +46,6 @@ namespace Player
         private bool _isCleaningUp;
 
         private NavMeshAgent _agent;
-        private Camera _mainCamera;
 
         private Request _currentRequest;
         private Transform _targetDestination;
@@ -56,12 +55,13 @@ namespace Player
         private readonly int _waiterID = Guid.NewGuid().GetHashCode();
 
         private int _spillLayer;
+        private int _characterLayer;
 
         private bool _isPlayerInputActive = true;
+        internal float SearchRadius = 1.0f;
 
         private void Awake()
         {
-            _mainCamera = Camera.main;
             _agent = GetComponent<NavMeshAgent>();
             pathDisplayer = GetComponent<DisplayAgentPath>();
 
@@ -69,6 +69,7 @@ namespace Player
             _agent.updateUpAxis = false;
             _agent.SetAreaCost(ignoreAreaCosts, 1.0f);
 
+            _characterLayer = LayerMask.NameToLayer("Character");
             _spillLayer = LayerMask.NameToLayer("Drink");
         }
 
@@ -209,7 +210,9 @@ namespace Player
         {
             _currentRequest.OnRequestCompleted -= OnRequestCompleted;
             _currentRequest = null;
+
             progressBar.SetProgressBarActive(false);
+            _agent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius, _agent.areaMask));
         }
 
         private void Update()
@@ -267,6 +270,8 @@ namespace Player
                     _holdingConsumable.SetSorting(spriteRenderer.sortingLayerID, spriteRenderer.sortingOrder + 1);
                     _holdingConsumable.GetTransform().position = holderTransform.position;
 
+                    _agent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius, _agent.areaMask));
+
                     _targetConsumable = null;
                     return;
                 }
@@ -281,9 +286,49 @@ namespace Player
                         _holdingConsumable = null;
                     }
 
+                    _agent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius, _agent.areaMask));
+
                     _waiterTarget = null;
                 }
             }
+        }
+
+        internal Vector3 RandomNavmeshLocation(Vector3 position, float radius, int areaMask)
+        {
+            Vector3 finalPosition = position;
+            for (int i = 0; i < 30; i++)
+            {
+                Vector3 randomDirection = ClampMagnitude(Random.insideUnitCircle * radius, Mathf.Infinity, 2.0f);
+                randomDirection += position;
+
+                if (!NavMesh.Raycast(position, randomDirection, out NavMeshHit raycastHit, areaMask))
+                {
+                    if (Physics2D.OverlapCircle(raycastHit.position, 1.0f, 1 << _characterLayer) == null)
+                    {
+                        finalPosition = raycastHit.position;
+                        break;
+                    }
+                }
+            }
+
+            finalPosition.z = 0;
+            return finalPosition;
+        }
+
+        private Vector3 ClampMagnitude(Vector3 v, float max, float min)
+        {
+            double sm = v.sqrMagnitude;
+            if (sm > max * (double)max)
+            {
+                return v.normalized * max;
+            }
+
+            if (sm < min * (double)min)
+            {
+                return v.normalized * min;
+            }
+
+            return v;
         }
 
         private void Slip()

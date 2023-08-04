@@ -36,7 +36,7 @@ namespace Minion.States
                     minion.TargetConsumable = null;
 
                     minion.NavMeshAgent.SetDestination(minion.RandomNavmeshLocation(minion.transform.position,
-                        minion.SearchRadius * 0.6f));
+                        minion.SearchRadius * 0.6f, minion.NavMeshAgent.areaMask));
                 }
 
                 _stateMachine.ChangeState(minion.currentRequest ? MinionStateID.Working : MinionStateID.Idle);

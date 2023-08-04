@@ -62,7 +62,7 @@ namespace Minion
         internal float SearchRadius = 3.0f;
 
         private bool _isAIActive;
-        private int _characterLayerMask;
+        private int _characterLayer;
         private int _spillLayer;
 
         private float _spillFoodTimer;
@@ -97,7 +97,7 @@ namespace Minion
                 SetActiveMinionAI(true);
             }
 
-            _characterLayerMask = LayerMask.NameToLayer("Character");
+            _characterLayer = LayerMask.NameToLayer("Character");
             _spillLayer = LayerMask.NameToLayer("Drink");
         }
 
@@ -122,7 +122,8 @@ namespace Minion
                 if (_currentWanderTime >= _wanderWaitTime)
                 {
                     _currentWanderTime = 0.0f;
-                    NavMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius));
+                    NavMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius,
+                        NavMeshAgent.areaMask));
                 }
             }
         }
@@ -185,7 +186,7 @@ namespace Minion
                 return;
             }
 
-            NavMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius));
+            NavMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius, NavMeshAgent.areaMask));
             _currentWanderTime = 0.0f;
         }
 
@@ -194,7 +195,7 @@ namespace Minion
             return _shouldWander;
         }
 
-        internal Vector3 RandomNavmeshLocation(Vector3 position, float radius)
+        internal Vector3 RandomNavmeshLocation(Vector3 position, float radius, int areaMask)
         {
             Vector3 finalPosition = position;
             for (int i = 0; i < 30; i++)
@@ -202,9 +203,9 @@ namespace Minion
                 Vector3 randomDirection = ClampMagnitude(Random.insideUnitCircle * radius, Mathf.Infinity, 2.0f);
                 randomDirection += position;
 
-                if (!NavMesh.Raycast(position, randomDirection, out NavMeshHit raycastHit, NavMeshAgent.areaMask))
+                if (!NavMesh.Raycast(position, randomDirection, out NavMeshHit raycastHit, areaMask))
                 {
-                    if (Physics2D.OverlapCircle(raycastHit.position, 1.0f, 1 << _characterLayerMask) == null)
+                    if (Physics2D.OverlapCircle(raycastHit.position, 1.0f, 1 << _characterLayer) == null)
                     {
                         finalPosition = raycastHit.position;
                         break;
@@ -245,7 +246,8 @@ namespace Minion
                 waiterTarget.WaiterInteracted(this);
                 if (!waiterTarget.HasUnknownRequest())
                 {
-                    NavMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius * 0.2f));
+                    NavMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius * 0.2f,
+                        NavMeshAgent.areaMask));
                     pathDisplayer.HidePath();
                     HoldingConsumable = null;
                 }

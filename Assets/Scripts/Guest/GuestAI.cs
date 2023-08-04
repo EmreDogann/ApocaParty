@@ -284,12 +284,11 @@ namespace Guest
                             AssignedTableSeat.SetFood(consumable);
                             break;
                         case Drink _:
-                            if (stateMachine.GetCurrentState().GetID() == GuestStateID.GetConsumable)
+                            if (stateMachine.GetCurrentState().GetID() == GuestStateID.Idle)
                             {
-                                return;
+                                CurrentConsumable = consumable;
                             }
 
-                            CurrentConsumable = consumable;
                             break;
                     }
 
@@ -302,6 +301,7 @@ namespace Guest
 
             _waiterID = 0;
             _isAssignedWaiter = false;
+            InteractableState.SetInteractableActive(true);
         }
 
         public void WaiterCancelled()
