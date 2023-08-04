@@ -46,6 +46,13 @@ namespace Music
             {
                 goodMusic.Play(fadeIn: true, fadeDuration: 0.2f);
             }
+
+            _tweener = transform.DOShakeRotation(5.0f, new Vector3(0.0f, 0.0f, 5.0f), 20, 5, false,
+                    ShakeRandomnessMode.Harmonic)
+                .SetEase(Ease.Linear)
+                .SetLoops(-1, LoopType.Restart)
+                .SetAutoKill(false);
+            _tweener.Rewind();
         }
 
         private void OnEnable()
@@ -92,7 +99,8 @@ namespace Music
             if (enableBreaking)
             {
                 goodMusic.CrossFadeAudio(transitionAudio, musicTransitionDuration);
-                _tweener.Kill(true);
+                // _tweener.Kill(true);
+                _tweener.Rewind();
                 _isBroken = false;
             }
             else
@@ -124,10 +132,7 @@ namespace Music
         {
             _isBroken = true;
             machineBreaksEvent.TriggerEvent();
-            _tweener = transform.DOShakeRotation(5.0f, new Vector3(0.0f, 0.0f, 5.0f), 20, 5, false,
-                    ShakeRandomnessMode.Harmonic)
-                .SetEase(Ease.Linear)
-                .SetLoops(-1, LoopType.Restart);
+            _tweener.Restart();
 
             // breakAudio.Play();
             badMusic.CrossFadeAudio(transitionAudio, musicTransitionDuration);

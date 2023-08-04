@@ -146,7 +146,6 @@ namespace Interactions
                 }
             }
 
-            Debug.Log(newTarget);
             if (newTarget == _hoverTarget)
             {
                 return;
