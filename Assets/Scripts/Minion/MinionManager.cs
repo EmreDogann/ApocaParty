@@ -57,10 +57,10 @@ namespace Minion
             MinionAI closestMinion = null;
             foreach (MinionAI minion in _minions)
             {
-                // if (minion.StateMachine.GetCurrentState().GetID() != MinionStateID.Idle ||
-                //     isGuest && minion.HoldingConsumable == null || !isGuest && minion.HoldingConsumable != null)
                 if (minion.StateMachine.GetCurrentState().GetID() != MinionStateID.Idle ||
-                    !isGuest && minion.HoldingConsumable != null)
+                    isGuest && minion.HoldingConsumable == null || !isGuest && minion.HoldingConsumable != null)
+                    // if (minion.StateMachine.GetCurrentState().GetID() != MinionStateID.Idle ||
+                    // !isGuest && minion.HoldingConsumable != null)
                 {
                     continue;
                 }

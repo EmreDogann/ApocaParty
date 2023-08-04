@@ -299,6 +299,8 @@ namespace Guest
                             if (stateMachine.GetCurrentState().GetID() == GuestStateID.Idle)
                             {
                                 CurrentConsumable = consumable;
+                                CurrentConsumable.SetSorting(spriteRenderer.sortingLayerID,
+                                    spriteRenderer.sortingOrder + 1);
                             }
 
                             break;
