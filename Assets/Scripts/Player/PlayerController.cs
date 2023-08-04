@@ -271,6 +271,23 @@ namespace Player
 
                 if (_targetConsumable != null && !_targetConsumable.IsSpilled())
                 {
+                    if (!_targetConsumable.IsAvailable())
+                    {
+                        if (_targetConsumable is Drink && DrinksTable.Instance.IsDrinkAvailable())
+                        {
+                            _targetConsumable = DrinksTable.Instance.TryGetDrink();
+                            if (_targetConsumable != null)
+                            {
+                                SetDestination(_targetConsumable.GetTransform().position);
+                            }
+                        }
+                        else
+                        {
+                            _targetConsumable = null;
+                            return;
+                        }
+                    }
+
                     _holdingConsumable = _targetConsumable;
                     _holdingConsumable.Claim();
 

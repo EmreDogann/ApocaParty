@@ -1,3 +1,4 @@
+using Consumable;
 using UnityEngine;
 
 namespace Minion.States
@@ -19,6 +20,27 @@ namespace Minion.States
 
         public override void Tick()
         {
+            if (!minion.TargetConsumable.IsAvailable())
+            {
+                if (minion.TargetConsumable is Drink && DrinksTable.Instance.IsDrinkAvailable())
+                {
+                    minion.TargetConsumable = DrinksTable.Instance.TryGetDrink();
+                    if (minion.TargetConsumable != null)
+                    {
+                        minion.SetDestination(minion.TargetConsumable.GetTransform().position);
+                    }
+                }
+                else
+                {
+                    minion.TargetConsumable = null;
+                    minion.NavMeshAgent.ResetPath();
+                    minion.pathDisplayer.HidePath();
+                    _stateMachine.ChangeState(MinionStateID.Idle);
+                    _stateMachine.ChangeState(MinionStateID.Idle);
+                    return;
+                }
+            }
+
             if (Vector3.SqrMagnitude(minion.transform.position - minion.NavMeshAgent.destination) <
                 DistanceThreshold * DistanceThreshold)
             {

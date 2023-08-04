@@ -24,7 +24,6 @@ namespace Consumable
 
         private List<Drink> _allDrinks;
         private List<Drink> _availableDrinks;
-        private int _drinksOnTableCount;
         public static DrinksTable Instance { get; private set; }
 
         private Vector2 _drinksTableFullScale;
@@ -52,8 +51,6 @@ namespace Consumable
                     _availableDrinks.Add(drink);
                 }
             }
-
-            _drinksOnTableCount = _availableDrinks.Count;
 
             _drinksTableFullScale = drinksTableCover.localScale;
             drinksTableCover.localScale = new Vector3(_drinksTableFullScale.x, 0.0f, 0.0f);
@@ -85,9 +82,14 @@ namespace Consumable
 
         private void OnDrinkClaim(Drink drink)
         {
-            _drinksOnTableCount--;
+            _availableDrinks.Remove(drink);
 
-            if (_drinksOnTableCount % 2 == 0)
+            if (_availableDrinks.Count == 0)
+            {
+                emptyTableParticleSystem.Play();
+            }
+
+            if (_availableDrinks.Count % 2 == 0)
             {
                 drinksTableCover.localScale += new Vector3(0.0f, _drinksTableFullScale.y * (1 / 3.0f), 0.0f);
             }
@@ -99,13 +101,6 @@ namespace Consumable
             if (_availableDrinks.Count > 0)
             {
                 Drink drink = _availableDrinks[^1];
-                _availableDrinks.RemoveAt(_availableDrinks.Count - 1);
-
-                if (_availableDrinks.Count == 0)
-                {
-                    emptyTableParticleSystem.Play();
-                }
-
                 return drink;
             }
 
@@ -145,9 +140,6 @@ namespace Consumable
                 {
                     _availableDrinks[i].Consume();
                 }
-
-                _availableDrinks.Clear();
-                emptyTableParticleSystem.Play();
             }
         }
 
@@ -158,9 +150,6 @@ namespace Consumable
             {
                 _availableDrinks[i].Consume();
             }
-
-            _availableDrinks.Clear();
-            emptyTableParticleSystem.Play();
         }
 
         [ButtonMethod]
@@ -184,8 +173,6 @@ namespace Consumable
                     _availableDrinks.Add(drink);
                 }
             }
-
-            _drinksOnTableCount = _availableDrinks.Count;
 
             refillSound.Play(transform.position);
 

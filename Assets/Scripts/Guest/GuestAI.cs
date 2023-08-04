@@ -223,6 +223,17 @@ namespace Guest
                     needSystem.ChangeMood(_guestType == GuestType.Famine
                         ? Mathf.Abs(eventData.moodCost)
                         : eventData.moodCost);
+
+                    if (_guestType == GuestType.Henchmen)
+                    {
+                        if (stateMachine.GetCurrentState().GetID() == GuestStateID.GetConsumable &&
+                            CurrentConsumable is Drink)
+                        {
+                            CurrentConsumable = null;
+                            stateMachine.ChangeState(GuestStateID.MoveToSeat);
+                        }
+                    }
+
                     break;
                 case PartyEventType.MusicPlaying:
                     needSystem.TryFulfillNeed(NeedType.Music, eventData.needsCost, eventData.moodCost);

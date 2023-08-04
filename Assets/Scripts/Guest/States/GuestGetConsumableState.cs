@@ -33,8 +33,21 @@ namespace Guest.States
             if (!guest.CurrentConsumable.IsAvailable())
             {
                 guest.needSystem.ChangeMood(-1);
-                guest.CurrentConsumable = null;
-                _stateMachine.ChangeState(GuestStateID.MoveToSeat);
+
+                if (guest.CurrentConsumable is Drink && DrinksTable.Instance.IsDrinkAvailable())
+                {
+                    guest.CurrentConsumable = DrinksTable.Instance.TryGetDrink();
+                    if (guest.CurrentConsumable != null)
+                    {
+                        guest.SetDestination(guest.CurrentConsumable.GetTransform().position);
+                    }
+                }
+                else
+                {
+                    guest.CurrentConsumable = null;
+                    _stateMachine.ChangeState(GuestStateID.MoveToSeat);
+                }
+
                 return;
             }
 
