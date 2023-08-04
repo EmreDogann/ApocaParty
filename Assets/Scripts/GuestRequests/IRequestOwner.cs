@@ -20,6 +20,6 @@ namespace GuestRequests
 
         public void OwnerRemoved();
 
-        public OwnerType GetOwnerType();
+        public CharacterType GetOwnerType();
     }
 }

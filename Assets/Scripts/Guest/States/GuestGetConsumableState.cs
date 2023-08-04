@@ -54,6 +54,8 @@ namespace Guest.States
             if (Vector3.SqrMagnitude(guest.transform.position - guest.navMeshAgent.destination) <
                 DistanceThreshold * DistanceThreshold)
             {
+                guest.CurrentConsumable.SetSorting(guest.spriteRenderer.sortingLayerID,
+                    guest.spriteRenderer.sortingOrder + 1);
                 guest.CurrentConsumable.Claim();
                 _stateMachine.ChangeState(GuestStateID.MoveToSeat);
             }

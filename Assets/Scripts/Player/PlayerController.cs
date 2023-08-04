@@ -481,9 +481,14 @@ namespace Player
             progressBar.SetProgressBarActive(false);
         }
 
-        public OwnerType GetOwnerType()
+        public CharacterType GetOwnerType()
         {
-            return OwnerType.Player;
+            return CharacterType.Player;
+        }
+
+        public CharacterType GetWaiterType()
+        {
+            return CharacterType.Player;
         }
 
         public IConsumable GetConsumable()

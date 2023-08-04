@@ -106,7 +106,7 @@ namespace Minion.States
                     _stateMachine.ChangeState(MinionStateID.Moving);
                     break;
                 case GuestInteractable guestInteractable:
-                    if (guestInteractable.WaiterTarget.HasUnknownRequest() ||
+                    if (!guestInteractable.WaiterTarget.HasUnknownRequest() &&
                         !guestInteractable.WaiterTarget.HasConsumable() && minion.HoldingConsumable != null)
                     {
                         minion.SetDestinationAndDisplayPath(guestInteractable.WaiterTarget.GetDestinationTransform()
@@ -119,7 +119,6 @@ namespace Minion.States
                     else
                     {
                         minion.errorSound.Play2D();
-                        Debug.Log("MinionIdleState - Play Guest Interact Error Sound");
                     }
 
                     break;

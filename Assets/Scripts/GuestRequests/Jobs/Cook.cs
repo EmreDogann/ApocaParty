@@ -70,7 +70,7 @@ namespace GuestRequests.Jobs
                 base.Tick(deltaTime);
                 _currentCookTime += deltaTime;
 
-                if (JobOwner.GetRequestOwner().GetOwnerType() == OwnerType.Player || _hasFoodAlreadyBurned ||
+                if (JobOwner.GetRequestOwner().GetOwnerType() == CharacterType.Player || _hasFoodAlreadyBurned ||
                     _currentCookTime <= _fireCheckFrequency)
                 {
                     return;

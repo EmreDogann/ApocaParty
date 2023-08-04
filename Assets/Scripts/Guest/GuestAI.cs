@@ -41,7 +41,7 @@ namespace Guest
         [NavMeshSelector] [SerializeField] private int ignoreAreaCosts;
 
         [Separator("Guest Data")]
-        public SpriteRenderer image;
+        public SpriteRenderer spriteRenderer;
         [SerializeField] private Transform holderTransform;
         public ActorSO actorData;
 
@@ -181,9 +181,9 @@ namespace Guest
 
         public void OwnerRemoved() {}
 
-        public OwnerType GetOwnerType()
+        public CharacterType GetOwnerType()
         {
-            return OwnerType.Guest;
+            return CharacterType.Guest;
         }
 
         public Transform GetSeatTransform()
@@ -273,7 +273,8 @@ namespace Guest
         public void WaiterInteracted(IWaiter waiter)
         {
             var messages = needSystem.GetUnknownNeedConversations();
-            if (_guestType != GuestType.Henchmen && messages.Count > 0)
+            if (waiter.GetWaiterType() == CharacterType.Player && _guestType != GuestType.Henchmen &&
+                messages.Count > 0)
             {
                 foreach (Message message in messages)
                 {

@@ -107,7 +107,9 @@ namespace GuestRequests.Requests
                     {
                         _requestFailedTriggered = false;
                         SetSorting(_originalSortLayer, _originalSortOrder);
-                        transform.position = StartingPosition;
+
+                        transform.position = startingPosition.position;
+                        transform.rotation = startingPosition.rotation;
                     }
                 }
 
@@ -127,7 +129,9 @@ namespace GuestRequests.Requests
             {
                 _requestFailedTriggered = false;
                 SetSorting(_originalSortLayer, _originalSortOrder);
-                transform.position = StartingPosition;
+
+                transform.position = startingPosition.position;
+                transform.rotation = startingPosition.rotation;
             }
         }
 
@@ -146,12 +150,14 @@ namespace GuestRequests.Requests
         {
             _isConsumed = true;
             RequestImage.enabled = false;
-            RequestInteractable.SetInteractableActive(true);
+            RequestInteractable.SetInteractableActive(false);
             _collider2D.enabled = false;
             ResetRequest();
 
-            RequestImage.sortingLayerID = _originalSortLayer;
-            RequestImage.sortingOrder = _originalSortOrder;
+            SetSorting(_originalSortLayer, _originalSortOrder);
+
+            transform.position = startingPosition.position;
+            transform.rotation = startingPosition.rotation;
 
             OnConsumed?.Invoke(this);
             return consumeReward;
@@ -193,11 +199,6 @@ namespace GuestRequests.Requests
         public bool IsAvailable()
         {
             return !IsConsumed() && RequestImage.enabled;
-        }
-
-        public void SetStartingPosition(Vector3 position)
-        {
-            StartingPosition = position;
         }
 
         public void SetInteractableActive(bool isInteractable)

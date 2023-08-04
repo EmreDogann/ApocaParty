@@ -15,13 +15,18 @@ MonoBehaviour:
   script: {fileID: 4900000, guid: a6b79caf129491b40bcc922402908f27, type: 3}
   messagesToRandomlyPick:
   - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    playActorSound: 0
     text: 'Where is my food!? '
   - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    playActorSound: 0
     text: 'I hunger destruction and a good meal '
   - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    playActorSound: 0
     text: 'I''m hungry now. You give food. Now. '
   - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    playActorSound: 0
     text: "Cthulhu\u2026I\u2019m starving\u2026 you don\u2019t want me starving do
       you?"
   - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
+    playActorSound: 0
     text: Tell me, is seafood on the menu, Ctulhu?

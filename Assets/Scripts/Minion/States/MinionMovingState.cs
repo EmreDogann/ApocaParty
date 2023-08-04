@@ -20,7 +20,8 @@ namespace Minion.States
 
         public override void Tick()
         {
-            if (minion.TargetConsumable != null && !minion.TargetConsumable.IsAvailable())
+            if (minion.TargetConsumable != null && !minion.TargetConsumable.IsSpilled() &&
+                !minion.TargetConsumable.IsAvailable())
             {
                 if (minion.TargetConsumable is Drink && DrinksTable.Instance.IsDrinkAvailable())
                 {
@@ -59,6 +60,22 @@ namespace Minion.States
 
                     minion.NavMeshAgent.SetDestination(minion.RandomNavmeshLocation(minion.transform.position,
                         minion.SearchRadius * 0.6f, minion.NavMeshAgent.areaMask));
+                }
+
+                if (minion.WaiterTarget != null && minion.WaiterTarget.IsAssignedWaiter() &&
+                    minion.WaiterTarget.GetWaiterID() == minion.WaiterID)
+                {
+                    minion.WaiterTarget.WaiterInteracted(minion);
+
+                    if (!minion.WaiterTarget.HasUnknownRequest())
+                    {
+                        minion.HoldingConsumable = null;
+                    }
+
+                    minion.NavMeshAgent.SetDestination(minion.RandomNavmeshLocation(minion.transform.position,
+                        minion.SearchRadius, minion.NavMeshAgent.areaMask));
+
+                    minion.WaiterTarget = null;
                 }
 
                 _stateMachine.ChangeState(minion.currentRequest ? MinionStateID.Working : MinionStateID.Idle);

@@ -167,9 +167,14 @@ namespace Minion
             StateMachine.ChangeState(MinionStateID.Idle);
         }
 
-        public OwnerType GetOwnerType()
+        public CharacterType GetOwnerType()
         {
-            return OwnerType.Minion;
+            return CharacterType.Minion;
+        }
+
+        public CharacterType GetWaiterType()
+        {
+            return CharacterType.Minion;
         }
 
         public void OnInteract(InteractableBase interactableBase)
@@ -240,21 +245,21 @@ namespace Minion
             return HoldingConsumable;
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            IWaiterTarget waiterTarget = other.GetComponent<IWaiterTarget>();
-            if (waiterTarget != null && waiterTarget.IsAssignedWaiter() && waiterTarget.GetWaiterID() == WaiterID)
-            {
-                waiterTarget.WaiterInteracted(this);
-                if (!waiterTarget.HasUnknownRequest())
-                {
-                    NavMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius * 0.2f,
-                        NavMeshAgent.areaMask));
-                    pathDisplayer.HidePath();
-                    HoldingConsumable = null;
-                }
-            }
-        }
+        // private void OnTriggerEnter2D(Collider2D other)
+        // {
+        //     IWaiterTarget waiterTarget = other.GetComponent<IWaiterTarget>();
+        //     if (waiterTarget != null && waiterTarget.IsAssignedWaiter() && waiterTarget.GetWaiterID() == WaiterID)
+        //     {
+        //         waiterTarget.WaiterInteracted(this);
+        //         if (!waiterTarget.HasUnknownRequest())
+        //         {
+        //             NavMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius * 0.2f,
+        //                 NavMeshAgent.areaMask));
+        //             pathDisplayer.HidePath();
+        //             HoldingConsumable = null;
+        //         }
+        //     }
+        // }
 
         private void OnTriggerStay2D(Collider2D other)
         {

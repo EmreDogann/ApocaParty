@@ -32,7 +32,6 @@ namespace GuestRequests
 
         protected IRequestOwner Owner;
         protected SpriteRenderer RequestImage;
-        protected Vector3 StartingPosition;
 
         protected bool IsRequestSetup;
         protected RequestInteractable RequestInteractable;
@@ -50,14 +49,8 @@ namespace GuestRequests
                 }
             }
 
-            // TotalProgressPercentage = 1.0f;
             RequestImage = transform.GetComponentInChildren<SpriteRenderer>();
             RequestInteractable = GetComponent<RequestInteractable>();
-
-            if (startingPosition != null)
-            {
-                StartingPosition = startingPosition.position;
-            }
 
             ResetRequest();
         }
@@ -166,7 +159,8 @@ namespace GuestRequests
             _transformPairHandles = new Dictionary<ITransformProvider, TransformHandle>();
             if (restoreStartPos_OnCompletion)
             {
-                transform.position = StartingPosition;
+                transform.position = startingPosition.position;
+                transform.rotation = startingPosition.rotation;
             }
 
             DurationProgressPercentage = 0.0f;
