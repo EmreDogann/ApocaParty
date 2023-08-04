@@ -25,7 +25,6 @@ namespace GuestRequests.Jobs
         private bool _isFoodBurning;
         private bool _hasFoodAlreadyBurned;
         private TransformPair _transformPair;
-        private bool _isPowerOut;
 
         public event Action OnFoodCooked;
 
@@ -34,22 +33,32 @@ namespace GuestRequests.Jobs
             base.Enter();
             _transformPair =
                 _stovePositionProvider.GetTransformPair(JobOwner.TryGetTransformHandle(_stovePositionProvider));
-            _cookingAudio.Play(_transformPair.GetChildTransform().position);
 
             _currentCookTime = 0.0f;
             _isFoodBurning = false;
             _hasFoodAlreadyBurned = false;
-            _isPowerOut = false;
 
             _stovePositionProvider.TurnOnAppliance(JobOwner.TryGetTransformHandle(_stovePositionProvider));
 
             ElectricalBox.OnPowerOutage += OnPowerOutage;
             ElectricalBox.OnPowerFixed += OnPowerFixed;
+
+            if (ElectricalBox.IsPowerOn())
+            {
+                _cookingAudio.Play(_transformPair.GetChildTransform().position);
+            }
+        }
+
+        internal override void OnDestroy()
+        {
+            base.OnDestroy();
+            ElectricalBox.OnPowerOutage -= OnPowerOutage;
+            ElectricalBox.OnPowerFixed -= OnPowerFixed;
         }
 
         public override void Tick(float deltaTime)
         {
-            if (_isPowerOut)
+            if (!ElectricalBox.IsPowerOn())
             {
                 return;
             }
@@ -117,8 +126,6 @@ namespace GuestRequests.Jobs
             {
                 _cookingAudio.FadeAudio(0.0f, 10.0f);
             }
-
-            _isPowerOut = true;
         }
 
         private void OnPowerFixed()
@@ -127,8 +134,6 @@ namespace GuestRequests.Jobs
             {
                 _cookingAudio.UnFadeAudio(10.0f);
             }
-
-            _isPowerOut = false;
         }
     }
 }

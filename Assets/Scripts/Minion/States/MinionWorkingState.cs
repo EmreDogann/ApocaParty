@@ -1,4 +1,3 @@
-using Electricity;
 using UnityEngine;
 
 namespace Minion.States
@@ -7,8 +6,6 @@ namespace Minion.States
     {
         public MinionWorkingState(MinionAI minion, MinionStateMachine stateMachine) : base(minion, stateMachine) {}
 
-        private bool _isPowerOut;
-
         public override MinionStateID GetID()
         {
             return MinionStateID.Working;
@@ -16,9 +13,6 @@ namespace Minion.States
 
         public override void Enter()
         {
-            ElectricalBox.OnPowerOutage += OnPowerOutage;
-            ElectricalBox.OnPowerFixed += OnPowerFixed;
-
             minion.currentRequest.OnRequestCompleted += OnRequestCompleted;
             minion.currentRequest.ActivateRequest();
 
@@ -27,10 +21,10 @@ namespace Minion.States
 
         public override void Tick()
         {
-            if (_isPowerOut)
-            {
-                return;
-            }
+            // if (!ElectricalBox.IsPowerOn())
+            // {
+            //     return;
+            // }
 
             minion.currentRequest.UpdateRequest(Time.deltaTime);
             if (minion.currentRequest)
@@ -41,9 +35,6 @@ namespace Minion.States
 
         public override void Exit()
         {
-            ElectricalBox.OnPowerOutage -= OnPowerOutage;
-            ElectricalBox.OnPowerFixed -= OnPowerFixed;
-
             minion.progressBar.SetProgressBarActive(false);
 
             minion.NavMeshAgent.SetDestination(minion.RandomNavmeshLocation(minion.transform.position,
@@ -56,16 +47,6 @@ namespace Minion.States
             minion.currentRequest.OnRequestCompleted -= OnRequestCompleted;
             minion.currentRequest = null;
             _stateMachine.ChangeState(MinionStateID.Idle);
-        }
-
-        private void OnPowerOutage()
-        {
-            _isPowerOut = true;
-        }
-
-        private void OnPowerFixed()
-        {
-            _isPowerOut = false;
         }
     }
 }
