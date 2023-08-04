@@ -85,8 +85,10 @@ namespace Player
 
         private void OnInteraction(InteractableBase interactable)
         {
-            if (_currentRequest != null || _targetConsumable != null || _isSlipping || _isCleaningUp)
+            if (interactable != null && (_currentRequest != null || _targetConsumable != null || _isSlipping ||
+                                         _isCleaningUp))
             {
+                errorSound.Play2D();
                 return;
             }
 
@@ -159,6 +161,12 @@ namespace Player
 
                     break;
                 case FoodPileInteractable foodPileInteractable:
+                    if (_holdingConsumable != null)
+                    {
+                        errorSound.Play2D();
+                        return;
+                    }
+
                     request = foodPileInteractable.FoodPile.TryGetFood();
                     if (request == null)
                     {
