@@ -18,10 +18,7 @@ namespace Minion.States
             return MinionStateID.Idle;
         }
 
-        public override void Enter()
-        {
-            _currentWanderTime = 0.0f;
-        }
+        public override void Enter() {}
 
         public override void Tick()
         {
@@ -42,10 +39,18 @@ namespace Minion.States
             }
         }
 
-        public override void Exit() {}
+        public override void Exit()
+        {
+            _currentWanderTime = 0.0f;
+        }
 
         public void OnInteraction(InteractableBase interactable)
         {
+            if (minion.currentRequest != null || minion.TargetConsumable != null)
+            {
+                return;
+            }
+
             switch (interactable)
             {
                 case IInteractableRequest requestInteractable:
@@ -61,7 +66,6 @@ namespace Minion.States
 
                         minion.SetDestinationAndDisplayPath(request.GetStartingPosition());
 
-                        minion.SetWandering(false);
                         minion.image.sprite = minion.actorData.eventIcon;
                         _stateMachine.ChangeState(MinionStateID.Moving);
                         return;
@@ -69,9 +73,6 @@ namespace Minion.States
 
                     if (request.IsRequestStarted() || !request.TryStartRequest() || request.GetRequestOwner() != null)
                     {
-                        minion.SetWandering(false);
-                        _stateMachine.ChangeState(MinionStateID.Idle);
-
                         return;
                     }
 
@@ -80,7 +81,6 @@ namespace Minion.States
                         case DrinkRefillRequest _:
                             if (DrinksTable.Instance.IsDrinksTableFull())
                             {
-                                _stateMachine.ChangeState(MinionStateID.Idle);
                                 return;
                             }
 
@@ -98,7 +98,6 @@ namespace Minion.States
                     minion.currentRequest = request;
                     request.AssignOwner(minion);
 
-                    minion.SetWandering(false);
                     _stateMachine.ChangeState(MinionStateID.Moving);
                     break;
                 case GuestInteractable guestInteractable:
@@ -107,9 +106,9 @@ namespace Minion.States
                     {
                         minion.SetDestinationAndDisplayPath(guestInteractable.WaiterTarget.GetDestinationTransform()
                             .position);
-                        guestInteractable.WaiterTarget.GiveWaiterID(minion.WaiterID);
+                        minion.WaiterTarget = guestInteractable.WaiterTarget;
+                        minion.WaiterTarget.GiveWaiterID(minion.WaiterID);
 
-                        minion.SetWandering(false);
                         _stateMachine.ChangeState(MinionStateID.Moving);
                     }
                     else
@@ -124,7 +123,6 @@ namespace Minion.States
                     if (foodRequest == null)
                     {
                         // TODO: Play error sound.
-                        _stateMachine.ChangeState(MinionStateID.Idle);
                         return;
                     }
 
@@ -132,7 +130,6 @@ namespace Minion.States
                     minion.currentRequest = foodRequest;
                     foodRequest.AssignOwner(minion);
 
-                    minion.SetWandering(false);
                     minion.image.sprite = minion.actorData.kitchenIcon;
                     _stateMachine.ChangeState(MinionStateID.Moving);
                     break;
@@ -146,7 +143,6 @@ namespace Minion.States
                             {
                                 minion.SetDestinationAndDisplayPath(minion.TargetConsumable.GetTransform().position);
 
-                                minion.SetWandering(false);
                                 minion.image.sprite = minion.actorData.eventIcon;
                                 _stateMachine.ChangeState(MinionStateID.Moving);
                             }
@@ -165,17 +161,20 @@ namespace Minion.States
                         minion.currentRequest = request;
                         minion.currentRequest.AssignOwner(minion);
 
-                        minion.SetWandering(false);
                         minion.image.sprite = minion.actorData.eventIcon;
                         _stateMachine.ChangeState(MinionStateID.Moving);
                     }
 
                     break;
-                case null:
-                    _stateMachine.ChangeState(MinionStateID.Idle);
+                case SpillInteractable spillInteractable:
+                    minion.SetDestinationAndDisplayPath(spillInteractable.transform.position);
+                    minion.TargetConsumable = spillInteractable.Consumable;
+                    minion.TargetConsumable.StartCleanup();
+
+                    minion.image.sprite = minion.actorData.eventIcon;
+                    _stateMachine.ChangeState(MinionStateID.Moving);
                     break;
-                default:
-                    _stateMachine.ChangeState(MinionStateID.Idle);
+                case null:
                     break;
             }
         }

@@ -20,6 +20,7 @@ namespace Consumable
         public ConsumedData Consume();
         public void Spill();
         public bool IsSpilled();
+        public void StartCleanup();
         public void Cleanup();
         public void Claim();
         public bool IsConsumed();

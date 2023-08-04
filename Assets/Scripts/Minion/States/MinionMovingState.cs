@@ -12,15 +12,24 @@ namespace Minion.States
             return MinionStateID.Moving;
         }
 
-        public override void Enter() {}
+        public override void Enter()
+        {
+            minion.SetWandering(false);
+        }
 
         public override void Tick()
         {
             if (Vector3.SqrMagnitude(minion.transform.position - minion.NavMeshAgent.destination) <
                 DistanceThreshold * DistanceThreshold)
             {
-                if (minion.TargetConsumable != null && !minion.TargetConsumable.IsSpilled())
+                if (minion.TargetConsumable != null)
                 {
+                    if (minion.TargetConsumable.IsSpilled())
+                    {
+                        _stateMachine.ChangeState(MinionStateID.Cleanup);
+                        return;
+                    }
+
                     minion.HoldingConsumable = minion.TargetConsumable;
                     minion.HoldingConsumable.Claim();
                     minion.HoldingConsumable.SetSorting(minion.image.sortingLayerID, minion.image.sortingOrder + 1);

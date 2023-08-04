@@ -21,6 +21,7 @@ namespace Player
     {
         [Separator("General")]
         [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private AudioSO errorSound;
 
         [Separator("Movement")]
         [SerializeField] private float distanceThreshold = 0.01f;
@@ -83,8 +84,9 @@ namespace Player
 
         private void OnInteraction(InteractableBase interactable)
         {
-            if (_currentRequest != null)
+            if (_currentRequest != null || _targetConsumable != null || _isSlipping || _isCleaningUp)
             {
+                errorSound.Play2D();
                 return;
             }
 
@@ -196,6 +198,7 @@ namespace Player
                 case SpillInteractable spillInteractable:
                     _targetDestination = spillInteractable.transform;
                     _targetConsumable = spillInteractable.Consumable;
+                    _targetConsumable.StartCleanup();
                     break;
                 case null:
                     break;
@@ -286,8 +289,12 @@ namespace Player
         private void Slip()
         {
             _isSlipping = true;
+            _targetDestination = null;
             _agent.ResetPath();
             pathDisplayer.HidePath();
+
+            _waiterTarget?.WaiterCancelled();
+            _waiterTarget = null;
 
             transform.DOShakeRotation(1.5f, new Vector3(0.0f, 0.0f, 40.0f), 5, 1, true, ShakeRandomnessMode.Harmonic)
                 .OnComplete(
@@ -300,10 +307,19 @@ namespace Player
             _isCleaningUp = true;
             _agent.ResetPath();
             pathDisplayer.HidePath();
+            progressBar.SetProgressBarActive(true);
 
-            yield return new WaitForSeconds(cleanupTime);
+            float currentTime = 0.0f;
+            while (currentTime < cleanupTime)
+            {
+                currentTime += Time.deltaTime;
+                progressBar.SetProgressBarPercentage(currentTime / cleanupTime);
+                yield return null;
+            }
 
             spillInteractable.Consumable.Cleanup();
+            progressBar.SetProgressBarActive(false);
+
             _isCleaningUp = false;
         }
 
@@ -323,7 +339,7 @@ namespace Player
 
         private void OnTriggerStay2D(Collider2D other)
         {
-            if (_isCleaningUp || _isSlipping || _agent.hasPath)
+            if (_isCleaningUp || _isSlipping || !_agent.hasPath)
             {
                 return;
             }
@@ -339,6 +355,7 @@ namespace Player
             }
 
             if (other.gameObject.layer != _spillLayer ||
+                _targetConsumable != null && _targetConsumable.IsSpilled() ||
                 _holdingConsumable != null && other.gameObject == _holdingConsumable.GetTransform().gameObject)
             {
                 return;

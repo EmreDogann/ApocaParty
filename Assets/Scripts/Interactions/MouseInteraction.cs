@@ -55,23 +55,23 @@ namespace Interactions
                 RaycastForInteractable();
             }
 
-            if (!_hoverTarget || !_hoverTarget.IsInteractable)
-            {
-                return _activeTarget;
-            }
+            // if (!_hoverTarget || !_hoverTarget.IsInteractable)
+            // {
+            //     return _activeTarget;
+            // }
 
             if (_activeTarget)
             {
                 if (!_activeTarget.HoldInteract || _isPaused)
                 {
                     StopInteraction();
-                    return _activeTarget;
+                    return null;
                 }
 
                 if (_activeTarget.IsHoldInteractFinished())
                 {
                     StopInteraction();
-                    return _activeTarget;
+                    return null;
                 }
 
                 _activeTarget.OnInteract();
@@ -82,6 +82,7 @@ namespace Interactions
                 {
                     _activeTarget = _hoverTarget;
                     _activeTarget?.OnStartInteract();
+
                     if (InputManager.Instance.InteractPressed)
                     {
                         OnInteract?.Invoke(_activeTarget);
@@ -104,6 +105,11 @@ namespace Interactions
             return InputManager.Instance.InteractPressed || InputManager.Instance.InteractAltPressed;
         }
 
+        public bool WasReleasedThisFrame()
+        {
+            return InputManager.Instance.InteractReleased || InputManager.Instance.InteractAltReleased;
+        }
+
         public bool IsInteracting()
         {
             return InputManager.Instance.InteractHeld || InputManager.Instance.InteractAltHeld;
@@ -111,7 +117,7 @@ namespace Interactions
 
         private void StopInteraction()
         {
-            _activeTarget?.OnEndInteract();
+            _activeTarget.OnEndInteract();
             _activeTarget = null;
         }
 
@@ -133,17 +139,14 @@ namespace Interactions
 
             if (_hit.collider && !IsBlockedByUI())
             {
-                var interactableBases = _hit.collider.GetComponents<InteractableBase>();
-                foreach (InteractableBase interactable in interactableBases)
+                InteractableBase interactable = _hit.collider.GetComponent<InteractableBase>();
+                if (interactable != null && (interactable.IsInteractable || interactable.IsHoverable))
                 {
-                    if (interactable.IsInteractable || interactable.IsHoverable)
-                    {
-                        newTarget = interactable;
-                        break;
-                    }
+                    newTarget = interactable;
                 }
             }
 
+            Debug.Log(newTarget);
             if (newTarget == _hoverTarget)
             {
                 return;

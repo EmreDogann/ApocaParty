@@ -19,8 +19,10 @@ public class InputManager : MonoBehaviour
     private PlayerInput _playerInput;
 
     public bool InteractPressed { get; private set; }
+    public bool InteractReleased { get; private set; }
     public bool InteractHeld { get; private set; }
     public bool InteractAltPressed { get; private set; }
+    public bool InteractAltReleased { get; private set; }
     public bool InteractAltHeld { get; private set; }
 
     private InputAction _interactAction;
@@ -57,12 +59,14 @@ public class InputManager : MonoBehaviour
         if (_interactAction != null)
         {
             InteractPressed = _interactAction.WasPressedThisFrame();
+            InteractReleased = _interactAction.WasReleasedThisFrame();
             InteractHeld = _interactAction.IsPressed();
         }
 
         if (_interactAltAction != null)
         {
             InteractAltPressed = _interactAltAction.WasPressedThisFrame();
+            InteractAltReleased = _interactAltAction.WasReleasedThisFrame();
             InteractAltHeld = _interactAltAction.IsPressed();
         }
     }

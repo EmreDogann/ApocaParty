@@ -25,7 +25,7 @@ public class ProgressBar : MonoBehaviour
 
     public void SetProgressBarPercentage(float percentage)
     {
-        progressBar.fillAmount = percentage;
+        progressBar.fillAmount = Mathf.Clamp01(percentage);
     }
 
     public void SetProgressBarActive(bool isActive)

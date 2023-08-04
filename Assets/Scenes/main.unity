@@ -776,42 +776,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 32979861}
   m_CullTransparentMesh: 1
---- !u!21 &34451140
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &38958793
 GameObject:
   m_ObjectHideFlags: 0
@@ -3774,7 +3738,7 @@ Transform:
   m_Children:
   - {fileID: 81586549}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &261320905
 MonoBehaviour:
@@ -5312,6 +5276,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transformParent: {fileID: 356733995}
   transformChild: {fileID: 252743274}
+--- !u!21 &373482401
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &381759195
 GameObject:
   m_ObjectHideFlags: 0
@@ -11594,7 +11594,7 @@ Transform:
   - {fileID: 10534236}
   - {fileID: 1092818129}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &507680489
 PrefabInstance:
@@ -19482,7 +19482,7 @@ Transform:
   - {fileID: 660862778}
   - {fileID: 1671601934}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &744024075
 MonoBehaviour:
@@ -19840,7 +19840,7 @@ GameObject:
   - component: {fileID: 754063273}
   - component: {fileID: 754063272}
   - component: {fileID: 754063274}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Minion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19898,6 +19898,11 @@ MonoBehaviour:
   holderTransform: {fileID: 2030473880}
   enableWandering: 0
   activateAIOnAwake: 1
+  chanceToSpillFood: 0.1
+  chanceToSlip: 0.1
+  spillFoodCheckFrequency: 0.5
+  slipAudio: {fileID: 11400000, guid: a82434434144a6e40a8724ef04c91cd5, type: 2}
+  cleanupTime: 5
   image: {fileID: 1522357477}
   aiState: {fileID: 161511143}
   progressBar: {fileID: 5434562460609369399}
@@ -20146,42 +20151,6 @@ Transform:
   m_Father: {fileID: 1012210024}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &779797222
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &784005913
 GameObject:
   m_ObjectHideFlags: 0
@@ -20750,7 +20719,7 @@ Transform:
   - {fileID: 578995014}
   - {fileID: 1412333056}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &827416752
 GameObject:
@@ -21216,75 +21185,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2833652554369799451, guid: 2df009fc18420f847b9ef2580f80341a, type: 3}
   m_PrefabInstance: {fileID: 850670925}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &856946219
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6214276227280722242, guid: e1882cf04034a9b40bf4fc04f88c15d8, type: 3}
-      propertyPath: m_Name
-      value: Drink
-      objectReference: {fileID: 0}
-    - target: {fileID: 6214276227280722243, guid: e1882cf04034a9b40bf4fc04f88c15d8, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6214276227280722243, guid: e1882cf04034a9b40bf4fc04f88c15d8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 3.872999
-      objectReference: {fileID: 0}
-    - target: {fileID: 6214276227280722243, guid: e1882cf04034a9b40bf4fc04f88c15d8, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.4208101
-      objectReference: {fileID: 0}
-    - target: {fileID: 6214276227280722243, guid: e1882cf04034a9b40bf4fc04f88c15d8, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6214276227280722243, guid: e1882cf04034a9b40bf4fc04f88c15d8, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6214276227280722243, guid: e1882cf04034a9b40bf4fc04f88c15d8, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6214276227280722243, guid: e1882cf04034a9b40bf4fc04f88c15d8, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6214276227280722243, guid: e1882cf04034a9b40bf4fc04f88c15d8, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6214276227280722243, guid: e1882cf04034a9b40bf4fc04f88c15d8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6214276227280722243, guid: e1882cf04034a9b40bf4fc04f88c15d8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6214276227280722243, guid: e1882cf04034a9b40bf4fc04f88c15d8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6853847356545704310, guid: e1882cf04034a9b40bf4fc04f88c15d8, type: 3}
-      propertyPath: m_SpriteTilingProperty.pivot.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6853847356545704310, guid: e1882cf04034a9b40bf4fc04f88c15d8, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 1.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 6853847356545704310, guid: e1882cf04034a9b40bf4fc04f88c15d8, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 2.03
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e1882cf04034a9b40bf4fc04f88c15d8, type: 3}
 --- !u!1 &859353550
 GameObject:
   m_ObjectHideFlags: 0
@@ -22697,7 +22597,7 @@ Transform:
   - {fileID: 242135950}
   - {fileID: 60591016}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1015704826
 PrefabInstance:
@@ -24528,6 +24428,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1171339137}
   m_CullTransparentMesh: 1
+--- !u!21 &1171429070
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &1186363485
 GameObject:
   m_ObjectHideFlags: 0
@@ -24980,7 +24916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 782567b42613451f9c03772bbc6d617a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!21 &1219190852
+--- !u!21 &1217940341
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -30601,7 +30537,7 @@ Transform:
   - {fileID: 1980779782}
   - {fileID: 1464936703}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1295558820
 GameObject:
@@ -37019,42 +36955,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!21 &1373040134
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &1373881369
 GameObject:
   m_ObjectHideFlags: 0
@@ -43016,7 +42916,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1464936703
 Transform:
   m_ObjectHideFlags: 0
@@ -43536,7 +43436,7 @@ GameObject:
   - component: {fileID: 1538724056}
   - component: {fileID: 1538724055}
   - component: {fileID: 1538724054}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Minion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43652,6 +43552,11 @@ MonoBehaviour:
   holderTransform: {fileID: 1161070037}
   enableWandering: 0
   activateAIOnAwake: 1
+  chanceToSpillFood: 0.1
+  chanceToSlip: 0.1
+  spillFoodCheckFrequency: 0.5
+  slipAudio: {fileID: 11400000, guid: a82434434144a6e40a8724ef04c91cd5, type: 2}
+  cleanupTime: 5
   image: {fileID: 1996456030}
   aiState: {fileID: 1347968202}
   progressBar: {fileID: 292827850}
@@ -44082,6 +43987,42 @@ MonoBehaviour:
     enjoyment: 0
   expirationTime: 30
   randomConversations: {fileID: 11400000, guid: a95ef6fc209bce948b7563ebd34393eb, type: 2}
+--- !u!21 &1563254347
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &1573403825
 GameObject:
   m_ObjectHideFlags: 0
@@ -44414,7 +44355,7 @@ GameObject:
   - component: {fileID: 1605618397}
   - component: {fileID: 1605618399}
   - component: {fileID: 1605618400}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -44429,7 +44370,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605618386}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.42, y: -1.07, z: 0}
+  m_LocalPosition: {x: -6.42, y: -4.44, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -44438,7 +44379,7 @@ Transform:
   - {fileID: 1396642679}
   - {fileID: 1141348333}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &1605618388
 NavMeshAgent:
@@ -44475,6 +44416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 733604096}
+  errorSound: {fileID: 11400000, guid: f8fd129a4287464468c4df9881d51013, type: 2}
   distanceThreshold: 0.1
   ignoreAreaCosts: 3
   holderTransform: {fileID: 745539120}
@@ -44482,9 +44424,9 @@ MonoBehaviour:
   progressBar: {fileID: 2105885225}
   chanceToSpillFood: 0.1
   chanceToSlip: 0.1
-  spillFoodCheckFrequency: 3
+  spillFoodCheckFrequency: 0.5
   slipAudio: {fileID: 11400000, guid: a82434434144a6e40a8724ef04c91cd5, type: 2}
-  cleanupTime: 3
+  cleanupTime: 2.5
 --- !u!114 &1605618390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44861,7 +44803,7 @@ GameObject:
   - component: {fileID: 1642062918}
   - component: {fileID: 1642062917}
   - component: {fileID: 1642062916}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Minion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44977,6 +44919,11 @@ MonoBehaviour:
   holderTransform: {fileID: 1232475332}
   enableWandering: 0
   activateAIOnAwake: 1
+  chanceToSpillFood: 0.1
+  chanceToSlip: 0.1
+  spillFoodCheckFrequency: 0.5
+  slipAudio: {fileID: 11400000, guid: a82434434144a6e40a8724ef04c91cd5, type: 2}
+  cleanupTime: 5
   image: {fileID: 336424058}
   aiState: {fileID: 29859585}
   progressBar: {fileID: 1015704828}
@@ -48069,7 +48016,7 @@ Transform:
   - {fileID: 417576380}
   - {fileID: 837127632}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2005770833
 GameObject:
@@ -48104,7 +48051,7 @@ Transform:
   - {fileID: 1538724053}
   - {fileID: 1642062914}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2005770835
 MonoBehaviour:

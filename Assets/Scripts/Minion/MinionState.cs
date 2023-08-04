@@ -4,7 +4,9 @@ namespace Minion
     {
         Idle,
         Working,
-        Moving
+        Moving,
+        Slip,
+        Cleanup
     }
 
     public abstract class MinionState

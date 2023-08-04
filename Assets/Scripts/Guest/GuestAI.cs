@@ -304,6 +304,13 @@ namespace Guest
             _isAssignedWaiter = false;
         }
 
+        public void WaiterCancelled()
+        {
+            _waiterID = 0;
+            _isAssignedWaiter = false;
+            InteractableState.SetInteractableActive(true);
+        }
+
         public bool IsAssignedWaiter()
         {
             return _isAssignedWaiter;
@@ -313,6 +320,7 @@ namespace Guest
         {
             _waiterID = waiterID;
             _isAssignedWaiter = true;
+            InteractableState.SetInteractableActive(false);
         }
 
         public int GetWaiterID()

@@ -81,6 +81,11 @@ namespace GuestRequests.Requests
             return _spillInteractable.IsInteractable || _spillInteractable.IsHoverable;
         }
 
+        public void StartCleanup()
+        {
+            RequestInteractable.SetInteractableActive(false);
+        }
+
         public void Cleanup()
         {
             Consume();

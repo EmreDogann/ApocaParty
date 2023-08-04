@@ -2,7 +2,6 @@
 using Audio;
 using Interactions.Interactables;
 using MyBox;
-using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -29,26 +28,36 @@ namespace Consumable
         private int _startingSortingOrder;
         private Vector3 _startingPosition;
 
+        private bool _isSpilled;
+
+        public bool showOnAwake;
+        public bool spillOnAwake;
+
         public event Action<Drink> OnClaim;
 
         private void Awake()
         {
-            _isClaimed = false;
-            _isConsumed = false;
             _spriteRenderer = GetComponent<SpriteRenderer>();
-
             _collider2D = GetComponent<Collider2D>();
-            _collider2D.enabled = false;
-
             _spillInteractable = GetComponent<SpillInteractable>();
+
+            _collider2D.enabled = false;
             _spillInteractable.SetInteractableActive(false);
 
             _originalSprite = _spriteRenderer.sprite;
-            _spriteRenderer.enabled = false;
+            if (!showOnAwake)
+            {
+                _spriteRenderer.enabled = false;
+            }
 
             _startingPosition = transform.position;
             _startingSortingLayer = _spriteRenderer.sortingLayerID;
             _startingSortingOrder = _spriteRenderer.sortingOrder;
+
+            if (spillOnAwake)
+            {
+                Spill();
+            }
         }
 
         public void SetSorting(int layer, int order)
@@ -77,6 +86,8 @@ namespace Consumable
         [ButtonMethod]
         public void Spill()
         {
+            _isSpilled = true;
+
             _spriteRenderer.sprite = spillSprite;
             _collider2D.enabled = true;
             _spillInteractable.SetInteractableActive(true);
@@ -88,7 +99,12 @@ namespace Consumable
 
         public bool IsSpilled()
         {
-            return _spillInteractable.IsInteractable || _spillInteractable.IsHoverable;
+            return _isSpilled;
+        }
+
+        public void StartCleanup()
+        {
+            _spillInteractable.SetInteractableActive(false);
         }
 
         public void Cleanup()
@@ -98,9 +114,11 @@ namespace Consumable
 
             _spriteRenderer.sprite = _originalSprite;
             _spillInteractable.SetInteractableActive(false);
-            transform.localRotation = quaternion.identity;
+            transform.localRotation = Quaternion.identity;
 
             SetSorting(_startingSortingLayer, _startingSortingOrder);
+
+            _isSpilled = false;
         }
 
         public void Claim()
@@ -144,6 +162,8 @@ namespace Consumable
         {
             _isConsumed = false;
             _isClaimed = false;
+            _isSpilled = false;
+
             _spriteRenderer.enabled = false;
             _collider2D.enabled = false;
 

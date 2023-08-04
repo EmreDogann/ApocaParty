@@ -1,5 +1,6 @@
 using System;
 using Actors;
+using Audio;
 using Consumable;
 using GuestRequests;
 using Interactions;
@@ -25,6 +26,13 @@ namespace Minion
         public bool enableWandering;
         [SerializeField] private bool activateAIOnAwake;
 
+        [Separator("Spill Settings")]
+        [Range(0.0f, 1.0f)] public float chanceToSpillFood;
+        [Range(0.0f, 1.0f)] public float chanceToSlip;
+        public float spillFoodCheckFrequency;
+        public AudioSO slipAudio;
+        public float cleanupTime;
+
         [Separator("UI")]
         public SpriteRenderer image;
         [SerializeField] private TextMeshProUGUI aiState;
@@ -39,19 +47,25 @@ namespace Minion
         private MinionIdleState _minionIdleState;
         private MinionMovingState _minionMovingState;
         private MinionWorkingState _minionWorkingState;
+        private MinionSlipState _minionSlipState;
+        private MinionCleanupState _minionCleanupState;
 
         [HideInInspector] public IConsumable HoldingConsumable;
         [HideInInspector] public IConsumable TargetConsumable;
         [HideInInspector] public readonly int WaiterID = Guid.NewGuid().GetHashCode();
+        [HideInInspector] public IWaiterTarget WaiterTarget;
 
         private bool _shouldWander;
-        private readonly float DistanceThreshold = 0.1f;
-        private readonly float WanderWaitTime = 3.0f;
+        private readonly float _distanceThreshold = 0.1f;
+        private readonly float _wanderWaitTime = 3.0f;
         private float _currentWanderTime;
         internal float SearchRadius = 3.0f;
 
         private bool _isAIActive;
         private int _characterLayerMask;
+        private int _spillLayer;
+
+        private float _spillFoodTimer;
 
         private void Awake()
         {
@@ -66,10 +80,14 @@ namespace Minion
             _minionIdleState = new MinionIdleState(this, StateMachine);
             _minionMovingState = new MinionMovingState(this, StateMachine);
             _minionWorkingState = new MinionWorkingState(this, StateMachine);
+            _minionSlipState = new MinionSlipState(this, StateMachine);
+            _minionCleanupState = new MinionCleanupState(this, StateMachine);
 
             StateMachine.RegisterState(_minionIdleState);
             StateMachine.RegisterState(_minionMovingState);
             StateMachine.RegisterState(_minionWorkingState);
+            StateMachine.RegisterState(_minionSlipState);
+            StateMachine.RegisterState(_minionCleanupState);
 
             // Initial state
             StateMachine.ChangeState(MinionStateID.Idle);
@@ -80,6 +98,7 @@ namespace Minion
             }
 
             _characterLayerMask = LayerMask.NameToLayer("Character");
+            _spillLayer = LayerMask.NameToLayer("Drink");
         }
 
         private void Update()
@@ -95,12 +114,12 @@ namespace Minion
             if (_shouldWander)
             {
                 if (Vector3.SqrMagnitude(transform.position - NavMeshAgent.destination) <
-                    DistanceThreshold * DistanceThreshold)
+                    _distanceThreshold * _distanceThreshold)
                 {
                     _currentWanderTime += Time.deltaTime;
                 }
 
-                if (_currentWanderTime >= WanderWaitTime)
+                if (_currentWanderTime >= _wanderWaitTime)
                 {
                     _currentWanderTime = 0.0f;
                     NavMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius));
@@ -230,6 +249,38 @@ namespace Minion
                     pathDisplayer.HidePath();
                     HoldingConsumable = null;
                 }
+            }
+        }
+
+        private void OnTriggerStay2D(Collider2D other)
+        {
+            if (other.gameObject.layer != _spillLayer ||
+                StateMachine.GetCurrentState().GetID() != MinionStateID.Moving ||
+                TargetConsumable != null && TargetConsumable.IsSpilled() ||
+                HoldingConsumable != null && other.gameObject == HoldingConsumable.GetTransform().gameObject)
+            {
+                return;
+            }
+
+            _spillFoodTimer += Time.deltaTime;
+            if (_spillFoodTimer < spillFoodCheckFrequency)
+            {
+                return;
+            }
+
+            _spillFoodTimer = 0.0f;
+            if (HoldingConsumable != null)
+            {
+                if (Random.Range(0.0f, 1.0f) < chanceToSpillFood)
+                {
+                    HoldingConsumable.Spill();
+                    HoldingConsumable = null;
+                    StateMachine.ChangeState(MinionStateID.Slip);
+                }
+            }
+            else if (Random.Range(0.0f, 1.0f) < chanceToSlip)
+            {
+                StateMachine.ChangeState(MinionStateID.Slip);
             }
         }
     }
