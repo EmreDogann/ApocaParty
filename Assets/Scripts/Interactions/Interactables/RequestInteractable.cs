@@ -1,12 +1,14 @@
 using GuestRequests;
+using MyBox;
 using UnityEngine;
 
 namespace Interactions.Interactables
 {
     public class RequestInteractable : InteractableBase, IInteractableRequest
     {
-        [SerializeField] protected Request request;
         [SerializeField] protected float hoverScaleAmount = 1.5f;
+        [Separator("Request")]
+        [SerializeField] protected Request request;
 
         private bool _isHovering;
 

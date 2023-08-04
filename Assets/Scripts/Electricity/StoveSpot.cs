@@ -2,7 +2,7 @@
 
 namespace Electricity
 {
-    public class Stove : MonoBehaviour, IElectricalAppliance
+    public class StoveSpot : MonoBehaviour, IElectricalAppliance
     {
         private bool _isBeingUsed;
 

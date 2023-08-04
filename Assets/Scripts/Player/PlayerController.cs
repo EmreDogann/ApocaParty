@@ -87,7 +87,6 @@ namespace Player
         {
             if (_currentRequest != null || _targetConsumable != null || _isSlipping || _isCleaningUp)
             {
-                errorSound.Play2D();
                 return;
             }
 
@@ -130,6 +129,14 @@ namespace Player
                         return;
                     }
 
+                    if (interactableRequest is StoveInteractable && _currentRequest != null)
+                    {
+                        Debug.Log("heyyy");
+                        _currentRequest.ResetRequest();
+                        OwnerRemoved();
+                        OnRequestCompleted();
+                    }
+
                     SetDestinationAndDisplayPath(request.GetStartingPosition());
                     _currentRequest = request;
                     _currentRequest.AssignOwner(this);
@@ -148,8 +155,7 @@ namespace Player
                     }
                     else
                     {
-                        // TODO: Play error sound.
-                        Debug.Log("PlayerController - Play Guest Interact Error Sound");
+                        errorSound.Play2D();
                     }
 
                     break;
@@ -157,6 +163,7 @@ namespace Player
                     request = foodPileInteractable.FoodPile.TryGetFood();
                     if (request == null)
                     {
+                        errorSound.Play2D();
                         return;
                     }
 
@@ -452,6 +459,10 @@ namespace Player
         public void OwnerRemoved()
         {
             _currentRequest = null;
+            _targetDestination = null;
+            pathDisplayer.HidePath();
+            _agent.ResetPath();
+            progressBar.SetProgressBarActive(false);
         }
 
         public OwnerType GetOwnerType()

@@ -45,6 +45,10 @@ namespace Minion.States
             ElectricalBox.OnPowerFixed -= OnPowerFixed;
 
             minion.progressBar.SetProgressBarActive(false);
+
+            minion.NavMeshAgent.SetDestination(minion.RandomNavmeshLocation(minion.transform.position,
+                minion.SearchRadius * 0.2f,
+                minion.NavMeshAgent.areaMask));
         }
 
         private void OnRequestCompleted()

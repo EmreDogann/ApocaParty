@@ -113,7 +113,7 @@ namespace Minion.States
                     }
                     else
                     {
-                        // TODO: Play error sound.
+                        minion.errorSound.Play2D();
                         Debug.Log("MinionIdleState - Play Guest Interact Error Sound");
                     }
 
@@ -122,7 +122,7 @@ namespace Minion.States
                     FoodRequest foodRequest = foodPileInteractable.FoodPile.TryGetFood();
                     if (foodRequest == null)
                     {
-                        // TODO: Play error sound.
+                        minion.errorSound.Play2D();
                         return;
                     }
 
@@ -153,7 +153,7 @@ namespace Minion.States
                         request = drinksTableInteractable.TryRefill();
                         if (request == null)
                         {
-                            // TODO: Play error sound.
+                            minion.errorSound.Play2D();
                             return;
                         }
 

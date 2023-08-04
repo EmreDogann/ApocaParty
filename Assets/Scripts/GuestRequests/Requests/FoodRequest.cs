@@ -1,5 +1,6 @@
 ﻿using System;
 using Consumable;
+using GuestRequests.Jobs;
 using Interactions.Interactables;
 using MyBox;
 using UnityEngine;
@@ -22,6 +23,12 @@ namespace GuestRequests.Requests
         [ReadOnly] private bool _isConsumed;
 
         public event Action<FoodRequest> OnConsumed;
+        public static event Action OnFire;
+
+        private bool _requestFailedTriggered;
+
+        private Cook cookJob;
+        private bool _isFoodCooked;
 
         protected override void Awake()
         {
@@ -37,10 +44,91 @@ namespace GuestRequests.Requests
             _spillInteractable.SetInteractableActive(false);
         }
 
-        public override void ActivateRequest()
+        private void OnEnable()
         {
-            base.ActivateRequest();
+            OnFire += OnFireTriggered;
+            StoveInteractable.OnFireExtinguished += OnFireExtinguished;
+
+            foreach (Job job in _jobs)
+            {
+                if (job is Cook cookingJob)
+                {
+                    cookJob = cookingJob;
+                    cookJob.OnFoodCooked += OnFoodCooked;
+                    break;
+                }
+            }
+        }
+
+        private void OnDisable()
+        {
+            OnFire -= OnFireTriggered;
+            StoveInteractable.OnFireExtinguished -= OnFireExtinguished;
+
+            cookJob.OnFoodCooked -= OnFoodCooked;
+        }
+
+        private void OnFoodCooked()
+        {
+            _isFoodCooked = true;
+        }
+
+        public override void UpdateRequest(float deltaTime)
+        {
+            base.UpdateRequest(deltaTime);
+            if (IsRequestFailed())
+            {
+                OnFire?.Invoke();
+            }
+        }
+
+        protected override void RequestFinished()
+        {
             _collider2D.enabled = true;
+            base.RequestFinished();
+        }
+
+        public override void ResetRequest()
+        {
+            base.ResetRequest();
+            _isFoodCooked = false;
+        }
+
+        private void OnFireTriggered()
+        {
+            if (!_isFoodCooked)
+            {
+                if (IsRequestStarted())
+                {
+                    _requestFailedTriggered = true;
+                    _jobs[CurrentJobIndex].FailJob();
+
+                    if (_jobs[CurrentJobIndex] != cookJob)
+                    {
+                        _requestFailedTriggered = false;
+                        SetSorting(_originalSortLayer, _originalSortOrder);
+                        transform.position = StartingPosition;
+                    }
+                }
+
+                Owner?.OwnerRemoved();
+                Owner = null;
+            }
+        }
+
+        private void OnFireExtinguished()
+        {
+            if (!_isFoodCooked)
+            {
+                ResetRequest();
+            }
+
+            if (_requestFailedTriggered)
+            {
+                _requestFailedTriggered = false;
+                SetSorting(_originalSortLayer, _originalSortOrder);
+                transform.position = StartingPosition;
+            }
         }
 
         public void SetSorting(int layer, int order)

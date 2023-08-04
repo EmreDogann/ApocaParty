@@ -25,6 +25,7 @@ namespace Minion
         [SerializeField] private Transform holderTransform;
         public bool enableWandering;
         [SerializeField] private bool activateAIOnAwake;
+        public AudioSO errorSound;
 
         [Separator("Spill Settings")]
         [Range(0.0f, 1.0f)] public float chanceToSpillFood;
@@ -162,6 +163,7 @@ namespace Minion
         public void OwnerRemoved()
         {
             currentRequest = null;
+            NavMeshAgent.ResetPath();
             StateMachine.ChangeState(MinionStateID.Idle);
         }
 

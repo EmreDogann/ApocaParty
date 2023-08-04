@@ -206,42 +206,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2833652554369799451, guid: 2df009fc18420f847b9ef2580f80341a, type: 3}
   m_PrefabInstance: {fileID: 506585}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &5947017
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &10534235
 GameObject:
   m_ObjectHideFlags: 0
@@ -1516,8 +1480,8 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
   <IsHoverable>k__BackingField: 1
-  request: {fileID: 61250508}
   hoverScaleAmount: 1.1
+  request: {fileID: 61250508}
 --- !u!114 &61250510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3251,7 +3215,7 @@ MonoBehaviour:
   returnTransforms_OnCompletion: 0
   enableInteractable_OnCompletion: 0
   restoreStartPos_OnCompletion: 0
-  startingPosition: {fileID: 0}
+  startingPosition: {fileID: 252743274}
   _jobs:
   - rid: 8197751421409427468
   - rid: 8197751375377727540
@@ -3295,14 +3259,10 @@ MonoBehaviour:
         <JobName>k__BackingField: Cook
         hasDuration: 1
         _cookingAudio: {fileID: 11400000, guid: d64d311b37bed584db94021912a72e4c, type: 2}
-        _burningStartAudio: {fileID: 11400000, guid: 14925d107e9cbab439a2235e60d9fa9a, type: 2}
-        _burningAudio: {fileID: 11400000, guid: edea30eb4039dc548a6c915aa9445842, type: 2}
         _stovePositionProvider: {fileID: 807445955}
-        _fireChance: 0.05
+        _fireChance: 1
         _fireCheckFrequency: 1
         _foodBurningEvent: {fileID: 1805483500}
-        _fireParticleSystem: {fileID: 1856323895}
-        _badHighlightParticleSystem: {fileID: 1572211912506859716}
         _requestSpriteRenderer: {fileID: 245249811}
         _cookedFoodIcon: {fileID: 21300000, guid: 95dbc20236fe4a046a279ee9a9f37267, type: 3}
         Duration: 10
@@ -3355,8 +3315,8 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
   <IsHoverable>k__BackingField: 1
-  request: {fileID: 245249808}
   hoverScaleAmount: 1.5
+  request: {fileID: 245249808}
 --- !u!58 &245249810
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3712,6 +3672,42 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.75
+--- !u!21 &253261346
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &261320902
 GameObject:
   m_ObjectHideFlags: 0
@@ -3871,7 +3867,7 @@ MonoBehaviour:
   returnTransforms_OnCompletion: 0
   enableInteractable_OnCompletion: 0
   restoreStartPos_OnCompletion: 0
-  startingPosition: {fileID: 0}
+  startingPosition: {fileID: 252743274}
   _jobs:
   - rid: 8197751421409427468
   - rid: 8197751375377727540
@@ -3915,14 +3911,10 @@ MonoBehaviour:
         <JobName>k__BackingField: Cook
         hasDuration: 1
         _cookingAudio: {fileID: 11400000, guid: d64d311b37bed584db94021912a72e4c, type: 2}
-        _burningStartAudio: {fileID: 11400000, guid: 14925d107e9cbab439a2235e60d9fa9a, type: 2}
-        _burningAudio: {fileID: 11400000, guid: edea30eb4039dc548a6c915aa9445842, type: 2}
         _stovePositionProvider: {fileID: 807445955}
         _fireChance: 0.05
         _fireCheckFrequency: 1
         _foodBurningEvent: {fileID: 1805483500}
-        _fireParticleSystem: {fileID: 1856323895}
-        _badHighlightParticleSystem: {fileID: 1572211912506859716}
         _requestSpriteRenderer: {fileID: 275876252}
         _cookedFoodIcon: {fileID: 21300000, guid: 95dbc20236fe4a046a279ee9a9f37267, type: 3}
         Duration: 10
@@ -3975,8 +3967,8 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
   <IsHoverable>k__BackingField: 1
-  request: {fileID: 275876249}
   hoverScaleAmount: 1.5
+  request: {fileID: 275876249}
 --- !u!58 &275876251
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4739,7 +4731,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -29931941
   m_SortingLayer: 2
-  m_SortingOrder: 18011
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: da4a9523aa708bf41bc427abb910eb15, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -4803,7 +4795,7 @@ MonoBehaviour:
   returnTransforms_OnCompletion: 0
   enableInteractable_OnCompletion: 0
   restoreStartPos_OnCompletion: 0
-  startingPosition: {fileID: 0}
+  startingPosition: {fileID: 252743274}
   _jobs:
   - rid: 8197751421409427468
   - rid: 8197751375377727540
@@ -4847,14 +4839,10 @@ MonoBehaviour:
         <JobName>k__BackingField: Cook
         hasDuration: 1
         _cookingAudio: {fileID: 11400000, guid: d64d311b37bed584db94021912a72e4c, type: 2}
-        _burningStartAudio: {fileID: 11400000, guid: 14925d107e9cbab439a2235e60d9fa9a, type: 2}
-        _burningAudio: {fileID: 11400000, guid: edea30eb4039dc548a6c915aa9445842, type: 2}
         _stovePositionProvider: {fileID: 807445955}
         _fireChance: 0.05
         _fireCheckFrequency: 1
         _foodBurningEvent: {fileID: 1805483500}
-        _fireParticleSystem: {fileID: 1856323895}
-        _badHighlightParticleSystem: {fileID: 1572211912506859716}
         _requestSpriteRenderer: {fileID: 337027583}
         _cookedFoodIcon: {fileID: 21300000, guid: 1f0bf8fdae99bea4680467dd0c440769, type: 3}
         Duration: 10
@@ -4907,8 +4895,8 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
   <IsHoverable>k__BackingField: 1
-  request: {fileID: 337027580}
   hoverScaleAmount: 1.5
+  request: {fileID: 337027580}
 --- !u!58 &337027582
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -11425,8 +11413,8 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
   <IsHoverable>k__BackingField: 1
-  request: {fileID: 490362097}
   hoverScaleAmount: 1.1
+  request: {fileID: 490362097}
 --- !u!114 &490362099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12070,42 +12058,6 @@ MonoBehaviour:
   height: 540
   onAwake: 1
   onUpdate: 1
---- !u!21 &525658808
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &532524797
 GameObject:
   m_ObjectHideFlags: 0
@@ -12189,42 +12141,6 @@ Canvas:
   m_SortingLayerID: 1064973643
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!21 &533191085
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1001 &534811115
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18318,7 +18234,7 @@ MonoBehaviour:
   returnTransforms_OnCompletion: 0
   enableInteractable_OnCompletion: 0
   restoreStartPos_OnCompletion: 0
-  startingPosition: {fileID: 0}
+  startingPosition: {fileID: 252743274}
   _jobs:
   - rid: 8197751421409427468
   - rid: 8197751375377727540
@@ -18362,14 +18278,10 @@ MonoBehaviour:
         <JobName>k__BackingField: Cook
         hasDuration: 1
         _cookingAudio: {fileID: 11400000, guid: d64d311b37bed584db94021912a72e4c, type: 2}
-        _burningStartAudio: {fileID: 11400000, guid: 14925d107e9cbab439a2235e60d9fa9a, type: 2}
-        _burningAudio: {fileID: 11400000, guid: edea30eb4039dc548a6c915aa9445842, type: 2}
         _stovePositionProvider: {fileID: 807445955}
         _fireChance: 0.05
         _fireCheckFrequency: 1
         _foodBurningEvent: {fileID: 1805483500}
-        _fireParticleSystem: {fileID: 1856323895}
-        _badHighlightParticleSystem: {fileID: 1572211912506859716}
         _requestSpriteRenderer: {fileID: 671433554}
         _cookedFoodIcon: {fileID: 21300000, guid: 95dbc20236fe4a046a279ee9a9f37267, type: 3}
         Duration: 10
@@ -18422,8 +18334,8 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
   <IsHoverable>k__BackingField: 1
-  request: {fileID: 671433551}
   hoverScaleAmount: 1.5
+  request: {fileID: 671433551}
 --- !u!58 &671433553
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -18767,7 +18679,7 @@ MonoBehaviour:
   returnTransforms_OnCompletion: 0
   enableInteractable_OnCompletion: 0
   restoreStartPos_OnCompletion: 0
-  startingPosition: {fileID: 0}
+  startingPosition: {fileID: 252743274}
   _jobs:
   - rid: 8197751421409427468
   - rid: 8197751375377727540
@@ -18811,14 +18723,10 @@ MonoBehaviour:
         <JobName>k__BackingField: Cook
         hasDuration: 1
         _cookingAudio: {fileID: 11400000, guid: d64d311b37bed584db94021912a72e4c, type: 2}
-        _burningStartAudio: {fileID: 11400000, guid: 14925d107e9cbab439a2235e60d9fa9a, type: 2}
-        _burningAudio: {fileID: 11400000, guid: edea30eb4039dc548a6c915aa9445842, type: 2}
         _stovePositionProvider: {fileID: 807445955}
         _fireChance: 0.05
         _fireCheckFrequency: 1
         _foodBurningEvent: {fileID: 1805483500}
-        _fireParticleSystem: {fileID: 1856323895}
-        _badHighlightParticleSystem: {fileID: 1572211912506859716}
         _requestSpriteRenderer: {fileID: 706304099}
         _cookedFoodIcon: {fileID: 21300000, guid: 1f0bf8fdae99bea4680467dd0c440769, type: 3}
         Duration: 10
@@ -18871,8 +18779,8 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
   <IsHoverable>k__BackingField: 1
-  request: {fileID: 706304096}
   hoverScaleAmount: 1.5
+  request: {fileID: 706304096}
 --- !u!58 &706304098
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -19710,7 +19618,7 @@ MonoBehaviour:
   returnTransforms_OnCompletion: 0
   enableInteractable_OnCompletion: 0
   restoreStartPos_OnCompletion: 0
-  startingPosition: {fileID: 0}
+  startingPosition: {fileID: 252743274}
   _jobs:
   - rid: 8197751421409427468
   - rid: 8197751375377727540
@@ -19754,16 +19662,12 @@ MonoBehaviour:
         <JobName>k__BackingField: Cook
         hasDuration: 1
         _cookingAudio: {fileID: 11400000, guid: d64d311b37bed584db94021912a72e4c, type: 2}
-        _burningStartAudio: {fileID: 11400000, guid: 14925d107e9cbab439a2235e60d9fa9a, type: 2}
-        _burningAudio: {fileID: 11400000, guid: edea30eb4039dc548a6c915aa9445842, type: 2}
         _stovePositionProvider: {fileID: 807445955}
         _fireChance: 0.05
         _fireCheckFrequency: 1
         _foodBurningEvent: {fileID: 1805483500}
-        _fireParticleSystem: {fileID: 1856323895}
-        _badHighlightParticleSystem: {fileID: 1572211912506859716}
         _requestSpriteRenderer: {fileID: 745307182}
-        _cookedFoodIcon: {fileID: 21300000, guid: 95dbc20236fe4a046a279ee9a9f37267, type: 3}
+        _cookedFoodIcon: {fileID: 21300000, guid: 1f0bf8fdae99bea4680467dd0c440769, type: 3}
         Duration: 10
     - rid: 8197751313132683300
       type: {class: MoveToTarget, ns: GuestRequests.Jobs, asm: Assembly-CSharp}
@@ -19814,8 +19718,8 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
   <IsHoverable>k__BackingField: 1
-  request: {fileID: 745307179}
   hoverScaleAmount: 1.5
+  request: {fileID: 745307179}
 --- !u!58 &745307181
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -20006,6 +19910,7 @@ MonoBehaviour:
   holderTransform: {fileID: 2030473880}
   enableWandering: 0
   activateAIOnAwake: 1
+  errorSound: {fileID: 11400000, guid: f8fd129a4287464468c4df9881d51013, type: 2}
   chanceToSpillFood: 0.1
   chanceToSlip: 0.1
   spillFoodCheckFrequency: 0.5
@@ -22996,7 +22901,7 @@ MonoBehaviour:
   returnTransforms_OnCompletion: 0
   enableInteractable_OnCompletion: 0
   restoreStartPos_OnCompletion: 0
-  startingPosition: {fileID: 0}
+  startingPosition: {fileID: 252743274}
   _jobs:
   - rid: 8197751421409427468
   - rid: 8197751375377727540
@@ -23040,16 +22945,12 @@ MonoBehaviour:
         <JobName>k__BackingField: Cook
         hasDuration: 1
         _cookingAudio: {fileID: 11400000, guid: d64d311b37bed584db94021912a72e4c, type: 2}
-        _burningStartAudio: {fileID: 11400000, guid: 14925d107e9cbab439a2235e60d9fa9a, type: 2}
-        _burningAudio: {fileID: 11400000, guid: edea30eb4039dc548a6c915aa9445842, type: 2}
         _stovePositionProvider: {fileID: 807445955}
         _fireChance: 0.05
         _fireCheckFrequency: 1
         _foodBurningEvent: {fileID: 1805483500}
-        _fireParticleSystem: {fileID: 1856323895}
-        _badHighlightParticleSystem: {fileID: 1572211912506859716}
         _requestSpriteRenderer: {fileID: 1052619009}
-        _cookedFoodIcon: {fileID: 21300000, guid: 95dbc20236fe4a046a279ee9a9f37267, type: 3}
+        _cookedFoodIcon: {fileID: 21300000, guid: 1f0bf8fdae99bea4680467dd0c440769, type: 3}
         Duration: 10
     - rid: 8197751313132683300
       type: {class: MoveToTarget, ns: GuestRequests.Jobs, asm: Assembly-CSharp}
@@ -23100,8 +23001,8 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
   <IsHoverable>k__BackingField: 1
-  request: {fileID: 1052619006}
   hoverScaleAmount: 1.5
+  request: {fileID: 1052619006}
 --- !u!58 &1052619008
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -24076,7 +23977,7 @@ MonoBehaviour:
   returnTransforms_OnCompletion: 0
   enableInteractable_OnCompletion: 0
   restoreStartPos_OnCompletion: 0
-  startingPosition: {fileID: 0}
+  startingPosition: {fileID: 252743274}
   _jobs:
   - rid: 8197751421409427468
   - rid: 8197751375377727540
@@ -24120,16 +24021,12 @@ MonoBehaviour:
         <JobName>k__BackingField: Cook
         hasDuration: 1
         _cookingAudio: {fileID: 11400000, guid: d64d311b37bed584db94021912a72e4c, type: 2}
-        _burningStartAudio: {fileID: 11400000, guid: 14925d107e9cbab439a2235e60d9fa9a, type: 2}
-        _burningAudio: {fileID: 11400000, guid: edea30eb4039dc548a6c915aa9445842, type: 2}
         _stovePositionProvider: {fileID: 807445955}
         _fireChance: 0.05
         _fireCheckFrequency: 1
         _foodBurningEvent: {fileID: 1805483500}
-        _fireParticleSystem: {fileID: 1856323895}
-        _badHighlightParticleSystem: {fileID: 1572211912506859716}
         _requestSpriteRenderer: {fileID: 1147967320}
-        _cookedFoodIcon: {fileID: 21300000, guid: 1f0bf8fdae99bea4680467dd0c440769, type: 3}
+        _cookedFoodIcon: {fileID: 21300000, guid: 95dbc20236fe4a046a279ee9a9f37267, type: 3}
         Duration: 10
     - rid: 8197751313132683300
       type: {class: MoveToTarget, ns: GuestRequests.Jobs, asm: Assembly-CSharp}
@@ -24180,8 +24077,8 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
   <IsHoverable>k__BackingField: 1
-  request: {fileID: 1147967317}
   hoverScaleAmount: 1.5
+  request: {fileID: 1147967317}
 --- !u!58 &1147967319
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -30317,8 +30214,8 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
   <IsHoverable>k__BackingField: 1
-  request: {fileID: 1271352282}
   hoverScaleAmount: 1.1
+  request: {fileID: 1271352282}
 --- !u!114 &1271352286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30727,8 +30624,8 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
   <IsHoverable>k__BackingField: 1
-  request: {fileID: 1295558828}
   hoverScaleAmount: 1.1
+  request: {fileID: 1295558828}
 --- !u!114 &1295558826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30947,6 +30844,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transformParent: {fileID: 1303819720}
   transformChild: {fileID: 700690853}
+--- !u!21 &1311425671
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1001 &1312992884
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43443,8 +43376,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -29931941
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 4a421a84917229e498ef3b719f2b1114, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -43588,6 +43521,7 @@ MonoBehaviour:
   holderTransform: {fileID: 1161070037}
   enableWandering: 0
   activateAIOnAwake: 1
+  errorSound: {fileID: 11400000, guid: f8fd129a4287464468c4df9881d51013, type: 2}
   chanceToSpillFood: 0.1
   chanceToSlip: 0.1
   spillFoodCheckFrequency: 0.5
@@ -43680,7 +43614,9 @@ GameObject:
   - component: {fileID: 1548476943}
   - component: {fileID: 1548476944}
   - component: {fileID: 1548476946}
-  m_Layer: 0
+  - component: {fileID: 1548476948}
+  - component: {fileID: 1548476947}
+  m_Layer: 3
   m_Name: Stove
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43766,7 +43702,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -43782,6 +43718,57 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.37, y: 2.14}
   m_EdgeRadius: 0
+--- !u!114 &1548476947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548476942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 817c4a57086f4c159644cd2f5ecc2c9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resetRequest_OnCompletion: 1
+  returnTransforms_OnCompletion: 0
+  enableInteractable_OnCompletion: 0
+  restoreStartPos_OnCompletion: 0
+  startingPosition: {fileID: 0}
+  _jobs:
+  - rid: 6375768954838188032
+  references:
+    version: 2
+    RefIds:
+    - rid: 6375768954838188032
+      type: {class: Wait, ns: GuestRequests.Jobs, asm: Assembly-CSharp}
+      data:
+        <JobName>k__BackingField: Wait
+        hasDuration: 1
+        Duration: 3
+--- !u!114 &1548476948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548476942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e6e3b6049724c3290eb023a95084b93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltipName: Extinguish Fire
+  <HoldDuration>k__BackingField: 0
+  <HoldInteract>k__BackingField: 0
+  <IsInteractable>k__BackingField: 0
+  <IsHoverable>k__BackingField: 0
+  hoverScaleAmount: 1.1
+  request: {fileID: 1548476947}
+  _burningStartAudio: {fileID: 11400000, guid: 14925d107e9cbab439a2235e60d9fa9a, type: 2}
+  _burningAudio: {fileID: 11400000, guid: edea30eb4039dc548a6c915aa9445842, type: 2}
+  _fireParticleSystem: {fileID: 1856323895}
+  _badHighlightParticleSystem: {fileID: 1572211912506859716}
 --- !u!1 &1552764798
 GameObject:
   m_ObjectHideFlags: 0
@@ -44334,7 +44321,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605618386}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.42, y: -4.44, z: 0}
+  m_LocalPosition: {x: 0.84, y: -2.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -44883,6 +44870,7 @@ MonoBehaviour:
   holderTransform: {fileID: 1232475332}
   enableWandering: 0
   activateAIOnAwake: 1
+  errorSound: {fileID: 11400000, guid: f8fd129a4287464468c4df9881d51013, type: 2}
   chanceToSpillFood: 0.1
   chanceToSlip: 0.1
   spillFoodCheckFrequency: 0.5
@@ -44915,6 +44903,42 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 13
   m_ObstacleAvoidanceType: 0
+--- !u!21 &1648241234
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &1651111079
 GameObject:
   m_ObjectHideFlags: 0
@@ -45170,6 +45194,42 @@ Material:
     m_Colors:
     - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
   m_BuildTextureStacks: []
+--- !u!21 &1680939938
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &1696801235
 GameObject:
   m_ObjectHideFlags: 0
@@ -45222,7 +45282,7 @@ MonoBehaviour:
   returnTransforms_OnCompletion: 0
   enableInteractable_OnCompletion: 0
   restoreStartPos_OnCompletion: 0
-  startingPosition: {fileID: 0}
+  startingPosition: {fileID: 252743274}
   _jobs:
   - rid: 8197751421409427468
   - rid: 8197751375377727540
@@ -45266,16 +45326,12 @@ MonoBehaviour:
         <JobName>k__BackingField: Cook
         hasDuration: 1
         _cookingAudio: {fileID: 11400000, guid: d64d311b37bed584db94021912a72e4c, type: 2}
-        _burningStartAudio: {fileID: 11400000, guid: 14925d107e9cbab439a2235e60d9fa9a, type: 2}
-        _burningAudio: {fileID: 11400000, guid: edea30eb4039dc548a6c915aa9445842, type: 2}
         _stovePositionProvider: {fileID: 807445955}
-        _fireChance: 0.05
+        _fireChance: 1
         _fireCheckFrequency: 1
         _foodBurningEvent: {fileID: 1805483500}
-        _fireParticleSystem: {fileID: 1856323895}
-        _badHighlightParticleSystem: {fileID: 1572211912506859716}
         _requestSpriteRenderer: {fileID: 1696801241}
-        _cookedFoodIcon: {fileID: 21300000, guid: 1f0bf8fdae99bea4680467dd0c440769, type: 3}
+        _cookedFoodIcon: {fileID: 21300000, guid: 95dbc20236fe4a046a279ee9a9f37267, type: 3}
         Duration: 10
     - rid: 8197751313132683300
       type: {class: MoveToTarget, ns: GuestRequests.Jobs, asm: Assembly-CSharp}
@@ -45326,8 +45382,8 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
   <IsHoverable>k__BackingField: 1
-  request: {fileID: 1696801238}
   hoverScaleAmount: 1.5
+  request: {fileID: 1696801238}
 --- !u!58 &1696801240
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -46039,42 +46095,6 @@ MonoBehaviour:
     enjoyment: 0
   expirationTime: 30
   randomConversations: {fileID: 11400000, guid: c75a242e8ae70b74d92f99a376d5b23e, type: 2}
---- !u!21 &1757805819
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &1776559398
 GameObject:
   m_ObjectHideFlags: 0
@@ -47201,7 +47221,7 @@ MonoBehaviour:
   returnTransforms_OnCompletion: 0
   enableInteractable_OnCompletion: 0
   restoreStartPos_OnCompletion: 0
-  startingPosition: {fileID: 0}
+  startingPosition: {fileID: 252743274}
   _jobs:
   - rid: 8197751421409427468
   - rid: 8197751375377727540
@@ -47245,14 +47265,10 @@ MonoBehaviour:
         <JobName>k__BackingField: Cook
         hasDuration: 1
         _cookingAudio: {fileID: 11400000, guid: d64d311b37bed584db94021912a72e4c, type: 2}
-        _burningStartAudio: {fileID: 11400000, guid: 14925d107e9cbab439a2235e60d9fa9a, type: 2}
-        _burningAudio: {fileID: 11400000, guid: edea30eb4039dc548a6c915aa9445842, type: 2}
         _stovePositionProvider: {fileID: 807445955}
         _fireChance: 0.05
         _fireCheckFrequency: 1
         _foodBurningEvent: {fileID: 1805483500}
-        _fireParticleSystem: {fileID: 1856323895}
-        _badHighlightParticleSystem: {fileID: 1572211912506859716}
         _requestSpriteRenderer: {fileID: 1917510751}
         _cookedFoodIcon: {fileID: 21300000, guid: 1f0bf8fdae99bea4680467dd0c440769, type: 3}
         Duration: 10
@@ -47305,8 +47321,8 @@ MonoBehaviour:
   <HoldInteract>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
   <IsHoverable>k__BackingField: 1
-  request: {fileID: 1917510748}
   hoverScaleAmount: 1.5
+  request: {fileID: 1917510748}
 --- !u!58 &1917510750
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -47841,7 +47857,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -29931941
   m_SortingLayer: 2
-  m_SortingOrder: 18011
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2821603a368ef4240aeff05d7f3118df, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -48843,7 +48859,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 0
   looping: 1
-  prewarm: 1
+  prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1

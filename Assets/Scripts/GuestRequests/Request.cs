@@ -20,7 +20,7 @@ namespace GuestRequests
         [OverrideLabel("Return Transforms")] [SerializeField] protected bool returnTransforms_OnCompletion;
         [OverrideLabel("Enable Interactable")] [SerializeField] protected bool enableInteractable_OnCompletion;
         [OverrideLabel("Restore Starting Position")] [SerializeField] protected bool restoreStartPos_OnCompletion;
-        [ConditionalField(nameof(restoreStartPos_OnCompletion))] [SerializeField] protected Transform startingPosition;
+        [SerializeField] protected Transform startingPosition;
 
         [Separator("Jobs")]
         [SerializeReference] protected List<Job> _jobs = new List<Job>();
@@ -74,14 +74,6 @@ namespace GuestRequests
         {
             _jobs[CurrentJobIndex].Tick(deltaTime);
 
-            if (IsRequestFailed())
-            {
-                if (RequestInteractable != null)
-                {
-                    RequestInteractable.SetInteractableActive(true);
-                }
-            }
-
             if (_jobs[CurrentJobIndex].GetProgressPercentage() >= 1.0f)
             {
                 if (_jobs[CurrentJobIndex].HasDuration())
@@ -96,27 +88,32 @@ namespace GuestRequests
 
             if (IsRequestCompleted())
             {
-                Debug.Log("Request Finished!");
-                if (returnTransforms_OnCompletion)
-                {
-                    ReleaseAllTransformHandles();
-                }
+                RequestFinished();
+            }
+        }
 
-                Owner = null;
-                OnRequestCompleted?.Invoke();
+        protected virtual void RequestFinished()
+        {
+            Debug.Log("Request Finished!");
+            if (returnTransforms_OnCompletion)
+            {
+                ReleaseAllTransformHandles();
+            }
 
-                if (enableInteractable_OnCompletion)
-                {
-                    if (RequestInteractable != null)
-                    {
-                        RequestInteractable.SetInteractableActive(true);
-                    }
-                }
+            Owner = null;
+            OnRequestCompleted?.Invoke();
 
-                if (resetRequest_OnCompletion)
+            if (enableInteractable_OnCompletion)
+            {
+                if (RequestInteractable != null)
                 {
-                    ResetRequest();
+                    RequestInteractable.SetInteractableActive(true);
                 }
+            }
+
+            if (resetRequest_OnCompletion)
+            {
+                ResetRequest();
             }
         }
 
@@ -156,7 +153,7 @@ namespace GuestRequests
             return transform.position;
         }
 
-        protected virtual void ResetRequest()
+        public virtual void ResetRequest()
         {
             if (_jobs.Count <= 0)
             {
@@ -282,21 +279,6 @@ namespace GuestRequests
         public bool IsRequestFailed()
         {
             return CurrentJobIndex != -1 && _jobs[CurrentJobIndex].IsFailed();
-        }
-
-        protected virtual void OnTriggerEnter2D(Collider2D other)
-        {
-            if (IsRequestStarted() && other.CompareTag("Player"))
-            {
-                if (IsRequestFailed())
-                {
-                    _jobs[CurrentJobIndex].FailJob();
-                    Owner.OwnerRemoved();
-                    Owner = null;
-
-                    ResetRequest();
-                }
-            }
         }
 
         private void ReleaseAllTransformHandles()

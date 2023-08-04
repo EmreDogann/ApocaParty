@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Audio;
 using GuestRequests.Requests;
+using Interactions.Interactables;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -19,6 +20,8 @@ namespace Consumable
 
         private readonly List<FoodRequestData> _foodRequests = new List<FoodRequestData>();
 
+        private bool _isStoveOnFire;
+
         private void Awake()
         {
             var foodRequests = foodRequestsHolder.GetComponentsInChildren<FoodRequest>();
@@ -34,6 +37,9 @@ namespace Consumable
 
         private void OnEnable()
         {
+            FoodRequest.OnFire += OnFire;
+            StoveInteractable.OnFireExtinguished += OnFireExtinguished;
+
             foreach (FoodRequestData data in _foodRequests)
             {
                 data.FoodRequest.OnConsumed += OnFoodConsumed;
@@ -42,10 +48,23 @@ namespace Consumable
 
         private void OnDisable()
         {
+            FoodRequest.OnFire -= OnFire;
+            StoveInteractable.OnFireExtinguished -= OnFireExtinguished;
+
             foreach (FoodRequestData data in _foodRequests)
             {
                 data.FoodRequest.OnConsumed -= OnFoodConsumed;
             }
+        }
+
+        private void OnFire()
+        {
+            _isStoveOnFire = true;
+        }
+
+        private void OnFireExtinguished()
+        {
+            _isStoveOnFire = false;
         }
 
         private void OnFoodConsumed(FoodRequest foodRequest)
@@ -60,6 +79,11 @@ namespace Consumable
         [CanBeNull]
         public FoodRequest TryGetFood()
         {
+            if (_isStoveOnFire)
+            {
+                return null;
+            }
+
             foreach (FoodRequestData data in _foodRequests)
             {
                 if (data.IsAvailable && data.FoodRequest.TryStartRequest())

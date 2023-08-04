@@ -1,24 +1,22 @@
-﻿using Audio;
+﻿using System;
+using Audio;
 using Electricity;
 using PartyEvents;
 using TransformProvider;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace GuestRequests.Jobs
 {
     public class Cook : Job
     {
         [SerializeField] private AudioSO _cookingAudio;
-        [SerializeField] private AudioSO _burningStartAudio;
-        [SerializeField] private AudioSO _burningAudio;
         [SerializeField] private KitchenTopProvider _stovePositionProvider;
         // ReSharper disable FieldCanBeMadeReadOnly.Local
         [SerializeField] private float _fireChance = 0.05f;
         [SerializeField] private float _fireCheckFrequency = 0.4f;
         // ReSharper restore FieldCanBeMadeReadOnly.Local
         [SerializeField] private PartyEvent _foodBurningEvent;
-        [SerializeField] private ParticleSystem _fireParticleSystem;
-        [SerializeField] private ParticleSystem _badHighlightParticleSystem;
         [SerializeField] private SpriteRenderer _requestSpriteRenderer;
         [SerializeField] private Sprite _cookedFoodIcon;
         public float Duration = 1.0f;
@@ -28,6 +26,8 @@ namespace GuestRequests.Jobs
         private bool _hasFoodAlreadyBurned;
         private TransformPair _transformPair;
         private bool _isPowerOut;
+
+        public event Action OnFoodCooked;
 
         public override void Enter()
         {
@@ -42,6 +42,7 @@ namespace GuestRequests.Jobs
             _isPowerOut = false;
 
             _stovePositionProvider.TurnOnAppliance(JobOwner.TryGetTransformHandle(_stovePositionProvider));
+
             ElectricalBox.OnPowerOutage += OnPowerOutage;
             ElectricalBox.OnPowerFixed += OnPowerFixed;
         }
@@ -70,13 +71,8 @@ namespace GuestRequests.Jobs
                     _isFoodBurning = true;
                     _hasFoodAlreadyBurned = true;
 
-                    _badHighlightParticleSystem.Play();
-                    _fireParticleSystem.Play();
                     _foodBurningEvent?.TriggerEvent();
-
                     _cookingAudio.Stop(true, 3.0f);
-                    _burningStartAudio.Play(_transformPair.GetChildTransform().position);
-                    _burningAudio.Play(_transformPair.GetChildTransform().position, true, 3.0f);
                 }
             }
         }
@@ -89,6 +85,8 @@ namespace GuestRequests.Jobs
             _stovePositionProvider.TurnOffAppliance(JobOwner.TryGetTransformHandle(_stovePositionProvider));
             JobOwner.ReturnTransformHandle(_stovePositionProvider);
 
+            OnFoodCooked?.Invoke();
+
             ElectricalBox.OnPowerOutage -= OnPowerOutage;
             ElectricalBox.OnPowerFixed -= OnPowerFixed;
         }
@@ -96,9 +94,6 @@ namespace GuestRequests.Jobs
         public override void FailJob()
         {
             _stovePositionProvider.TurnOffAppliance(JobOwner.TryGetTransformHandle(_stovePositionProvider));
-            _badHighlightParticleSystem.Stop();
-            _fireParticleSystem.Stop();
-            _burningAudio.Stop(true, 5.0f);
         }
 
         public override float GetProgressPercentage()
