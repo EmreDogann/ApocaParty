@@ -131,7 +131,6 @@ namespace Player
 
                     if (interactableRequest is StoveInteractable && _currentRequest != null)
                     {
-                        Debug.Log("heyyy");
                         _currentRequest.ResetRequest();
                         OwnerRemoved();
                         OnRequestCompleted();

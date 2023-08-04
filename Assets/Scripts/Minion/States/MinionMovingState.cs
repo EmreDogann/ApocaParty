@@ -20,7 +20,7 @@ namespace Minion.States
 
         public override void Tick()
         {
-            if (!minion.TargetConsumable.IsAvailable())
+            if (minion.TargetConsumable != null && !minion.TargetConsumable.IsAvailable())
             {
                 if (minion.TargetConsumable is Drink && DrinksTable.Instance.IsDrinkAvailable())
                 {

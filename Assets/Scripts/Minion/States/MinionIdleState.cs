@@ -71,6 +71,11 @@ namespace Minion.States
                         return;
                     }
 
+                    if (requestInteractable is StoveInteractable)
+                    {
+                        return;
+                    }
+
                     if (request.IsRequestStarted() || !request.TryStartRequest() || request.GetRequestOwner() != null)
                     {
                         return;
