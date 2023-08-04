@@ -8,7 +8,7 @@ using UnityEngine.Audio;
 namespace Audio
 {
     [CreateAssetMenu(fileName = "New Audio", menuName = "Audio/New Audio")]
-    public class AudioSO : ScriptableObject
+    public class AudioSO : ManagedScriptableObject
     {
         private enum SoundClipPlayOrder
         {
@@ -47,9 +47,8 @@ namespace Audio
         [Separator("Audio Events")]
         [Tooltip("The Audio Event to trigger when trying to play/stop the audio.")]
         [OverrideLabel("Play Trigger Event")] [SerializeField] private AudioEventChannelSO audioEvent;
-        private List<AudioHandle> _audioHandle = new List<AudioHandle>();
-        private readonly Dictionary<AudioHandle, AudioEventData>
-            _audioHandleData = new Dictionary<AudioHandle, AudioEventData>();
+        private List<AudioHandle> _audioHandle;
+        private Dictionary<AudioHandle, AudioEventData> _audioHandleData;
 
         #region PreviewCode
 
@@ -108,8 +107,17 @@ namespace Audio
 
         #endregion
 
-        private void OnEnable()
+        protected override void OnBegin()
         {
+            _audioHandle = new List<AudioHandle>();
+            _audioHandleData = new Dictionary<AudioHandle, AudioEventData>();
+        }
+
+        protected override void OnEnd() {}
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
 #if UNITY_EDITOR
             previewer = EditorUtility
                 .CreateGameObjectWithHideFlags("AudioPreview", HideFlags.HideAndDontSave,
@@ -118,8 +126,9 @@ namespace Audio
 #endif
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
 #if UNITY_EDITOR
             DestroyImmediate(previewer.gameObject);
 #endif
@@ -170,12 +179,12 @@ namespace Audio
             return audioMixer;
         }
 
-        public void Play(Vector3 positionWorldSpace = default, bool fadeIn = false, float fadeDuration = 1.0f)
+        public AudioHandle Play(Vector3 positionWorldSpace = default, bool fadeIn = false, float fadeDuration = 1.0f)
         {
             if (clips.Length == 0)
             {
                 Debug.LogWarning($"No sound clips for {name}");
-                return;
+                return AudioHandle.Invalid;
             }
 
             AudioEventData audioEventData = new AudioEventData();
@@ -200,15 +209,18 @@ namespace Audio
             {
                 _audioHandle.Add(handle);
                 _audioHandleData.TryAdd(handle, audioEventData);
+                return handle;
             }
+
+            return AudioHandle.Invalid;
         }
 
-        public void Play2D(bool fadeIn = false, float fadeDuration = 1.0f)
+        public AudioHandle Play2D(bool fadeIn = false, float fadeDuration = 1.0f)
         {
             if (clips.Length == 0)
             {
                 Debug.LogWarning($"No sound clips for {name}");
-                return;
+                return AudioHandle.Invalid;
             }
 
             AudioEventData audioEventData = new AudioEventData();
@@ -233,15 +245,18 @@ namespace Audio
             {
                 _audioHandle.Add(handle);
                 _audioHandleData.TryAdd(handle, audioEventData);
+                return handle;
             }
+
+            return AudioHandle.Invalid;
         }
 
-        public void PlayAttached(GameObject gameObject, bool fadeIn = false, float fadeDuration = 1.0f)
+        public AudioHandle PlayAttached(GameObject gameObject, bool fadeIn = false, float fadeDuration = 1.0f)
         {
             if (clips.Length == 0)
             {
                 Debug.LogWarning($"No sound clips for {name}");
-                return;
+                return AudioHandle.Invalid;
             }
 
             AudioEventData audioEventData = new AudioEventData();
@@ -266,7 +281,10 @@ namespace Audio
             {
                 _audioHandle.Add(handle);
                 _audioHandleData.TryAdd(handle, audioEventData);
+                return handle;
             }
+
+            return AudioHandle.Invalid;
         }
 
         public void StopAll()
@@ -293,13 +311,18 @@ namespace Audio
 
         public void Stop(bool fadeOut = false, float fadeDuration = 1.0f)
         {
+            Stop(AudioHandle.Invalid, fadeOut, fadeDuration);
+        }
+
+        public void Stop(AudioHandle audioHandle, bool fadeOut = false, float fadeDuration = 1.0f)
+        {
             if (_audioHandle.Count < 1)
             {
                 audioEvent.RaiseStopEvent(AudioHandle.Invalid, null);
                 return;
             }
 
-            AudioHandle handle = _audioHandle[^1];
+            AudioHandle handle = audioHandle == AudioHandle.Invalid ? _audioHandle[^1] : audioHandle;
             SoundFade soundFade = null;
             if (fadeOut)
             {
@@ -318,43 +341,53 @@ namespace Audio
                 Debug.LogWarning($"Audio {handle.Audio.name} could not be stopped. Handle is stale.");
             }
 
-            _audioHandle.RemoveAt(_audioHandle.Count - 1);
+            _audioHandle.Remove(handle);
             _audioHandleData.Remove(handle);
         }
 
-        public void FadeAudio(float to, float duration)
+        public void FadeAudioAll(float to, float duration)
         {
-            if (_audioHandle.Count < 1)
-            {
-                return;
-            }
-
             foreach (AudioHandle handle in _audioHandle)
             {
-                bool handleFound = audioEvent.RaiseFadeEvent(handle, to, duration);
-
-                if (!handleFound)
-                {
-                    Debug.LogWarning($"Audio {handle.Audio.name} could not be stopped. Handle is stale.");
-                }
+                FadeAudio(handle, to, duration);
             }
         }
 
-        public void UnFadeAudio(float duration)
+        public void FadeAudio(AudioHandle audioHandle, float to, float duration)
         {
-            if (_audioHandle.Count < 1)
+            if (_audioHandle.Count < 1 || !_audioHandle.Contains(audioHandle))
             {
                 return;
             }
 
+            bool handleFound = audioEvent.RaiseFadeEvent(audioHandle, to, duration);
+
+            if (!handleFound)
+            {
+                Debug.LogWarning($"Audio {audioHandle.Audio.name} could not be faded. Handle is stale.");
+            }
+        }
+
+        public void UnFadeAudioAll(float duration)
+        {
             foreach (AudioHandle handle in _audioHandle)
             {
-                bool handleFound = audioEvent.RaiseFadeEvent(handle, _audioHandleData[handle].Volume, duration);
+                UnFadeAudio(handle, duration);
+            }
+        }
 
-                if (!handleFound)
-                {
-                    Debug.LogWarning($"Audio {handle.Audio.name} could not be stopped. Handle is stale.");
-                }
+        public void UnFadeAudio(AudioHandle audioHandle, float duration)
+        {
+            if (_audioHandle.Count < 1 || !_audioHandle.Contains(audioHandle))
+            {
+                return;
+            }
+
+            bool handleFound = audioEvent.RaiseFadeEvent(audioHandle, _audioHandleData[audioHandle].Volume, duration);
+
+            if (!handleFound)
+            {
+                Debug.LogWarning($"Audio {audioHandle.Audio.name} could not be unfaded. Handle is stale.");
             }
         }
 

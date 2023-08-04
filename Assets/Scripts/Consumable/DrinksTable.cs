@@ -87,8 +87,6 @@ namespace Consumable
         {
             _drinksOnTableCount--;
 
-            Debug.Log(_drinksOnTableCount);
-
             if (_drinksOnTableCount % 2 == 0)
             {
                 drinksTableCover.localScale += new Vector3(0.0f, _drinksTableFullScale.y * (1 / 3.0f), 0.0f);

@@ -34,6 +34,14 @@ public class InteractableTooltip : MonoBehaviour
 
         _tooltipText.alpha = 0;
         _tooltipText.text = interactable.GetTooltipName();
+        _tooltipText.ForceMeshUpdate();
+
+        Vector2 textSize = _tooltipText.GetRenderedValues(false);
+
+        _tooltipText.rectTransform.sizeDelta = textSize;
+        _tooltipText.rectTransform.anchoredPosition = new Vector2(_tooltipText.rectTransform.anchoredPosition.x,
+            -_tooltipText.rectTransform.sizeDelta.y);
+
         _tooltipText.DOFade(1, 0.1f);
     }
 }

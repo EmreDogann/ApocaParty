@@ -22,7 +22,7 @@ namespace GuestRequests
 
         public virtual void Enter()
         {
-            Debug.Log($"Entered job: {JobName}");
+            // Debug.Log($"Entered job: {JobName}");
             _currentTime = 0.0f;
         }
 
@@ -33,7 +33,7 @@ namespace GuestRequests
 
         public virtual void Exit()
         {
-            Debug.Log($"Exited job: {JobName}");
+            // Debug.Log($"Exited job: {JobName}");
         }
 
         public virtual void FailJob() {}

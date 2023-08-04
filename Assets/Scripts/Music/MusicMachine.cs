@@ -168,22 +168,22 @@ namespace Music
             {
                 if (_isBroken)
                 {
-                    badMusic.FadeAudio(0.1f, 1.0f);
+                    badMusic.FadeAudioAll(0.1f, 1.0f);
                 }
                 else
                 {
-                    goodMusic.FadeAudio(0.1f, 1.0f);
+                    goodMusic.FadeAudioAll(0.1f, 1.0f);
                 }
             }
             else
             {
                 if (_isBroken)
                 {
-                    badMusic.UnFadeAudio(1.0f);
+                    badMusic.UnFadeAudioAll(1.0f);
                 }
                 else
                 {
-                    goodMusic.UnFadeAudio(1.0f);
+                    goodMusic.UnFadeAudioAll(1.0f);
                 }
             }
         }

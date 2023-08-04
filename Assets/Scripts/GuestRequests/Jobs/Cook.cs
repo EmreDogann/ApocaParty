@@ -26,6 +26,8 @@ namespace GuestRequests.Jobs
         private bool _hasFoodAlreadyBurned;
         private TransformPair _transformPair;
 
+        private AudioHandle _cookingAudioReference;
+
         public event Action OnFoodCooked;
 
         public override void Enter()
@@ -43,15 +45,15 @@ namespace GuestRequests.Jobs
             ElectricalBox.OnPowerOutage += OnPowerOutage;
             ElectricalBox.OnPowerFixed += OnPowerFixed;
 
+            _cookingAudioReference = AudioHandle.Invalid;
             if (ElectricalBox.IsPowerOn())
             {
-                _cookingAudio.Play(_transformPair.GetChildTransform().position);
+                _cookingAudioReference = _cookingAudio.Play(_transformPair.GetChildTransform().position);
             }
         }
 
         internal override void OnDestroy()
         {
-            base.OnDestroy();
             ElectricalBox.OnPowerOutage -= OnPowerOutage;
             ElectricalBox.OnPowerFixed -= OnPowerFixed;
         }
@@ -81,14 +83,14 @@ namespace GuestRequests.Jobs
                     _hasFoodAlreadyBurned = true;
 
                     _foodBurningEvent?.TriggerEvent();
-                    _cookingAudio.Stop(true, 3.0f);
+                    _cookingAudio.Stop(_cookingAudioReference, true, 3.0f);
                 }
             }
         }
 
         public override void Exit()
         {
-            _cookingAudio.Stop(true, 3.0f);
+            _cookingAudio.Stop(_cookingAudioReference, true, 3.0f);
             _requestSpriteRenderer.sprite = _cookedFoodIcon;
 
             _stovePositionProvider.TurnOffAppliance(JobOwner.TryGetTransformHandle(_stovePositionProvider));
@@ -124,7 +126,7 @@ namespace GuestRequests.Jobs
         {
             if (!_isFoodBurning)
             {
-                _cookingAudio.FadeAudio(0.0f, 10.0f);
+                _cookingAudio.FadeAudio(_cookingAudioReference, 0.0f, 10.0f);
             }
         }
 
@@ -132,7 +134,7 @@ namespace GuestRequests.Jobs
         {
             if (!_isFoodBurning)
             {
-                _cookingAudio.UnFadeAudio(10.0f);
+                _cookingAudio.UnFadeAudio(_cookingAudioReference, 10.0f);
             }
         }
     }

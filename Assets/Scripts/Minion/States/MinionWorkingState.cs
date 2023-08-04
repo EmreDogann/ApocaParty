@@ -21,11 +21,6 @@ namespace Minion.States
 
         public override void Tick()
         {
-            // if (!ElectricalBox.IsPowerOn())
-            // {
-            //     return;
-            // }
-
             minion.currentRequest.UpdateRequest(Time.deltaTime);
             if (minion.currentRequest)
             {

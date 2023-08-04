@@ -85,7 +85,8 @@ namespace Electricity
         public void PowerFixed()
         {
             _isPowerOn = true;
-            fixAudio.Play(transform.position);
+
+            fixAudio.Play2D();
             badHighlight.Stop();
 
             _requestInteractable.SetInteractableActive(false);
