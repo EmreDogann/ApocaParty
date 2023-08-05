@@ -233,7 +233,7 @@ namespace Audio
             }
 
             _musicEmitter = emitter;
-            return AudioHandle.Invalid;
+            return new AudioHandle(_currentAudioSourceIndex, audioObj);
         }
 
         public AudioHandle PlayMusic(AudioSO audioObj, AudioEventData audioEventData, Vector3 positionInSpace)

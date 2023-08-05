@@ -245,22 +245,6 @@ namespace Minion
             return HoldingConsumable;
         }
 
-        // private void OnTriggerEnter2D(Collider2D other)
-        // {
-        //     IWaiterTarget waiterTarget = other.GetComponent<IWaiterTarget>();
-        //     if (waiterTarget != null && waiterTarget.IsAssignedWaiter() && waiterTarget.GetWaiterID() == WaiterID)
-        //     {
-        //         waiterTarget.WaiterInteracted(this);
-        //         if (!waiterTarget.HasUnknownRequest())
-        //         {
-        //             NavMeshAgent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius * 0.2f,
-        //                 NavMeshAgent.areaMask));
-        //             pathDisplayer.HidePath();
-        //             HoldingConsumable = null;
-        //         }
-        //     }
-        // }
-
         private void OnTriggerStay2D(Collider2D other)
         {
             if (other.gameObject.layer != _spillLayer ||

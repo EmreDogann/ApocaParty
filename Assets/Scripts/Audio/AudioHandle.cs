@@ -7,10 +7,10 @@
         internal int ID;
         internal AudioSO Audio;
 
-        public AudioHandle(int id, AudioSO audioCue)
+        public AudioHandle(int id, AudioSO audio)
         {
             ID = id;
-            Audio = audioCue;
+            Audio = audio;
         }
 
         public override bool Equals(object obj)

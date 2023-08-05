@@ -1,4 +1,5 @@
-﻿using Audio;
+﻿using System.Collections;
+using Audio;
 using DG.Tweening;
 using Electricity;
 using Events;
@@ -18,12 +19,13 @@ namespace Music
         [Range(0.0f, 1.0f)] [SerializeField] private float machineBreakChance;
         [SerializeField] private float machineBreakCheckFrequency;
         [SerializeField] private float machineBreakCooldown;
+        [SerializeField] private ParticleSystem breakHighlight;
 
         [Separator("Audio")]
         [SerializeField] private AudioSO goodMusic;
         [SerializeField] private AudioSO badMusic;
         [SerializeField] private AudioSO transitionAudio;
-        // [SerializeField] private AudioSO breakAudio;
+
         [SerializeField] private bool playMusicOnAwake;
         [SerializeField] private float musicTransitionDuration;
 
@@ -42,17 +44,24 @@ namespace Music
             _musicRequest = GetComponent<MusicRequest>();
             _isBroken = false;
 
-            if (playMusicOnAwake)
-            {
-                goodMusic.Play(fadeIn: true, fadeDuration: 0.2f);
-            }
-
             _tweener = transform.DOShakeRotation(5.0f, new Vector3(0.0f, 0.0f, 5.0f), 20, 5, false,
                     ShakeRandomnessMode.Harmonic)
                 .SetEase(Ease.Linear)
                 .SetLoops(-1, LoopType.Restart)
                 .SetAutoKill(false);
             _tweener.Rewind();
+        }
+
+        private IEnumerator Start()
+        {
+            // Wait two frames for AudioSO instances to initialize properly.
+            yield return null;
+            yield return null;
+
+            if (playMusicOnAwake)
+            {
+                goodMusic.Play2D(true, 0.5f);
+            }
         }
 
         private void OnEnable()
@@ -91,17 +100,18 @@ namespace Music
 
         public void StartMusic()
         {
-            goodMusic.Play(fadeIn: true, fadeDuration: 2.0f);
+            goodMusic.Play2D(true, 0.5f);
         }
 
         private void OnMusicRequestCompleted()
         {
             if (enableBreaking)
             {
-                goodMusic.CrossFadeAudio(transitionAudio, musicTransitionDuration);
-                // _tweener.Kill(true);
-                _tweener.Rewind();
                 _isBroken = false;
+                _tweener.Rewind();
+
+                breakHighlight.Stop();
+                goodMusic.CrossFadeAudio(transitionAudio, musicTransitionDuration);
             }
             else
             {
@@ -134,7 +144,7 @@ namespace Music
             machineBreaksEvent.TriggerEvent();
             _tweener.Restart();
 
-            // breakAudio.Play();
+            breakHighlight.Play();
             badMusic.CrossFadeAudio(transitionAudio, musicTransitionDuration);
         }
 
