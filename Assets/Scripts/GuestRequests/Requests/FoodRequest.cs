@@ -189,6 +189,7 @@ namespace GuestRequests.Requests
         public void Claim()
         {
             RequestInteractable.SetInteractableActive(false);
+            ReleaseAllTransformHandles();
         }
 
         public bool IsConsumed()

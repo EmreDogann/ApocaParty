@@ -275,7 +275,7 @@ namespace GuestRequests
             return CurrentJobIndex != -1 && _jobs[CurrentJobIndex].IsFailed();
         }
 
-        private void ReleaseAllTransformHandles()
+        protected void ReleaseAllTransformHandles()
         {
             foreach (var entry in _transformPairHandles)
             {

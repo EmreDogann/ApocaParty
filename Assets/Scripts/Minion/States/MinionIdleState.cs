@@ -106,9 +106,6 @@ namespace Minion.States
                     _stateMachine.ChangeState(MinionStateID.Moving);
                     break;
                 case GuestInteractable guestInteractable:
-                    Debug.Log($"HasUnknownRequest: {guestInteractable.WaiterTarget.HasUnknownRequest()}");
-                    Debug.Log($"HasConsumable: {guestInteractable.WaiterTarget.HasConsumable()}");
-                    Debug.Log($"Minion HoldingConsumable: {minion.HoldingConsumable != null}");
                     if (!guestInteractable.WaiterTarget.HasUnknownRequest() &&
                         !guestInteractable.WaiterTarget.HasConsumable() && minion.HoldingConsumable != null)
                     {

@@ -347,7 +347,6 @@ namespace Audio
 
         public void FadeAudioAll(float to, float duration)
         {
-            Debug.Log(_audioHandle.Count);
             foreach (AudioHandle handle in _audioHandle)
             {
                 FadeAudio(handle, to, duration);

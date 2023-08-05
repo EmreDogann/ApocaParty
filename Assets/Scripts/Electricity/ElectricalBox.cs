@@ -38,6 +38,8 @@ namespace Electricity
 
         private void Awake()
         {
+            _isPowerOn = true;
+
             _requestInteractable = GetComponent<RequestInteractable>();
             _requestInteractable.SetInteractableActive(false);
 
