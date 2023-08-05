@@ -9,7 +9,6 @@ using Interactions.Interactables;
 using MyBox;
 using Needs;
 using PartyEvents;
-using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using Utils;
@@ -55,11 +54,9 @@ namespace Guest
         public float spillDrinkCheckFrequency;
         [Range(0.0f, 1.0f)] public float walkToDrinksChance;
 
-        [Separator("Debugging")]
-        [SerializeField] private TextMeshProUGUI AIState;
-
         public NeedSystem needSystem { get; private set; }
         public Camera _mainCamera { get; private set; }
+        [field: SerializeReference] public TableSeat AssignedTableSeat { get; private set; }
 
         private GuestIdleState _guestIdleState;
         private GuestMovingState _guestMovingState;
@@ -68,7 +65,6 @@ namespace Guest
         private GuestMoveToSeatState _guestMoveToSeatState;
 
         public IConsumable CurrentConsumable;
-        [field: SerializeReference] public TableSeat AssignedTableSeat { get; private set; }
 
         private int _waiterID;
         private bool _isAssignedWaiter;
@@ -133,7 +129,6 @@ namespace Guest
             }
 
             stateMachine.UpdateState();
-            AIState.text = stateMachine.GetCurrentState().GetID().ToString();
         }
 
         private void VibeCheck()

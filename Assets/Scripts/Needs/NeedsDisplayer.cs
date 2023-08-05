@@ -15,6 +15,7 @@ namespace Needs
             public NeedType needType;
             public Image icon;
             [HideInInspector] public bool needResolved;
+            [HideInInspector] public GameObject container;
         }
 
         [SerializeField] private bool useUnresolvedSymbol;
@@ -26,12 +27,22 @@ namespace Needs
         {
             if (useUnresolvedSymbol)
             {
-                unresolvedRequestImage.enabled = false;
+                unresolvedRequestImage.gameObject.SetActive(false);
             }
 
             foreach (NeedsIconData needIcon in needsIconDatas)
             {
-                needIcon.icon.enabled = false;
+                needIcon.container = needIcon.icon.transform.parent.gameObject;
+                needIcon.container.SetActive(false);
+            }
+        }
+
+        public void UpdateProgress(NeedType needType, float progressPercentage)
+        {
+            NeedsIconData iconData = _currentlyActiveIcons.FirstOrDefault(x => x.needType == needType);
+            if (iconData != null)
+            {
+                iconData.icon.fillAmount = Mathf.Clamp01(progressPercentage);
             }
         }
 
@@ -42,16 +53,14 @@ namespace Needs
             {
                 if (useUnresolvedSymbol)
                 {
-                    unresolvedRequestImage.enabled = true;
-                    iconData.icon.enabled = false;
+                    unresolvedRequestImage.gameObject.SetActive(true);
+                    iconData.container.SetActive(false);
                     iconData.needResolved = false;
                 }
                 else
                 {
-                    iconData.icon.enabled = true;
+                    iconData.container.SetActive(true);
                     iconData.needResolved = true;
-
-                    // iconData.SpriteRenderer.transform.localPosition = _availableIconPositions[^1];
                 }
 
                 _currentlyActiveIcons.Add(iconData);
@@ -63,13 +72,13 @@ namespace Needs
             NeedsIconData iconData = _currentlyActiveIcons.Find(x => x.needType == needType);
             if (iconData != null)
             {
-                iconData.icon.enabled = false;
+                iconData.container.SetActive(false);
                 iconData.needResolved = false;
                 _currentlyActiveIcons.Remove(iconData);
 
                 if (useUnresolvedSymbol && _currentlyActiveIcons.Count == 0)
                 {
-                    unresolvedRequestImage.enabled = false;
+                    unresolvedRequestImage.gameObject.SetActive(false);
                 }
             }
         }
@@ -92,14 +101,14 @@ namespace Needs
                 return;
             }
 
-            unresolvedRequestImage.enabled = false;
+            unresolvedRequestImage.gameObject.SetActive(false);
 
             foreach (NeedsIconData activeIcon in _currentlyActiveIcons)
             {
                 if (!activeIcon.needResolved)
                 {
                     activeIcon.needResolved = true;
-                    activeIcon.icon.enabled = true;
+                    activeIcon.container.SetActive(true);
                 }
             }
         }

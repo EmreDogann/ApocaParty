@@ -41,6 +41,11 @@ namespace Needs.Needs
             return expiryPunishment;
         }
 
+        public float GetTimerProgress()
+        {
+            return 1 - Mathf.Clamp01(_currentTime / expirationTime);
+        }
+
         public bool IsExpired()
         {
             return _currentTime >= expirationTime;

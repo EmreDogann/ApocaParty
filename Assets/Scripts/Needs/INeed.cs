@@ -15,6 +15,7 @@ namespace Needs
         public void ResetNeed();
         public NeedType GetNeedType();
         public NeedMetrics GetPunishment();
+        public float GetTimerProgress();
         public bool IsExpired();
         public RandomConversationSO GetRandomConversations();
     }

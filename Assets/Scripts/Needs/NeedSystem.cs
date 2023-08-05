@@ -114,6 +114,7 @@ namespace Needs
             for (int i = _currentNeeds.Count - 1; i >= 0; i--)
             {
                 _currentNeeds[i].UpdateTimer(Time.deltaTime);
+                needsDisplayer.UpdateProgress(_currentNeeds[i].GetNeedType(), _currentNeeds[i].GetTimerProgress());
                 if (_currentNeeds[i].IsExpired())
                 {
                     if (enableMoods)
