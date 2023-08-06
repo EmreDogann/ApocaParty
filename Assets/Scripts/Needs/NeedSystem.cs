@@ -91,6 +91,7 @@ namespace Needs
         private float _currentTime;
         private float _needTimer;
 
+        public event Action OnNeedsResolved;
         public event Action<INeed> OnNewNeed;
         public event Action<NeedType> OnNeedFulfilled;
 
@@ -217,7 +218,11 @@ namespace Needs
 
         public void ResolveNeeds()
         {
-            needsDisplayer.ResolveNeed();
+            bool resolveSuccessful = needsDisplayer.ResolveNeed();
+            if (resolveSuccessful)
+            {
+                OnNeedsResolved?.Invoke();
+            }
         }
 
         public bool IsSatisfied()

@@ -34,9 +34,10 @@ namespace Timeline.Playables.FocusSprite
             {
                 if (canClickTargets)
                 {
-                    Transform transform = spriteData.spriteRenderer.transform;
-                    transform.position = new Vector3(transform.position.x,
-                        transform.position.y, fadedFocusCanvas.transform.position.z * 1.1f);
+                    Vector3 position = spriteData.rootTransform.position;
+                    position = new Vector3(position.x, position.y, fadedFocusCanvas.transform.position.z * 1.1f);
+
+                    spriteData.rootTransform.position = position;
                 }
 
                 spriteData.spriteRenderer.sortingLayerID = fadedFocusCanvas.sortingLayerID;
@@ -59,12 +60,13 @@ namespace Timeline.Playables.FocusSprite
 
         private void ResetData()
         {
-            foreach (SpriteFocusData spriteData in spriteDatas.Where(spriteData => spriteData.spriteRenderer != null))
+            foreach (SpriteFocusData spriteData in spriteDatas.Where(spriteData =>
+                         spriteData.spriteRenderer != null && spriteData.rootTransform != null))
             {
-                Vector3 transformPosition = spriteData.spriteRenderer.transform.position;
+                Vector3 transformPosition = spriteData.rootTransform.position;
                 transformPosition.z = spriteData.startingZPosition;
 
-                spriteData.spriteRenderer.transform.position = transformPosition;
+                spriteData.rootTransform.position = transformPosition;
 
                 spriteData.spriteRenderer.sortingLayerID = spriteData.startingSortLayer;
                 spriteData.spriteRenderer.sortingOrder = spriteData.startingSortOrder;

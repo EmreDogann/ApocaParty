@@ -198,11 +198,11 @@ namespace Needs
             return false;
         }
 
-        public void ResolveNeed()
+        public bool ResolveNeed()
         {
             if (!useUnresolvedSymbol)
             {
-                return;
+                return false;
             }
 
             _unknownRequestTween.Rewind();
@@ -214,6 +214,8 @@ namespace Needs
                     activeIcon.PopupEffect.PlayForward();
                 }
             }
+
+            return true;
         }
     }
 }

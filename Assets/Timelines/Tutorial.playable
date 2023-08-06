@@ -57,6 +57,41 @@ MonoBehaviour:
     dialogueConversation: {fileID: 11400000, guid: 2de5eef0aa17a304db80e4c3d1fe6691, type: 2}
     followProgress: 1
     jumpToEnd: 0
+--- !u!114 &-8908299903722483492
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aae889345d6da2048bec0c0ba7663814, type: 3}
+  m_Name: TextPopupClip(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  template:
+    textUI: {fileID: 0}
+    startingScale: {x: 0, y: 0, z: 0}
+    position: {x: 0, y: 0, z: 0}
+    popupAnimationDuration: 0
+    text: 
+    showType: 0
+    nudgeScaleMultiplier: 0
+    nudgeStrength: 0
+    hideWhenFinished: 0
+    popupShowAudio: {fileID: 0}
+    popupHideAudio: {fileID: 0}
+  text: "<color=#98cc58>Left-click</color>\nto speak to \n<color=#b04f51>horseman</color>"
+  targetPosition:
+    exposedName: 4f96eb9e66532b14cbaa30918b04a7e1
+    defaultValue: {fileID: 0}
+  popupAnimationDuration: 0.3
+  showType: 0
+  nudgeScaleMultiplier: 1
+  nudgeStrength: 0
+  hideWhenFinished: 1
+  popupShowAudio: {fileID: 11400000, guid: 1990cd7808e4cd64c90f2150b58b6299, type: 2}
+  popupHideAudio: {fileID: 0}
 --- !u!114 &-8418877594985782228
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -79,29 +114,53 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   spriteDatas:
   - spriteRendererReference:
-      exposedName: 9d4cbd2bea6294e4e928d468132d2fbd
+      exposedName: 582ed17e678df1f4fb3ee48ab134c792
+      defaultValue: {fileID: 0}
+    rootTransformReference:
+      exposedName: 
       defaultValue: {fileID: 0}
     spriteRenderer: {fileID: 0}
+    rootTransform: {fileID: 0}
     isInitialized: 1
     startingZPosition: 0
     startingSortLayer: -29931941
     startingSortOrder: 2
   - spriteRendererReference:
-      exposedName: 2debbb91c8fac6e439056d9a3efbfbff
+      exposedName: 7f8aa062644df3c47b44bcda840304e9
+      defaultValue: {fileID: 0}
+    rootTransformReference:
+      exposedName: 
       defaultValue: {fileID: 0}
     spriteRenderer: {fileID: 0}
+    rootTransform: {fileID: 0}
     isInitialized: 1
     startingZPosition: 0
     startingSortLayer: -29931941
     startingSortOrder: 2
   - spriteRendererReference:
-      exposedName: e63018df9e28b9b40ab69febd52498f2
+      exposedName: 7841595248c5d564a87e91925fd81de7
+      defaultValue: {fileID: 0}
+    rootTransformReference:
+      exposedName: 
       defaultValue: {fileID: 0}
     spriteRenderer: {fileID: 0}
+    rootTransform: {fileID: 0}
     isInitialized: 1
     startingZPosition: 0
     startingSortLayer: -29931941
     startingSortOrder: 2
+--- !u!114 &-8235748060412398939
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde0d25a170598d46a0b9dc16b4527a5, type: 3}
+  m_Name: ActivationPlayableAsset(Clone)(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: 
 --- !u!114 &-8075459367060907384
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -261,6 +320,144 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: ScreenFaderClip
+  - m_Version: 1
+    m_Start: 27.616666666666667
+    m_ClipIn: 0
+    m_Asset: {fileID: 4338463992730961090}
+    m_Duration: 4.9
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -8075459367060907384}
+    m_EaseInDuration: 0.16666666666666666
+    m_EaseOutDuration: 0.16666666666666666
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: ScreenFaderClip
+  - m_Version: 1
+    m_Start: 26.416666666666668
+    m_ClipIn: 0
+    m_Asset: {fileID: -2942180510833444944}
+    m_Duration: 0.9333333333333265
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -8075459367060907384}
+    m_EaseInDuration: 0.3333333333333333
+    m_EaseOutDuration: 0.3333333333333333
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: ScreenFaderClip
   m_Markers:
     m_Objects: []
 --- !u!114 &-7929300011846727157
@@ -311,11 +508,12 @@ MonoBehaviour:
     hideWhenFinished: 0
     popupShowAudio: {fileID: 0}
     popupHideAudio: {fileID: 0}
-  text: 'Minions can also be
+  text: '<color=#7f75a4>Minions</color> can also be
 
     commanded
 
-    to these areas'
+    to these
+    areas'
   targetPosition:
     exposedName: 986a899a2cce43c44bcdf708ce06a1c6
     defaultValue: {fileID: 0}
@@ -350,6 +548,8 @@ MonoBehaviour:
   m_Markers:
     m_Objects:
     - {fileID: -4878351228080588723}
+    - {fileID: -6698698234099588906}
+    - {fileID: -4009867072878645863}
 --- !u!114 &-7459116093371561123
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -407,6 +607,91 @@ MonoBehaviour:
     m_Objects:
     - {fileID: 8235610745105056970}
     - {fileID: -367253241126296786}
+--- !u!114 &-7148751391335304420
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4da472754ad2b3c4e920036c15d9ca0e, type: 3}
+  m_Name: FocusSpriteClip(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  template:
+    spriteDatas: []
+    fadedFocusCanvas: {fileID: 0}
+    canClickTargets: 0
+  canClickTargets: 0
+  fadedFocusCanvas:
+    exposedName: d9e560432a917854faf803dc81c2f5bf
+    defaultValue: {fileID: 0}
+  spriteDatas:
+  - spriteRendererReference:
+      exposedName: 82653ea5da2d8044c96d073c46a4242a
+      defaultValue: {fileID: 0}
+    rootTransformReference:
+      exposedName: 
+      defaultValue: {fileID: 0}
+    spriteRenderer: {fileID: 0}
+    rootTransform: {fileID: 0}
+    isInitialized: 1
+    startingZPosition: 0
+    startingSortLayer: 0
+    startingSortOrder: 0
+  - spriteRendererReference:
+      exposedName: eb96a9d1140630747a6ab4ef291121e5
+      defaultValue: {fileID: 0}
+    rootTransformReference:
+      exposedName: 
+      defaultValue: {fileID: 0}
+    spriteRenderer: {fileID: 0}
+    rootTransform: {fileID: 0}
+    isInitialized: 1
+    startingZPosition: 0
+    startingSortLayer: 0
+    startingSortOrder: 0
+  - spriteRendererReference:
+      exposedName: 9165f3ba1cfccd2458f5522eed87b9f2
+      defaultValue: {fileID: 0}
+    rootTransformReference:
+      exposedName: 
+      defaultValue: {fileID: 0}
+    spriteRenderer: {fileID: 0}
+    rootTransform: {fileID: 0}
+    isInitialized: 1
+    startingZPosition: 0
+    startingSortLayer: 0
+    startingSortOrder: 2
+--- !u!114 &-6738832970219138769
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde0d25a170598d46a0b9dc16b4527a5, type: 3}
+  m_Name: ActivationPlayableAsset(Clone)(Clone)
+  m_EditorClassIdentifier: 
+--- !u!114 &-6698698234099588906
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
+  m_Name: Signal Emitter
+  m_EditorClassIdentifier: 
+  m_Time: 27.5
+  m_Retroactive: 0
+  m_EmitOnce: 0
+  m_Asset: {fileID: 11400000, guid: 11923e1664909754f968be53db7d365c, type: 2}
 --- !u!114 &-6587487349737900715
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -419,7 +704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter(Clone)(Clone)
   m_EditorClassIdentifier: 
-  m_Time: 25.05
+  m_Time: 26.233333333333334
   m_Retroactive: 1
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 4959cf7890329c6459837e75df22ad47, type: 2}
@@ -467,7 +752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter(Clone)(Clone)
   m_EditorClassIdentifier: 
-  m_Time: 25.183333333333334
+  m_Time: 32.566666666666634
   m_Retroactive: 1
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 1a7ea1b695125e24e9c07090d2132d38, type: 2}
@@ -575,9 +860,94 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: Active
+  - m_Version: 1
+    m_Start: 32.38333333333331
+    m_ClipIn: 0
+    m_Asset: {fileID: 5188624790174757697}
+    m_Duration: 0.36666666666666714
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -4063831832584045241}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: Active
   m_Markers:
     m_Objects: []
   m_PostPlaybackState: 3
+--- !u!114 &-4009867072878645863
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
+  m_Name: Signal Emitter
+  m_EditorClassIdentifier: 
+  m_Time: 26.916666666666664
+  m_Retroactive: 0
+  m_EmitOnce: 0
+  m_Asset: {fileID: 11400000, guid: e7b9e8ca41575b54ea8fe4b7cec125e4, type: 2}
 --- !u!114 &-3771425945448009677
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -615,6 +985,77 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fde0d25a170598d46a0b9dc16b4527a5, type: 3}
   m_Name: ActivationPlayableAsset
   m_EditorClassIdentifier: 
+--- !u!114 &-3450148479030812525
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4da472754ad2b3c4e920036c15d9ca0e, type: 3}
+  m_Name: FocusSpriteClip(Clone)(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  template:
+    spriteDatas: []
+    fadedFocusCanvas: {fileID: 0}
+    canClickTargets: 0
+  canClickTargets: 0
+  fadedFocusCanvas:
+    exposedName: 0a458fcf378d58d4abb5b59c1f8bd24c
+    defaultValue: {fileID: 0}
+  spriteDatas:
+  - spriteRendererReference:
+      exposedName: 0d60bdd0168fa62458f1ff29e46dac03
+      defaultValue: {fileID: 0}
+    rootTransformReference:
+      exposedName: 
+      defaultValue: {fileID: 0}
+    spriteRenderer: {fileID: 0}
+    rootTransform: {fileID: 0}
+    isInitialized: 1
+    startingZPosition: 0
+    startingSortLayer: 0
+    startingSortOrder: 0
+  - spriteRendererReference:
+      exposedName: 4aa3092c6d4af2b4e9d4d29d738b0377
+      defaultValue: {fileID: 0}
+    rootTransformReference:
+      exposedName: 
+      defaultValue: {fileID: 0}
+    spriteRenderer: {fileID: 0}
+    rootTransform: {fileID: 0}
+    isInitialized: 1
+    startingZPosition: 0
+    startingSortLayer: 0
+    startingSortOrder: 0
+  - spriteRendererReference:
+      exposedName: 24720f135f813e74d836c00bd57ce4ab
+      defaultValue: {fileID: 0}
+    rootTransformReference:
+      exposedName: 
+      defaultValue: {fileID: 0}
+    spriteRenderer: {fileID: 0}
+    rootTransform: {fileID: 0}
+    isInitialized: 1
+    startingZPosition: 0
+    startingSortLayer: 0
+    startingSortOrder: 2
+--- !u!114 &-2942180510833444944
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0445258a5c40b364ab21547784905327, type: 3}
+  m_Name: ScreenFaderClip(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  template:
+    color: {r: 0, g: 0, b: 0, a: 0.9019608}
 --- !u!114 &-2847020404716182918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -640,167 +1081,6 @@ MonoBehaviour:
     m_Objects:
     - {fileID: -1682151649653137475}
     - {fileID: 8745539204273811516}
---- !u!114 &-2251129273496903118
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d4e596ab5027234d906f5143f88ee55, type: 3}
-  m_Name: Focus Sprite Track
-  m_EditorClassIdentifier: 
-  m_Version: 3
-  m_AnimClip: {fileID: 0}
-  m_Locked: 0
-  m_Muted: 0
-  m_CustomPlayableFullTypename: 
-  m_Curves: {fileID: 0}
-  m_Parent: {fileID: 11400000}
-  m_Children: []
-  m_Clips:
-  - m_Version: 1
-    m_Start: 8.516666666666667
-    m_ClipIn: 0
-    m_Asset: {fileID: 1628280230256187103}
-    m_Duration: 1.4833333333333325
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: -2251129273496903118}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: 0
-    m_BlendOutDuration: 0
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: FocusSpriteClip
-  - m_Version: 1
-    m_Start: 16.9
-    m_ClipIn: 0
-    m_Asset: {fileID: 1955316872274700947}
-    m_Duration: 4.9
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: -2251129273496903118}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: 0
-    m_BlendOutDuration: 0
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: FocusSpriteClip
-  m_Markers:
-    m_Objects: []
 --- !u!114 &-1736011921915001216
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -865,7 +1145,7 @@ MonoBehaviour:
     guest: {fileID: 0}
     needAction: 0
     needType: 2
-    startingExpirationTime: 20
+    startingExpirationTime: 30
     rewardMetric:
       hunger: 0
       thirst: 0
@@ -874,6 +1154,39 @@ MonoBehaviour:
   guest:
     exposedName: 47f87167916801342a8213ea1fa8e1f4
     defaultValue: {fileID: 0}
+--- !u!114 &-718930357368801574
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4da472754ad2b3c4e920036c15d9ca0e, type: 3}
+  m_Name: FocusSpriteClip(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  template:
+    spriteDatas: []
+    fadedFocusCanvas: {fileID: 0}
+    canClickTargets: 0
+  canClickTargets: 1
+  fadedFocusCanvas:
+    exposedName: 72393b9643c1c1b4b906f6079dbfe4ef
+    defaultValue: {fileID: 0}
+  spriteDatas:
+  - spriteRendererReference:
+      exposedName: 9263d238f20daaa4096d32d64adaa4a0
+      defaultValue: {fileID: 0}
+    rootTransformReference:
+      exposedName: 877c467a4b823a546ad63fa224853a5d
+      defaultValue: {fileID: 0}
+    spriteRenderer: {fileID: 0}
+    rootTransform: {fileID: 0}
+    isInitialized: 1
+    startingZPosition: 0
+    startingSortLayer: -29931941
+    startingSortOrder: 3
 --- !u!114 &-631457565430209799
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1033,6 +1346,144 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: Active
+  - m_Version: 1
+    m_Start: 27.616666666666667
+    m_ClipIn: 0
+    m_Asset: {fileID: -8235748060412398939}
+    m_Duration: 4.899999999999999
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -631457565430209799}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: Active
+  - m_Version: 1
+    m_Start: 26.416666666666668
+    m_ClipIn: 0
+    m_Asset: {fileID: -6738832970219138769}
+    m_Duration: 0.9333333333333265
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -631457565430209799}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: Active
   m_Markers:
     m_Objects: []
   m_PostPlaybackState: 1
@@ -1060,11 +1511,11 @@ MonoBehaviour:
     hideWhenFinished: 0
     popupShowAudio: {fileID: 0}
     popupHideAudio: {fileID: 0}
-  text: 'Right-click stereo
+  text: '<color=#98cc58>Right-click</color> stereo
 
     to command a
 
-    minion.'
+    <color=#7f75a4>minion</color>'
   targetPosition:
     exposedName: 51b8f0a2bfa22bb43a229918904f05a3
     defaultValue: {fileID: 0}
@@ -1117,7 +1568,7 @@ MonoBehaviour:
   - {fileID: 3754255261979786788}
   - {fileID: -631457565430209799}
   - {fileID: -8075459367060907384}
-  - {fileID: -2251129273496903118}
+  - {fileID: 6896501393684198867}
   - {fileID: 1084286627991384351}
   - {fileID: 560481966797851737}
   - {fileID: 5389875192421431929}
@@ -1313,52 +1764,13 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: TextPopupClip
-  m_Markers:
-    m_Objects: []
---- !u!114 &606465106542201751
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
-  m_Name: Signal Emitter
-  m_EditorClassIdentifier: 
-  m_Time: 1.0833333333333333
-  m_Retroactive: 0
-  m_EmitOnce: 0
-  m_Asset: {fileID: 0}
---- !u!114 &1084286627991384351
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d4e596ab5027234d906f5143f88ee55, type: 3}
-  m_Name: Minion To Front
-  m_EditorClassIdentifier: 
-  m_Version: 3
-  m_AnimClip: {fileID: 0}
-  m_Locked: 0
-  m_Muted: 0
-  m_CustomPlayableFullTypename: 
-  m_Curves: {fileID: 0}
-  m_Parent: {fileID: 11400000}
-  m_Children: []
-  m_Clips:
   - m_Version: 1
-    m_Start: 8.516666666666667
+    m_Start: 28.416666666666668
     m_ClipIn: 0
-    m_Asset: {fileID: -8418877594985782228}
-    m_Duration: 1.4833333333333325
+    m_Asset: {fileID: 6445211311770077870}
+    m_Duration: 3.3666666666666663
     m_TimeScale: 1
-    m_ParentTrack: {fileID: 1084286627991384351}
+    m_ParentTrack: {fileID: 560481966797851737}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: 0
@@ -1420,12 +1832,120 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: FocusSpriteClip
+    m_DisplayName: TextPopupClip
   - m_Version: 1
-    m_Start: 16.9
+    m_Start: 26.7
     m_ClipIn: 0
-    m_Asset: {fileID: 2169565864713663354}
-    m_Duration: 4.9
+    m_Asset: {fileID: -8908299903722483492}
+    m_Duration: 0.33333365122477154
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 560481966797851737}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: TextPopupClip
+  m_Markers:
+    m_Objects: []
+--- !u!114 &606465106542201751
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
+  m_Name: Signal Emitter
+  m_EditorClassIdentifier: 
+  m_Time: 1.0833333333333333
+  m_Retroactive: 0
+  m_EmitOnce: 0
+  m_Asset: {fileID: 0}
+--- !u!114 &1084286627991384351
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d4e596ab5027234d906f5143f88ee55, type: 3}
+  m_Name: Minion To Front
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips:
+  - m_Version: 1
+    m_Start: 8.516666666666667
+    m_ClipIn: 0
+    m_Asset: {fileID: -8418877594985782228}
+    m_Duration: 1.4833333333333325
     m_TimeScale: 1
     m_ParentTrack: {fileID: 1084286627991384351}
     m_EaseInDuration: 0
@@ -1702,35 +2222,6 @@ MonoBehaviour:
   m_Markers:
     m_Objects: []
   m_PostPlaybackState: 3
---- !u!114 &1628280230256187103
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4da472754ad2b3c4e920036c15d9ca0e, type: 3}
-  m_Name: FocusSpriteClip
-  m_EditorClassIdentifier: 
-  template:
-    spriteDatas: []
-    fadedFocusCanvas: {fileID: 0}
-    canClickTargets: 0
-  canClickTargets: 1
-  fadedFocusCanvas:
-    exposedName: 1d36918b5ca1336498412a349525d0ec
-    defaultValue: {fileID: 0}
-  spriteDatas:
-  - spriteRendererReference:
-      exposedName: b77ca7177f432f34ca56366f25669ae9
-      defaultValue: {fileID: 0}
-    spriteRenderer: {fileID: 0}
-    isInitialized: 1
-    startingZPosition: 0
-    startingSortLayer: 0
-    startingSortOrder: 0
 --- !u!114 &1671401186584380257
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1763,96 +2254,6 @@ MonoBehaviour:
   m_Retroactive: 1
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: eff3a8df3a7ca304e994dc28bf7e09d7, type: 2}
---- !u!114 &1955316872274700947
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4da472754ad2b3c4e920036c15d9ca0e, type: 3}
-  m_Name: FocusSpriteClip(Clone)(Clone)(Clone)(Clone)
-  m_EditorClassIdentifier: 
-  template:
-    spriteDatas: []
-    fadedFocusCanvas: {fileID: 0}
-    canClickTargets: 0
-  canClickTargets: 0
-  fadedFocusCanvas:
-    exposedName: 6b72822e27c832a4190ce1861e28e8ae
-    defaultValue: {fileID: 0}
-  spriteDatas:
-  - spriteRendererReference:
-      exposedName: dc8bb3a487ca0f146bb45e3a2345e022
-      defaultValue: {fileID: 0}
-    spriteRenderer: {fileID: 0}
-    isInitialized: 1
-    startingZPosition: 0
-    startingSortLayer: 0
-    startingSortOrder: 0
-  - spriteRendererReference:
-      exposedName: c481e3177f0cb2b4fafba2f72087b82c
-      defaultValue: {fileID: 0}
-    spriteRenderer: {fileID: 0}
-    isInitialized: 1
-    startingZPosition: 0
-    startingSortLayer: 0
-    startingSortOrder: 0
-  - spriteRendererReference:
-      exposedName: b3d6536aead866740b82a3dfd4496b6b
-      defaultValue: {fileID: 0}
-    spriteRenderer: {fileID: 0}
-    isInitialized: 1
-    startingZPosition: 0
-    startingSortLayer: 0
-    startingSortOrder: 2
---- !u!114 &2169565864713663354
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4da472754ad2b3c4e920036c15d9ca0e, type: 3}
-  m_Name: FocusSpriteClip(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)
-  m_EditorClassIdentifier: 
-  template:
-    spriteDatas: []
-    fadedFocusCanvas: {fileID: 0}
-    canClickTargets: 0
-  canClickTargets: 0
-  fadedFocusCanvas:
-    exposedName: e214b7590ecd6644d9be8f3b60eff5d3
-    defaultValue: {fileID: 0}
-  spriteDatas:
-  - spriteRendererReference:
-      exposedName: 98fbb165393df07469ea59198362c740
-      defaultValue: {fileID: 0}
-    spriteRenderer: {fileID: 0}
-    isInitialized: 1
-    startingZPosition: 0
-    startingSortLayer: 0
-    startingSortOrder: 0
-  - spriteRendererReference:
-      exposedName: f173bd97a5deeb44993817a3a5ef8cb6
-      defaultValue: {fileID: 0}
-    spriteRenderer: {fileID: 0}
-    isInitialized: 1
-    startingZPosition: 0
-    startingSortLayer: 0
-    startingSortOrder: 0
-  - spriteRendererReference:
-      exposedName: 979edc036a4a9ea4d877c20855da89a6
-      defaultValue: {fileID: 0}
-    spriteRenderer: {fileID: 0}
-    isInitialized: 1
-    startingZPosition: 0
-    startingSortLayer: 0
-    startingSortOrder: 2
 --- !u!114 &3000160542789505618
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2078,8 +2479,77 @@ MonoBehaviour:
     m_Recordable: 0
     m_PostExtrapolationMode: 0
     m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: Infinity
+    m_PostExtrapolationTime: 10.06666666666667
     m_PreExtrapolationTime: 6.75
+    m_DisplayName: Henchman
+  - m_Version: 1
+    m_Start: 33.71666666666667
+    m_ClipIn: 0
+    m_Asset: {fileID: 5189236609298384027}
+    m_Duration: 0.41666666666666785
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 3000160542789505618}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: Infinity
+    m_PreExtrapolationTime: 10.06666666666667
     m_DisplayName: Henchman
   m_Markers:
     m_Objects: []
@@ -2099,6 +2569,39 @@ MonoBehaviour:
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: dfcdba5e8986edf47961ea53e1cfd474, type: 2}
+--- !u!114 &3491265005173280952
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4da472754ad2b3c4e920036c15d9ca0e, type: 3}
+  m_Name: FocusSpriteClip(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  template:
+    spriteDatas: []
+    fadedFocusCanvas: {fileID: 0}
+    canClickTargets: 0
+  canClickTargets: 1
+  fadedFocusCanvas:
+    exposedName: fe8bcddfed4cf664e9a86f24a413a50c
+    defaultValue: {fileID: 0}
+  spriteDatas:
+  - spriteRendererReference:
+      exposedName: 498202b27c14c8346875ac2cacabcbdf
+      defaultValue: {fileID: 0}
+    rootTransformReference:
+      exposedName: 
+      defaultValue: {fileID: 0}
+    spriteRenderer: {fileID: 0}
+    rootTransform: {fileID: 0}
+    isInitialized: 1
+    startingZPosition: 0
+    startingSortLayer: 0
+    startingSortOrder: 0
 --- !u!114 &3697355722020940375
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2275,7 +2778,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: Famine Intro
   - m_Version: 1
-    m_Start: 24.2
+    m_Start: 25.383333333333333
     m_ClipIn: 0
     m_Asset: {fileID: -8921426139233897573}
     m_Duration: 0.8500000000000014
@@ -2373,6 +2876,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fde0d25a170598d46a0b9dc16b4527a5, type: 3}
   m_Name: ActivationPlayableAsset
   m_EditorClassIdentifier: 
+--- !u!114 &4338463992730961090
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0445258a5c40b364ab21547784905327, type: 3}
+  m_Name: ScreenFaderClip(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  template:
+    color: {r: 0, g: 0, b: 0, a: 0.9019608}
 --- !u!114 &4728553225207972829
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2387,6 +2904,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   template:
     color: {r: 0, g: 0, b: 0, a: 0.9019608}
+--- !u!114 &5188624790174757697
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde0d25a170598d46a0b9dc16b4527a5, type: 3}
+  m_Name: ActivationPlayableAsset(Clone)(Clone)
+  m_EditorClassIdentifier: 
+--- !u!114 &5189236609298384027
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f999416923a8d9b4a9654a5b923d42c5, type: 3}
+  m_Name: GuestNeedClip(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  template:
+    guest: {fileID: 0}
+    needAction: 0
+    needType: 1
+    startingExpirationTime: 15
+    rewardMetric:
+      hunger: 0
+      thirst: 0
+      enjoyment: 0
+    moodReward: 0
+  guest:
+    exposedName: 02f045d764b8058419fe0fc08f41f47a
+    defaultValue: {fileID: 0}
 --- !u!114 &5389875192421431929
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2428,6 +2982,341 @@ MonoBehaviour:
   m_Retroactive: 1
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 1a7ea1b695125e24e9c07090d2132d38, type: 2}
+--- !u!114 &6445211311770077870
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aae889345d6da2048bec0c0ba7663814, type: 3}
+  m_Name: TextPopupClip(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  template:
+    textUI: {fileID: 0}
+    startingScale: {x: 0, y: 0, z: 0}
+    position: {x: 0, y: 0, z: 0}
+    popupAnimationDuration: 0
+    text: 
+    showType: 0
+    nudgeScaleMultiplier: 0
+    nudgeStrength: 0
+    hideWhenFinished: 0
+    popupShowAudio: {fileID: 0}
+    popupHideAudio: {fileID: 0}
+  text: "You can also \n<color=#98cc58>Left-click</color> these areas\nto command
+    <color=#80a1c7>cthulhu</color>"
+  targetPosition:
+    exposedName: 4d794996da28d83448e3eae5bab7c9d2
+    defaultValue: {fileID: 0}
+  popupAnimationDuration: 0.3
+  showType: 0
+  nudgeScaleMultiplier: 1
+  nudgeStrength: 0
+  hideWhenFinished: 1
+  popupShowAudio: {fileID: 11400000, guid: 1990cd7808e4cd64c90f2150b58b6299, type: 2}
+  popupHideAudio: {fileID: 0}
+--- !u!114 &6896501393684198867
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d4e596ab5027234d906f5143f88ee55, type: 3}
+  m_Name: Focus Sprite Track (1)
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips:
+  - m_Version: 1
+    m_Start: 8.516666666666667
+    m_ClipIn: 0
+    m_Asset: {fileID: 3491265005173280952}
+    m_Duration: 1.4833333333333325
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 6896501393684198867}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: FocusSpriteClip
+  - m_Version: 1
+    m_Start: 26.416666666666668
+    m_ClipIn: 0
+    m_Asset: {fileID: -718930357368801574}
+    m_Duration: 0.9333333333333265
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 6896501393684198867}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: FocusSpriteClip
+  - m_Version: 1
+    m_Start: 16.9
+    m_ClipIn: 0
+    m_Asset: {fileID: -3450148479030812525}
+    m_Duration: 4.899999999999999
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 6896501393684198867}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: FocusSpriteClip
+  - m_Version: 1
+    m_Start: 27.616666666666667
+    m_ClipIn: 0
+    m_Asset: {fileID: -7148751391335304420}
+    m_Duration: 4.899999999999999
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 6896501393684198867}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: FocusSpriteClip
+  m_Markers:
+    m_Objects: []
 --- !u!114 &7149585481865927641
 MonoBehaviour:
   m_ObjectHideFlags: 1
