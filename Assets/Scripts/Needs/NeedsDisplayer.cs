@@ -8,6 +8,7 @@ using MyBox;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Needs
 {
@@ -22,9 +23,8 @@ namespace Needs
             [HideInInspector] public CanvasGroup canvasGroup;
             [HideInInspector] public bool needResolved;
             [HideInInspector] public RectTransform containerRectTransform;
-            [HideInInspector] public Sequence popupEffect;
-
-            public Vector2 JumpEndvalue => containerRectTransform.anchoredPosition;
+            [HideInInspector] public Sequence PopupEffect;
+            [HideInInspector] public Sequence ShakeEffect;
         }
 
         [SerializeField] private bool useUnresolvedSymbol;
@@ -81,8 +81,19 @@ namespace Needs
                 needIcon.containerRectTransform = needIcon.icon.rectTransform.parent as RectTransform;
                 needIcon.containerRectTransform.parent.gameObject.SetActive(false);
 
-                needIcon.popupEffect = DOTween.Sequence();
-                needIcon.popupEffect
+                needIcon.ShakeEffect = DOTween.Sequence();
+                needIcon.ShakeEffect
+                    .SetId(needIcon.ID)
+                    .Append(needIcon.containerRectTransform
+                        .DOLocalRotate(needIcon.containerRectTransform.localRotation * Vector3.forward * 1.5f, 0.0f))
+                    .AppendInterval(0.75f)
+                    .Append(needIcon.containerRectTransform
+                        .DOLocalRotate(needIcon.containerRectTransform.localRotation * Vector3.forward * -1.5f, 0.0f))
+                    .SetLoops(-1, LoopType.Yoyo)
+                    .Pause();
+
+                needIcon.PopupEffect = DOTween.Sequence();
+                needIcon.PopupEffect
                     .SetId(needIcon.ID)
                     .Append(needIcon.containerRectTransform
                         .DOScale(needIcon.containerRectTransform.localScale * 1.2f, 0.5f)
@@ -99,11 +110,15 @@ namespace Needs
                         }
 
                         StartCoroutine(DelayedJumpTween(needIcon));
+                        needIcon.ShakeEffect
+                            .SetDelay(Random.Range(0.0f, 2.0f), false)
+                            .PlayForward();
 
                         needPopupSound.Play(transform.position);
                     })
                     .OnRewind(() =>
                     {
+                        needIcon.ShakeEffect.Rewind();
                         if (needIcon.canvasGroup)
                         {
                             needIcon.canvasGroup.DOFade(0.0f, 0.2f).OnComplete(() =>
@@ -149,7 +164,7 @@ namespace Needs
                 else
                 {
                     iconData.needResolved = true;
-                    iconData.popupEffect.PlayForward();
+                    iconData.PopupEffect.PlayForward();
                 }
 
                 _currentlyActiveIcons.Add(iconData);
@@ -161,7 +176,7 @@ namespace Needs
             NeedsIconData iconData = _currentlyActiveIcons.Find(x => x.needType == needType);
             if (iconData != null)
             {
-                iconData.popupEffect.Rewind();
+                iconData.PopupEffect.Rewind();
                 iconData.needResolved = false;
                 _currentlyActiveIcons.Remove(iconData);
 
@@ -196,7 +211,7 @@ namespace Needs
                 if (!activeIcon.needResolved)
                 {
                     activeIcon.needResolved = true;
-                    activeIcon.popupEffect.PlayForward();
+                    activeIcon.PopupEffect.PlayForward();
                 }
             }
         }
