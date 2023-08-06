@@ -17,6 +17,8 @@ namespace Guest.States
         public override void Enter()
         {
             _currentTime = 0.0f;
+            guest.consumeProgressBar.SetProgressBarActive(true);
+            guest.InteractableState.SetInteractableActive(false);
         }
 
         public override void Tick()
@@ -27,6 +29,7 @@ namespace Guest.States
             }
 
             _currentTime += Time.deltaTime;
+            guest.consumeProgressBar.SetProgressBarPercentage(Mathf.Clamp01(_currentTime / _consumeDuration));
             if (_currentTime >= _consumeDuration)
             {
                 // Consume drink
@@ -50,6 +53,10 @@ namespace Guest.States
             }
         }
 
-        public override void Exit() {}
+        public override void Exit()
+        {
+            guest.consumeProgressBar.SetProgressBarActive(false);
+            guest.InteractableState.SetInteractableActive(true);
+        }
     }
 }

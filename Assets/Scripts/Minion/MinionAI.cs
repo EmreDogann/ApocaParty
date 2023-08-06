@@ -7,7 +7,6 @@ using Interactions;
 using Minion.States;
 using MyBox;
 using Player;
-using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -36,7 +35,6 @@ namespace Minion
 
         [Separator("UI")]
         public SpriteRenderer image;
-        [SerializeField] private TextMeshProUGUI aiState;
         public ProgressBar progressBar;
 
         [Separator("Other Data")]
@@ -110,7 +108,6 @@ namespace Minion
             }
 
             StateMachine.UpdateState();
-            aiState.text = StateMachine.GetCurrentState().GetID().ToString();
 
             if (_shouldWander)
             {

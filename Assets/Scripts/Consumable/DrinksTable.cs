@@ -107,17 +107,14 @@ namespace Consumable
             return null;
         }
 
-        public void Tutorial_TryGetDrink()
+        public void Tutorial_TryGetDrink(int getDrinksCount = 1)
         {
-            if (_availableDrinks.Count > 0)
+            for (int i = 0; i < getDrinksCount; i++)
             {
-                Drink drink = _availableDrinks[^1];
-                _availableDrinks.RemoveAt(_availableDrinks.Count - 1);
-                drink.Consume();
-
-                if (_availableDrinks.Count == 0)
+                if (_availableDrinks.Count > 0)
                 {
-                    emptyTableParticleSystem.Play();
+                    Drink drink = _availableDrinks[^1];
+                    drink.Consume();
                 }
             }
         }

@@ -26,9 +26,9 @@ namespace Needs.Needs
             _currentTime += deltaTime;
         }
 
-        public void ResetNeed()
+        public void ResetNeed(float startingTime = 0.0f)
         {
-            _currentTime = 0.0f;
+            _currentTime = startingTime;
         }
 
         public NeedType GetNeedType()

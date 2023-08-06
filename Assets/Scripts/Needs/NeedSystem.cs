@@ -92,6 +92,7 @@ namespace Needs
         private float _needTimer;
 
         public event Action<INeed> OnNewNeed;
+        public event Action<NeedType> OnNeedFulfilled;
 
         private void Awake()
         {
@@ -173,6 +174,8 @@ namespace Needs
                     }
 
                     RemoveNeed(need);
+
+                    OnNeedFulfilled?.Invoke(need.GetNeedType());
 
                     _currentTime = 0.0f;
                     _needTimer = needCooldown;
@@ -259,16 +262,25 @@ namespace Needs
             }
         }
 
-        public void TryAddNeed(NeedType needType)
+        public void TryAddNeed(NeedType needType, float startingExpirationTime = -1.0f)
         {
             if (_currentNeeds.FirstOrDefault(x => x.GetNeedType() == needType) == null)
             {
                 INeed need = GenerateNeed(needType);
                 if (need != null)
                 {
-                    need.ResetNeed();
+                    need.ResetNeed(startingExpirationTime < 0.0f ? 0.0f : startingExpirationTime);
                     AddNeed(need);
                 }
+            }
+        }
+
+        public void TryRemoveNeed(NeedType needType)
+        {
+            INeed need = _currentNeeds.FirstOrDefault(x => x.GetNeedType() == needType);
+            if (need != null)
+            {
+                RemoveNeed(need);
             }
         }
 

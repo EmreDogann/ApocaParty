@@ -23,7 +23,10 @@ namespace Guest
         [field: SerializeReference] public GroupType GroupType { get; private set; }
 
         private bool _arrivalTriggered;
-        private Action currentCallback;
+        private Action _currentCallback;
+        private bool _sitDownOnArrive;
+
+        public event Action OnGuestsSitDown;
 
         private void Awake()
         {
@@ -56,25 +59,35 @@ namespace Guest
 
             if (guestsArrived == _guests.Count)
             {
-                currentCallback?.Invoke();
-                currentCallback = null;
+                _currentCallback?.Invoke();
+                _currentCallback = null;
+
+                if (!_sitDownOnArrive)
+                {
+                    return;
+                }
 
                 if (arrivalConversation != null)
                 {
-                    DialogueManager.Instance.OpenDialogue(arrivalConversation.messages, SitDown);
+                    DialogueManager.Instance.OpenDialogue(arrivalConversation.messages, () => SitDown(true));
                 }
                 else
                 {
-                    SitDown();
+                    SitDown(true);
                 }
 
                 _arrivalTriggered = false;
             }
         }
 
+        public void SetSitDownOnArrive(bool shouldSitDown)
+        {
+            _sitDownOnArrive = shouldSitDown;
+        }
+
         public void Arrive(List<Transform> arrivalSpots, Action callback = null)
         {
-            currentCallback = callback;
+            _currentCallback = callback;
 
             int index = 0;
             foreach (GuestAI guestAI in _guests)
@@ -96,7 +109,7 @@ namespace Guest
             return GroupType;
         }
 
-        public void SitDown()
+        public void SitDown(bool aiActiveOnSitdown)
         {
             var tableSeats = DiningTableSupplier.GetAvailableSeats(_guests.Count);
 
@@ -105,20 +118,42 @@ namespace Guest
                 for (int i = 0; i < _guests.Count; i++)
                 {
                     _guests[i].AssignTableSeat(tableSeats[i], true);
-                    _guests[i].ActivateAI();
                 }
             }
+
+            StartCoroutine(WaitForGuestSitDown(aiActiveOnSitdown));
         }
 
-        private IEnumerator WaitForSitDown(GuestAI guest)
+        private IEnumerator WaitForGuestSitDown(bool activateOnSitdown)
         {
-            while (!HasReachedDestination(guest))
+            while (true)
             {
+                int guestsSittingDown = 0;
+                foreach (GuestAI guest in _guests)
+                {
+                    if (HasReachedDestination(guest))
+                    {
+                        guestsSittingDown++;
+                    }
+                }
+
+                if (guestsSittingDown == _guests.Count)
+                {
+                    break;
+                }
+
                 yield return null;
             }
 
-            yield return new WaitForSeconds(2.0f);
-            guest.ActivateAI();
+            if (activateOnSitdown)
+            {
+                foreach (GuestAI guest in _guests)
+                {
+                    guest.ActivateAI();
+                }
+            }
+
+            OnGuestsSitDown?.Invoke();
         }
 
         private bool HasReachedDestination(GuestAI guest)

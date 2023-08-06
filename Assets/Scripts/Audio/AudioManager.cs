@@ -125,7 +125,6 @@ namespace Audio
             }
             else
             {
-                Debug.Log($"Playing: {audioObj.name}");
                 emitter.Source.Play();
             }
 

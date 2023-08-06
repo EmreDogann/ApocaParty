@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Audio;
@@ -20,6 +21,8 @@ namespace Arrivals
         private List<IGuestGroup> _guestGroups = new List<IGuestGroup>();
         private int _currentIndex;
         [SerializeField] private bool arriveOnStart;
+
+        public static event Action OnGuestsArrived;
 
         private void Awake()
         {
@@ -90,6 +93,7 @@ namespace Arrivals
         {
             doorArchway.gameObject.SetActive(false);
             door.gameObject.SetActive(true);
+            OnGuestsArrived?.Invoke();
         }
     }
 }

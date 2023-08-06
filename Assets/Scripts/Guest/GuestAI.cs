@@ -49,10 +49,12 @@ namespace Guest
 
         [Separator("AI Behaviour")]
         [SerializeField] private bool activateAIOnAwake;
-
         [Range(0.0f, 1.0f)] public float chanceToSpillDrink;
         public float spillDrinkCheckFrequency;
         [Range(0.0f, 1.0f)] public float walkToDrinksChance;
+
+        [Separator("UI")]
+        public ProgressBar consumeProgressBar;
 
         public NeedSystem needSystem { get; private set; }
         public Camera _mainCamera { get; private set; }
@@ -70,6 +72,7 @@ namespace Guest
         private bool _isAssignedWaiter;
 
         private bool _isAIActive;
+        public bool TutorialMode { get; private set; }
 
         private void Awake()
         {
@@ -154,6 +157,15 @@ namespace Guest
             _isAIActive = true;
         }
 
+        public void SetActiveTutorialMode(bool isActive)
+        {
+            TutorialMode = isActive;
+            if (TutorialMode && !_isAIActive)
+            {
+                ActivateAI();
+            }
+        }
+
         public void SetDestination(Vector3 target)
         {
             navMeshAgent.SetDestination(target);
@@ -188,6 +200,11 @@ namespace Guest
 
         private void OnNewNeed(INeed need)
         {
+            if (TutorialMode)
+            {
+                return;
+            }
+
             switch (need.GetNeedType())
             {
                 case NeedType.Drink:
@@ -282,7 +299,7 @@ namespace Guest
             else
             {
                 IConsumable consumable = waiter.GetConsumable();
-                if (consumable != null)
+                if (consumable != null && stateMachine.GetCurrentState().GetID() == GuestStateID.Idle)
                 {
                     switch (consumable)
                     {
@@ -291,20 +308,14 @@ namespace Guest
                             AssignedTableSeat.SetFood(consumable);
                             break;
                         case Drink _:
-                            if (stateMachine.GetCurrentState().GetID() == GuestStateID.Idle)
-                            {
-                                CurrentConsumable = consumable;
-                                CurrentConsumable.SetSorting(spriteRenderer.sortingLayerID,
-                                    spriteRenderer.sortingOrder + 1);
-                            }
+                            CurrentConsumable = consumable;
+                            CurrentConsumable.SetSorting(spriteRenderer.sortingLayerID,
+                                spriteRenderer.sortingOrder + 1);
 
                             break;
                     }
 
-                    if (stateMachine.GetCurrentState().GetID() != GuestStateID.MoveToSeat)
-                    {
-                        stateMachine.ChangeState(GuestStateID.MoveToSeat);
-                    }
+                    stateMachine.ChangeState(GuestStateID.Consume);
                 }
             }
 

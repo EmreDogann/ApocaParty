@@ -82,34 +82,31 @@ namespace Guest
             director.Play();
         }
 
-        public void SitDownHenchmen(bool activateOnSitdown)
+        public void SitDownGuests(bool activateOnSitdown)
         {
             director.playableGraph.GetRootPlayable(0).SetSpeed(0);
             _availableTableSeats ??= DiningTableSupplier.GetAvailableSeats(_guests.Count);
 
-            if (_availableTableSeats.Count > 0)
+            if (_availableTableSeats.Count <= 0)
             {
-                var henchmen = new List<GuestAI>();
-                foreach (GuestAI guest in _guests)
-                {
-                    if (guest.GuestType == GuestType.Henchmen)
-                    {
-                        guest.AssignTableSeat(_availableTableSeats[^1], true);
-                        henchmen.Add(guest);
-                        _availableTableSeats.RemoveAt(_availableTableSeats.Count - 1);
-                    }
-                }
-
-                StartCoroutine(WaitForGuestSitDown(henchmen, activateOnSitdown));
+                return;
             }
+
+            foreach (GuestAI guest in _guests)
+            {
+                guest.AssignTableSeat(_availableTableSeats[^1], true);
+                _availableTableSeats.RemoveAt(_availableTableSeats.Count - 1);
+            }
+
+            StartCoroutine(WaitForGuestSitDown(activateOnSitdown));
         }
 
-        private IEnumerator WaitForGuestSitDown(List<GuestAI> guests, bool activateOnSitdown)
+        private IEnumerator WaitForGuestSitDown(bool activateOnSitdown)
         {
             while (true)
             {
                 int guestsSittingDown = 0;
-                foreach (GuestAI guest in guests)
+                foreach (GuestAI guest in _guests)
                 {
                     if (HasReachedDestination(guest))
                     {
@@ -117,7 +114,7 @@ namespace Guest
                     }
                 }
 
-                if (guestsSittingDown == guests.Count)
+                if (guestsSittingDown == _guests.Count)
                 {
                     break;
                 }
@@ -127,7 +124,7 @@ namespace Guest
 
             if (activateOnSitdown)
             {
-                foreach (GuestAI guest in guests)
+                foreach (GuestAI guest in _guests)
                 {
                     guest.ActivateAI();
                 }

@@ -30,5 +30,5 @@ MonoBehaviour:
       and music right? '
   - actor: {fileID: 11400000, guid: 7be73856ec5460446b95da815737ae2c, type: 2}
     playActorSound: 0
-    text: "Excellent. Now why don\u2019t you run along to get me and my boys a drink
-      or two."
+    text: "Excellent. Now why don\u2019t you run along to get my boys a drink or
+      two."
