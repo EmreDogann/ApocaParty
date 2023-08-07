@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7454578327367652881}
   m_Layer: 7
   m_Name: Drink
-  m_TagString: Spillable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,6 +136,8 @@ MonoBehaviour:
   spillSound: {fileID: 11400000, guid: 36b06a9db8cd538488a00557f344dafa, type: 2}
   spillSortingLayer: 0
   spillSortingOrder: 0
+  showOnAwake: 0
+  spillOnAwake: 0
 --- !u!114 &7454578327367652881
 MonoBehaviour:
   m_ObjectHideFlags: 0

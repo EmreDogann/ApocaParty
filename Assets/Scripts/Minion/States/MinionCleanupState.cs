@@ -1,3 +1,4 @@
+using Interactions.Interactables;
 using UnityEngine;
 
 namespace Minion.States
@@ -6,7 +7,19 @@ namespace Minion.States
     {
         private float _currentTime;
 
-        public MinionCleanupState(MinionAI minion, MinionStateMachine stateMachine) : base(minion, stateMachine) {}
+        private readonly Collider2D[] _cleanupRaycastHits;
+        private readonly ContactFilter2D _cleanupContactFilter;
+
+        public MinionCleanupState(MinionAI minion, MinionStateMachine stateMachine) : base(minion, stateMachine)
+        {
+            _cleanupRaycastHits = new Collider2D[minion.maxCleanupAmount];
+            _cleanupContactFilter = new ContactFilter2D
+            {
+                useTriggers = true,
+                useLayerMask = true,
+                layerMask = 1 << minion.SpillLayer
+            };
+        }
 
         public override MinionStateID GetID()
         {
@@ -30,6 +43,21 @@ namespace Minion.States
 
             if (_currentTime >= minion.cleanupTime)
             {
+                int hitCount = Physics2D.OverlapCircle(minion.transform.position, 0.7f, _cleanupContactFilter,
+                    _cleanupRaycastHits);
+
+                if (hitCount > 0)
+                {
+                    for (int i = 0; i < hitCount; i++)
+                    {
+                        SpillInteractable spill = _cleanupRaycastHits[i].GetComponent<SpillInteractable>();
+                        if (spill != null && spill.Consumable.IsSpilled())
+                        {
+                            spill.Consumable.Cleanup();
+                        }
+                    }
+                }
+
                 minion.TargetConsumable.Cleanup();
                 _stateMachine.ChangeState(MinionStateID.Idle);
             }

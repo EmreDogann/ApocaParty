@@ -141,6 +141,11 @@ namespace GuestRequests
             Owner = owner;
         }
 
+        public void RemoveOwner()
+        {
+            Owner = null;
+        }
+
         public virtual Vector3 GetStartingPosition()
         {
             return transform.position;

@@ -48,7 +48,8 @@ public class VibeMeter : MonoBehaviour
         _dangerColorTween = fillImage
             .DOColor(dangerFillColor, 0.8f)
             .SetEase(Ease.InOutFlash)
-            .SetLoops(-1, LoopType.Yoyo);
+            .SetLoops(-1, LoopType.Yoyo)
+            .Pause();
     }
 
     private void OnValidate()

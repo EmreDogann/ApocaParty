@@ -16,17 +16,17 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4ecd84c77bf6a4f4a841e4e47b889ebd, type: 3}
   audioMixer: {fileID: -2142215581130782871, guid: 04f137b61e667dc49a2cdb18829ed819, type: 2}
   volume:
-    Min: 0.38850388
-    Max: 0.38850388
+    Min: 0.33035308
+    Max: 0.33035308
   useSemitones: 0
   semitones:
     Min: 0
-    Max: 0
+    Max: 1
   pitch:
     Min: 1
-    Max: 1
+    Max: 1.0465206
   Looping: 0
-  CanBePaused: 1
+  CanBePaused: 0
   playOrder: 1
   currentPlayIndex: 0
   audioEvent: {fileID: 11400000, guid: 6c5f128f58f1e1946b9be8d4fcd88dbf, type: 2}

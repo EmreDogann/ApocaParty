@@ -5,8 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - EventSystem
-  - Guest
-  - Spillable
   - Cursor
   layers:
   - Default
@@ -16,7 +14,7 @@ TagManager:
   - Water
   - UI
   - Plate
-  - Drink
+  - Spillable
   - Character
   - PlayerORMinion
   - 

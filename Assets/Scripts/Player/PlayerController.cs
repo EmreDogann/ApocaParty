@@ -24,7 +24,7 @@ namespace Player
         [SerializeField] private AudioSO errorSound;
 
         [Separator("Movement")]
-        [SerializeField] private float distanceThreshold = 0.01f;
+        [SerializeField] private float distanceThreshold = 0.02f;
         [NavMeshSelector] [SerializeField] private int ignoreAreaCosts;
         [SerializeField] private Transform holderTransform;
 
@@ -40,6 +40,7 @@ namespace Player
         public float spillFoodCheckFrequency;
         [SerializeField] private AudioSO slipAudio;
         [SerializeField] private float cleanupTime;
+        [SerializeField] private int maxCleanupAmount = 5;
 
         private float _spillFoodTimer;
         private bool _isSlipping;
@@ -48,7 +49,6 @@ namespace Player
         private NavMeshAgent _agent;
 
         private Request _currentRequest;
-        private Transform _targetDestination;
         private IWaiterTarget _waiterTarget;
         private IConsumable _holdingConsumable;
         private IConsumable _targetConsumable;
@@ -57,8 +57,9 @@ namespace Player
         private int _spillLayer;
         private int _characterLayer;
 
-        private bool _isPlayerInputActive = true;
         internal float SearchRadius = 1.0f;
+        private Collider2D[] _cleanupRaycastHits;
+        private ContactFilter2D _cleanupContactFilter;
 
         private void Awake()
         {
@@ -70,7 +71,15 @@ namespace Player
             _agent.SetAreaCost(ignoreAreaCosts, 1.0f);
 
             _characterLayer = LayerMask.NameToLayer("Character");
-            _spillLayer = LayerMask.NameToLayer("Drink");
+            _spillLayer = LayerMask.NameToLayer("Spillable");
+
+            _cleanupRaycastHits = new Collider2D[maxCleanupAmount];
+            _cleanupContactFilter = new ContactFilter2D
+            {
+                useTriggers = true,
+                useLayerMask = true,
+                layerMask = 1 << _spillLayer
+            };
         }
 
         private void OnEnable()
@@ -99,13 +108,6 @@ namespace Player
                     request = interactableRequest.GetRequest();
                     switch (request)
                     {
-                        case PowerRequest _:
-                            if (ElectricalBox.IsPowerOn())
-                            {
-                                return;
-                            }
-
-                            break;
                         case FoodRequest foodRequest:
                             if (foodRequest.IsRequestFailed())
                             {
@@ -117,13 +119,22 @@ namespace Player
                                 _targetConsumable.Claim();
                                 if (_targetConsumable != null)
                                 {
-                                    SetDestinationAndDisplayPath(_targetConsumable.GetTransform().position);
+                                    Vector3 position = _targetConsumable.GetTransform().position;
+                                    // Offset towards the closest side of the counter top.
+                                    position.x += transform.position.x >= position.x ? 1.2f : -1.2f;
+                                    SetDestinationAndDisplayPath(position);
                                 }
-
-                                _targetDestination = null;
                             }
 
                             return;
+                        case MusicRequest _:
+                            if (!ElectricalBox.IsPowerOn())
+                            {
+                                errorSound.Play2D();
+                                return;
+                            }
+
+                            break;
                     }
 
                     if (request.IsRequestStarted() || !request.TryStartRequest() || request.GetRequestOwner() != null)
@@ -150,7 +161,7 @@ namespace Player
                         !guestInteractable.WaiterTarget.HasConsumable() && _holdingConsumable != null)
                     {
                         _waiterTarget = guestInteractable.WaiterTarget;
-                        _targetDestination = _waiterTarget.GetDestinationTransform();
+                        SetDestinationAndDisplayPath(_waiterTarget.GetDestinationTransform().position);
 
                         _waiterTarget.GiveWaiterID(_waiterID);
                     }
@@ -181,17 +192,18 @@ namespace Player
                     _currentRequest.OnRequestCompleted += OnRequestCompleted;
                     break;
                 case DrinksTableInteractable drinksTableInteractable:
+                    if (_holdingConsumable != null)
+                    {
+                        errorSound.Play2D();
+                        return;
+                    }
+
                     if (drinksTableInteractable.IsDrinkAvailable())
                     {
-                        if (_holdingConsumable == null)
+                        _targetConsumable = drinksTableInteractable.TryGetDrink();
+                        if (_targetConsumable != null)
                         {
-                            _targetConsumable = drinksTableInteractable.TryGetDrink();
-                            if (_targetConsumable != null)
-                            {
-                                SetDestinationAndDisplayPath(_targetConsumable.GetTransform().position);
-                            }
-
-                            _targetDestination = null;
+                            SetDestinationAndDisplayPath(_targetConsumable.GetTransform().position);
                         }
                     }
                     else
@@ -211,7 +223,13 @@ namespace Player
 
                     break;
                 case SpillInteractable spillInteractable:
-                    _targetDestination = spillInteractable.transform;
+                    if (_holdingConsumable != null)
+                    {
+                        errorSound.Play2D();
+                        return;
+                    }
+
+                    SetDestinationAndDisplayPath(spillInteractable.transform.position);
                     _targetConsumable = spillInteractable.Consumable;
                     _targetConsumable.StartCleanup();
                     break;
@@ -241,11 +259,6 @@ namespace Player
                 _holdingConsumable.GetTransform().position = holderTransform.position;
             }
 
-            if (_targetDestination != null)
-            {
-                SetDestinationAndDisplayPath(_targetDestination.position);
-            }
-
             if (_currentRequest && _currentRequest.IsRequestStarted())
             {
                 _currentRequest.UpdateRequest(Time.deltaTime * 2.0f);
@@ -257,70 +270,65 @@ namespace Player
                 return;
             }
 
-            // if (InputManager.Instance.InteractPressed && !_currentRequest && _isPlayerInputActive)
-            // {
-            //     Vector3 mouseWorldPosition = _mainCamera.ScreenToWorldPoint(Mouse.current.position.value);
-            //     mouseWorldPosition.z = 0;
-            //     SetDestinationAndDisplayPath(mouseWorldPosition);
-            // }
-
-            if (Vector3.SqrMagnitude(transform.position - _agent.destination) < distanceThreshold * distanceThreshold)
+            if (!(Vector3.SqrMagnitude(transform.position - _agent.destination) <
+                  distanceThreshold * distanceThreshold))
             {
-                _targetDestination = null;
-                pathDisplayer.HidePath();
+                return;
+            }
 
-                if (_currentRequest != null)
-                {
-                    _currentRequest.ActivateRequest();
-                    progressBar.SetProgressBarActive(true);
-                    return;
-                }
+            pathDisplayer.HidePath();
 
-                if (_targetConsumable != null && !_targetConsumable.IsSpilled())
+            if (_currentRequest != null)
+            {
+                _currentRequest.ActivateRequest();
+                progressBar.SetProgressBarActive(true);
+                return;
+            }
+
+            if (_targetConsumable != null && !_targetConsumable.IsSpilled())
+            {
+                if (!_targetConsumable.IsAvailable())
                 {
-                    if (!_targetConsumable.IsAvailable())
+                    if (_targetConsumable is Drink && DrinksTable.Instance.IsDrinkAvailable())
                     {
-                        if (_targetConsumable is Drink && DrinksTable.Instance.IsDrinkAvailable())
+                        _targetConsumable = DrinksTable.Instance.TryGetDrink();
+                        if (_targetConsumable != null)
                         {
-                            _targetConsumable = DrinksTable.Instance.TryGetDrink();
-                            if (_targetConsumable != null)
-                            {
-                                SetDestination(_targetConsumable.GetTransform().position);
-                            }
-                        }
-                        else
-                        {
-                            _targetConsumable = null;
-                            return;
+                            SetDestination(_targetConsumable.GetTransform().position);
                         }
                     }
-
-                    _holdingConsumable = _targetConsumable;
-                    _holdingConsumable.Claim();
-
-                    _holdingConsumable.SetSorting(spriteRenderer.sortingLayerID, spriteRenderer.sortingOrder + 1);
-                    _holdingConsumable.GetTransform().position = holderTransform.position;
-
-                    _agent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius, _agent.areaMask));
-
-                    _targetConsumable = null;
-                    return;
-                }
-
-                if (_waiterTarget != null && _waiterTarget.IsAssignedWaiter() &&
-                    _waiterTarget.GetWaiterID() == _waiterID)
-                {
-                    _waiterTarget.WaiterInteracted(this);
-
-                    if (!_waiterTarget.HasUnknownRequest())
+                    else
                     {
-                        _holdingConsumable = null;
+                        _targetConsumable = null;
+                        return;
                     }
-
-                    _agent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius, _agent.areaMask));
-
-                    _waiterTarget = null;
                 }
+
+                _holdingConsumable = _targetConsumable;
+                _holdingConsumable.Claim();
+
+                _holdingConsumable.SetSorting(spriteRenderer.sortingLayerID, spriteRenderer.sortingOrder + 1);
+                _holdingConsumable.GetTransform().position = holderTransform.position;
+
+                _agent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius, _agent.areaMask));
+
+                _targetConsumable = null;
+                return;
+            }
+
+            if (_waiterTarget != null && _waiterTarget.IsAssignedWaiter() &&
+                _waiterTarget.GetWaiterID() == _waiterID)
+            {
+                _waiterTarget.WaiterInteracted(this);
+
+                if (!_waiterTarget.HasUnknownRequest())
+                {
+                    _holdingConsumable = null;
+                }
+
+                _agent.SetDestination(RandomNavmeshLocation(transform.position, SearchRadius, _agent.areaMask));
+
+                _waiterTarget = null;
             }
         }
 
@@ -365,7 +373,15 @@ namespace Player
         private void Slip()
         {
             _isSlipping = true;
-            _targetDestination = null;
+
+            if (!_currentRequest.IsRequestStarted())
+            {
+                _currentRequest.ResetRequest();
+                _currentRequest.RemoveOwner();
+                _currentRequest.OnRequestCompleted -= OnRequestCompleted;
+                _currentRequest = null;
+            }
+
             _agent.ResetPath();
             pathDisplayer.HidePath();
 
@@ -393,25 +409,26 @@ namespace Player
                 yield return null;
             }
 
+            int hitCount =
+                Physics2D.OverlapCircle(transform.position, 1.0f, _cleanupContactFilter, _cleanupRaycastHits);
+
+            if (hitCount > 0)
+            {
+                for (int i = 0; i < hitCount; i++)
+                {
+                    SpillInteractable spill = _cleanupRaycastHits[i].GetComponent<SpillInteractable>();
+                    if (spill != null && spill.Consumable.IsSpilled())
+                    {
+                        spill.Consumable.Cleanup();
+                    }
+                }
+            }
+
             spillInteractable.Consumable.Cleanup();
             progressBar.SetProgressBarActive(false);
 
             _isCleaningUp = false;
         }
-
-        // private void OnTriggerEnter2D(Collider2D other)
-        // {
-        //     if (_target == null)
-        //     {
-        //         IWaiterTarget waiterTarget = other.GetComponent<IWaiterTarget>();
-        //         if (waiterTarget != null && waiterTarget.IsAssignedWaiter() && waiterTarget.GetWaiterID() == _waiterID)
-        //         {
-        //             waiterTarget.WaiterInteracted(this);
-        //             _target = null;
-        //             _holdingConsumable = null;
-        //         }
-        //     }
-        // }
 
         private void OnTriggerStay2D(Collider2D other)
         {
@@ -424,7 +441,6 @@ namespace Player
             if (spillInteractable != null && ReferenceEquals(_targetConsumable, spillInteractable.Consumable))
             {
                 StartCoroutine(CleanupSpill(spillInteractable));
-                _targetDestination = null;
                 _holdingConsumable = null;
                 _targetConsumable = null;
                 return;
@@ -483,7 +499,6 @@ namespace Player
         public void OwnerRemoved()
         {
             _currentRequest = null;
-            _targetDestination = null;
             pathDisplayer.HidePath();
             _agent.ResetPath();
             progressBar.SetProgressBarActive(false);
@@ -507,11 +522,6 @@ namespace Player
         public int GetWaiterID()
         {
             return _waiterID;
-        }
-
-        public void SetPlayerInputActive(bool playerInput)
-        {
-            _isPlayerInputActive = playerInput;
         }
     }
 }

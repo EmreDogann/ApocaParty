@@ -5,7 +5,6 @@ using System.Linq;
 using Audio;
 using Guest;
 using MyBox;
-using UI.Components;
 using UnityEngine;
 
 namespace Arrivals
@@ -54,8 +53,9 @@ namespace Arrivals
             GuestsArrive();
         }
 
-        private void Start()
+        private IEnumerator Start()
         {
+            yield return new WaitForSecondsRealtime(0.25f);
             if (arriveOnStart)
             {
                 GuestsArrive();

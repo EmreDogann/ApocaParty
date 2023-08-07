@@ -15,13 +15,21 @@ namespace Minion.States
 
         public override void Enter()
         {
+            _isSlipping = true;
+
+            if (!minion.currentRequest.IsRequestStarted())
+            {
+                minion.currentRequest.ResetRequest();
+                minion.currentRequest.RemoveOwner();
+                minion.currentRequest = null;
+            }
+
             minion.NavMeshAgent.ResetPath();
             minion.pathDisplayer.HidePath();
 
             minion.WaiterTarget?.WaiterCancelled();
             minion.WaiterTarget = null;
 
-            _isSlipping = true;
             minion.transform.DOShakeRotation(1.5f, new Vector3(0.0f, 0.0f, 40.0f), 5, 1, true,
                     ShakeRandomnessMode.Harmonic)
                 .OnComplete(

@@ -24,7 +24,6 @@ namespace Guest
 
         private bool _arrivalTriggered;
         private Action _currentCallback;
-        private bool _sitDownOnArrive;
 
         public event Action OnGuestsSitDown;
 
@@ -62,11 +61,6 @@ namespace Guest
                 _currentCallback?.Invoke();
                 _currentCallback = null;
 
-                if (!_sitDownOnArrive)
-                {
-                    return;
-                }
-
                 if (arrivalConversation != null)
                 {
                     DialogueManager.Instance.OpenDialogue(arrivalConversation.messages, () => SitDown(true));
@@ -78,11 +72,6 @@ namespace Guest
 
                 _arrivalTriggered = false;
             }
-        }
-
-        public void SetSitDownOnArrive(bool shouldSitDown)
-        {
-            _sitDownOnArrive = shouldSitDown;
         }
 
         public void Arrive(List<Transform> arrivalSpots, Action callback = null)

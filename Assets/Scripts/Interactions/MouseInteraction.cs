@@ -138,10 +138,14 @@ namespace Interactions
 
             if (_hit.collider && !IsBlockedByUI())
             {
-                InteractableBase interactable = _hit.collider.GetComponent<InteractableBase>();
-                if (interactable != null && (interactable.IsInteractable || interactable.IsHoverable))
+                // Will use the last InteractableBase found on the GameObject which is active.
+                var interactables = _hit.collider.GetComponents<InteractableBase>();
+                foreach (InteractableBase interactable in interactables)
                 {
-                    newTarget = interactable;
+                    if (interactable != null && (interactable.IsInteractable || interactable.IsHoverable))
+                    {
+                        newTarget = interactable;
+                    }
                 }
             }
 

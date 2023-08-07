@@ -27,9 +27,11 @@ public class ProgressBar : MonoBehaviour
         }
 
         _pulsateEffect = DOTween.Sequence().SetLoops(-1, LoopType.Yoyo);
-        _pulsateEffect.PrependInterval(0.7f);
-        _pulsateEffect.Append(progressBar.rectTransform.DOScale(progressBar.rectTransform.localScale * 1.05f, 0.6f)
-            .SetEase(Ease.InOutQuad));
+        _pulsateEffect
+            .PrependInterval(0.7f)
+            .Append(progressBar.rectTransform.DOScale(progressBar.rectTransform.localScale * 1.05f, 0.6f)
+                .SetEase(Ease.InOutQuad))
+            .Pause();
     }
 
     public void SetProgressBarPercentage(float percentage)

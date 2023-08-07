@@ -1,4 +1,5 @@
 using Consumable;
+using Electricity;
 using GuestRequests;
 using GuestRequests.Requests;
 using Interactions;
@@ -56,28 +57,44 @@ namespace Minion.States
                 case IInteractableRequest requestInteractable:
                     Request request = requestInteractable.GetRequest();
 
-                    if (request is FoodRequest && request.GetRequestOwner() == null)
+                    switch (request)
                     {
-                        if (minion.HoldingConsumable == null && request.IsRequestCompleted())
+                        case FoodRequest consumable when consumable.GetRequestOwner() == null:
                         {
-                            minion.TargetConsumable = request as IConsumable;
-                            minion.TargetConsumable.Claim();
+                            if (minion.HoldingConsumable == null && consumable.IsRequestCompleted())
+                            {
+                                minion.TargetConsumable = consumable;
+                                minion.TargetConsumable.Claim();
+                            }
+
+                            if (minion.TargetConsumable != null)
+                            {
+                                Vector3 position = minion.TargetConsumable.GetTransform().position;
+                                // Offset towards the closest side of the counter top.
+                                position.x += minion.transform.position.x >= position.x ? 1.2f : -1.2f;
+                                minion.SetDestinationAndDisplayPath(position);
+                            }
+                            else
+                            {
+                                minion.SetDestinationAndDisplayPath(consumable.GetStartingPosition());
+                            }
+
+                            minion.image.sprite = minion.actorData.eventIcon;
+                            _stateMachine.ChangeState(MinionStateID.Moving);
+                            return;
                         }
-
-                        minion.SetDestinationAndDisplayPath(request.GetStartingPosition());
-
-                        minion.image.sprite = minion.actorData.eventIcon;
-                        _stateMachine.ChangeState(MinionStateID.Moving);
-                        return;
                     }
 
-                    if (requestInteractable is StoveInteractable)
+                    if (requestInteractable is StoveInteractable ||
+                        request is MusicRequest && !ElectricalBox.IsPowerOn())
                     {
+                        minion.errorSound.Play2D();
                         return;
                     }
 
                     if (request.IsRequestStarted() || !request.TryStartRequest() || request.GetRequestOwner() != null)
                     {
+                        minion.errorSound.Play2D();
                         return;
                     }
 
@@ -138,18 +155,21 @@ namespace Minion.States
                     _stateMachine.ChangeState(MinionStateID.Moving);
                     break;
                 case DrinksTableInteractable drinksTableInteractable:
+                    if (minion.HoldingConsumable != null)
+                    {
+                        minion.errorSound.Play2D();
+                        return;
+                    }
+
                     if (drinksTableInteractable.IsDrinkAvailable())
                     {
-                        if (minion.HoldingConsumable == null)
+                        minion.TargetConsumable = drinksTableInteractable.TryGetDrink();
+                        if (minion.TargetConsumable != null)
                         {
-                            minion.TargetConsumable = drinksTableInteractable.TryGetDrink();
-                            if (minion.TargetConsumable != null)
-                            {
-                                minion.SetDestinationAndDisplayPath(minion.TargetConsumable.GetTransform().position);
+                            minion.SetDestinationAndDisplayPath(minion.TargetConsumable.GetTransform().position);
 
-                                minion.image.sprite = minion.actorData.eventIcon;
-                                _stateMachine.ChangeState(MinionStateID.Moving);
-                            }
+                            minion.image.sprite = minion.actorData.eventIcon;
+                            _stateMachine.ChangeState(MinionStateID.Moving);
                         }
                     }
                     else
@@ -171,6 +191,12 @@ namespace Minion.States
 
                     break;
                 case SpillInteractable spillInteractable:
+                    if (minion.HoldingConsumable != null)
+                    {
+                        minion.errorSound.Play2D();
+                        return;
+                    }
+
                     minion.SetDestinationAndDisplayPath(spillInteractable.transform.position);
                     minion.TargetConsumable = spillInteractable.Consumable;
                     minion.TargetConsumable.StartCleanup();

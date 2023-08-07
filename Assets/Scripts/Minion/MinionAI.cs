@@ -6,7 +6,6 @@ using GuestRequests;
 using Interactions;
 using Minion.States;
 using MyBox;
-using Player;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -32,6 +31,7 @@ namespace Minion
         public float spillFoodCheckFrequency;
         public AudioSO slipAudio;
         public float cleanupTime;
+        public int maxCleanupAmount = 5;
 
         [Separator("UI")]
         public SpriteRenderer image;
@@ -62,7 +62,7 @@ namespace Minion
 
         private bool _isAIActive;
         private int _characterLayer;
-        private int _spillLayer;
+        internal int SpillLayer;
 
         private float _spillFoodTimer;
 
@@ -97,7 +97,7 @@ namespace Minion
             }
 
             _characterLayer = LayerMask.NameToLayer("Character");
-            _spillLayer = LayerMask.NameToLayer("Drink");
+            SpillLayer = LayerMask.NameToLayer("Spillable");
         }
 
         private void Update()
@@ -244,7 +244,7 @@ namespace Minion
 
         private void OnTriggerStay2D(Collider2D other)
         {
-            if (other.gameObject.layer != _spillLayer ||
+            if (other.gameObject.layer != SpillLayer ||
                 StateMachine.GetCurrentState().GetID() != MinionStateID.Moving ||
                 TargetConsumable != null && TargetConsumable.IsSpilled() ||
                 HoldingConsumable != null && other.gameObject == HoldingConsumable.GetTransform().gameObject)

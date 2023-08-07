@@ -358,7 +358,7 @@ namespace Guest
 
         public bool HasConsumable()
         {
-            return CurrentConsumable != null || AssignedTableSeat.HasFood();
+            return CurrentConsumable != null || AssignedTableSeat != null && AssignedTableSeat.HasFood();
         }
 
         public void WaiterInteracted(IWaiter waiter)

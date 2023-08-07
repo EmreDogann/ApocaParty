@@ -1,4 +1,5 @@
 ﻿using System;
+using Audio;
 using Consumable;
 using GuestRequests.Jobs;
 using Interactions.Interactables;
@@ -13,6 +14,7 @@ namespace GuestRequests.Requests
         [Separator("Consumable Stats")]
         [SerializeField] private ConsumedData consumeReward;
         [SerializeField] private Sprite spillSprite;
+        [SerializeField] private AudioSO spillSound;
         private SpillInteractable _spillInteractable;
         private Collider2D _collider2D;
 
@@ -166,6 +168,9 @@ namespace GuestRequests.Requests
         public void Spill()
         {
             RequestImage.sprite = spillSprite;
+            spillSound.Play(transform.position);
+
+            SetSorting(_originalSortLayer, _originalSortOrder);
             RequestInteractable.SetInteractableActive(false);
             _spillInteractable.SetInteractableActive(true);
         }
