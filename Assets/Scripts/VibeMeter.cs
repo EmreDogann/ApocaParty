@@ -1,4 +1,5 @@
 using System;
+using Audio;
 using DG.Tweening;
 using Events;
 using MyBox;
@@ -17,17 +18,24 @@ public class VibeMeter : MonoBehaviour
     [SerializeField] private Image fillImage;
     [SerializeField] private Color dangerFillColor;
 
+    [Separator("Audio")]
+    [SerializeField] private AudioSO increaseAudio;
+    [SerializeField] private AudioSO decreaseAudio;
+
+    [Separator("Events")]
     [SerializeField] private BoolEventChannelSO OnGamePauseEvent;
 
     [Range(0.0f, 100.0f)] [SerializeField] private float _vibeMeter = 100.0f;
 
-    public static Action<float> ChangeVibe;
+    public static Action<float, bool> ChangeVibe;
 
     public UnityEvent onGameWin;
     public UnityEvent onGameLose;
 
     private Tween _vibeChangeTween;
     private Tween _dangerColorTween;
+
+    private bool _vibeChangeTweenActive;
 
     private void Awake()
     {
@@ -85,11 +93,6 @@ public class VibeMeter : MonoBehaviour
         ChangeVibe -= ChangeVibeCallback;
     }
 
-    private void Update()
-    {
-        // fillImage.fillAmount = Mathf.MoveTowards(fillImage.fillAmount, _vibeMeter / 100.0f, 0.3f * Time.deltaTime);
-    }
-
     private void DoomsdayArrived()
     {
         if (_vibeMeter >= winThreshold)
@@ -128,13 +131,37 @@ public class VibeMeter : MonoBehaviour
                 {
                     _dangerColorTween.PlayForward();
                 }
-            });
+            })
+            .OnComplete(() => { _vibeChangeTweenActive = false; });
     }
 
-    private void ChangeVibeCallback(float vibeValueToAdd)
+    private void ChangeVibeCallback(float valueToAdd, bool playAudio)
     {
-        _vibeMeter += vibeValueToAdd;
+        _vibeMeter += valueToAdd;
         SetVibe(_vibeMeter);
+
+        if (playAudio && !_vibeChangeTweenActive)
+        {
+            _vibeChangeTweenActive = true;
+            if (Mathf.Sign(valueToAdd) > 0.0f)
+            {
+                increaseAudio.Play();
+            }
+            else
+            {
+                decreaseAudio.Play();
+            }
+        }
+    }
+
+    public void Tutorial_PlayVibeIncreaseSound()
+    {
+        increaseAudio.Play();
+    }
+
+    public void Tutorial_PlayVibeDecreaseSound()
+    {
+        decreaseAudio.Play();
     }
 
     private void DoomsdayReminder()

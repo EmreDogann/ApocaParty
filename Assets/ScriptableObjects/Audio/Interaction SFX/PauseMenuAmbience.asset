@@ -13,21 +13,20 @@ MonoBehaviour:
   m_Name: PauseMenuAmbience
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: 2dbdc8b9b77f70d48b9c032c91947620, type: 3}
   - {fileID: 8300000, guid: e877c5498c97f974e97901fd1e6a4353, type: 3}
   audioMixer: {fileID: -2142215581130782871, guid: 04f137b61e667dc49a2cdb18829ed819, type: 2}
   volume:
-    Min: 0.38850388
-    Max: 0.38850388
+    Min: 0.04245013
+    Max: 0.04245013
   useSemitones: 0
   semitones:
-    Min: 0
-    Max: 0
+    Min: 4
+    Max: 5
   pitch:
-    Min: 1
-    Max: 1
-  Looping: 0
+    Min: 1.2326032
+    Max: 1.3372747
+  Looping: 1
   CanBePaused: 0
-  playOrder: 0
+  playOrder: 1
   currentPlayIndex: 0
   audioEvent: {fileID: 11400000, guid: 6c5f128f58f1e1946b9be8d4fcd88dbf, type: 2}

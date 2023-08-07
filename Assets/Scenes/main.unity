@@ -428,6 +428,42 @@ Transform:
   m_Father: {fileID: 1671601934}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &20388794
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &21695898
 GameObject:
   m_ObjectHideFlags: 0
@@ -1593,42 +1629,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!21 &73330069
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &73710981
 GameObject:
   m_ObjectHideFlags: 0
@@ -13236,8 +13236,6 @@ MonoBehaviour:
   spillDrinkCheckFrequency: 10
   walkToDrinksChance: 0.1
   consumeProgressBar: {fileID: 1841687294}
-  vibeIncrease: {fileID: 11400000, guid: a1d5b12265dc4754fadb86ca9e1cc16f, type: 2}
-  vibeDecrease: {fileID: 11400000, guid: 02ed64f56d8241a41868fb114abc348d, type: 2}
   <AssignedTableSeat>k__BackingField: {fileID: 0}
 --- !u!114 &480713139
 MonoBehaviour:
@@ -13833,7 +13831,7 @@ MonoBehaviour:
   goodMusic: {fileID: 11400000, guid: 957356ce2f9370e4489df98a7fc33da7, type: 2}
   badMusic: {fileID: 11400000, guid: a86a13513811650458f8fac210aad6bc, type: 2}
   transitionAudio: {fileID: 11400000, guid: db7147622df37e043b7f23787a3bb94f, type: 2}
-  playMusicOnAwake: 1
+  playMusicOnAwake: 0
   musicTransitionDuration: 0.2
   onGamePausedListener: {fileID: 490362101}
   machineBreaksEvent: {fileID: 490362100}
@@ -13981,7 +13979,7 @@ Transform:
   - {fileID: 10534236}
   - {fileID: 1092818129}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &507680489
 PrefabInstance:
@@ -14192,7 +14190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5299949603845958436, guid: 78779a700465a714194af07a1dc43e85, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5299949603845958436, guid: 78779a700465a714194af07a1dc43e85, type: 3}
       propertyPath: m_LocalPosition.x
@@ -20376,8 +20374,6 @@ MonoBehaviour:
   spillDrinkCheckFrequency: 10
   walkToDrinksChance: 0
   consumeProgressBar: {fileID: 1667255497}
-  vibeIncrease: {fileID: 11400000, guid: a1d5b12265dc4754fadb86ca9e1cc16f, type: 2}
-  vibeDecrease: {fileID: 11400000, guid: 02ed64f56d8241a41868fb114abc348d, type: 2}
   <AssignedTableSeat>k__BackingField: {fileID: 0}
 --- !u!114 &573746076
 MonoBehaviour:
@@ -23055,7 +23051,7 @@ Transform:
   - {fileID: 660862778}
   - {fileID: 1671601934}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &744024075
 MonoBehaviour:
@@ -24029,7 +24025,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5299949603845958436, guid: 78779a700465a714194af07a1dc43e85, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5299949603845958436, guid: 78779a700465a714194af07a1dc43e85, type: 3}
       propertyPath: m_LocalPosition.x
@@ -24704,7 +24700,7 @@ Transform:
   - {fileID: 578995014}
   - {fileID: 1412333056}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &827416752
 GameObject:
@@ -26246,6 +26242,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 882434798}
   m_CullTransparentMesh: 1
+--- !u!21 &890683507
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &895755948
 GameObject:
   m_ObjectHideFlags: 0
@@ -27761,7 +27793,7 @@ Transform:
   - {fileID: 1351673539}
   - {fileID: 1302838608}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1015231683
 GameObject:
@@ -28408,42 +28440,6 @@ Transform:
   m_Father: {fileID: 184645034}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &1061166217
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &1069140010
 GameObject:
   m_ObjectHideFlags: 0
@@ -28984,7 +28980,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5299949603845958436, guid: 78779a700465a714194af07a1dc43e85, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5299949603845958436, guid: 78779a700465a714194af07a1dc43e85, type: 3}
       propertyPath: m_LocalPosition.x
@@ -31622,8 +31618,6 @@ MonoBehaviour:
   spillDrinkCheckFrequency: 10
   walkToDrinksChance: 0
   consumeProgressBar: {fileID: 769770751}
-  vibeIncrease: {fileID: 11400000, guid: a1d5b12265dc4754fadb86ca9e1cc16f, type: 2}
-  vibeDecrease: {fileID: 11400000, guid: 02ed64f56d8241a41868fb114abc348d, type: 2}
   <AssignedTableSeat>k__BackingField: {fileID: 0}
 --- !u!114 &1225039945
 MonoBehaviour:
@@ -42784,7 +42778,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5299949603845958436, guid: 78779a700465a714194af07a1dc43e85, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5299949603845958436, guid: 78779a700465a714194af07a1dc43e85, type: 3}
       propertyPath: m_LocalPosition.x
@@ -59344,6 +59338,8 @@ MonoBehaviour:
   winThreshold: 60
   fillImage: {fileID: 1723594752}
   dangerFillColor: {r: 0.84705883, g: 0.5404235, b: 0.5404235, a: 1}
+  increaseAudio: {fileID: 11400000, guid: a1d5b12265dc4754fadb86ca9e1cc16f, type: 2}
+  decreaseAudio: {fileID: 11400000, guid: 02ed64f56d8241a41868fb114abc348d, type: 2}
   OnGamePauseEvent: {fileID: 11400000, guid: e59e361bbc631394aa81424b2bd4983e, type: 2}
   _vibeMeter: 75
   onGameWin:
@@ -59408,6 +59404,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 7b3e9887b5a427940a0026d1a50beb72, type: 2}
     - {fileID: 11400000, guid: 46cde49970d025c4bad3984da18aa2ef, type: 2}
     - {fileID: 11400000, guid: 42c9ae72e09fe7a4eb43d94096e49b4f, type: 2}
+    - {fileID: 11400000, guid: 9a754208d53b6fc4588a6cca7c61a7e0, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -59437,6 +59434,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 1405713505}
+          m_TargetAssemblyTypeName: VibeMeter, Assembly-CSharp
+          m_MethodName: Tutorial_PlayVibeDecreaseSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1405713505}
@@ -59448,6 +59457,20 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 75
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1405713505}
+          m_TargetAssemblyTypeName: VibeMeter, Assembly-CSharp
+          m_MethodName: Tutorial_PlayVibeIncreaseSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
@@ -60789,6 +60812,54 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!1 &1490343351
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1490343353}
+  - component: {fileID: 1490343352}
+  m_Layer: 0
+  m_Name: AmbiencePlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1490343352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490343351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 779c566fbf1843b0a63860e0fb2e76ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioToPlay: {fileID: 11400000, guid: c7b6abc4929a4c640b2caed58c375d63, type: 2}
+  attachToGameObject: {fileID: 0}
+  fadeIn: 1
+  fadeInDuration: 1
+--- !u!4 &1490343353
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490343351}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -20}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1505144139 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5299949603845958435, guid: 78779a700465a714194af07a1dc43e85, type: 3}
@@ -61833,6 +61904,42 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!21 &1587237871
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &1597918914
 GameObject:
   m_ObjectHideFlags: 0
@@ -61957,7 +62064,7 @@ Transform:
   - {fileID: 1396642679}
   - {fileID: 1141348333}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &1605618388
 NavMeshAgent:
@@ -62508,7 +62615,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5299949603845958436, guid: 78779a700465a714194af07a1dc43e85, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5299949603845958436, guid: 78779a700465a714194af07a1dc43e85, type: 3}
       propertyPath: m_LocalPosition.x
@@ -65263,8 +65370,6 @@ MonoBehaviour:
   spillDrinkCheckFrequency: 10
   walkToDrinksChance: 0
   consumeProgressBar: {fileID: 733983084}
-  vibeIncrease: {fileID: 0}
-  vibeDecrease: {fileID: 0}
   <AssignedTableSeat>k__BackingField: {fileID: 1752681690}
 --- !u!114 &1746893842
 MonoBehaviour:
@@ -65494,6 +65599,42 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!21 &1765809056
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!21 &1778256351
 Material:
   serializedVersion: 8
@@ -65748,42 +65889,6 @@ MonoBehaviour:
     thirst: 0
     enjoyment: 0
   moodPoints: -1
---- !u!21 &1805752845
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1001 &1809888572
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65993,7 +66098,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5299949603845958436, guid: 78779a700465a714194af07a1dc43e85, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5299949603845958436, guid: 78779a700465a714194af07a1dc43e85, type: 3}
       propertyPath: m_LocalPosition.x
@@ -68463,7 +68568,7 @@ Transform:
   - {fileID: 837127632}
   - {fileID: 417576380}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2005770833
 GameObject:
@@ -68498,7 +68603,7 @@ Transform:
   - {fileID: 1538724053}
   - {fileID: 1642062914}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2005770835
 MonoBehaviour:
@@ -69535,8 +69640,6 @@ MonoBehaviour:
   spillDrinkCheckFrequency: 10
   walkToDrinksChance: 0
   consumeProgressBar: {fileID: 1763318788}
-  vibeIncrease: {fileID: 11400000, guid: a1d5b12265dc4754fadb86ca9e1cc16f, type: 2}
-  vibeDecrease: {fileID: 11400000, guid: 02ed64f56d8241a41868fb114abc348d, type: 2}
   <AssignedTableSeat>k__BackingField: {fileID: 0}
 --- !u!114 &2120844948
 MonoBehaviour:
@@ -69594,42 +69697,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 29
   m_ObstacleAvoidanceType: 0
---- !u!21 &2126832474
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &2127147314
 GameObject:
   m_ObjectHideFlags: 0

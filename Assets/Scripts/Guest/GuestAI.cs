@@ -1,5 +1,4 @@
 using Actors;
-using Audio;
 using Consumable;
 using Dialogue;
 using DiningTable;
@@ -56,10 +55,6 @@ namespace Guest
 
         [Separator("UI")]
         public ProgressBar consumeProgressBar;
-
-        [Separator("Audio")]
-        [SerializeField] private AudioSO vibeIncrease;
-        [SerializeField] private AudioSO vibeDecrease;
 
         public NeedSystem needSystem { get; private set; }
         public Camera _mainCamera { get; private set; }
@@ -145,16 +140,11 @@ namespace Guest
         {
             if (_guestType != GuestType.Henchmen)
             {
-                VibeMeter.ChangeVibe.Invoke(10);
+                VibeMeter.ChangeVibe.Invoke(10, !TutorialMode);
             }
             else
             {
-                VibeMeter.ChangeVibe.Invoke(5);
-            }
-
-            if (!TutorialMode)
-            {
-                vibeIncrease.Play(transform.position);
+                VibeMeter.ChangeVibe.Invoke(5, !TutorialMode);
             }
         }
 
@@ -162,27 +152,12 @@ namespace Guest
         {
             if (_guestType != GuestType.Henchmen)
             {
-                VibeMeter.ChangeVibe.Invoke(-15);
+                VibeMeter.ChangeVibe.Invoke(-15, !TutorialMode);
             }
             else
             {
-                VibeMeter.ChangeVibe.Invoke(-5);
+                VibeMeter.ChangeVibe.Invoke(-5, !TutorialMode);
             }
-
-            if (!TutorialMode)
-            {
-                vibeDecrease.Play(transform.position);
-            }
-        }
-
-        public void Tutorial_PlayVibeIncreaseSound()
-        {
-            vibeIncrease.Play(transform.position);
-        }
-
-        public void Tutorial_PlayVibeDecreaseSound()
-        {
-            vibeDecrease.Play(transform.position);
         }
 
         public void AssignTableSeat(TableSeat tableSeat, bool goToSeat)
@@ -298,19 +273,11 @@ namespace Guest
 
                     if (_guestType == GuestType.Famine)
                     {
-                        VibeMeter.ChangeVibe.Invoke(10);
-                        if (!TutorialMode)
-                        {
-                            vibeIncrease.Play(transform.position);
-                        }
+                        VibeMeter.ChangeVibe.Invoke(10, !TutorialMode);
                     }
                     else
                     {
-                        VibeMeter.ChangeVibe.Invoke(-5);
-                        if (!TutorialMode)
-                        {
-                            vibeDecrease.Play(transform.position);
-                        }
+                        VibeMeter.ChangeVibe.Invoke(-5, !TutorialMode);
                     }
 
                     return;
@@ -333,16 +300,11 @@ namespace Guest
 
             if (_guestType != GuestType.Henchmen)
             {
-                VibeMeter.ChangeVibe.Invoke(-5);
+                VibeMeter.ChangeVibe.Invoke(-5, !TutorialMode);
             }
             else
             {
-                VibeMeter.ChangeVibe.Invoke(-3);
-            }
-
-            if (!TutorialMode)
-            {
-                vibeDecrease.Play(transform.position);
+                VibeMeter.ChangeVibe.Invoke(-3, !TutorialMode);
             }
         }
 

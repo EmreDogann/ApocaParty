@@ -20,11 +20,11 @@ MonoBehaviour:
     Max: 0.17244186
   useSemitones: 0
   semitones:
-    Min: 3
-    Max: 5
+    Min: 5
+    Max: 7
   pitch:
-    Min: 1.1956787
-    Max: 1.3546677
+    Min: 1.3468708
+    Max: 1.5058597
   Looping: 0
   CanBePaused: 1
   playOrder: 1

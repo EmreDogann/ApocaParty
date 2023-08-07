@@ -943,8 +943,6 @@ MonoBehaviour:
   spillDrinkCheckFrequency: 2
   walkToDrinksChance: 0.1
   consumeProgressBar: {fileID: 1569825453185458515}
-  vibeIncrease: {fileID: 11400000, guid: a1d5b12265dc4754fadb86ca9e1cc16f, type: 2}
-  vibeDecrease: {fileID: 11400000, guid: 02ed64f56d8241a41868fb114abc348d, type: 2}
   <AssignedTableSeat>k__BackingField: {fileID: 0}
 --- !u!114 &5299949603845958432
 MonoBehaviour:
