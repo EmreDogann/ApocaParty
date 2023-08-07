@@ -124,6 +124,17 @@ namespace Guest
             StartCoroutine(WaitForGuestSitDown(aiActiveOnSitdown));
         }
 
+        public void Tutorial_ForceSitDown()
+        {
+            for (int i = 0; i < _guests.Count; i++)
+            {
+                if (!_guests[i].IsSittingAtSeat())
+                {
+                    _guests[i].WarpToSeat();
+                }
+            }
+        }
+
         private IEnumerator WaitForGuestSitDown(bool activateOnSitdown)
         {
             while (true)

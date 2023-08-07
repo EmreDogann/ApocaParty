@@ -18,7 +18,7 @@ namespace Timeline
 
         private void OnDisable()
         {
-            needSystem.OnNeedsResolved += OnNeedsResolved;
+            needSystem.OnNeedsResolved -= OnNeedsResolved;
         }
 
         private void OnNeedsResolved()

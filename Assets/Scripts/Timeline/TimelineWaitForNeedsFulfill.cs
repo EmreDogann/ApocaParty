@@ -8,9 +8,7 @@ namespace Timeline
     public class TimelineWaitForNeedsFulfill : MonoBehaviour
     {
         [SerializeField] private List<NeedSystem> guestsToWaitFor;
-        [SerializeField] private NeedType targetNeed;
 
-        private int _needsFulfilledCount;
         private bool _waitingForNeedsFulfill;
         private PlayableDirector _currentDirector;
 
@@ -26,7 +24,7 @@ namespace Timeline
         {
             foreach (NeedSystem needSystem in guestsToWaitFor)
             {
-                needSystem.OnNeedFulfilled += OnNeedFulfilled;
+                needSystem.OnNeedFulfilled -= OnNeedFulfilled;
             }
         }
 
@@ -37,19 +35,18 @@ namespace Timeline
                 return;
             }
 
-            if (needType == targetNeed)
+            foreach (NeedSystem guest in guestsToWaitFor)
             {
-                _needsFulfilledCount++;
+                if (guest.HasNeed())
+                {
+                    return;
+                }
             }
 
-            if (_needsFulfilledCount == guestsToWaitFor.Count)
-            {
-                _currentDirector.playableGraph.GetRootPlayable(0).SetSpeed(1);
-                _currentDirector = null;
+            _currentDirector.playableGraph.GetRootPlayable(0).SetSpeed(1);
+            _currentDirector = null;
 
-                _waitingForNeedsFulfill = false;
-                _needsFulfilledCount = 0;
-            }
+            _waitingForNeedsFulfill = false;
         }
 
         public void WaitForNeedsFulfill(PlayableDirector director)

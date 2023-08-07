@@ -15,6 +15,7 @@ namespace Needs.Needs
         [SerializeField] private float expirationTime = 20.0f;
         [SerializeField] private RandomConversationSO randomConversations;
         private float _currentTime;
+        private bool _isPaused;
 
         public void Awake()
         {
@@ -23,7 +24,10 @@ namespace Needs.Needs
 
         public void UpdateTimer(float deltaTime)
         {
-            _currentTime += deltaTime;
+            if (!_isPaused)
+            {
+                _currentTime += deltaTime;
+            }
         }
 
         public void ResetNeed(float startingTime = 0.0f)
@@ -46,9 +50,24 @@ namespace Needs.Needs
             return 1 - Mathf.Clamp01(_currentTime / expirationTime);
         }
 
+        public void ExpireNeed()
+        {
+            _currentTime = expirationTime;
+        }
+
+        public void SetNeedPause(bool isPaused)
+        {
+            _isPaused = isPaused;
+        }
+
         public bool IsExpired()
         {
             return _currentTime >= expirationTime;
+        }
+
+        public bool IsPaused()
+        {
+            return _isPaused;
         }
 
         public RandomConversationSO GetRandomConversations()

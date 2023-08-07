@@ -147,8 +147,20 @@ namespace Needs
             NeedsIconData iconData = _currentlyActiveIcons.FirstOrDefault(x => x.needType == needType);
             if (iconData != null)
             {
-                iconData.icon.fillAmount = Mathf.Clamp01(progressPercentage);
+                iconData.icon.fillAmount = Mathf.MoveTowards(iconData.icon.fillAmount,
+                    Mathf.Clamp01(progressPercentage), 1.0f * Time.deltaTime);
             }
+        }
+
+        public bool HasReachedProgress(NeedType needType, float progressPercentage)
+        {
+            NeedsIconData iconData = _currentlyActiveIcons.FirstOrDefault(x => x.needType == needType);
+            if (iconData != null)
+            {
+                return iconData.icon.fillAmount <= progressPercentage;
+            }
+
+            return false;
         }
 
         public void AddDisplay(NeedType needType)
@@ -157,6 +169,26 @@ namespace Needs
             if (iconData != null)
             {
                 if (useUnresolvedSymbol)
+                {
+                    iconData.needResolved = false;
+                    _unknownRequestTween.PlayForward();
+                }
+                else
+                {
+                    iconData.needResolved = true;
+                    iconData.PopupEffect.PlayForward();
+                }
+
+                _currentlyActiveIcons.Add(iconData);
+            }
+        }
+
+        public void AddDisplay(NeedType needType, bool startResolved)
+        {
+            NeedsIconData iconData = needsIconDatas.FirstOrDefault(x => x.needType == needType);
+            if (iconData != null)
+            {
+                if (useUnresolvedSymbol && !startResolved)
                 {
                     iconData.needResolved = false;
                     _unknownRequestTween.PlayForward();

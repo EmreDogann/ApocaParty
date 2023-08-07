@@ -1,4 +1,5 @@
 using Actors;
+using Audio;
 using Consumable;
 using Dialogue;
 using DiningTable;
@@ -56,12 +57,15 @@ namespace Guest
         [Separator("UI")]
         public ProgressBar consumeProgressBar;
 
+        [Separator("Audio")]
+        [SerializeField] private AudioSO vibeIncrease;
+        [SerializeField] private AudioSO vibeDecrease;
+
         public NeedSystem needSystem { get; private set; }
         public Camera _mainCamera { get; private set; }
         [field: SerializeReference] public TableSeat AssignedTableSeat { get; private set; }
 
         private GuestIdleState _guestIdleState;
-        private GuestMovingState _guestMovingState;
         private GuestConsumeState _guestConsumeState;
         private GuestGetConsumableState _guestGetConsumableState;
         private GuestMoveToSeatState _guestMoveToSeatState;
@@ -70,9 +74,10 @@ namespace Guest
 
         private int _waiterID;
         private bool _isAssignedWaiter;
+        internal bool _isSittingAtSeat;
+        public bool TutorialMode { get; private set; }
 
         private bool _isAIActive;
-        public bool TutorialMode { get; private set; }
 
         private void Awake()
         {
@@ -88,13 +93,11 @@ namespace Guest
 
             stateMachine = new GuestStateMachine();
             _guestIdleState = new GuestIdleState(this, stateMachine);
-            _guestMovingState = new GuestMovingState(this, stateMachine);
             _guestConsumeState = new GuestConsumeState(this, stateMachine);
             _guestGetConsumableState = new GuestGetConsumableState(this, stateMachine);
             _guestMoveToSeatState = new GuestMoveToSeatState(this, stateMachine);
 
             stateMachine.RegisterState(_guestIdleState);
-            stateMachine.RegisterState(_guestMovingState);
             stateMachine.RegisterState(_guestConsumeState);
             stateMachine.RegisterState(_guestGetConsumableState);
             stateMachine.RegisterState(_guestMoveToSeatState);
@@ -112,16 +115,18 @@ namespace Guest
 
         private void OnEnable()
         {
-            VibeMeter.VibeCheck += VibeCheck;
             PartyEvent.OnPartyEvent += OnPartyEvent;
             needSystem.OnNewNeed += OnNewNeed;
+            needSystem.OnNeedFulfilled += OnNeedFulfilled;
+            needSystem.OnNeedExpired += OnNeedExpired;
         }
 
         private void OnDisable()
         {
-            VibeMeter.VibeCheck -= VibeCheck;
             PartyEvent.OnPartyEvent -= OnPartyEvent;
             needSystem.OnNewNeed -= OnNewNeed;
+            needSystem.OnNeedFulfilled -= OnNeedFulfilled;
+            needSystem.OnNeedExpired -= OnNeedExpired;
         }
 
         private void Update()
@@ -134,12 +139,48 @@ namespace Guest
             stateMachine.UpdateState();
         }
 
-        private void VibeCheck()
+        private void OnNeedFulfilled(NeedType needType)
         {
             if (_guestType != GuestType.Henchmen)
             {
-                VibeMeter.ChangeVibe.Invoke(needSystem.IsSatisfied() ? 5 : -5);
+                VibeMeter.ChangeVibe.Invoke(10);
             }
+            else
+            {
+                VibeMeter.ChangeVibe.Invoke(5);
+            }
+
+            if (!TutorialMode)
+            {
+                vibeIncrease.Play(transform.position);
+            }
+        }
+
+        private void OnNeedExpired(NeedType needType)
+        {
+            if (_guestType != GuestType.Henchmen)
+            {
+                VibeMeter.ChangeVibe.Invoke(-15);
+            }
+            else
+            {
+                VibeMeter.ChangeVibe.Invoke(-5);
+            }
+
+            if (!TutorialMode)
+            {
+                vibeDecrease.Play(transform.position);
+            }
+        }
+
+        public void Tutorial_PlayVibeIncreaseSound()
+        {
+            vibeIncrease.Play(transform.position);
+        }
+
+        public void Tutorial_PlayVibeDecreaseSound()
+        {
+            vibeDecrease.Play(transform.position);
         }
 
         public void AssignTableSeat(TableSeat tableSeat, bool goToSeat)
@@ -148,8 +189,19 @@ namespace Guest
             AssignedTableSeat = tableSeat;
             if (goToSeat)
             {
-                SetDestination(tableSeat.transform.position);
+                stateMachine.ChangeState(GuestStateID.MoveToSeat);
             }
+        }
+
+        public void WarpToSeat()
+        {
+            navMeshAgent.Warp(AssignedTableSeat.GetSeatTransform().position);
+            _isSittingAtSeat = true;
+        }
+
+        public bool IsSittingAtSeat()
+        {
+            return _isSittingAtSeat;
         }
 
         public void ActivateAI()
@@ -160,7 +212,8 @@ namespace Guest
         public void SetActiveTutorialMode(bool isActive)
         {
             TutorialMode = isActive;
-            if (TutorialMode && !_isAIActive)
+            needSystem.SetTutorialMode(isActive);
+            if (!_isAIActive)
             {
                 ActivateAI();
             }
@@ -200,11 +253,6 @@ namespace Guest
 
         private void OnNewNeed(INeed need)
         {
-            if (TutorialMode)
-            {
-                return;
-            }
-
             switch (need.GetNeedType())
             {
                 case NeedType.Drink:

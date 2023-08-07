@@ -1,24 +1,36 @@
 using UnityEngine;
 
+[ExecuteAlways]
 public class ScaleToScreenSize : MonoBehaviour
 {
+    [SerializeField] private bool runOnAwake;
+    [SerializeField] private bool runOnUpdate;
+
     private Vector2 _lastScreenSize;
 
     private void Awake()
     {
-        Resize();
+        if (runOnAwake)
+        {
+            Resize();
+        }
     }
 
-    // private void Update()
-    // {
-    //     Vector2 screenSize = new Vector2(Screen.width, Screen.height);
-    //
-    //     if (_lastScreenSize != screenSize)
-    //     {
-    //         _lastScreenSize = screenSize;
-    //         Resize();
-    //     }
-    // }
+    private void Update()
+    {
+        if (!runOnUpdate)
+        {
+            return;
+        }
+
+        Vector2 screenSize = new Vector2(Screen.width, Screen.height);
+
+        if (_lastScreenSize != screenSize)
+        {
+            _lastScreenSize = screenSize;
+            Resize();
+        }
+    }
 
     private void Resize()
     {

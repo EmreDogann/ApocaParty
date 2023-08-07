@@ -16,11 +16,6 @@ namespace Guest.States
 
         public override void Tick()
         {
-            if (guest.TutorialMode)
-            {
-                return;
-            }
-
             guest.needSystem.Tick();
         }
 

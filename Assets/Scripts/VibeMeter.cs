@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Events;
 using MyBox;
 using UI.Components;
@@ -8,18 +9,68 @@ using UnityEngine.UI;
 
 public class VibeMeter : MonoBehaviour
 {
-    [SerializeField] private float winThreshold;
+    [Separator("Threshold")]
+    [SerializeField] private Image thresholdImage;
+    [SerializeField] private Image thresholdFill;
+
+    [Separator("Vibe Meter")]
+    [Range(0.0f, 100.0f)] [SerializeField] private float winThreshold;
     [SerializeField] private Image fillImage;
-    [SerializeField] private CanvasGroup fadeOutCanvasGroup;
+    [SerializeField] private Color dangerFillColor;
+
     [SerializeField] private BoolEventChannelSO OnGamePauseEvent;
 
-    [ReadOnly] [SerializeField] private float _vibeMeter = 100.0f;
+    [Range(0.0f, 100.0f)] [SerializeField] private float _vibeMeter = 100.0f;
 
     public static event Action VibeCheck;
     public static Action<float> ChangeVibe;
 
     public UnityEvent onGameWin;
     public UnityEvent onGameLose;
+
+    private Tween _vibeChangeTween;
+    private Tween _dangerColorTween;
+
+    private void Awake()
+    {
+        if (thresholdImage != null)
+        {
+            Vector2 anchoredPosition = thresholdImage.rectTransform.anchoredPosition;
+            anchoredPosition.y = winThreshold / 100.0f * fillImage.rectTransform.sizeDelta.y -
+                                 fillImage.rectTransform.sizeDelta.y / 2.0f;
+
+            thresholdImage.rectTransform.anchoredPosition = anchoredPosition;
+        }
+
+        if (thresholdFill != null)
+        {
+            thresholdFill.fillAmount = winThreshold / 100.0f;
+        }
+        
+        _dangerColorTween = fillImage
+            .DOColor(dangerFillColor, 0.8f)
+            .SetEase(Ease.InOutFlash)
+            .SetLoops(-1, LoopType.Yoyo);
+    }
+
+    private void OnValidate()
+    {
+        if (thresholdImage != null)
+        {
+            Vector2 anchoredPosition = thresholdImage.rectTransform.anchoredPosition;
+            anchoredPosition.y = winThreshold / 100.0f * fillImage.rectTransform.sizeDelta.y -
+                                 fillImage.rectTransform.sizeDelta.y / 2.0f;
+
+            thresholdImage.rectTransform.anchoredPosition = anchoredPosition;
+        }
+
+        if (thresholdFill != null)
+        {
+            thresholdFill.fillAmount = winThreshold / 100.0f;
+        }
+
+        fillImage.fillAmount = _vibeMeter / 100.0f;
+    }
 
     private void OnEnable()
     {
@@ -37,7 +88,7 @@ public class VibeMeter : MonoBehaviour
 
     private void Update()
     {
-        fillImage.fillAmount = _vibeMeter / 100.0f;
+        // fillImage.fillAmount = Mathf.MoveTowards(fillImage.fillAmount, _vibeMeter / 100.0f, 0.3f * Time.deltaTime);
     }
 
     private void DoomsdayArrived()
@@ -54,14 +105,41 @@ public class VibeMeter : MonoBehaviour
         OnGamePauseEvent?.Raise(true);
     }
 
-    private void ChangeVibeCallback(float vibeValue)
+    public void SetVibe(float vibeValue)
     {
-        _vibeMeter += vibeValue;
-        _vibeMeter = Mathf.Clamp(_vibeMeter, 0.0f, 100.0f);
+        _vibeMeter = Mathf.Clamp(vibeValue, 0.0f, 100.0f);
+
+        _vibeChangeTween.Kill(true);
+        _vibeChangeTween = fillImage
+            .DOFillAmount(_vibeMeter / 100.0f, 0.7f)
+            .SetEase(Ease.OutBack, 0.8f)
+            .OnUpdate(() =>
+            {
+                if (_dangerColorTween.IsPlaying())
+                {
+                    if (_vibeMeter >= winThreshold)
+                    {
+                        _dangerColorTween.Rewind();
+                    }
+
+                    return;
+                }
+
+                if (_vibeMeter < winThreshold)
+                {
+                    _dangerColorTween.PlayForward();
+                }
+            });
+    }
+
+    private void ChangeVibeCallback(float vibeValueToAdd)
+    {
+        _vibeMeter += vibeValueToAdd;
+        SetVibe(_vibeMeter);
     }
 
     private void DoomsdayReminder()
     {
-        VibeCheck?.Invoke();
+        // VibeCheck?.Invoke();
     }
 }

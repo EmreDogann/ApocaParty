@@ -90,10 +90,12 @@ namespace Needs
         private readonly float _needCheckFrequency = 3.0f;
         private float _currentTime;
         private float _needTimer;
+        public bool TutorialMode { get; private set; }
 
         public event Action OnNeedsResolved;
         public event Action<INeed> OnNewNeed;
         public event Action<NeedType> OnNeedFulfilled;
+        public event Action<NeedType> OnNeedExpired;
 
         private void Awake()
         {
@@ -106,28 +108,35 @@ namespace Needs
 
         public void Tick()
         {
-            _currentMetrics -= _metricsDepletionRate * Time.deltaTime;
-
-            if (enableMoods)
+            if (!TutorialMode)
             {
-                mood.Tick();
+                _currentMetrics -= _metricsDepletionRate * Time.deltaTime;
+                if (enableMoods)
+                {
+                    mood.Tick();
+                }
             }
 
             for (int i = _currentNeeds.Count - 1; i >= 0; i--)
             {
-                _currentNeeds[i].UpdateTimer(Time.deltaTime);
                 needsDisplayer.UpdateProgress(_currentNeeds[i].GetNeedType(), _currentNeeds[i].GetTimerProgress());
-                if (_currentNeeds[i].IsExpired())
+                if (_currentNeeds[i].IsExpired() && needsDisplayer.HasReachedProgress(_currentNeeds[i].GetNeedType(),
+                        _currentNeeds[i].GetTimerProgress()))
                 {
                     if (enableMoods)
                     {
                         mood.ChangeMood(-1);
                     }
 
+                    OnNeedExpired?.Invoke(_currentNeeds[i].GetNeedType());
                     _currentMetrics += _currentNeeds[i].GetPunishment();
                     RemoveNeed(_currentNeeds[i]);
 
                     _needTimer = needCooldown;
+                }
+                else
+                {
+                    _currentNeeds[i].UpdateTimer(Time.deltaTime);
                 }
             }
 
@@ -159,6 +168,11 @@ namespace Needs
             {
                 TryAddNeed(NeedType.Music);
             }
+        }
+
+        public void SetTutorialMode(bool isActive)
+        {
+            TutorialMode = isActive;
         }
 
         public void TryFulfillNeed(NeedType needType, NeedMetrics metricsReward, int moodReward)
@@ -196,6 +210,11 @@ namespace Needs
             }
 
             return false;
+        }
+
+        public bool HasNeed()
+        {
+            return _currentNeeds.Count > 0;
         }
 
         public List<Message> GetUnknownNeedConversations()
@@ -252,6 +271,13 @@ namespace Needs
             _currentNeeds.Add(need);
             OnNewNeed?.Invoke(need);
         }
+        
+        private void AddNeed(INeed need, bool startAsResolved)
+        {
+            needsDisplayer.AddDisplay(need.GetNeedType(), startAsResolved);
+            _currentNeeds.Add(need);
+            OnNewNeed?.Invoke(need);
+        }
 
         private void RemoveNeed(INeed need)
         {
@@ -279,6 +305,19 @@ namespace Needs
                 }
             }
         }
+        
+        public void TryAddNeed(NeedType needType, bool startAsResolved, float startingExpirationTime = -1.0f)
+        {
+            if (_currentNeeds.FirstOrDefault(x => x.GetNeedType() == needType) == null)
+            {
+                INeed need = GenerateNeed(needType);
+                if (need != null)
+                {
+                    need.ResetNeed(startingExpirationTime < 0.0f ? 0.0f : startingExpirationTime);
+                    AddNeed(need, startAsResolved);
+                }
+            }
+        }
 
         public void TryRemoveNeed(NeedType needType)
         {
@@ -287,6 +326,24 @@ namespace Needs
             {
                 RemoveNeed(need);
             }
+        }
+
+        public void TryExpireNeed(NeedType needType)
+        {
+            INeed need = _currentNeeds.FirstOrDefault(x => x.GetNeedType() == needType);
+            need?.ExpireNeed();
+        }
+
+        public void TryPauseNeed(NeedType needType)
+        {
+            INeed need = _currentNeeds.FirstOrDefault(x => x.GetNeedType() == needType);
+            need?.SetNeedPause(true);
+        }
+
+        public void TryUnpauseNeed(NeedType needType)
+        {
+            INeed need = _currentNeeds.FirstOrDefault(x => x.GetNeedType() == needType);
+            need?.SetNeedPause(false);
         }
 
         [CanBeNull]

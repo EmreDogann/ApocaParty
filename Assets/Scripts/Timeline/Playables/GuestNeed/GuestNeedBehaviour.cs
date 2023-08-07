@@ -10,7 +10,10 @@ namespace Timeline.Playables.GuestNeed
     {
         AddNeed,
         RemoveNeed,
-        FulfillNeed
+        ExpireNeed,
+        FulfillNeed,
+        PauseNeed,
+        UnpauseNeed
     }
 
     [Serializable]
@@ -20,6 +23,10 @@ namespace Timeline.Playables.GuestNeed
         public TimelineGuestNeedAction needAction;
         public NeedType needType;
 
+        [ConditionalField(nameof(needAction), false, TimelineGuestNeedAction.AddNeed)]
+        public bool pauseOnAdd;
+        [ConditionalField(nameof(needAction), false, TimelineGuestNeedAction.AddNeed)]
+        public bool startAsResolved;
         [ConditionalField(nameof(needAction), false, TimelineGuestNeedAction.AddNeed)]
         public float startingExpirationTime;
 
@@ -55,10 +62,32 @@ namespace Timeline.Playables.GuestNeed
             switch (needAction)
             {
                 case TimelineGuestNeedAction.AddNeed:
-                    guest.needSystem.TryAddNeed(needType, startingExpirationTime);
+                    if (startAsResolved)
+                    {
+                        guest.needSystem.TryAddNeed(needType, startAsResolved, startingExpirationTime);
+                    }
+                    else
+                    {
+                        guest.needSystem.TryAddNeed(needType, startingExpirationTime);
+                    }
+
+                    if (pauseOnAdd)
+                    {
+                        guest.needSystem.TryPauseNeed(needType);
+                    }
+
                     break;
                 case TimelineGuestNeedAction.RemoveNeed:
                     guest.needSystem.TryRemoveNeed(needType);
+                    break;
+                case TimelineGuestNeedAction.ExpireNeed:
+                    guest.needSystem.TryExpireNeed(needType);
+                    break;
+                case TimelineGuestNeedAction.PauseNeed:
+                    guest.needSystem.TryPauseNeed(needType);
+                    break;
+                case TimelineGuestNeedAction.UnpauseNeed:
+                    guest.needSystem.TryUnpauseNeed(needType);
                     break;
                 case TimelineGuestNeedAction.FulfillNeed:
                     guest.needSystem.TryFulfillNeed(needType, rewardMetric, moodReward);

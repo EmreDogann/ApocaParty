@@ -1,16 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-
+[ExecuteAlways]
 public class LetterBoxer : MonoBehaviour
-{    
-    public enum ReferenceMode { DesignedAspectRatio, OrginalResolution };
+{
+    public enum ReferenceMode
+    {
+        DesignedAspectRatio,
+        OrginalResolution
+    }
 
     public Color matteColor = new Color(0, 0, 0, 1);
-    public ReferenceMode referenceMode; 
-    public float x=16;
-    public float y=9;  
+    public ReferenceMode referenceMode;
+    public float x = 16;
+    public float y = 9;
     public float width = 960;
     public float height = 540;
     public bool onAwake = true;
@@ -54,12 +56,13 @@ public class LetterBoxer : MonoBehaviour
     private void AddLetterBoxingCamera()
     {
         // check that we don't have a camera already at -100 (lowest depth) which will cause issues
-        Camera[] allCameras = FindObjectsOfType<Camera>();
+        var allCameras = FindObjectsOfType<Camera>();
         foreach (Camera camera in allCameras)
-        {             
+        {
             if (camera.depth == -100)
             {
-                Debug.LogError("Found " + camera.name + " with a depth of -100. Will cause letter boxing issues. Please increase it's depth.");
+                Debug.LogError("Found " + camera.name +
+                               " with a depth of -100. Will cause letter boxing issues. Please increase it's depth.");
             }
         }
 
@@ -73,7 +76,7 @@ public class LetterBoxer : MonoBehaviour
         letterBoxerCamera.allowHDR = false;
         letterBoxerCamera.allowMSAA = false;
         letterBoxerCamera.clearFlags = CameraClearFlags.Color;
-        letterBoxerCamera.name = "Letter Boxer Camera";        
+        letterBoxerCamera.name = "Letter Boxer Camera";
     }
 
     // based on logic here from http://gamedesigntheory.blogspot.com/2010/09/controlling-aspect-ratio-in-unity.html
@@ -83,13 +86,13 @@ public class LetterBoxer : MonoBehaviour
         float targetRatio = x / y;
 
         // recalc if using resolution as reference
-        if (referenceMode == LetterBoxer.ReferenceMode.OrginalResolution)
+        if (referenceMode == ReferenceMode.OrginalResolution)
         {
             targetRatio = width / height;
         }
 
         // determine the game window's current aspect ratio
-        float windowaspect = (float)Screen.width / (float)Screen.height;
+        float windowaspect = Screen.width / (float)Screen.height;
 
         // current viewport height should be scaled by this amount
         float scaleheight = windowaspect / targetRatio;

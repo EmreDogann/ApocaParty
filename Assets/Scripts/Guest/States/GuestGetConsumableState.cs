@@ -18,6 +18,7 @@ namespace Guest.States
 
         public override void Enter()
         {
+            guest._isSittingAtSeat = false;
             if (guest.CurrentConsumable == null)
             {
                 _stateMachine.ChangeState(GuestStateID.Idle);

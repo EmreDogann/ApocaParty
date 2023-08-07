@@ -50,6 +50,9 @@ namespace Guest.States
             }
         }
 
-        public override void Exit() {}
+        public override void Exit()
+        {
+            guest._isSittingAtSeat = true;
+        }
     }
 }

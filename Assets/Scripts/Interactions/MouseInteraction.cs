@@ -9,7 +9,6 @@ namespace Interactions
     public class MouseInteraction : MonoBehaviour, IInteractionHandler
     {
         [SerializeField] private bool blockedByUI;
-
         [SerializeField] private LayerMask mask;
 
         private InteractableBase _hoverTarget;
