@@ -4,7 +4,9 @@ using UnityEditor;
 #endif
 
 // From: https://forum.unity.com/threads/solved-but-unhappy-scriptableobject-awake-never-execute.488468/#post-4483018
+#if UNITY_EDITOR
 [InitializeOnLoad]
+#endif
 public abstract class ManagedScriptableObject : ScriptableObject
 {
     protected abstract void OnBegin();
@@ -33,12 +35,12 @@ public abstract class ManagedScriptableObject : ScriptableObject
         }
     }
 #else
-        protected void OnEnable()
+        protected virtual void OnEnable()
         {
             OnBegin();
         }
  
-        protected void OnDisable()
+        protected virtual void OnDisable()
         {
             OnEnd();
         }

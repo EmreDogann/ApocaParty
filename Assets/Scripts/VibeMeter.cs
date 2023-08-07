@@ -2,7 +2,6 @@ using System;
 using DG.Tweening;
 using Events;
 using MyBox;
-using UI.Components;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -22,7 +21,6 @@ public class VibeMeter : MonoBehaviour
 
     [Range(0.0f, 100.0f)] [SerializeField] private float _vibeMeter = 100.0f;
 
-    public static event Action VibeCheck;
     public static Action<float> ChangeVibe;
 
     public UnityEvent onGameWin;
@@ -46,7 +44,7 @@ public class VibeMeter : MonoBehaviour
         {
             thresholdFill.fillAmount = winThreshold / 100.0f;
         }
-        
+
         _dangerColorTween = fillImage
             .DOColor(dangerFillColor, 0.8f)
             .SetEase(Ease.InOutFlash)
@@ -109,7 +107,7 @@ public class VibeMeter : MonoBehaviour
     {
         _vibeMeter = Mathf.Clamp(vibeValue, 0.0f, 100.0f);
 
-        _vibeChangeTween.Kill(true);
+        _vibeChangeTween.Kill();
         _vibeChangeTween = fillImage
             .DOFillAmount(_vibeMeter / 100.0f, 0.7f)
             .SetEase(Ease.OutBack, 0.8f)

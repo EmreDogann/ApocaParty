@@ -46,6 +46,17 @@ public class Bunting : MonoBehaviour
         enableBuntingFalling = isActive;
     }
 
+    public void Tutorial_TriggerBuntingFall()
+    {
+        _isBuntingFallen = true;
+        fallAudio.Play(transform.position);
+
+        buntingUpSprite.transform.gameObject.SetActive(false);
+        buntingDownSprite.transform.gameObject.SetActive(true);
+
+        _requestInteractable.SetInteractableActive(true);
+    }
+
     public void TriggerBuntingFall()
     {
         _isBuntingFallen = true;

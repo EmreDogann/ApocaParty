@@ -13,7 +13,7 @@ public class ScaleUIToTextSize : MonoBehaviour
         _rectTransform = transform as RectTransform;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         Vector2 textSize = text.GetRenderedValues(true);
         textSize.x *= 1.9f;

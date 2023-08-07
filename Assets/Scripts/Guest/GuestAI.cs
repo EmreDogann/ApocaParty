@@ -116,6 +116,7 @@ namespace Guest
         private void OnEnable()
         {
             PartyEvent.OnPartyEvent += OnPartyEvent;
+
             needSystem.OnNewNeed += OnNewNeed;
             needSystem.OnNeedFulfilled += OnNeedFulfilled;
             needSystem.OnNeedExpired += OnNeedExpired;
@@ -124,6 +125,7 @@ namespace Guest
         private void OnDisable()
         {
             PartyEvent.OnPartyEvent -= OnPartyEvent;
+
             needSystem.OnNewNeed -= OnNewNeed;
             needSystem.OnNeedFulfilled -= OnNeedFulfilled;
             needSystem.OnNeedExpired -= OnNeedExpired;
@@ -294,7 +296,24 @@ namespace Guest
                         }
                     }
 
-                    break;
+                    if (_guestType == GuestType.Famine)
+                    {
+                        VibeMeter.ChangeVibe.Invoke(10);
+                        if (!TutorialMode)
+                        {
+                            vibeIncrease.Play(transform.position);
+                        }
+                    }
+                    else
+                    {
+                        VibeMeter.ChangeVibe.Invoke(-5);
+                        if (!TutorialMode)
+                        {
+                            vibeDecrease.Play(transform.position);
+                        }
+                    }
+
+                    return;
                 case PartyEventType.MusicPlaying:
                     needSystem.TryFulfillNeed(NeedType.Music, eventData.needsCost, eventData.moodCost);
                     break;
@@ -302,9 +321,7 @@ namespace Guest
                     needSystem.ChangeMood(eventData.moodCost);
                     break;
                 case PartyEventType.FoodBurning:
-                    needSystem.ChangeMood(_guestType == GuestType.Famine
-                        ? Mathf.Abs(eventData.moodCost)
-                        : eventData.moodCost);
+                    needSystem.ChangeMood(eventData.moodCost);
                     break;
                 case PartyEventType.PowerOutage:
                     needSystem.ChangeMood(eventData.moodCost);
@@ -312,6 +329,20 @@ namespace Guest
                 case PartyEventType.BuntingFall:
                     needSystem.ChangeMood(eventData.moodCost);
                     break;
+            }
+
+            if (_guestType != GuestType.Henchmen)
+            {
+                VibeMeter.ChangeVibe.Invoke(-5);
+            }
+            else
+            {
+                VibeMeter.ChangeVibe.Invoke(-3);
+            }
+
+            if (!TutorialMode)
+            {
+                vibeDecrease.Play(transform.position);
             }
         }
 

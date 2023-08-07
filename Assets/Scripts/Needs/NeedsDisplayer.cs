@@ -5,7 +5,6 @@ using System.Linq;
 using Audio;
 using DG.Tweening;
 using MyBox;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -75,7 +74,7 @@ namespace Needs
 
             foreach (NeedsIconData needIcon in needsIconDatas)
             {
-                needIcon.ID = GUID.Generate().GetHashCode();
+                needIcon.ID = Guid.NewGuid().GetHashCode();
                 needIcon.canvasGroup = needIcon.icon.rectTransform.parent.GetComponent<CanvasGroup>();
 
                 needIcon.containerRectTransform = needIcon.icon.rectTransform.parent as RectTransform;

@@ -1,24 +1,33 @@
 using UnityEngine;
 
 [ExecuteAlways]
-[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Renderer))]
 public class FollowSpriteSorting : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer spriteRendererToFollow;
     [SerializeField] private int sortOrderOffset;
 
+    private Renderer _renderer;
     private SpriteRenderer _spriteRenderer;
 
     private void Awake()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _spriteRenderer.sortingLayerID = spriteRendererToFollow.sortingLayerID;
-        _spriteRenderer.sortingOrder = spriteRendererToFollow.sortingOrder + sortOrderOffset;
+        _renderer = GetComponent<Renderer>();
+        _renderer.sortingLayerID = spriteRendererToFollow.sortingLayerID;
+        _renderer.sortingOrder = spriteRendererToFollow.sortingOrder + sortOrderOffset;
     }
 
-    private void Update()
+    private void OnValidate()
     {
-        _spriteRenderer.sortingLayerID = spriteRendererToFollow.sortingLayerID;
-        _spriteRenderer.sortingOrder = spriteRendererToFollow.sortingOrder + sortOrderOffset;
+        if (!_renderer)
+        {
+            _renderer = GetComponent<Renderer>();
+        }
+    }
+
+    private void LateUpdate()
+    {
+        _renderer.sortingLayerID = spriteRendererToFollow.sortingLayerID;
+        _renderer.sortingOrder = spriteRendererToFollow.sortingOrder + sortOrderOffset;
     }
 }

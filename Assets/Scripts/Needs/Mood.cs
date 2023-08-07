@@ -41,6 +41,7 @@ namespace Needs
                 {
                     _currentMoodLevel = mood.threshold;
                     _currentMood = mood;
+                    _currentMoodType = _currentMood.moodType;
 
                     _spriteRenderer.sprite = mood.moodSprite;
                     break;
@@ -71,9 +72,11 @@ namespace Needs
             for (int i = _moodsDefinition.GetMoods().Count - 1; i >= 0; i--)
             {
                 MoodThreshold mood = _moodsDefinition.GetMoods()[i];
-                if (_currentMoodLevel < mood.threshold)
+                if (_currentMoodLevel <= mood.threshold)
                 {
                     _currentMood = mood;
+                    _currentMoodType = _currentMood.moodType;
+
                     _spriteRenderer.sprite = mood.moodSprite;
                 }
             }
