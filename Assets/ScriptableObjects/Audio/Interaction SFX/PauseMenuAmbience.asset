@@ -16,8 +16,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e877c5498c97f974e97901fd1e6a4353, type: 3}
   audioMixer: {fileID: -2142215581130782871, guid: 04f137b61e667dc49a2cdb18829ed819, type: 2}
   volume:
-    Min: 0.04245013
-    Max: 0.04245013
+    Min: 0.023107767
+    Max: 0.023107767
   useSemitones: 0
   semitones:
     Min: 4

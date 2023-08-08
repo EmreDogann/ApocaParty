@@ -77,6 +77,11 @@ namespace Dialogue
             }
         }
 
+        public void SetDialogueSpeed(float speed)
+        {
+            animationSpeed = 1 - speed;
+        }
+
         public void OpenDialogue(Message[] messages, Action onEndCallback = null, Action<float> progressCallback = null)
         {
             _onEndCallback = onEndCallback;
