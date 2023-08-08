@@ -5,7 +5,7 @@ namespace Minion.States
 {
     public class MinionMovingState : MinionState
     {
-        private const float DistanceThreshold = 0.01f;
+        private const float DistanceThreshold = 0.02f;
         public MinionMovingState(MinionAI minion, MinionStateMachine stateMachine) : base(minion, stateMachine) {}
 
         public override MinionStateID GetID()

@@ -47,7 +47,7 @@ namespace Minion.States
 
         public void OnInteraction(InteractableBase interactable)
         {
-            if (minion.currentRequest != null || minion.TargetConsumable != null)
+            if (minion.WaiterTarget != null || minion.currentRequest != null || minion.TargetConsumable != null)
             {
                 return;
             }

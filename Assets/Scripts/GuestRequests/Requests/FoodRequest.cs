@@ -87,7 +87,7 @@ namespace GuestRequests.Requests
             {
                 plateAudio.Play(transform.position);
             }
-            
+
             if (IsRequestFailed())
             {
                 OnFire?.Invoke();
@@ -108,26 +108,28 @@ namespace GuestRequests.Requests
 
         private void OnFireTriggered()
         {
-            if (!_isFoodCooked)
+            if (_isFoodCooked)
             {
-                if (IsRequestStarted())
-                {
-                    _requestFailedTriggered = true;
-                    _jobs[CurrentJobIndex].FailJob();
-
-                    if (_jobs[CurrentJobIndex] != cookJob)
-                    {
-                        _requestFailedTriggered = false;
-                        SetSorting(_originalSortLayer, _originalSortOrder);
-
-                        transform.position = startingPosition.position;
-                        transform.rotation = startingPosition.rotation;
-                    }
-                }
-
-                Owner?.OwnerRemoved();
-                Owner = null;
+                return;
             }
+
+            if (IsRequestStarted())
+            {
+                _requestFailedTriggered = true;
+                _jobs[CurrentJobIndex].FailJob();
+
+                if (_jobs[CurrentJobIndex] != cookJob)
+                {
+                    _requestFailedTriggered = false;
+                    SetSorting(_originalSortLayer, _originalSortOrder);
+
+                    transform.position = startingPosition.position;
+                    transform.rotation = startingPosition.rotation;
+                }
+            }
+
+            Owner?.OwnerRemoved();
+            Owner = null;
         }
 
         private void OnFireExtinguished()

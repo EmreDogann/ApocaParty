@@ -6,7 +6,6 @@ using Events;
 using GuestRequests.Requests;
 using MyBox;
 using PartyEvents;
-using UI.Components;
 using UnityEngine;
 
 namespace Music
@@ -17,8 +16,9 @@ namespace Music
         [Separator("Machine Breaking")]
         [SerializeField] private bool enableBreaking;
         [Range(0.0f, 1.0f)] [SerializeField] private float machineBreakChance;
-        [SerializeField] private float machineBreakCheckFrequency;
         [SerializeField] private float machineBreakCooldown;
+        [SerializeField] private float machineBreakCheckFrequency;
+        [SerializeField] private float machineBreakEventRefireFrequency = 10.0f;
         [SerializeField] private ParticleSystem breakHighlight;
 
         [Separator("Audio")]
@@ -108,6 +108,7 @@ namespace Music
             if (enableBreaking)
             {
                 _isBroken = false;
+                _currentTime = -machineBreakCooldown;
                 _tweener.Rewind();
 
                 breakHighlight.Stop();
@@ -121,8 +122,20 @@ namespace Music
 
         private void Update()
         {
-            if (!enableBreaking || _isBroken || !ElectricalBox.IsPowerOn())
+            if (!enableBreaking || !ElectricalBox.IsPowerOn())
             {
+                return;
+            }
+
+            if (_isBroken)
+            {
+                _currentTime += Time.deltaTime;
+                if (_currentTime >= machineBreakEventRefireFrequency)
+                {
+                    _currentTime = 0.0f;
+                    machineBreaksEvent.TriggerEvent();
+                }
+
                 return;
             }
 
@@ -142,7 +155,7 @@ namespace Music
         {
             _isBroken = true;
             machineBreaksEvent.TriggerEvent();
-            _tweener.Restart();
+            _tweener.PlayForward();
 
             breakHighlight.Play();
             badMusic.CrossFadeAudio(transitionAudio, musicTransitionDuration);
@@ -153,6 +166,7 @@ namespace Music
             if (_isBroken)
             {
                 badMusic.Stop(true, 0.2f);
+                _tweener.Rewind();
             }
             else
             {
@@ -165,11 +179,14 @@ namespace Music
             if (_isBroken)
             {
                 badMusic.Play(fadeIn: true, fadeDuration: 0.2f);
+                _tweener.PlayForward();
             }
             else
             {
                 goodMusic.Play(fadeIn: true, fadeDuration: 0.2f);
             }
+
+            _currentTime = -machineBreakCooldown;
         }
 
         private void OnGamePaused(bool isPaused)

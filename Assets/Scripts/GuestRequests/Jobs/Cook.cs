@@ -105,6 +105,10 @@ namespace GuestRequests.Jobs
         public override void FailJob()
         {
             _stovePositionProvider.TurnOffAppliance(JobOwner.TryGetTransformHandle(_stovePositionProvider));
+            if (_cookingAudioReference != AudioHandle.Invalid)
+            {
+                _cookingAudio.Stop(_cookingAudioReference, true, 3.0f);
+            }
         }
 
         public override float GetProgressPercentage()

@@ -18,6 +18,7 @@ public class Bunting : MonoBehaviour
     [Range(0.0f, 1.0f)] [SerializeField] private float buntingFallChance = 0.1f;
     [SerializeField] private float buntingFallCooldown = 10.0f;
     [SerializeField] private float buntingFallCheckFrequency = 0.5f;
+    [SerializeField] private float buntingFallEventRefireFrequency = 10.0f;
 
     private float _currentTime;
     private bool _isBuntingFallen;
@@ -71,8 +72,20 @@ public class Bunting : MonoBehaviour
 
     private void Update()
     {
-        if (!enableBuntingFalling || _isBuntingFallen)
+        if (!enableBuntingFalling)
         {
+            return;
+        }
+
+        if (_isBuntingFallen)
+        {
+            _currentTime += Time.deltaTime;
+            if (_currentTime >= buntingFallEventRefireFrequency)
+            {
+                _currentTime = 0.0f;
+                _buntingFallEvent.TriggerEvent();
+            }
+
             return;
         }
 
@@ -96,6 +109,7 @@ public class Bunting : MonoBehaviour
         _requestInteractable.SetInteractableActive(false);
         fixAudio.Play(transform.position);
         _isBuntingFallen = false;
+        _currentTime = -buntingFallCooldown;
 
         buntingUpSprite.transform.gameObject.SetActive(true);
         buntingDownSprite.transform.gameObject.SetActive(false);

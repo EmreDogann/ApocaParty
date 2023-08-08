@@ -16,6 +16,7 @@ namespace Electricity
         [Range(0.0f, 1.0f)] [SerializeField] private float powerOutageChance = 0.1f;
         [SerializeField] private float powerOutageCooldown = 10.0f;
         [SerializeField] private float powerOutageCheckFrequency = 6.0f;
+        [SerializeField] private float powerOutageEventRefireFrequency = 10.0f;
         [SerializeField] private ParticleSystem badHighlight;
 
         [SerializeField] private AudioSO outageAudio;
@@ -54,6 +55,13 @@ namespace Electricity
         {
             if (!_isPowerOn)
             {
+                _currentTime += Time.deltaTime;
+                if (_currentTime >= powerOutageEventRefireFrequency)
+                {
+                    _currentTime = 0.0f;
+                    _powerOutageEvent.TriggerEvent();
+                }
+
                 return;
             }
 
@@ -87,6 +95,7 @@ namespace Electricity
         public void PowerFixed()
         {
             _isPowerOn = true;
+            _currentTime = -powerOutageCooldown;
 
             fixAudio.Play2D();
             badHighlight.Stop();

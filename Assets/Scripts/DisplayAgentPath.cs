@@ -44,7 +44,7 @@ public class DisplayAgentPath : MonoBehaviour
             return;
         }
 
-        if (_agent.hasPath)
+        if (_agent.remainingDistance >= 0.01f)
         {
             marker.transform.position = _agent.destination;
 

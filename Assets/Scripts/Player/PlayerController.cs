@@ -94,7 +94,8 @@ namespace Player
 
         private void OnInteraction(InteractableBase interactable)
         {
-            if (interactable != null && (_currentRequest != null || _targetConsumable != null || _isSlipping ||
+            if (interactable != null && (_waiterTarget != null || _currentRequest != null ||
+                                         _targetConsumable != null || _isSlipping ||
                                          _isCleaningUp))
             {
                 errorSound.Play2D();
@@ -157,9 +158,9 @@ namespace Player
 
                     break;
                 case GuestInteractable guestInteractable:
-                    if (_waiterTarget == null && (guestInteractable.WaiterTarget.HasUnknownRequest() ||
-                                                  !guestInteractable.WaiterTarget.HasConsumable() &&
-                                                  _holdingConsumable != null))
+                    if (guestInteractable.WaiterTarget.HasUnknownRequest() ||
+                        !guestInteractable.WaiterTarget.HasConsumable() &&
+                        _holdingConsumable != null)
                     {
                         _waiterTarget = guestInteractable.WaiterTarget;
                         SetDestinationAndDisplayPath(_waiterTarget.GetDestinationTransform().position);
