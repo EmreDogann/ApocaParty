@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using DG.Tweening;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,6 +15,11 @@ namespace UI.Components.Buttons
             EditorApplication.isPlaying = false;
 #endif
             Application.Quit();
+        }
+
+        private void OnApplicationQuit()
+        {
+            DOTween.KillAll();
         }
     }
 }

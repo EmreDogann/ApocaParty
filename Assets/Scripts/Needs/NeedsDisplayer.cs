@@ -131,6 +131,17 @@ namespace Needs
             }
         }
 
+        private void OnDestroy()
+        {
+            _unknownRequestTween.Kill();
+
+            foreach (NeedsIconData needIcon in needsIconDatas)
+            {
+                needIcon.PopupEffect.Kill();
+                needIcon.ShakeEffect.Kill();
+            }
+        }
+
         // Hack to fix FlowLayoutGroup.cs not updating with the latest state.
         private IEnumerator DelayedJumpTween(NeedsIconData needIcon)
         {

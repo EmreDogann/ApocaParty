@@ -42,6 +42,11 @@ public class DoomsdayTimer : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        _bounceTween.Kill();
+    }
+
     private void Update()
     {
         if (!_canCount)

@@ -34,6 +34,11 @@ public class ProgressBar : MonoBehaviour
             .Pause();
     }
 
+    private void OnDestroy()
+    {
+        _pulsateEffect.Kill();
+    }
+
     public void SetProgressBarPercentage(float percentage)
     {
         progressBar.fillAmount = Mathf.Clamp01(percentage);

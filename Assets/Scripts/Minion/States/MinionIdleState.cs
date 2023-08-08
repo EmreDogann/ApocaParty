@@ -71,7 +71,7 @@ namespace Minion.States
                             {
                                 Vector3 position = minion.TargetConsumable.GetTransform().position;
                                 // Offset towards the closest side of the counter top.
-                                position.x += minion.transform.position.x >= position.x ? 1.2f : -1.2f;
+                                position.x += minion.transform.position.x >= position.x ? 1.4f : -1.4f;
                                 minion.SetDestinationAndDisplayPath(position);
                             }
                             else

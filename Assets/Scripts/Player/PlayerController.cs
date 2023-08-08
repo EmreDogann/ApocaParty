@@ -122,7 +122,7 @@ namespace Player
                                 {
                                     Vector3 position = _targetConsumable.GetTransform().position;
                                     // Offset towards the closest side of the counter top.
-                                    position.x += transform.position.x >= position.x ? 1.2f : -1.2f;
+                                    position.x += transform.position.x >= position.x ? 1.4f : -1.4f;
                                     SetDestinationAndDisplayPath(position);
                                 }
                             }

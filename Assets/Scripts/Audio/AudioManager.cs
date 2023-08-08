@@ -25,6 +25,7 @@ namespace Audio
         [SerializeField] private AudioEventChannelSO sfxAudioChannel;
         [SerializeField] private AudioEventChannelSO musicAudioChannel;
         [SerializeField] private BoolEventListener onPauseEvent;
+        [SerializeField] private BoolEventListener onGameEndEvent;
 
         private List<AudioEmitter> _audioEmitters;
         private List<AudioHandle> _audioHandles;
@@ -59,6 +60,7 @@ namespace Audio
         private void OnEnable()
         {
             onPauseEvent.Response.AddListener(OnPauseEvent);
+            onGameEndEvent.Response.AddListener(OnGameEnd);
 
             sfxAudioChannel.OnAudioPlay += PlaySoundEffect;
             sfxAudioChannel.OnAudioPlay2D += PlaySoundEffect2D;
@@ -76,6 +78,7 @@ namespace Audio
         private void OnDestroy()
         {
             onPauseEvent.Response.RemoveListener(OnPauseEvent);
+            onGameEndEvent.Response.RemoveListener(OnGameEnd);
 
             sfxAudioChannel.OnAudioPlay -= PlaySoundEffect;
             sfxAudioChannel.OnAudioPlay2D -= PlaySoundEffect2D;
@@ -99,6 +102,26 @@ namespace Audio
                     emitter.Source.transform.position = emitter.AttachedGameObject.transform.position;
                 }
             }
+        }
+
+        private void OnGameEnd(bool didWin)
+        {
+            for (int i = _audioHandles.Count - 1; i >= 0; i--)
+            {
+                StopSoundEffect(_audioHandles[i], new SoundFade
+                {
+                    Duration = 3.0f,
+                    FadeType = FadeType.FadeOut,
+                    Volume = 0.0f
+                });
+            }
+
+            StopMusic(AudioHandle.Invalid, new SoundFade
+            {
+                Duration = 3.0f,
+                FadeType = FadeType.FadeOut,
+                Volume = 0.0f
+            });
         }
 
         public AudioHandle PlaySoundEffect2D(AudioSO audioObj, AudioEventData audioEventData)
@@ -286,10 +309,10 @@ namespace Audio
 
             if (soundFade != null)
             {
-                _audioEmitters[foundHandle.ID].Source.DOFade(0.0f, soundFade.Duration).onComplete = () =>
-                {
-                    _audioEmitters[foundHandle.ID].Source.Stop();
-                };
+                _audioEmitters[foundHandle.ID].Source
+                    .DOFade(0.0f, soundFade.Duration)
+                    .SetUpdate(true)
+                    .OnComplete(() => { _audioEmitters[foundHandle.ID].Source.Stop(); });
             }
             else
             {
@@ -308,8 +331,10 @@ namespace Audio
             {
                 if (soundFade != null)
                 {
-                    _musicEmitter.Source.DOFade(0.0f, soundFade.Duration).onComplete =
-                        () => { _musicEmitter.Source.Stop(); };
+                    _musicEmitter.Source
+                        .DOFade(0.0f, soundFade.Duration)
+                        .SetUpdate(true)
+                        .OnComplete(() => { _musicEmitter.Source.Stop(); });
                 }
                 else
                 {

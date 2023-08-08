@@ -27,7 +27,8 @@ namespace UI
         [SerializeField] private float startValue;
         [SerializeField] private float endValue;
         [SerializeField] private Easing easingFunction;
-        [Space]
+
+        [Separator("Events")]
         public UnityEvent OnFadeStart;
         public UnityEvent OnFadeComplete;
 

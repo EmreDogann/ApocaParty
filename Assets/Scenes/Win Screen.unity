@@ -1781,10 +1781,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.00006604195
-    y: 0
-    width: 0.9998679
-    height: 1
+    x: 0
+    y: 0.000058412552
+    width: 1
+    height: 0.9998832
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -1873,6 +1873,68 @@ MonoBehaviour:
   height: 540
   onAwake: 1
   onUpdate: 1
+--- !u!1 &1490837348
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1490837351}
+  - component: {fileID: 1490837350}
+  - component: {fileID: 1490837349}
+  m_Layer: 0
+  m_Name: UnpauseSceneOnAwake
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1490837349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490837348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2578cca7a0a4b38409ea2dca72068698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1490837350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490837348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee85920dbe024568b894f71d5bb75c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Entries:
+  - EditorCommentary: UnpauseSceneOnAwake is needed here because if the player goes
+      to this scene from the pause menu, once this scene is loaded, the game will
+      still be paused.
+    Type: 1
+--- !u!4 &1490837351
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490837348}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1532962435
 GameObject:
   m_ObjectHideFlags: 0
@@ -2490,6 +2552,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioToPlay: {fileID: 11400000, guid: 64ec4a9a5a185c941b4d6222521ca5a7, type: 2}
   attachToGameObject: {fileID: 0}
+  stopExistingAudio: 0
   fadeIn: 0
   fadeInDuration: 1
 --- !u!4 &2001205148

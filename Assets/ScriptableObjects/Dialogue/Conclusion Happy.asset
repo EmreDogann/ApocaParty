@@ -38,7 +38,7 @@ MonoBehaviour:
     text: 'Yeah! They all came here for you! They''re all so excited to see you end
       the world! '
   - actor: {fileID: 11400000, guid: 3a563f3dfaf287949954a4e03d496d86, type: 2}
-    playActorSound: 0
+    playActorSound: 1
     text: '... '
   - actor: {fileID: 11400000, guid: be70ec0eff10e7841812ae98178ebc7e, type: 2}
     playActorSound: 0

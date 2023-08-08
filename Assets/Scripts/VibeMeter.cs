@@ -24,6 +24,7 @@ public class VibeMeter : MonoBehaviour
 
     [Separator("Events")]
     [SerializeField] private BoolEventChannelSO OnGamePauseEvent;
+    [SerializeField] private BoolEventChannelSO OnGameEnd;
 
     [Range(0.0f, 100.0f)] [SerializeField] private float _vibeMeter = 100.0f;
 
@@ -93,15 +94,22 @@ public class VibeMeter : MonoBehaviour
         ChangeVibe -= ChangeVibeCallback;
     }
 
+    private void OnDestroy()
+    {
+        _dangerColorTween.Kill();
+    }
+
     private void DoomsdayArrived()
     {
         if (_vibeMeter >= winThreshold)
         {
             onGameWin?.Invoke();
+            OnGameEnd?.Raise(true);
         }
         else
         {
             onGameLose?.Invoke();
+            OnGameEnd?.Raise(false);
         }
 
         OnGamePauseEvent?.Raise(true);

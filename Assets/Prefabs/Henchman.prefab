@@ -1491,7 +1491,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: -29931941
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!114 &4944430048569854916
 MonoBehaviour:
@@ -1529,7 +1529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRendererToFollow: {fileID: 5299949604327381273}
-  sortOrderOffset: 1
+  sortOrderOffset: 2
   runOnUpdate: 1
 --- !u!1 &6729801998654486688
 GameObject:

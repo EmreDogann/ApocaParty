@@ -233,6 +233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioToPlay: {fileID: 11400000, guid: e1bbb720ab1676f47a07e31e0c59a5e3, type: 2}
   attachToGameObject: {fileID: 0}
+  stopExistingAudio: 0
   fadeIn: 0
   fadeInDuration: 1
 --- !u!4 &149784119
@@ -1749,10 +1750,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.00006604195
-    y: 0
-    width: 0.9998679
-    height: 1
+    x: 0
+    y: 0.000058412552
+    width: 1
+    height: 0.9998832
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -2524,6 +2525,68 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1860617683}
   m_CullTransparentMesh: 1
+--- !u!1 &1930079950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1930079953}
+  - component: {fileID: 1930079952}
+  - component: {fileID: 1930079951}
+  m_Layer: 0
+  m_Name: UnpauseSceneOnAwake
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1930079951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930079950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2578cca7a0a4b38409ea2dca72068698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1930079952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930079950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee85920dbe024568b894f71d5bb75c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Entries:
+  - EditorCommentary: UnpauseSceneOnAwake is needed here because if the player goes
+      to this scene from the pause menu, once this scene is loaded, the game will
+      still be paused.
+    Type: 1
+--- !u!4 &1930079953
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930079950}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2024116690
 GameObject:
   m_ObjectHideFlags: 0

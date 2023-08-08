@@ -25,12 +25,17 @@ namespace UI
             MouseInteraction.OnHover -= OnHover;
         }
 
+        private void OnDestroy()
+        {
+            _tooltipText.DOKill();
+        }
+
         private void OnHover(InteractableBase interactable)
         {
             _tooltipText.DOKill();
             if (interactable == null)
             {
-                _tooltipText.DOFade(0, 0.05f);
+                _tooltipText.DOFade(0, 0.05f).SetUpdate(true);
                 return;
             }
 
@@ -44,7 +49,7 @@ namespace UI
             _tooltipText.rectTransform.anchoredPosition = new Vector2(_tooltipText.rectTransform.anchoredPosition.x,
                 -_tooltipText.rectTransform.sizeDelta.y);
 
-            _tooltipText.DOFade(1, 0.1f);
+            _tooltipText.DOFade(1, 0.1f).SetUpdate(true);
         }
     }
 }

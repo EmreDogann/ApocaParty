@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 340755187}
   - component: {fileID: 340755189}
   - component: {fileID: 340755190}
+  - component: {fileID: 340755191}
   m_Layer: 0
   m_Name: Audio Manager
   m_TagString: Untagged
@@ -291,6 +292,7 @@ MonoBehaviour:
   sfxAudioChannel: {fileID: 11400000, guid: 6c5f128f58f1e1946b9be8d4fcd88dbf, type: 2}
   musicAudioChannel: {fileID: 11400000, guid: 79e2bd370be5765448a58fbaf8f680a8, type: 2}
   onPauseEvent: {fileID: 340755190}
+  onGameEndEvent: {fileID: 340755191}
 --- !u!4 &340755188
 Transform:
   m_ObjectHideFlags: 0
@@ -327,6 +329,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Event: {fileID: 11400000, guid: e59e361bbc631394aa81424b2bd4983e, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &340755191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340755186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 345dcdae017073843b108e899327952e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: f41c97fe7d08dd54b94609ab4ca7f78f, type: 2}
   Response:
     m_PersistentCalls:
       m_Calls: []
