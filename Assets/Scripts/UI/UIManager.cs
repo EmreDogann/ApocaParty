@@ -103,6 +103,12 @@ namespace UI
             }
         }
 
+        // For use with UnityEvents inspector.
+        public void Show(View view)
+        {
+            Show(view, true);
+        }
+
         public void Show(View view, bool remember = true)
         {
             if (Instance._currentView != null)

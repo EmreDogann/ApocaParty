@@ -31,7 +31,7 @@ namespace UI
         public UnityEvent OnFadeStart;
         public UnityEvent OnFadeComplete;
 
-        private void Awake()
+        private void Start()
         {
             if (fadeOnAwake)
             {
