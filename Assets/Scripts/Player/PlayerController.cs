@@ -157,8 +157,9 @@ namespace Player
 
                     break;
                 case GuestInteractable guestInteractable:
-                    if (guestInteractable.WaiterTarget.HasUnknownRequest() ||
-                        !guestInteractable.WaiterTarget.HasConsumable() && _holdingConsumable != null)
+                    if (_waiterTarget == null && (guestInteractable.WaiterTarget.HasUnknownRequest() ||
+                                                  !guestInteractable.WaiterTarget.HasConsumable() &&
+                                                  _holdingConsumable != null))
                     {
                         _waiterTarget = guestInteractable.WaiterTarget;
                         SetDestinationAndDisplayPath(_waiterTarget.GetDestinationTransform().position);

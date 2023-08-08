@@ -6,11 +6,20 @@ using UnityEngine.Timeline;
 
 namespace Timeline.ToggleInteractable
 {
+    public enum InteractablePostClipState
+    {
+        Active,
+        Inactive,
+        Revert,
+        LeaveAsIs
+    }
+
     [Serializable]
     public class InteractableData
     {
         public ExposedReference<Collider2D> collider2DReference;
         public bool activeState;
+        public InteractablePostClipState stateAfterClip;
         [HideInInspector] public Collider2D collider2D;
         [HideInInspector] public bool initialActiveState;
     }

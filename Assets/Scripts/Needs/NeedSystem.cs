@@ -111,10 +111,10 @@ namespace Needs
             if (!TutorialMode)
             {
                 _currentMetrics -= _metricsDepletionRate * Time.deltaTime;
-                if (enableMoods)
-                {
-                    mood.Tick();
-                }
+                // if (enableMoods)
+                // {
+                //     mood.Tick();
+                // }
             }
 
             for (int i = _currentNeeds.Count - 1; i >= 0; i--)
@@ -271,7 +271,7 @@ namespace Needs
             _currentNeeds.Add(need);
             OnNewNeed?.Invoke(need);
         }
-        
+
         private void AddNeed(INeed need, bool startAsResolved)
         {
             needsDisplayer.AddDisplay(need.GetNeedType(), startAsResolved);
@@ -305,7 +305,7 @@ namespace Needs
                 }
             }
         }
-        
+
         public void TryAddNeed(NeedType needType, bool startAsResolved, float startingExpirationTime = -1.0f)
         {
             if (_currentNeeds.FirstOrDefault(x => x.GetNeedType() == needType) == null)

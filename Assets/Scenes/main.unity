@@ -1113,7 +1113,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1012210024}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &60591017
 MonoBehaviour:
@@ -1972,6 +1972,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 126196500}
   m_CullTransparentMesh: 1
+--- !u!21 &129520857
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &136126767
 GameObject:
   m_ObjectHideFlags: 0
@@ -3251,7 +3287,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1012210024}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &242135951
 MonoBehaviour:
@@ -3357,7 +3393,7 @@ MonoBehaviour:
   - rid: 8197751313132683299
   - rid: 8197751313132683300
   - rid: 8197751313132683301
-  plateAudio: {fileID: 0}
+  plateAudio: {fileID: 11400000, guid: bae0dadf1c544604bb1be1d873d3b7ce, type: 2}
   consumeReward:
     needType: 1
     moodPoints: 1
@@ -4100,7 +4136,7 @@ MonoBehaviour:
   - rid: 8197751313132683299
   - rid: 8197751313132683300
   - rid: 8197751313132683301
-  plateAudio: {fileID: 0}
+  plateAudio: {fileID: 11400000, guid: bae0dadf1c544604bb1be1d873d3b7ce, type: 2}
   consumeReward:
     needType: 1
     moodPoints: 1
@@ -4555,42 +4591,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50278b0355987ca4e8821130c2bec5fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!21 &301911079
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &306679190
 GameObject:
   m_ObjectHideFlags: 0
@@ -4667,6 +4667,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 306679190}
   m_CullTransparentMesh: 1
+--- !u!21 &311328460
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &320925478
 GameObject:
   m_ObjectHideFlags: 0
@@ -5270,7 +5306,7 @@ MonoBehaviour:
   - rid: 8197751313132683299
   - rid: 8197751313132683300
   - rid: 8197751313132683301
-  plateAudio: {fileID: 0}
+  plateAudio: {fileID: 11400000, guid: bae0dadf1c544604bb1be1d873d3b7ce, type: 2}
   consumeReward:
     needType: 1
     moodPoints: 1
@@ -7760,7 +7796,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -414, y: 189.99998}
+  m_AnchoredPosition: {x: -667.99994, y: 128}
   m_SizeDelta: {x: 520.56, y: 157.69}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &438819547
@@ -7864,42 +7900,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 438819545}
   m_CullTransparentMesh: 1
---- !u!21 &442700721
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &455598846
 GameObject:
   m_ObjectHideFlags: 0
@@ -20663,42 +20663,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!21 &581820475
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &613656601
 GameObject:
   m_ObjectHideFlags: 0
@@ -21613,7 +21577,7 @@ MonoBehaviour:
   - rid: 8197751313132683299
   - rid: 8197751313132683300
   - rid: 8197751313132683301
-  plateAudio: {fileID: 0}
+  plateAudio: {fileID: 11400000, guid: bae0dadf1c544604bb1be1d873d3b7ce, type: 2}
   consumeReward:
     needType: 1
     moodPoints: 1
@@ -22229,7 +22193,7 @@ MonoBehaviour:
   - rid: 8197751313132683299
   - rid: 8197751313132683300
   - rid: 8197751313132683301
-  plateAudio: {fileID: 0}
+  plateAudio: {fileID: 11400000, guid: bae0dadf1c544604bb1be1d873d3b7ce, type: 2}
   consumeReward:
     needType: 1
     moodPoints: 1
@@ -23153,7 +23117,7 @@ MonoBehaviour:
   guestArrivalAudio: {fileID: 11400000, guid: 9524dd8eacaf761468a0f5f80a73a9db, type: 2}
   door: {fileID: 472116053}
   doorArchway: {fileID: 1597918915}
-  arriveOnStart: 1
+  arriveOnStart: 0
 --- !u!114 &744024076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23169,6 +23133,7 @@ MonoBehaviour:
   m_Events:
     m_Signals:
     - {fileID: 11400000, guid: c9f263775c29e244aa23b911d1f1f689, type: 2}
+    - {fileID: 11400000, guid: 6164176c45b2ee545a347f06231ba872, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -23176,6 +23141,45 @@ MonoBehaviour:
           m_TargetAssemblyTypeName: Arrivals.ArrivalSystem, Assembly-CSharp
           m_MethodName: RingDoorbell
           m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 744024075}
+          m_TargetAssemblyTypeName: Arrivals.ArrivalSystem, Assembly-CSharp
+          m_MethodName: GuestsArrive
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 744024077}
+          m_TargetAssemblyTypeName: Timeline.TimelineWaitForGuestArrival, Assembly-CSharp
+          m_MethodName: WaitForArrival
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1485940144}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Playables.PlayableDirector,
+              UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1337054465}
+          m_TargetAssemblyTypeName: Guest.GuestGroup, Assembly-CSharp
+          m_MethodName: SetSitDownOnArrive
+          m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -23257,7 +23261,7 @@ MonoBehaviour:
   - rid: 8197751313132683299
   - rid: 8197751313132683300
   - rid: 8197751313132683301
-  plateAudio: {fileID: 0}
+  plateAudio: {fileID: 11400000, guid: bae0dadf1c544604bb1be1d873d3b7ce, type: 2}
   consumeReward:
     needType: 1
     moodPoints: 1
@@ -27831,7 +27835,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1485940145}
-  - {fileID: 1635352280}
   - {fileID: 2046367185}
   - {fileID: 242135950}
   - {fileID: 60591016}
@@ -28206,7 +28209,7 @@ MonoBehaviour:
   - rid: 8197751313132683299
   - rid: 8197751313132683300
   - rid: 8197751313132683301
-  plateAudio: {fileID: 0}
+  plateAudio: {fileID: 11400000, guid: bae0dadf1c544604bb1be1d873d3b7ce, type: 2}
   consumeReward:
     needType: 1
     moodPoints: 1
@@ -30217,7 +30220,7 @@ MonoBehaviour:
   - rid: 8197751313132683299
   - rid: 8197751313132683300
   - rid: 8197751313132683301
-  plateAudio: {fileID: 0}
+  plateAudio: {fileID: 11400000, guid: bae0dadf1c544604bb1be1d873d3b7ce, type: 2}
   consumeReward:
     needType: 1
     moodPoints: 1
@@ -31246,7 +31249,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -8.160438e+9, y: -1.1166915e+10}
+  m_SizeDelta: {x: 462.45337, y: 254.25922}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1211244679
 MonoBehaviour:
@@ -37119,7 +37122,7 @@ MonoBehaviour:
   fixAudio: {fileID: 11400000, guid: d952cf17497383b40b1cbb55ff366ed1, type: 2}
   buntingFallChance: 0.1
   buntingFallCooldown: 10
-  buntingFallCheckFrequency: 1
+  buntingFallCheckFrequency: 5
 --- !u!61 &1271352288
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -37717,7 +37720,7 @@ Transform:
   m_Children:
   - {fileID: 229303981}
   m_Father: {fileID: 1012210024}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &1302838609
 ParticleSystem:
@@ -48890,7 +48893,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b04303024d14e19b64a2cf5bd726974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrivalConversation: {fileID: 11400000, guid: bb9f497c59de5694c8962a9cdf3f775f, type: 2}
+  arrivalConversation: {fileID: 0}
   <GroupType>k__BackingField: 0
 --- !u!114 &1337054466
 MonoBehaviour:
@@ -49088,7 +49091,7 @@ Transform:
   m_Children:
   - {fileID: 1211180822}
   m_Father: {fileID: 1012210024}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!199 &1351673540
 ParticleSystemRenderer:
@@ -59452,6 +59455,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 46cde49970d025c4bad3984da18aa2ef, type: 2}
     - {fileID: 11400000, guid: 42c9ae72e09fe7a4eb43d94096e49b4f, type: 2}
     - {fileID: 11400000, guid: 9a754208d53b6fc4588a6cca7c61a7e0, type: 2}
+    - {fileID: 11400000, guid: 3060831cebefe8d4fbd7ee358e6cdf8d, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -59512,6 +59516,20 @@ MonoBehaviour:
         - m_Target: {fileID: 1405713505}
           m_TargetAssemblyTypeName: VibeMeter, Assembly-CSharp
           m_MethodName: Tutorial_PlayVibeIncreaseSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1405713505}
+          m_TargetAssemblyTypeName: VibeMeter, Assembly-CSharp
+          m_MethodName: Tutorial_PlayVibeDecreaseSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -60250,10 +60268,10 @@ PlayableDirector:
   m_Enabled: 1
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: 46a45cc9ed9ec324990fd149aaa1c53e, type: 2}
-  m_InitialState: 0
+  m_InitialState: 1
   m_WrapMode: 0
   m_DirectorUpdateMode: 1
-  m_InitialTime: 97
+  m_InitialTime: 0
   m_SceneBindings:
   - key: {fileID: 1401477025305290530, guid: 46a45cc9ed9ec324990fd149aaa1c53e, type: 2}
     value: {fileID: 1196738979}
@@ -60301,6 +60319,7 @@ PlayableDirector:
     m_References:
     - c4addf17133d14349846ea0f8d810ee6: {fileID: 61250503}
     - c7f29e930ed9330419acc867b6b2c274: {fileID: 252743278}
+    - f46a115e7bddb9344a27e528517c4792: {fileID: 61250514}
     - 4626da8b5da1f504da419be7528a1b7b: {fileID: 490362092}
     - bf66f7560e2599143a615c586a54dbb5: {fileID: 1522357477}
     - a96e6f1b68d0faf46a816b021f679110: {fileID: 744024073}
@@ -60315,6 +60334,7 @@ PlayableDirector:
     - f9b537be0d1981243858fcc57f92a16c: {fileID: 490362093}
     - 9fafeca975b03ee45a0331afb2b53e62: {fileID: 490362093}
     - cd2410386e923114c85b17c7bfde7fd9: {fileID: 61250503}
+    - bcba923de54088e4dbf718bf5e039363: {fileID: 252743281}
     - 2c6560c45404d434881cdb541c788ce3: {fileID: 655710}
     - 1deed7ad3f566ed43a94c2dc0bd96798: {fileID: 428441206}
     - 59854a5e35d848e478ca41329cf7cd8a: {fileID: 252743278}
@@ -60354,7 +60374,9 @@ PlayableDirector:
     - eb96a9d1140630747a6ab4ef291121e5: {fileID: 428441204}
     - de023855f03258046ba3f1bdf65b0d9f: {fileID: 252743278}
     - 03af49a1b7beee64080518aadd503a24: {fileID: 252743281}
+    - 6a922203429c1564ba977ea0fa910e2b: {fileID: 428441206}
     - bf9d4a1b9696d7d469475b3443afc695: {fileID: 490362093}
+    - 2181504c59492374b8c257e2e26223cb: {fileID: 252743281}
     - 2e6334ac2712aea42b0f191bd7a66f30: {fileID: 428441204}
     - f3a3c13c46480e640ad71e7935940d9e: {fileID: 252743278}
     - a867ce4d12611384c880925dc469090c: {fileID: 61250514}
@@ -60373,6 +60395,7 @@ PlayableDirector:
     - ecb773e18d9e2464fb34328b83b948f3: {fileID: 490362093}
     - 261c2f85c4a0f594b92a78277907ffe4: {fileID: 61250503}
     - 3f1fc006631d27c42afe87d090994a4f: {fileID: 659748987}
+    - 84d5254d42c352d4ab499b46b2fb7cde: {fileID: 252743281}
     - 053c4cae48265e846b87b7a3a7509358: {fileID: 1076039782}
     - d438f1f588e8d644482c965fe03ae5d5: {fileID: 2127147315}
     - e214b7590ecd6644d9be8f3b60eff5d3: {fileID: 659748987}
@@ -60422,6 +60445,7 @@ PlayableDirector:
     - c10c9a031f44dee40afb362740f7003d: {fileID: 490362093}
     - a247db47f5312f649af99d876f4759ad: {fileID: 659748987}
     - 214542ccca8b6a740a851bf13243c736: {fileID: 428441206}
+    - bb26502af5af12c43a3cb12eefd51e20: {fileID: 61250514}
     - 83d47407f18028644b60a8ee4eeccd99: {fileID: 1271352281}
     - e2c78de339c61744f8720b6361b8be18: {fileID: 61250503}
     - 6b72822e27c832a4190ce1861e28e8ae: {fileID: 659748987}
@@ -60447,6 +60471,7 @@ PlayableDirector:
     - dc8bb3a487ca0f146bb45e3a2345e022: {fileID: 61250503}
     - 3289b0d6fc5f9394fac709ce7019f896: {fileID: 490362093}
     - 7841595248c5d564a87e91925fd81de7: {fileID: 336424058}
+    - 75bd7d2c3165ba94bb797845d092fdfa: {fileID: 1271352288}
     - 0a51cfecea7fa5f4e9e98caa001dcacc: {fileID: 61250503}
     - 538aa615b88806c4aa2cca179de2cacc: {fileID: 490362093}
     - 51b8f0a2bfa22bb43a229918904f05a3: {fileID: 381759196}
@@ -60466,6 +60491,7 @@ PlayableDirector:
     - b7aad6173952c4a4493aea7ebb819cbe: {fileID: 490362093}
     - 777bc4a833ccaf047993a9dcf486244c: {fileID: 490362093}
     - 8c33ad3f95343d74280114d20d4f68ff: {fileID: 428441206}
+    - e7e29239e35de3e48ab7e561e2bf58f1: {fileID: 428441206}
     - 7b6e643d257cd5c44a6216ee1114f313: {fileID: 61250503}
     - 60c9fcd4067e7a543b8d0cf6a0d2df09: {fileID: 490362093}
     - e1f8b10e74b7ba946948688f83d9604f: {fileID: 336424058}
@@ -60503,8 +60529,10 @@ PlayableDirector:
     - ec6e41fc85ecb7846aaea5f375aacae3: {fileID: 61250503}
     - d8a228a209da8844285ee6531f67dac3: {fileID: 490362093}
     - d9e560432a917854faf803dc81c2f5bf: {fileID: 659748987}
+    - aa8ecac195b6b634aa091e0a4c45aa4d: {fileID: 61250514}
     - e8870036a9735bb4ba51f5c9fa412ee1: {fileID: 548600721}
     - 02028bedb73c1f1429f2ba22ff96fe2d: {fileID: 428441204}
+    - b6351bef755725f4891f793e20bca4d5: {fileID: 428441206}
     - 4d3a30a8cc9bf1b4398978efc008c291: {fileID: 1996456030}
     - 82653ea5da2d8044c96d073c46a4242a: {fileID: 61250503}
     - eb48e1d29973a3f4c823a263ce548fb6: {fileID: 490362093}
@@ -60515,6 +60543,8 @@ PlayableDirector:
     - 95913766fde8df24eb347d75fbcf4a41: {fileID: 428441206}
     - 5c8ecce523a0a1b429db9139e0222947: {fileID: 1360097648}
     - b57df9f2eb553f447ac7b4944ced9611: {fileID: 428441204}
+    - 6a2adb50835556b4da91239c6c90a438: {fileID: 1271352288}
+    - b042020de24b4fd49aa2da7ce648c07e: {fileID: 1271352288}
     - 41cd343c987024f498bba708c08b2980: {fileID: 659748987}
 --- !u!4 &1485940145
 Transform:
@@ -60604,54 +60634,6 @@ MonoBehaviour:
           m_TargetAssemblyTypeName: UIPopupTween, Assembly-CSharp
           m_MethodName: SetToHidden
           m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 252743281}
-          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-          m_MethodName: set_enabled
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 428441206}
-          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-          m_MethodName: set_enabled
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 61250514}
-          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-          m_MethodName: set_enabled
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 1271352288}
-          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-          m_MethodName: set_enabled
-          m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -60764,42 +60746,6 @@ MonoBehaviour:
             m_BoolArgument: 1
           m_CallState: 2
         - m_Target: {fileID: 1295558826}
-          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-          m_MethodName: set_enabled
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-        - m_Target: {fileID: 252743281}
-          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-          m_MethodName: set_enabled
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-        - m_Target: {fileID: 428441206}
-          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-          m_MethodName: set_enabled
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-        - m_Target: {fileID: 1271352288}
           m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
           m_MethodName: set_enabled
           m_Mode: 6
@@ -61839,42 +61785,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!21 &1572485259
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &1573403825
 GameObject:
   m_ObjectHideFlags: 0
@@ -63221,82 +63131,6 @@ MonoBehaviour:
     containerRectTransform: {fileID: 0}
   needPopupSound: {fileID: 11400000, guid: 473daa3e6778d844caf71133972e29cc, type: 2}
   unknownRequestSound: {fileID: 11400000, guid: 1990cd7808e4cd64c90f2150b58b6299, type: 2}
---- !u!1 &1635352279
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1635352280}
-  - component: {fileID: 1635352281}
-  - component: {fileID: 1635352282}
-  m_Layer: 0
-  m_Name: Empty ActionMap
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1635352280
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1635352279}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1012210024}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1635352281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1635352279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698588a845f1e7343b3c9c438f404d42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionMap: 0
---- !u!114 &1635352282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1635352279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Events:
-    m_Signals:
-    - {fileID: 11400000, guid: 4959cf7890329c6459837e75df22ad47, type: 2}
-    m_Events:
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1635352281}
-          m_TargetAssemblyTypeName: ActionMapSwitcher, Assembly-CSharp
-          m_MethodName: ChangeActionMap
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &1637541121
 GameObject:
   m_ObjectHideFlags: 0
@@ -64226,7 +64060,7 @@ MonoBehaviour:
   - rid: 8197751313132683299
   - rid: 8197751313132683300
   - rid: 8197751313132683301
-  plateAudio: {fileID: 0}
+  plateAudio: {fileID: 11400000, guid: bae0dadf1c544604bb1be1d873d3b7ce, type: 2}
   consumeReward:
     needType: 1
     moodPoints: 1
@@ -67578,6 +67412,42 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2833652554369799451, guid: 2df009fc18420f847b9ef2580f80341a, type: 3}
   m_PrefabInstance: {fileID: 1865745166}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &1889004171
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &1891390594
 GameObject:
   m_ObjectHideFlags: 0
@@ -67703,7 +67573,7 @@ MonoBehaviour:
   - rid: 8197751313132683299
   - rid: 8197751313132683300
   - rid: 8197751313132683301
-  plateAudio: {fileID: 0}
+  plateAudio: {fileID: 11400000, guid: bae0dadf1c544604bb1be1d873d3b7ce, type: 2}
   consumeReward:
     needType: 1
     moodPoints: 1
@@ -68263,6 +68133,42 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 392
+--- !u!21 &1986055702
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 1.1, g: 0.1, b: 0.1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &1996456027
 GameObject:
   m_ObjectHideFlags: 0
@@ -68975,7 +68881,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1012210024}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2046367186
 MonoBehaviour:

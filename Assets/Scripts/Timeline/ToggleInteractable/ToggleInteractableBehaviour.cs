@@ -38,7 +38,11 @@ namespace Timeline.ToggleInteractable
 
         public override void OnPlayableDestroy(Playable playable)
         {
-            ResetData();
+            foreach (InteractableData interactableData in interactableDatas.Where(interactableData =>
+                         interactableData.collider2D != null))
+            {
+                interactableData.collider2D.enabled = interactableData.initialActiveState;
+            }
         }
 
         private void ResetData()
@@ -46,7 +50,20 @@ namespace Timeline.ToggleInteractable
             foreach (InteractableData interactableData in interactableDatas.Where(interactableData =>
                          interactableData.collider2D != null))
             {
-                interactableData.collider2D.enabled = interactableData.initialActiveState;
+                switch (interactableData.stateAfterClip)
+                {
+                    case InteractablePostClipState.Active:
+                        interactableData.collider2D.enabled = true;
+                        break;
+                    case InteractablePostClipState.Inactive:
+                        interactableData.collider2D.enabled = false;
+                        break;
+                    case InteractablePostClipState.Revert:
+                        interactableData.collider2D.enabled = interactableData.initialActiveState;
+                        break;
+                    case InteractablePostClipState.LeaveAsIs:
+                        break;
+                }
             }
         }
     }

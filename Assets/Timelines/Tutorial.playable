@@ -83,6 +83,22 @@ MonoBehaviour:
   m_Retroactive: 1
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 4959cf7890329c6459837e75df22ad47, type: 2}
+--- !u!114 &-9128172844798062406
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
+  m_Name: Signal Emitter
+  m_EditorClassIdentifier: 
+  m_Time: 71.73333333333333
+  m_Retroactive: 0
+  m_EmitOnce: 0
+  m_Asset: {fileID: 11400000, guid: 3060831cebefe8d4fbd7ee358e6cdf8d, type: 2}
 --- !u!114 &-9086254007232515261
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102,18 +118,21 @@ MonoBehaviour:
       exposedName: 39288b24d88eca5449bce217c0353d7c
       defaultValue: {fileID: 0}
     activeState: 0
+    stateAfterClip: 1
     collider2D: {fileID: 0}
     initialActiveState: 1
   - collider2DReference:
       exposedName: 8c33ad3f95343d74280114d20d4f68ff
       defaultValue: {fileID: 0}
     activeState: 1
+    stateAfterClip: 1
     collider2D: {fileID: 0}
     initialActiveState: 1
   - collider2DReference:
       exposedName: 8e5b30902d74ae24cb42e70202fba441
       defaultValue: {fileID: 0}
     activeState: 0
+    stateAfterClip: 1
     collider2D: {fileID: 0}
     initialActiveState: 1
 --- !u!114 &-9064927500777941158
@@ -143,6 +162,7 @@ MonoBehaviour:
     - {fileID: -4658736004674917928}
     - {fileID: -785232613284709144}
     - {fileID: 7481624209321783768}
+    - {fileID: -9128172844798062406}
 --- !u!114 &-8921426139233897573
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -439,10 +459,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: ScreenFaderClip
   - m_Version: 1
-    m_Start: 28.5
+    m_Start: 28.266666666666666
     m_ClipIn: 0
     m_Asset: {fileID: 4338463992730961090}
-    m_Duration: 4.9
+    m_Duration: 5.133333333333335
     m_TimeScale: 1
     m_ParentTrack: {fileID: -8075459367060907384}
     m_EaseInDuration: 0.16666666666666666
@@ -508,14 +528,14 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: ScreenFaderClip
   - m_Version: 1
-    m_Start: 26.416666666666668
+    m_Start: 26.183333333333334
     m_ClipIn: 0
     m_Asset: {fileID: -2942180510833444944}
-    m_Duration: 0.9333333333333265
+    m_Duration: 0.716666666666665
     m_TimeScale: 1
     m_ParentTrack: {fileID: -8075459367060907384}
-    m_EaseInDuration: 0.3333333333333333
-    m_EaseOutDuration: 0.3333333333333333
+    m_EaseInDuration: 0.33333333333333215
+    m_EaseOutDuration: 0.33333333333333215
     m_BlendInDuration: -1
     m_BlendOutDuration: -1
     m_MixInCurve:
@@ -880,7 +900,6 @@ MonoBehaviour:
     - {fileID: -2836163639907058366}
     - {fileID: 6233032041697121727}
     - {fileID: -8897050548573123364}
-    - {fileID: -5039856758286018274}
 --- !u!114 &-7459116093371561123
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -970,6 +989,49 @@ MonoBehaviour:
     startingZPosition: 0
     startingSortLayer: 0
     startingSortOrder: 2
+--- !u!114 &-7068451630463762958
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2b3d12b6b57b8c4c87153be9bc204ad, type: 3}
+  m_Name: ToggleInteractableClip(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  template:
+    interactableDatas: []
+  interactableDatas:
+  - collider2DReference:
+      exposedName: 2181504c59492374b8c257e2e26223cb
+      defaultValue: {fileID: 0}
+    activeState: 0
+    stateAfterClip: 0
+    collider2D: {fileID: 0}
+    initialActiveState: 1
+  - collider2DReference:
+      exposedName: e7e29239e35de3e48ab7e561e2bf58f1
+      defaultValue: {fileID: 0}
+    activeState: 0
+    stateAfterClip: 0
+    collider2D: {fileID: 0}
+    initialActiveState: 1
+  - collider2DReference:
+      exposedName: aa8ecac195b6b634aa091e0a4c45aa4d
+      defaultValue: {fileID: 0}
+    activeState: 0
+    stateAfterClip: 0
+    collider2D: {fileID: 0}
+    initialActiveState: 1
+  - collider2DReference:
+      exposedName: b042020de24b4fd49aa2da7ce648c07e
+      defaultValue: {fileID: 0}
+    activeState: 0
+    stateAfterClip: 0
+    collider2D: {fileID: 0}
+    initialActiveState: 1
 --- !u!114 &-6738832970219138769
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -994,7 +1056,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 27.5
+  m_Time: 26.9
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 11923e1664909754f968be53db7d365c, type: 2}
@@ -1097,22 +1159,6 @@ MonoBehaviour:
   m_Markers:
     m_Objects:
     - {fileID: -3140336299084927429}
---- !u!114 &-5039856758286018274
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
-  m_Name: Signal Emitter
-  m_EditorClassIdentifier: 
-  m_Time: 71.73333333333333
-  m_Retroactive: 0
-  m_EmitOnce: 0
-  m_Asset: {fileID: 11400000, guid: 3060831cebefe8d4fbd7ee358e6cdf8d, type: 2}
 --- !u!114 &-4878351228080588723
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1358,7 +1404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 26.916666666666664
+  m_Time: 26.55
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: e7b9e8ca41575b54ea8fe4b7cec125e4, type: 2}
@@ -1619,18 +1665,21 @@ MonoBehaviour:
       exposedName: 88bd94859e8fa434d93a1c99b8efdac5
       defaultValue: {fileID: 0}
     activeState: 1
+    stateAfterClip: 1
     collider2D: {fileID: 0}
     initialActiveState: 1
   - collider2DReference:
       exposedName: 95913766fde8df24eb347d75fbcf4a41
       defaultValue: {fileID: 0}
     activeState: 0
+    stateAfterClip: 1
     collider2D: {fileID: 0}
     initialActiveState: 1
   - collider2DReference:
       exposedName: 38a4cad51ec242c4a9bbbfbac5f10f8d
       defaultValue: {fileID: 0}
     activeState: 0
+    stateAfterClip: 1
     collider2D: {fileID: 0}
     initialActiveState: 1
 --- !u!114 &-1736011921915001216
@@ -2091,10 +2140,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: Active
   - m_Version: 1
-    m_Start: 28.5
+    m_Start: 28.266666666666666
     m_ClipIn: 0
     m_Asset: {fileID: -8235748060412398939}
-    m_Duration: 4.899999999999999
+    m_Duration: 5.133333333333333
     m_TimeScale: 1
     m_ParentTrack: {fileID: -631457565430209799}
     m_EaseInDuration: 0
@@ -2160,10 +2209,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: Active
   - m_Version: 1
-    m_Start: 26.416666666666668
+    m_Start: 26.183333333333334
     m_ClipIn: 0
     m_Asset: {fileID: -6738832970219138769}
-    m_Duration: 0.9333333333333265
+    m_Duration: 0.716666666666665
     m_TimeScale: 1
     m_ParentTrack: {fileID: -631457565430209799}
     m_EaseInDuration: 0
@@ -2438,6 +2487,42 @@ MonoBehaviour:
   m_Markers:
     m_Objects: []
   m_PostPlaybackState: 1
+--- !u!114 &-601429978853527825
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2b3d12b6b57b8c4c87153be9bc204ad, type: 3}
+  m_Name: ToggleInteractableClip(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  template:
+    interactableDatas: []
+  interactableDatas:
+  - collider2DReference:
+      exposedName: bcba923de54088e4dbf718bf5e039363
+      defaultValue: {fileID: 0}
+    activeState: 1
+    stateAfterClip: 1
+    collider2D: {fileID: 0}
+    initialActiveState: 1
+  - collider2DReference:
+      exposedName: 6a922203429c1564ba977ea0fa910e2b
+      defaultValue: {fileID: 0}
+    activeState: 0
+    stateAfterClip: 1
+    collider2D: {fileID: 0}
+    initialActiveState: 1
+  - collider2DReference:
+      exposedName: f46a115e7bddb9344a27e528517c4792
+      defaultValue: {fileID: 0}
+    activeState: 0
+    stateAfterClip: 1
+    collider2D: {fileID: 0}
+    initialActiveState: 1
 --- !u!114 &-545901110755180094
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2806,10 +2891,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TextPopupClip
   - m_Version: 1
-    m_Start: 29.3
+    m_Start: 28.983333333333334
     m_ClipIn: 0
     m_Asset: {fileID: 6445211311770077870}
-    m_Duration: 3.3666666666666663
+    m_Duration: 3.8666666666666663
     m_TimeScale: 1
     m_ParentTrack: {fileID: 560481966797851737}
     m_EaseInDuration: 0
@@ -2875,7 +2960,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TextPopupClip
   - m_Version: 1
-    m_Start: 26.7
+    m_Start: 26.466666666666665
     m_ClipIn: 0
     m_Asset: {fileID: -8908299903722483492}
     m_Duration: 0.33333365122477154
@@ -4373,11 +4458,11 @@ MonoBehaviour:
     m_Recordable: 0
     m_PostExtrapolationMode: 0
     m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 6.75
+    m_PostExtrapolationTime: 6.56666666666667
     m_PreExtrapolationTime: 0
     m_DisplayName: Henchman
   - m_Version: 1
-    m_Start: 23.23333333333333
+    m_Start: 23.05
     m_ClipIn: 0
     m_Asset: {fileID: -901284507919502680}
     m_Duration: 0.41666666666666785
@@ -4442,8 +4527,8 @@ MonoBehaviour:
     m_Recordable: 0
     m_PostExtrapolationMode: 0
     m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 10.949999999999953
-    m_PreExtrapolationTime: 6.75
+    m_PostExtrapolationTime: 11.133333333333283
+    m_PreExtrapolationTime: 6.56666666666667
     m_DisplayName: Henchman
   - m_Version: 1
     m_Start: 34.59999999999995
@@ -4512,7 +4597,7 @@ MonoBehaviour:
     m_PostExtrapolationMode: 0
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 3.3166666666667055
-    m_PreExtrapolationTime: 10.949999999999953
+    m_PreExtrapolationTime: 11.133333333333283
     m_DisplayName: Henchman
   - m_Version: 1
     m_Start: 38.33333333333333
@@ -4879,7 +4964,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: Famine Intro
   - m_Version: 1
-    m_Start: 25.383333333333333
+    m_Start: 24.616666666666667
     m_ClipIn: 0
     m_Asset: {fileID: -8921426139233897573}
     m_Duration: 0.8500000000000014
@@ -5056,10 +5141,10 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 21.533333333333335
+    m_Start: 21.866666666666667
     m_ClipIn: 0
     m_Asset: {fileID: -9086254007232515261}
-    m_Duration: 0.7333333333333307
+    m_Duration: 0.25
     m_TimeScale: 1
     m_ParentTrack: {fileID: 3919468389536306227}
     m_EaseInDuration: 0
@@ -5125,10 +5210,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: ToggleInteractableClip
   - m_Version: 1
-    m_Start: 33.33333333333332
+    m_Start: 33.44999999999992
     m_ClipIn: 0
     m_Asset: {fileID: 6271032334830104611}
-    m_Duration: 0.3166666666666771
+    m_Duration: 0.16666666666674956
     m_TimeScale: 1
     m_ParentTrack: {fileID: 3919468389536306227}
     m_EaseInDuration: 0
@@ -5194,9 +5279,216 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: ToggleInteractableClip
   - m_Version: 1
-    m_Start: 9.383333333333333
+    m_Start: 9.466666666666667
     m_ClipIn: 0
     m_Asset: {fileID: 6305297157029852685}
+    m_Duration: 0.1999999999999993
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 3919468389536306227}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: ToggleInteractableClip
+  - m_Version: 1
+    m_Start: 36
+    m_ClipIn: 0
+    m_Asset: {fileID: -1787273620525342207}
+    m_Duration: 0.13333333333333286
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 3919468389536306227}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: ToggleInteractableClip
+  - m_Version: 1
+    m_Start: 79.26666666666667
+    m_ClipIn: 0
+    m_Asset: {fileID: 7611799298364671158}
+    m_Duration: 0.3166666666666629
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 3919468389536306227}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: ToggleInteractableClip
+  - m_Version: 1
+    m_Start: 0
+    m_ClipIn: 0
+    m_Asset: {fileID: 7655407092738141584}
     m_Duration: 0.23333333333333428
     m_TimeScale: 1
     m_ParentTrack: {fileID: 3919468389536306227}
@@ -5263,10 +5555,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: ToggleInteractableClip
   - m_Version: 1
-    m_Start: 35.8
+    m_Start: 96.7
     m_ClipIn: 0
-    m_Asset: {fileID: -1787273620525342207}
-    m_Duration: 0.36666666666666714
+    m_Asset: {fileID: -7068451630463762958}
+    m_Duration: 0.7333333333333343
     m_TimeScale: 1
     m_ParentTrack: {fileID: 3919468389536306227}
     m_EaseInDuration: 0
@@ -5332,10 +5624,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: ToggleInteractableClip
   - m_Version: 1
-    m_Start: 79.05
+    m_Start: 61.43333333333332
     m_ClipIn: 0
-    m_Asset: {fileID: 7611799298364671158}
-    m_Duration: 1.0833333333333428
+    m_Asset: {fileID: -601429978853527825}
+    m_Duration: 0.36666666666666714
     m_TimeScale: 1
     m_ParentTrack: {fileID: 3919468389536306227}
     m_EaseInDuration: 0
@@ -5677,7 +5969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 26.8
+  m_Time: 26.183333333333334
   m_Retroactive: 1
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 675c917bc1195424a906adf7230e0ae3, type: 2}
@@ -5700,18 +5992,21 @@ MonoBehaviour:
       exposedName: 03af49a1b7beee64080518aadd503a24
       defaultValue: {fileID: 0}
     activeState: 0
+    stateAfterClip: 1
     collider2D: {fileID: 0}
     initialActiveState: 1
   - collider2DReference:
       exposedName: 299142c145785f14291b5653bc24e7f7
       defaultValue: {fileID: 0}
     activeState: 1
+    stateAfterClip: 1
     collider2D: {fileID: 0}
     initialActiveState: 1
   - collider2DReference:
       exposedName: 02c982f084ece7444821de968c3b661b
       defaultValue: {fileID: 0}
     activeState: 0
+    stateAfterClip: 1
     collider2D: {fileID: 0}
     initialActiveState: 1
 --- !u!114 &6305297157029852685
@@ -5733,18 +6028,21 @@ MonoBehaviour:
       exposedName: 0cdebf1dc62626f44b4e6adad628ef11
       defaultValue: {fileID: 0}
     activeState: 0
+    stateAfterClip: 1
     collider2D: {fileID: 0}
     initialActiveState: 1
   - collider2DReference:
       exposedName: 214542ccca8b6a740a851bf13243c736
       defaultValue: {fileID: 0}
     activeState: 0
+    stateAfterClip: 1
     collider2D: {fileID: 0}
     initialActiveState: 1
   - collider2DReference:
       exposedName: a867ce4d12611384c880925dc469090c
       defaultValue: {fileID: 0}
     activeState: 1
+    stateAfterClip: 1
     collider2D: {fileID: 0}
     initialActiveState: 1
 --- !u!114 &6421990341350550242
@@ -5886,10 +6184,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: FocusSpriteClip
   - m_Version: 1
-    m_Start: 26.416666666666668
+    m_Start: 26.183333333333334
     m_ClipIn: 0
     m_Asset: {fileID: -718930357368801574}
-    m_Duration: 0.9333333333333265
+    m_Duration: 0.716666666666665
     m_TimeScale: 1
     m_ParentTrack: {fileID: 6896501393684198867}
     m_EaseInDuration: 0
@@ -6024,10 +6322,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: FocusSpriteClip
   - m_Version: 1
-    m_Start: 28.5
+    m_Start: 28.266666666666666
     m_ClipIn: 0
     m_Asset: {fileID: -7148751391335304420}
-    m_Duration: 4.899999999999999
+    m_Duration: 5.133333333333333
     m_TimeScale: 1
     m_ParentTrack: {fileID: 6896501393684198867}
     m_EaseInDuration: 0
@@ -6346,7 +6644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 9.516666666666667
+  m_Time: 9.466666666666667
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: e7b9e8ca41575b54ea8fe4b7cec125e4, type: 2}
@@ -6410,6 +6708,50 @@ MonoBehaviour:
       exposedName: c84cfb245c7ec5c44b8781872163f2f8
       defaultValue: {fileID: 0}
     activeState: 1
+    stateAfterClip: 1
+    collider2D: {fileID: 0}
+    initialActiveState: 1
+--- !u!114 &7655407092738141584
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2b3d12b6b57b8c4c87153be9bc204ad, type: 3}
+  m_Name: ToggleInteractableClip(Clone)(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  template:
+    interactableDatas: []
+  interactableDatas:
+  - collider2DReference:
+      exposedName: 84d5254d42c352d4ab499b46b2fb7cde
+      defaultValue: {fileID: 0}
+    activeState: 0
+    stateAfterClip: 1
+    collider2D: {fileID: 0}
+    initialActiveState: 1
+  - collider2DReference:
+      exposedName: b6351bef755725f4891f793e20bca4d5
+      defaultValue: {fileID: 0}
+    activeState: 0
+    stateAfterClip: 1
+    collider2D: {fileID: 0}
+    initialActiveState: 1
+  - collider2DReference:
+      exposedName: bb26502af5af12c43a3cb12eefd51e20
+      defaultValue: {fileID: 0}
+    activeState: 0
+    stateAfterClip: 1
+    collider2D: {fileID: 0}
+    initialActiveState: 1
+  - collider2DReference:
+      exposedName: 75bd7d2c3165ba94bb797845d092fdfa
+      defaultValue: {fileID: 0}
+    activeState: 0
+    stateAfterClip: 1
     collider2D: {fileID: 0}
     initialActiveState: 1
 --- !u!114 &7940132838426933372
@@ -6760,7 +7102,7 @@ MonoBehaviour:
   m_Time: 12.833333333333334
   m_Retroactive: 1
   m_EmitOnce: 1
-  m_Asset: {fileID: 11400000, guid: e15cfebb19741aa468bc3d476e299e4e, type: 2}
+  m_Asset: {fileID: 11400000, guid: 6164176c45b2ee545a347f06231ba872, type: 2}
 --- !u!114 &8756229011321061648
 MonoBehaviour:
   m_ObjectHideFlags: 1
