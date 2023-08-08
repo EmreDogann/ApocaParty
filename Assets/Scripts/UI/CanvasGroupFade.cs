@@ -16,6 +16,8 @@ namespace UI
         }
         [SerializeField] private FadeType fadeType;
         [SerializeField] private bool fadeOnAwake;
+        [SerializeField] private bool blockRaycastsWhenFading;
+
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private float beforeWaitTime;
         [SerializeField] private float afterWaitTime;
@@ -39,6 +41,11 @@ namespace UI
 
         public void StartFade()
         {
+            if (blockRaycastsWhenFading)
+            {
+                _canvasGroup.blocksRaycasts = true;
+            }
+
             if (fadeType == FadeType.FadeIn)
             {
                 StartCoroutine(FadeIn());

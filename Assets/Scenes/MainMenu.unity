@@ -3002,6 +3002,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeType: 0
   fadeOnAwake: 0
+  blockRaycastsWhenFading: 1
   _canvasGroup: {fileID: 1241897920}
   beforeWaitTime: 0
   afterWaitTime: 2
@@ -4201,6 +4202,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeType: 1
   fadeOnAwake: 1
+  blockRaycastsWhenFading: 0
   _canvasGroup: {fileID: 1793452239}
   beforeWaitTime: 0
   afterWaitTime: 0

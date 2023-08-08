@@ -1696,6 +1696,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeType: 1
   fadeOnAwake: 1
+  blockRaycastsWhenFading: 1
   _canvasGroup: {fileID: 1462031004}
   beforeWaitTime: 1
   afterWaitTime: 0
@@ -2267,9 +2268,9 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   playHoverAudio: 1
-  playClickAudio: 0
+  playClickAudio: 1
   uiAudioHoverOverride: {fileID: 11400000, guid: aad1f17ce6cf39049ad245212c7f50b0, type: 2}
-  uiAudioClickOverride: {fileID: 0}
+  uiAudioClickOverride: {fileID: 11400000, guid: fbff0049828d6cc49a14cca31c1c7166, type: 2}
 --- !u!114 &1860617687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2420,10 +2421,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeType: 0
   fadeOnAwake: 0
+  blockRaycastsWhenFading: 1
   _canvasGroup: {fileID: 1889048034}
   beforeWaitTime: 0
   afterWaitTime: 2
-  duration: 2
+  duration: 9
   startValue: 0
   endValue: 1
   easingFunction: 3

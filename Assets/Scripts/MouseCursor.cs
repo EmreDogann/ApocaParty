@@ -17,17 +17,14 @@ public class MouseCursor : MonoBehaviour
     {
         Cursor.visible = !useCustomCursor;
         transform.gameObject.SetActive(useCustomCursor);
+
+        ChangeCursor += ChangeCursorCallback;
     }
 
     private void OnValidate()
     {
         Cursor.visible = !useCustomCursor;
         transform.gameObject.SetActive(useCustomCursor);
-    }
-
-    private void OnEnable()
-    {
-        ChangeCursor += ChangeCursorCallback;
     }
 
     private void OnDestroy()
