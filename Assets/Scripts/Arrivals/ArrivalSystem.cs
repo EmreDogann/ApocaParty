@@ -49,6 +49,12 @@ namespace Arrivals
         private IEnumerator WaitOneFrameForGuestsArrival()
         {
             yield return null;
+
+            if (_currentIndex >= _guestGroups.Count)
+            {
+                yield break;
+            }
+
             RingDoorbell();
             GuestsArrive();
         }
