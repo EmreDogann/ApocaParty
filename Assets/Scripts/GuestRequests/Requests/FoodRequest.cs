@@ -11,8 +11,13 @@ namespace GuestRequests.Requests
     [RequireComponent(typeof(SpillInteractable), typeof(Collider2D))]
     public class FoodRequest : Request, IConsumable
     {
+        [Separator("General")]
+        [SerializeField] private AudioSO plateAudio;
+
         [Separator("Consumable Stats")]
         [SerializeField] private ConsumedData consumeReward;
+
+        [Separator("Spills")]
         [SerializeField] private Sprite spillSprite;
         [SerializeField] private AudioSO spillSound;
         private SpillInteractable _spillInteractable;
@@ -78,6 +83,11 @@ namespace GuestRequests.Requests
         public override void UpdateRequest(float deltaTime)
         {
             base.UpdateRequest(deltaTime);
+            if (IsRequestCompleted())
+            {
+                plateAudio.Play(transform.position);
+            }
+            
             if (IsRequestFailed())
             {
                 OnFire?.Invoke();

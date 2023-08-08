@@ -1,9 +1,17 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class MouseCursor : MonoBehaviour
 {
     [SerializeField] private bool useCustomCursor;
+
+    private static Action<bool> ChangeCursor;
+
+    public static void CursorActive(bool isActive)
+    {
+        ChangeCursor?.Invoke(isActive);
+    }
 
     private void Awake()
     {
@@ -15,6 +23,21 @@ public class MouseCursor : MonoBehaviour
     {
         Cursor.visible = !useCustomCursor;
         transform.gameObject.SetActive(useCustomCursor);
+    }
+
+    private void OnEnable()
+    {
+        ChangeCursor += ChangeCursorCallback;
+    }
+
+    private void OnDestroy()
+    {
+        ChangeCursor -= ChangeCursorCallback;
+    }
+
+    private void ChangeCursorCallback(bool isActive)
+    {
+        transform.gameObject.SetActive(isActive);
     }
 
     private void Update()

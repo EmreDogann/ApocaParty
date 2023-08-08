@@ -94,6 +94,7 @@ public class SceneLoaderManager : MonoBehaviour
 
     private IEnumerator SwapScenes(string scenePath)
     {
+        MouseCursor.CursorActive(false);
         // This is required to fix some weird issue. https://issuetracker.unity3d.com/issues/loadsceneasync-allowsceneactivation-flag-is-ignored-in-awake?page=1#comments
         yield return null;
 
@@ -103,6 +104,7 @@ public class SceneLoaderManager : MonoBehaviour
         loadingAudioListener.enabled = false;
 
         yield return Resources.UnloadUnusedAssets();
+        MouseCursor.CursorActive(true);
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByPath(scenePath));
     }

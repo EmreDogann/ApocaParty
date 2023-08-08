@@ -1536,7 +1536,7 @@ MonoBehaviour:
   playHoverAudio: 1
   playClickAudio: 1
   uiAudioHoverOverride: {fileID: 0}
-  uiAudioClickOverride: {fileID: 0}
+  uiAudioClickOverride: {fileID: 11400000, guid: b999ae8f040923e4eab2745d2d67889d, type: 2}
 --- !u!1 &649220026
 GameObject:
   m_ObjectHideFlags: 0
@@ -2346,9 +2346,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.00006604195
     y: 0
-    width: 1
+    width: 0.9998679
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
