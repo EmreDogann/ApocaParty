@@ -202,4 +202,13 @@ public class MouseCursor : MonoBehaviour
             }
         }
     }
+
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        if (hasFocus && !_isButterFingering)
+        {
+            Cursor.lockState = cursorLockMode;
+            Cursor.visible = !useCustomCursor;
+        }
+    }
 }
