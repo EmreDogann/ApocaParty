@@ -1,4 +1,5 @@
 using Actors;
+using Audio;
 using Consumable;
 using Dialogue;
 using DiningTable;
@@ -56,6 +57,9 @@ namespace Guest
         [Separator("UI")]
         public ProgressBar consumeProgressBar;
 
+        [Separator("Audio")]
+        [SerializeField] private AudioSO errorSound;
+
         public NeedSystem needSystem { get; private set; }
         public Camera _mainCamera { get; private set; }
         [field: SerializeReference] public TableSeat AssignedTableSeat { get; private set; }
@@ -70,9 +74,12 @@ namespace Guest
         private int _waiterID;
         private bool _isAssignedWaiter;
         internal bool _isSittingAtSeat;
+        internal bool IsInSpillZone;
         public bool TutorialMode { get; private set; }
 
         private bool _isAIActive;
+
+        private int _spillZoneLayer;
 
         private void Awake()
         {
@@ -106,6 +113,8 @@ namespace Guest
             {
                 ActivateAI();
             }
+
+            _spillZoneLayer = LayerMask.NameToLayer("SpillZone");
         }
 
         private void OnEnable()
@@ -140,7 +149,7 @@ namespace Guest
         {
             if (_guestType != GuestType.Henchmen)
             {
-                VibeMeter.ChangeVibe.Invoke(10, !TutorialMode);
+                VibeMeter.ChangeVibe.Invoke(15, !TutorialMode);
             }
             else
             {
@@ -152,11 +161,11 @@ namespace Guest
         {
             if (_guestType != GuestType.Henchmen)
             {
-                VibeMeter.ChangeVibe.Invoke(-15, !TutorialMode);
+                VibeMeter.ChangeVibe.Invoke(-10, !TutorialMode);
             }
             else
             {
-                VibeMeter.ChangeVibe.Invoke(-5, !TutorialMode);
+                VibeMeter.ChangeVibe.Invoke(-2, !TutorialMode);
             }
         }
 
@@ -228,8 +237,25 @@ namespace Guest
             return AssignedTableSeat.GetSeatTransform();
         }
 
+        private void OnTriggerStay2D(Collider2D other)
+        {
+            if (other.gameObject.layer == _spillZoneLayer)
+            {
+                IsInSpillZone = true;
+            }
+            else
+            {
+                IsInSpillZone = false;
+            }
+        }
+
         private void OnNewNeed(INeed need)
         {
+            if (TutorialMode)
+            {
+                return;
+            }
+
             switch (need.GetNeedType())
             {
                 case NeedType.Drink:
@@ -245,6 +271,8 @@ namespace Guest
                             CurrentConsumable = DrinksTable.Instance.TryGetDrink();
                             stateMachine.ChangeState(GuestStateID.GetConsumable);
                             InteractableState.SetInteractableActive(false);
+
+                            needSystem.TryResolveNeed(need.GetNeedType());
                         }
                     }
 
@@ -273,22 +301,22 @@ namespace Guest
 
                     if (_guestType == GuestType.Famine)
                     {
-                        VibeMeter.ChangeVibe.Invoke(10, !TutorialMode);
+                        VibeMeter.ChangeVibe.Invoke(12, false);
                     }
                     else
                     {
-                        VibeMeter.ChangeVibe.Invoke(-5, !TutorialMode);
+                        VibeMeter.ChangeVibe.Invoke(-3, !TutorialMode);
                     }
 
                     return;
                 case PartyEventType.MusicPlaying:
                     needSystem.TryFulfillNeed(NeedType.Music, eventData.needsCost, eventData.moodCost);
-                    break;
+                    return;
                 case PartyEventType.MusicMachineBreaks:
                     needSystem.ChangeMood(eventData.moodCost);
                     break;
                 case PartyEventType.FoodBurning:
-                    needSystem.ChangeMood(eventData.moodCost);
+                    // needSystem.ChangeMood(eventData.moodCost);
                     break;
                 case PartyEventType.PowerOutage:
                     needSystem.ChangeMood(eventData.moodCost);
@@ -318,6 +346,11 @@ namespace Guest
             return _guestType != GuestType.Henchmen && needSystem.HasUnresolvedNeed();
         }
 
+        public bool HasNeed(NeedType needType)
+        {
+            return needSystem.HasNeed(needType);
+        }
+
         public bool HasConsumable()
         {
             return CurrentConsumable != null || AssignedTableSeat != null && AssignedTableSeat.HasFood();
@@ -326,8 +359,7 @@ namespace Guest
         public void WaiterInteracted(IWaiter waiter)
         {
             var messages = needSystem.GetUnknownNeedConversations();
-            if (waiter.GetWaiterType() == CharacterType.Player && _guestType != GuestType.Henchmen &&
-                messages.Count > 0)
+            if (_guestType != GuestType.Henchmen && messages.Count > 0)
             {
                 foreach (Message message in messages)
                 {
@@ -352,12 +384,16 @@ namespace Guest
                             CurrentConsumable = consumable;
                             CurrentConsumable.SetSorting(spriteRenderer.sortingLayerID,
                                 spriteRenderer.sortingOrder + 1);
-
                             break;
                     }
 
                     stateMachine.ChangeState(GuestStateID.Consume);
+                    _waiterID = 0;
+                    _isAssignedWaiter = false;
+                    return;
                 }
+
+                errorSound.Play(transform.position);
             }
 
             _waiterID = 0;

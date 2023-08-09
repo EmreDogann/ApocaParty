@@ -38,6 +38,8 @@ namespace Needs
         private Sequence _unknownRequestTween;
         private Sequence _iconTween;
 
+        private Coroutine playDelayedTweenCoroutine;
+
         private void Awake()
         {
             if (useUnresolvedSymbol)
@@ -46,7 +48,6 @@ namespace Needs
 
                 _unknownRequestTween = DOTween.Sequence();
                 _unknownRequestTween
-                    .AppendInterval(0.85f)
                     .Append(unresolvedRequestImage.rectTransform
                         .DOJumpAnchorPos(unresolvedRequestImage.rectTransform.anchoredPosition, 75.0f, 1, 0.8f)
                         .SetEase(Ease.OutBounce))
@@ -69,6 +70,7 @@ namespace Needs
                             unresolvedRequestImage.gameObject.SetActive(false);
                         });
                     })
+                    .SetAutoKill(false)
                     .Pause();
             }
 
@@ -95,7 +97,7 @@ namespace Needs
                 needIcon.PopupEffect
                     .SetId(needIcon.ID)
                     .Append(needIcon.containerRectTransform
-                        .DOScale(needIcon.containerRectTransform.localScale * 1.2f, 0.5f)
+                        .DOScale(needIcon.containerRectTransform.localScale * 1.5f, 0.5f)
                         .SetEase(Ease.OutQuad)
                         .From())
                     .OnPlay(() =>
@@ -152,6 +154,32 @@ namespace Needs
                 .SetEase(Ease.OutBounce);
         }
 
+        private IEnumerator DelayedUnknownIconPlay()
+        {
+            yield return null;
+            _unknownRequestTween.PlayForward();
+        }
+
+        private void PlayUnknownRequestTween()
+        {
+            if (playDelayedTweenCoroutine != null)
+            {
+                StopCoroutine(playDelayedTweenCoroutine);
+            }
+
+            playDelayedTweenCoroutine = StartCoroutine(DelayedUnknownIconPlay());
+        }
+
+        private void StopUnknownRequestTween()
+        {
+            if (playDelayedTweenCoroutine != null)
+            {
+                StopCoroutine(playDelayedTweenCoroutine);
+            }
+
+            _unknownRequestTween.Rewind();
+        }
+
         public void UpdateProgress(NeedType needType, float progressPercentage)
         {
             NeedsIconData iconData = _currentlyActiveIcons.FirstOrDefault(x => x.needType == needType);
@@ -181,7 +209,7 @@ namespace Needs
                 if (useUnresolvedSymbol)
                 {
                     iconData.needResolved = false;
-                    _unknownRequestTween.PlayForward();
+                    PlayUnknownRequestTween();
                 }
                 else
                 {
@@ -201,7 +229,7 @@ namespace Needs
                 if (useUnresolvedSymbol && !startResolved)
                 {
                     iconData.needResolved = false;
-                    _unknownRequestTween.PlayForward();
+                    PlayUnknownRequestTween();
                 }
                 else
                 {
@@ -224,7 +252,7 @@ namespace Needs
 
                 if (useUnresolvedSymbol && _currentlyActiveIcons.Count == 0)
                 {
-                    _unknownRequestTween.Rewind();
+                    StopUnknownRequestTween();
                 }
             }
         }
@@ -247,7 +275,7 @@ namespace Needs
                 return false;
             }
 
-            _unknownRequestTween.Rewind();
+            StopUnknownRequestTween();
             foreach (NeedsIconData activeIcon in _currentlyActiveIcons)
             {
                 if (!activeIcon.needResolved)
@@ -255,6 +283,28 @@ namespace Needs
                     activeIcon.needResolved = true;
                     activeIcon.PopupEffect.PlayForward();
                 }
+            }
+
+            return true;
+        }
+
+        public bool ResolveNeed(NeedType needType)
+        {
+            if (!useUnresolvedSymbol)
+            {
+                return false;
+            }
+
+            NeedsIconData iconData = _currentlyActiveIcons.Find(x => x.needType == needType);
+            if (iconData != null)
+            {
+                iconData.needResolved = true;
+                iconData.PopupEffect.PlayForward();
+            }
+
+            if (_currentlyActiveIcons.Count(x => x.needResolved == false) == 0)
+            {
+                StopUnknownRequestTween();
             }
 
             return true;

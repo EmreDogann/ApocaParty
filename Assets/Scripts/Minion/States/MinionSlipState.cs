@@ -17,7 +17,7 @@ namespace Minion.States
         {
             _isSlipping = true;
 
-            if (!minion.currentRequest.IsRequestStarted())
+            if (minion.currentRequest != null && !minion.currentRequest.IsRequestStarted())
             {
                 minion.currentRequest.ResetRequest();
                 minion.currentRequest.RemoveOwner();

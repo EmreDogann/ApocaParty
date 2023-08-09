@@ -85,8 +85,7 @@ namespace Minion.States
                         }
                     }
 
-                    if (requestInteractable is StoveInteractable ||
-                        request is MusicRequest && !ElectricalBox.IsPowerOn())
+                    if (request is MusicRequest && !ElectricalBox.IsPowerOn())
                     {
                         minion.errorSound.Play2D();
                         return;
@@ -123,8 +122,12 @@ namespace Minion.States
                     _stateMachine.ChangeState(MinionStateID.Moving);
                     break;
                 case GuestInteractable guestInteractable:
-                    if (!guestInteractable.WaiterTarget.HasUnknownRequest() &&
-                        !guestInteractable.WaiterTarget.HasConsumable() && minion.HoldingConsumable != null)
+                    // if (guestInteractable.WaiterTarget.HasUnknownRequest() ||
+                    //     !guestInteractable.WaiterTarget.HasConsumable() && minion.HoldingConsumable != null)
+                    // {
+                    if (guestInteractable.WaiterTarget.HasUnknownRequest() ||
+                        minion.HoldingConsumable != null &&
+                        guestInteractable.WaiterTarget.HasNeed(minion.HoldingConsumable.GetConsumeData().needType))
                     {
                         minion.SetDestinationAndDisplayPath(guestInteractable.WaiterTarget.GetDestinationTransform()
                             .position);
@@ -133,10 +136,12 @@ namespace Minion.States
 
                         _stateMachine.ChangeState(MinionStateID.Moving);
                     }
-                    else
-                    {
-                        minion.errorSound.Play2D();
-                    }
+
+                    // }
+                    // else
+                    // {
+                    //     minion.errorSound.Play2D();
+                    // }
 
                     break;
                 case FoodPileInteractable foodPileInteractable:

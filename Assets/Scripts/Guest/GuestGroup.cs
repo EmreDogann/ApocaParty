@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Dialogue;
 using DiningTable;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Guest
 {
@@ -19,6 +18,7 @@ namespace Guest
     public class GuestGroup : MonoBehaviour, IGuestGroup
     {
         private readonly List<GuestAI> _guests = new List<GuestAI>();
+        [SerializeField] private bool playConversationOnArrival = true;
         [SerializeField] private ConversationSO arrivalConversation;
         [field: SerializeReference] public GroupType GroupType { get; private set; }
 
@@ -69,7 +69,7 @@ namespace Guest
                     return;
                 }
 
-                if (arrivalConversation != null)
+                if (playConversationOnArrival && arrivalConversation != null)
                 {
                     DialogueManager.Instance.OpenDialogue(arrivalConversation.messages, () => SitDown(true));
                 }
@@ -98,8 +98,8 @@ namespace Guest
                 guestAI.transform.gameObject.SetActive(true);
                 guestAI.enabled = true;
 
-                Vector3 randomPosition = new Vector3(Random.Range(0.0f, 0.5f), Random.Range(0.0f, 0.5f), 0.0f);
-                guestAI.SetDestination(arrivalSpots[index].position + randomPosition);
+                // Vector3 randomPosition = new Vector3(Random.Range(0.0f, 0.5f), Random.Range(0.0f, 0.5f), 0.0f);
+                guestAI.SetDestination(arrivalSpots[index].position);
                 index++;
             }
 

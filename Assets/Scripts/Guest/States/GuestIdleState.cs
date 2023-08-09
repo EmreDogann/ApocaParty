@@ -16,6 +16,11 @@ namespace Guest.States
 
         public override void Tick()
         {
+            if (guest.IsAssignedWaiter())
+            {
+                return;
+            }
+
             guest.needSystem.Tick();
         }
 

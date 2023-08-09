@@ -26,7 +26,7 @@ MonoBehaviour:
     Min: 1
     Max: 1
   Looping: 0
-  CanBePaused: 1
+  CanBePaused: 0
   playOrder: 1
   currentPlayIndex: 0
   audioEvent: {fileID: 11400000, guid: 6c5f128f58f1e1946b9be8d4fcd88dbf, type: 2}

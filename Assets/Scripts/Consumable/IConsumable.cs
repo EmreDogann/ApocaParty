@@ -18,6 +18,7 @@ namespace Consumable
         public void SetSorting(int layer, int order);
         public Transform GetTransform();
         public ConsumedData Consume();
+        public ConsumedData GetConsumeData();
         public void Spill();
         public bool IsSpilled();
         public void StartCleanup();

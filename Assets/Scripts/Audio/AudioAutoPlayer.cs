@@ -1,4 +1,5 @@
-﻿using MyBox;
+﻿using System.Collections;
+using MyBox;
 using UnityEngine;
 
 namespace Audio
@@ -11,12 +12,14 @@ namespace Audio
         [SerializeField] private bool fadeIn;
         [ConditionalField(nameof(fadeIn))] [SerializeField] private float fadeInDuration = 1.0f;
 
-        private void Start()
+        private IEnumerator Start()
         {
             if (stopExistingAudio)
             {
                 audioToPlay.StopAll();
             }
+
+            yield return null;
 
             if (attachToGameObject)
             {

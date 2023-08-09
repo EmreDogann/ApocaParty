@@ -10,22 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 68d6c0431815f3d4c87073fbdb5bca34, type: 3}
-  m_Name: Famine
+  m_Name: War
   m_EditorClassIdentifier: 
   clips:
   - {fileID: 8300000, guid: 9dd77ca0d36b0e046821420da197c090, type: 3}
-  - {fileID: 8300000, guid: 4512779c8ca562e4bafe35e65f9d5697, type: 3}
   audioMixer: {fileID: -2142215581130782871, guid: 04f137b61e667dc49a2cdb18829ed819, type: 2}
   volume:
     Min: 0.17244187
     Max: 0.17244187
   useSemitones: 0
   semitones:
-    Min: 0
-    Max: 0
+    Min: -2
+    Max: -2
   pitch:
-    Min: 1
-    Max: 1
+    Min: 0.8994196
+    Max: 0.8994196
   Looping: 0
   CanBePaused: 0
   playOrder: 1

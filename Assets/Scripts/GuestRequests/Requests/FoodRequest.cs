@@ -27,7 +27,7 @@ namespace GuestRequests.Requests
         private int _originalSortLayer;
         private int _originalSortOrder;
 
-        [ReadOnly] private bool _isConsumed;
+        [ReadOnly] private bool readyForGuest;
 
         public event Action<FoodRequest> OnConsumed;
         public static event Action OnFire;
@@ -97,6 +97,7 @@ namespace GuestRequests.Requests
         protected override void RequestFinished()
         {
             _collider2D.enabled = true;
+            readyForGuest = true;
             base.RequestFinished();
         }
 
@@ -104,6 +105,7 @@ namespace GuestRequests.Requests
         {
             base.ResetRequest();
             _isFoodCooked = false;
+            readyForGuest = false;
         }
 
         private void OnFireTriggered()
@@ -162,7 +164,6 @@ namespace GuestRequests.Requests
 
         public ConsumedData Consume()
         {
-            _isConsumed = true;
             RequestImage.enabled = false;
             RequestInteractable.SetInteractableActive(false);
             _collider2D.enabled = false;
@@ -174,6 +175,11 @@ namespace GuestRequests.Requests
             transform.rotation = startingPosition.rotation;
 
             OnConsumed?.Invoke(this);
+            return consumeReward;
+        }
+
+        public ConsumedData GetConsumeData()
+        {
             return consumeReward;
         }
 
@@ -211,12 +217,12 @@ namespace GuestRequests.Requests
 
         public bool IsConsumed()
         {
-            return _isConsumed;
+            return false;
         }
 
         public bool IsAvailable()
         {
-            return !IsConsumed() && RequestImage.enabled;
+            return readyForGuest;
         }
 
         public void SetInteractableActive(bool isInteractable)

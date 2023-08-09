@@ -53,10 +53,13 @@ namespace UI.Components.Buttons
 
         [SerializeField] private bool playHoverAudio = true;
         [SerializeField] private bool playClickAudio = true;
+        [SerializeField] private bool playPressDownAudio;
 
         [Separator("Audio Overrides")]
         [ReadOnly(nameof(playHoverAudio), false, false)] [OverrideLabel("Hover Audio")]
         [SerializeField] private AudioSO uiAudioHoverOverride;
+        [ReadOnly(nameof(playPressDownAudio), false, false)] [OverrideLabel("Press Down Audio")]
+        [SerializeField] private AudioSO uiAudioPressDownOverride;
         [ReadOnly(nameof(playClickAudio), false, false)] [OverrideLabel("Click Audio")]
         [SerializeField] private AudioSO uiAudioClickOverride;
 
@@ -155,8 +158,19 @@ namespace UI.Components.Buttons
             }
 
             ButtonClicked();
-
             onClickEvent?.Invoke();
+
+            if (playClickAudio)
+            {
+                if (uiAudioClickOverride)
+                {
+                    uiAudioClickOverride.Play2D();
+                }
+                else
+                {
+                    OnButtonClick?.Invoke();
+                }
+            }
 
             if (IsButtonImageAvailable())
             {
@@ -175,11 +189,11 @@ namespace UI.Components.Buttons
             _buttonStatus = ButtonStatus.Pressed;
             StartCoroutine(TransitionColor(colorBlock.pressedColor, transitionTime));
 
-            if (playClickAudio)
+            if (playPressDownAudio)
             {
-                if (uiAudioClickOverride)
+                if (uiAudioPressDownOverride)
                 {
-                    uiAudioClickOverride.Play();
+                    uiAudioPressDownOverride.Play2D();
                 }
                 else
                 {
@@ -209,7 +223,7 @@ namespace UI.Components.Buttons
             {
                 if (uiAudioHoverOverride)
                 {
-                    uiAudioHoverOverride.Play();
+                    uiAudioHoverOverride.Play2D();
                 }
                 else
                 {
@@ -245,7 +259,7 @@ namespace UI.Components.Buttons
             {
                 effect.OnHoverExit();
             }
-            
+
             if (IsButtonImageAvailable())
             {
                 _normalImage.enabled = true;

@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using Utils;
+using Random = UnityEngine.Random;
 
 namespace Needs
 {
@@ -16,22 +17,61 @@ namespace Needs
         public float thirst;
         public float enjoyment;
 
+        public NeedMetrics() {}
+
+        public NeedMetrics(NeedMetrics metrics)
+        {
+            hunger = metrics.hunger;
+            thirst = metrics.thirst;
+            enjoyment = metrics.enjoyment;
+        }
+
         public static NeedMetrics operator +(NeedMetrics a, NeedMetrics b)
         {
-            a.hunger = Mathf.Clamp(a.hunger + b.hunger, 0.0f, 1.0f);
-            a.thirst = Mathf.Clamp(a.thirst + b.thirst, 0.0f, 1.0f);
-            a.enjoyment = Mathf.Clamp(a.enjoyment + b.enjoyment, 0.0f, 1.0f);
+            NeedMetrics metric = new NeedMetrics
+            {
+                hunger = Mathf.Clamp01(a.hunger + b.hunger),
+                thirst = Mathf.Clamp01(a.thirst + b.thirst),
+                enjoyment = Mathf.Clamp01(a.enjoyment + b.enjoyment)
+            };
 
-            return a;
+            return metric;
         }
 
         public static NeedMetrics operator -(NeedMetrics a, NeedMetrics b)
         {
-            a.hunger = Mathf.Clamp(a.hunger - b.hunger, 0.0f, 1.0f);
-            a.thirst = Mathf.Clamp(a.thirst - b.thirst, 0.0f, 1.0f);
-            a.enjoyment = Mathf.Clamp(a.enjoyment - b.enjoyment, 0.0f, 1.0f);
+            NeedMetrics metric = new NeedMetrics
+            {
+                hunger = Mathf.Clamp01(a.hunger - b.hunger),
+                thirst = Mathf.Clamp01(a.thirst - b.thirst),
+                enjoyment = Mathf.Clamp01(a.enjoyment - b.enjoyment)
+            };
 
-            return a;
+            return metric;
+        }
+
+        public static NeedMetrics operator +(NeedMetrics a, float value)
+        {
+            NeedMetrics metric = new NeedMetrics
+            {
+                hunger = a.hunger + value,
+                thirst = a.thirst + value,
+                enjoyment = a.enjoyment + value
+            };
+
+            return metric;
+        }
+
+        public static NeedMetrics operator -(NeedMetrics a, float value)
+        {
+            NeedMetrics metric = new NeedMetrics
+            {
+                hunger = a.hunger - value,
+                thirst = a.thirst - value,
+                enjoyment = a.enjoyment - value
+            };
+
+            return metric;
         }
 
         public static NeedMetrics operator *(NeedMetrics a, int value)
@@ -102,6 +142,8 @@ namespace Needs
             _currentNeeds = new List<INeed>();
             _availableNeeds = GetComponentsInChildren<INeed>().ToList();
 
+            _currentMetrics = _metricsThreshold * Random.Range(0.8f, 1.2f);
+
             _currentTime = 0.0f;
             _needTimer = 0.0f;
         }
@@ -147,7 +189,7 @@ namespace Needs
             }
 
             _currentTime += Time.deltaTime;
-            if (_currentTime >= _needCheckFrequency)
+            if (_currentTime >= _needCheckFrequency || TutorialMode)
             {
                 return;
             }
@@ -156,17 +198,31 @@ namespace Needs
 
             if (_currentMetrics.hunger < _metricsThreshold.hunger)
             {
-                TryAddNeed(NeedType.Food);
+                bool result = TryAddNeed(NeedType.Food);
+                if (result)
+                {
+                    _needTimer = needCooldown;
+                    return;
+                }
             }
 
             if (_currentMetrics.thirst < _metricsThreshold.thirst)
             {
-                TryAddNeed(NeedType.Drink);
+                bool result = TryAddNeed(NeedType.Drink);
+                if (result)
+                {
+                    _needTimer = needCooldown;
+                    return;
+                }
             }
 
             if (_currentMetrics.enjoyment < _metricsThreshold.enjoyment)
             {
-                TryAddNeed(NeedType.Music);
+                bool result = TryAddNeed(NeedType.Music);
+                if (result)
+                {
+                    _needTimer = needCooldown;
+                }
             }
         }
 
@@ -182,7 +238,22 @@ namespace Needs
                 INeed need = _currentNeeds[i];
                 if (need.GetNeedType() == needType)
                 {
-                    _currentMetrics += metricsReward;
+                    switch (needType)
+                    {
+                        case NeedType.Food:
+                            _currentMetrics.hunger = _metricsThreshold.hunger + Random.Range(0.0f, 0.15f) +
+                                                     metricsReward.hunger;
+                            break;
+                        case NeedType.Drink:
+                            _currentMetrics.thirst = _metricsThreshold.thirst + Random.Range(0.0f, 0.15f) +
+                                                     metricsReward.thirst;
+                            break;
+                        case NeedType.Music:
+                            _currentMetrics.enjoyment = _metricsThreshold.enjoyment + Random.Range(0.0f, 0.15f) +
+                                                        metricsReward.enjoyment;
+                            break;
+                    }
+
                     if (enableMoods)
                     {
                         mood.ChangeMood(moodReward);
@@ -215,6 +286,11 @@ namespace Needs
         public bool HasNeed()
         {
             return _currentNeeds.Count > 0;
+        }
+
+        public bool HasNeed(NeedType needType)
+        {
+            return _currentNeeds.Find(x => x.GetNeedType() == needType) != null;
         }
 
         public List<Message> GetUnknownNeedConversations()
@@ -293,7 +369,7 @@ namespace Needs
             }
         }
 
-        public void TryAddNeed(NeedType needType, float startingExpirationTime = -1.0f)
+        public bool TryAddNeed(NeedType needType, float startingExpirationTime = -1.0f)
         {
             if (_currentNeeds.FirstOrDefault(x => x.GetNeedType() == needType) == null)
             {
@@ -302,11 +378,14 @@ namespace Needs
                 {
                     need.ResetNeed(startingExpirationTime < 0.0f ? 0.0f : startingExpirationTime);
                     AddNeed(need);
+                    return true;
                 }
             }
+
+            return false;
         }
 
-        public void TryAddNeed(NeedType needType, bool startAsResolved, float startingExpirationTime = -1.0f)
+        public bool TryAddNeed(NeedType needType, bool startAsResolved, float startingExpirationTime = -1.0f)
         {
             if (_currentNeeds.FirstOrDefault(x => x.GetNeedType() == needType) == null)
             {
@@ -315,8 +394,11 @@ namespace Needs
                 {
                     need.ResetNeed(startingExpirationTime < 0.0f ? 0.0f : startingExpirationTime);
                     AddNeed(need, startAsResolved);
+                    return true;
                 }
             }
+
+            return false;
         }
 
         public void TryRemoveNeed(NeedType needType)
@@ -332,6 +414,11 @@ namespace Needs
         {
             INeed need = _currentNeeds.FirstOrDefault(x => x.GetNeedType() == needType);
             need?.ExpireNeed();
+        }
+
+        public void TryResolveNeed(NeedType needType)
+        {
+            needsDisplayer.ResolveNeed(needType);
         }
 
         public void TryPauseNeed(NeedType needType)

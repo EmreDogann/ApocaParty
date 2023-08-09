@@ -5,7 +5,7 @@ namespace Guest.States
 {
     public class GuestConsumeState : GuestState
     {
-        private readonly float _consumeDuration = 5.0f;
+        private readonly float _consumeDuration = 3.0f;
         private float _currentTime;
         public GuestConsumeState(GuestAI guest, GuestStateMachine stateMachine) : base(guest, stateMachine) {}
 

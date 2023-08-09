@@ -265,6 +265,11 @@ namespace Dialogue
                         return;
                     }
 
+                    if (_currentMessages[_messageIndex].actor.voice != null)
+                    {
+                        _currentMessages[_messageIndex].actor.voice.StopAll();
+                    }
+
                     NextMessage();
                 }
                 else

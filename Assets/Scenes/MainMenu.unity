@@ -247,8 +247,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   playHoverAudio: 1
-  playClickAudio: 1
+  playClickAudio: 0
+  playPressDownAudio: 1
   uiAudioHoverOverride: {fileID: 0}
+  uiAudioPressDownOverride: {fileID: 0}
   uiAudioClickOverride: {fileID: 0}
   switchMode: 1
   targetView: {fileID: 0}
@@ -1647,7 +1649,9 @@ MonoBehaviour:
         m_CallState: 2
   playHoverAudio: 1
   playClickAudio: 1
+  playPressDownAudio: 0
   uiAudioHoverOverride: {fileID: 0}
+  uiAudioPressDownOverride: {fileID: 0}
   uiAudioClickOverride: {fileID: 11400000, guid: b999ae8f040923e4eab2745d2d67889d, type: 2}
 --- !u!1 &649220026
 GameObject:
@@ -1686,8 +1690,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 3.129}
-  m_SizeDelta: {x: 353, y: 135.7419}
+  m_AnchoredPosition: {x: -4.308499, y: -1.1795}
+  m_SizeDelta: {x: 344.3828, y: 127.1248}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &649220028
 MonoBehaviour:
@@ -1734,8 +1738,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   playHoverAudio: 1
-  playClickAudio: 1
+  playClickAudio: 0
+  playPressDownAudio: 1
   uiAudioHoverOverride: {fileID: 0}
+  uiAudioPressDownOverride: {fileID: 0}
   uiAudioClickOverride: {fileID: 0}
 --- !u!114 &649220030
 MonoBehaviour:
@@ -2458,10 +2464,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0.000058412552
-    width: 1
-    height: 0.9998832
+    x: 0.00006604195
+    y: 0
+    width: 0.9998679
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -2732,8 +2738,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   playHoverAudio: 1
-  playClickAudio: 1
+  playClickAudio: 0
+  playPressDownAudio: 1
   uiAudioHoverOverride: {fileID: 0}
+  uiAudioPressDownOverride: {fileID: 0}
   uiAudioClickOverride: {fileID: 0}
   switchMode: 3
   targetView: {fileID: 1318430198}
@@ -2822,8 +2830,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   playHoverAudio: 1
-  playClickAudio: 1
+  playClickAudio: 0
+  playPressDownAudio: 1
   uiAudioHoverOverride: {fileID: 0}
+  uiAudioPressDownOverride: {fileID: 0}
   uiAudioClickOverride: {fileID: 0}
   switchMode: 3
   targetView: {fileID: 1028151635}
@@ -3124,7 +3134,19 @@ MonoBehaviour:
   easingFunction: 3
   OnFadeStart:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: b999ae8f040923e4eab2745d2d67889d, type: 2}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnFadeComplete:
     m_PersistentCalls:
       m_Calls:
@@ -5220,6 +5242,14 @@ PrefabInstance:
     - target: {fileID: 8075005488974049088, guid: a6ca8fcb7415e4d4a9711b53e4c7b416, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 8224021714174691942, guid: a6ca8fcb7415e4d4a9711b53e4c7b416, type: 3}
+      propertyPath: playClickAudio
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8224021714174691942, guid: a6ca8fcb7415e4d4a9711b53e4c7b416, type: 3}
+      propertyPath: playPressDownAudio
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8258536970895509048, guid: a6ca8fcb7415e4d4a9711b53e4c7b416, type: 3}
       propertyPath: m_AnchorMax.y

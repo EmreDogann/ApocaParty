@@ -83,6 +83,11 @@ namespace Consumable
             return consumeReward;
         }
 
+        public ConsumedData GetConsumeData()
+        {
+            return consumeReward;
+        }
+
         [ButtonMethod]
         public void Spill()
         {

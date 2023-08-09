@@ -28,7 +28,7 @@ namespace Guest.States
                 if (_currentTime > guest.spillDrinkCheckFrequency)
                 {
                     _currentTime = 0.0f;
-                    if (Random.Range(0.0f, 1.0f) < guest.chanceToSpillDrink)
+                    if (guest.IsInSpillZone && Random.Range(0.0f, 1.0f) <= guest.chanceToSpillDrink)
                     {
                         guest.CurrentConsumable.Spill();
                         guest.CurrentConsumable = null;

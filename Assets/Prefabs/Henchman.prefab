@@ -820,9 +820,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   expiryPunishment:
     hunger: 0
-    thirst: -0.5
-    enjoyment: -0.2
-  expirationTime: 30
+    thirst: -0.3
+    enjoyment: 0
+  expirationTime: 45
   randomConversations: {fileID: 0}
 --- !u!1 &5299949603845958439
 GameObject:
@@ -939,10 +939,11 @@ MonoBehaviour:
   actorData: {fileID: 0}
   startingMood: 2
   activateAIOnAwake: 1
-  chanceToSpillDrink: 0.3
-  spillDrinkCheckFrequency: 2
-  walkToDrinksChance: 0.1
+  chanceToSpillDrink: 0.07
+  spillDrinkCheckFrequency: 0.2
+  walkToDrinksChance: 0.07
   consumeProgressBar: {fileID: 1569825453185458515}
+  errorSound: {fileID: 11400000, guid: f8fd129a4287464468c4df9881d51013, type: 2}
   <AssignedTableSeat>k__BackingField: {fileID: 0}
 --- !u!114 &5299949603845958432
 MonoBehaviour:
@@ -973,7 +974,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   needsDisplayer: {fileID: 7625312696556012782}
-  needCooldown: 10
+  needCooldown: 7
   enableMoods: 0
   mood:
     _spriteRenderer: {fileID: 0}
@@ -983,15 +984,15 @@ MonoBehaviour:
   _metricsThreshold:
     hunger: 0.475
     thirst: 0.6
-    enjoyment: 0.5
+    enjoyment: 0.325
   _metricsDepletionRate:
-    hunger: 0.005
-    thirst: 0.005
-    enjoyment: 0.005
+    hunger: 0.003
+    thirst: 0.003
+    enjoyment: 0.003
   _currentMetrics:
-    hunger: 0.478
-    thirst: 0.62
-    enjoyment: 0.533
+    hunger: 0.7
+    thirst: 0.7
+    enjoyment: 0.7
 --- !u!1 &5299949604277073571
 GameObject:
   m_ObjectHideFlags: 0
@@ -1039,8 +1040,8 @@ MonoBehaviour:
   expiryPunishment:
     hunger: 0
     thirst: 0
-    enjoyment: -0.5
-  expirationTime: 30
+    enjoyment: -0.3
+  expirationTime: 45
   randomConversations: {fileID: 0}
 --- !u!1 &5299949604327381274
 GameObject:
@@ -1249,10 +1250,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   expiryPunishment:
-    hunger: -0.5
+    hunger: -0.3
     thirst: 0
-    enjoyment: -0.4
-  expirationTime: 30
+    enjoyment: 0
+  expirationTime: 45
   randomConversations: {fileID: 0}
 --- !u!1 &5299949604859386390
 GameObject:
@@ -1442,7 +1443,6 @@ GameObject:
   - component: {fileID: 3693617256267789879}
   - component: {fileID: 5729961801669887450}
   - component: {fileID: 4944430048569854916}
-  - component: {fileID: 2095978221902191568}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -1490,8 +1490,8 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: -29931941
-  m_SortingOrder: 3
+  m_SortingLayerID: -403226501
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &4944430048569854916
 MonoBehaviour:
@@ -1516,21 +1516,6 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 1
---- !u!114 &2095978221902191568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6644070490725915856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 739ddbc3f43ca154c894b71e90b444b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteRendererToFollow: {fileID: 5299949604327381273}
-  sortOrderOffset: 2
-  runOnUpdate: 1
 --- !u!1 &6729801998654486688
 GameObject:
   m_ObjectHideFlags: 0

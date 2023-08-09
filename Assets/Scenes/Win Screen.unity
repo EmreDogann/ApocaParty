@@ -802,7 +802,6 @@ GameObject:
   - component: {fileID: 656094738}
   - component: {fileID: 656094742}
   - component: {fileID: 656094741}
-  - component: {fileID: 656094740}
   - component: {fileID: 656094739}
   m_Layer: 0
   m_Name: Continue Icon
@@ -852,19 +851,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &656094740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 656094737}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 1
 --- !u!114 &656094741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1782,9 +1768,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.000058412552
+    y: 0.00014203787
     width: 1
-    height: 0.9998832
+    height: 0.9997159
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -2331,7 +2317,9 @@ MonoBehaviour:
         m_CallState: 2
   playHoverAudio: 1
   playClickAudio: 1
+  playPressDownAudio: 0
   uiAudioHoverOverride: {fileID: 11400000, guid: aad1f17ce6cf39049ad245212c7f50b0, type: 2}
+  uiAudioPressDownOverride: {fileID: 0}
   uiAudioClickOverride: {fileID: 11400000, guid: fbff0049828d6cc49a14cca31c1c7166, type: 2}
 --- !u!114 &1860617687
 MonoBehaviour:

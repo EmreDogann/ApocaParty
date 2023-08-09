@@ -110,11 +110,7 @@ namespace Player
                     switch (request)
                     {
                         case FoodRequest foodRequest:
-                            if (foodRequest.IsRequestFailed())
-                            {
-                                SetDestinationAndDisplayPath(foodRequest.transform.position);
-                            }
-                            else if (_holdingConsumable == null && foodRequest.IsRequestCompleted())
+                            if (_holdingConsumable == null && foodRequest.IsRequestCompleted())
                             {
                                 _targetConsumable = foodRequest;
                                 _targetConsumable.Claim();
@@ -158,19 +154,19 @@ namespace Player
 
                     break;
                 case GuestInteractable guestInteractable:
-                    if (guestInteractable.WaiterTarget.HasUnknownRequest() ||
-                        !guestInteractable.WaiterTarget.HasConsumable() &&
-                        _holdingConsumable != null)
-                    {
-                        _waiterTarget = guestInteractable.WaiterTarget;
-                        SetDestinationAndDisplayPath(_waiterTarget.GetDestinationTransform().position);
+                    // if (guestInteractable.WaiterTarget.HasUnknownRequest() ||
+                    //     !guestInteractable.WaiterTarget.HasConsumable() &&
+                    //     _holdingConsumable != null)
+                    // {
+                    _waiterTarget = guestInteractable.WaiterTarget;
+                    SetDestinationAndDisplayPath(_waiterTarget.GetDestinationTransform().position);
 
-                        _waiterTarget.GiveWaiterID(_waiterID);
-                    }
-                    else
-                    {
-                        errorSound.Play2D();
-                    }
+                    _waiterTarget.GiveWaiterID(_waiterID);
+                    // }
+                    // else
+                    // {
+                    //     errorSound.Play2D();
+                    // }
 
                     break;
                 case FoodPileInteractable foodPileInteractable:
@@ -287,8 +283,15 @@ namespace Player
                 return;
             }
 
-            if (_targetConsumable != null && !_targetConsumable.IsSpilled())
+            if (_targetConsumable != null)
             {
+                if (_targetConsumable.IsSpilled())
+                {
+                    StartCoroutine(CleanupSpill(_targetConsumable));
+                    _targetConsumable = null;
+                    return;
+                }
+
                 if (!_targetConsumable.IsAvailable())
                 {
                     if (_targetConsumable is Drink && DrinksTable.Instance.IsDrinkAvailable())
@@ -376,7 +379,7 @@ namespace Player
         {
             _isSlipping = true;
 
-            if (!_currentRequest.IsRequestStarted())
+            if (_currentRequest != null && !_currentRequest.IsRequestStarted())
             {
                 _currentRequest.ResetRequest();
                 _currentRequest.RemoveOwner();
@@ -396,7 +399,7 @@ namespace Player
             slipAudio.Play(transform.position);
         }
 
-        private IEnumerator CleanupSpill(SpillInteractable spillInteractable)
+        private IEnumerator CleanupSpill(IConsumable consumable)
         {
             _isCleaningUp = true;
             _agent.ResetPath();
@@ -426,7 +429,7 @@ namespace Player
                 }
             }
 
-            spillInteractable.Consumable.Cleanup();
+            consumable.Cleanup();
             progressBar.SetProgressBarActive(false);
 
             _isCleaningUp = false;
@@ -436,15 +439,6 @@ namespace Player
         {
             if (_isCleaningUp || _isSlipping || !_agent.hasPath)
             {
-                return;
-            }
-
-            SpillInteractable spillInteractable = other.GetComponent<SpillInteractable>();
-            if (spillInteractable != null && ReferenceEquals(_targetConsumable, spillInteractable.Consumable))
-            {
-                StartCoroutine(CleanupSpill(spillInteractable));
-                _holdingConsumable = null;
-                _targetConsumable = null;
                 return;
             }
 
