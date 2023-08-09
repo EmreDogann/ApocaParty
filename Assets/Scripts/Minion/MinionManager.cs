@@ -36,6 +36,14 @@ namespace Minion
             }
         }
 
+        public void SetSpeedAll(float speed)
+        {
+            foreach (MinionAI minion in _minions)
+            {
+                minion.NavMeshAgent.speed = speed;
+            }
+        }
+
         public void SetActiveWanderingAll(bool isActive)
         {
             foreach (MinionAI minion in _minions)

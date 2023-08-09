@@ -231,6 +231,11 @@ namespace Needs
             TutorialMode = isActive;
         }
 
+        public void SetDepletionRate(float multiplier)
+        {
+            _metricsDepletionRate *= multiplier;
+        }
+
         public void TryFulfillNeed(NeedType needType, NeedMetrics metricsReward, int moodReward)
         {
             for (int i = _currentNeeds.Count - 1; i >= 0; i--)

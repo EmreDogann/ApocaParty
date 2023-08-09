@@ -3,6 +3,7 @@ using Audio;
 using Consumable;
 using Dialogue;
 using DiningTable;
+using Events;
 using Guest.States;
 using GuestRequests;
 using GuestRequests.Requests;
@@ -60,9 +61,12 @@ namespace Guest
         [Separator("Audio")]
         [SerializeField] private AudioSO errorSound;
 
+        [Separator("Events")]
+        [SerializeField] private BoolEventListener rushHourModeEvent;
+
         public NeedSystem needSystem { get; private set; }
         public Camera _mainCamera { get; private set; }
-        [field: SerializeReference] public TableSeat AssignedTableSeat { get; private set; }
+        public TableSeat AssignedTableSeat { get; private set; }
 
         private GuestIdleState _guestIdleState;
         private GuestConsumeState _guestConsumeState;
@@ -124,6 +128,8 @@ namespace Guest
             needSystem.OnNewNeed += OnNewNeed;
             needSystem.OnNeedFulfilled += OnNeedFulfilled;
             needSystem.OnNeedExpired += OnNeedExpired;
+
+            rushHourModeEvent.Response.AddListener(RushHourMode);
         }
 
         private void OnDisable()
@@ -133,6 +139,8 @@ namespace Guest
             needSystem.OnNewNeed -= OnNewNeed;
             needSystem.OnNeedFulfilled -= OnNeedFulfilled;
             needSystem.OnNeedExpired -= OnNeedExpired;
+
+            rushHourModeEvent.Response.RemoveListener(RushHourMode);
         }
 
         private void Update()
@@ -202,6 +210,18 @@ namespace Guest
             if (!_isAIActive)
             {
                 ActivateAI();
+            }
+        }
+
+        public void RushHourMode(bool modeActive)
+        {
+            if (modeActive)
+            {
+                needSystem.SetDepletionRate(4.0f);
+            }
+            else
+            {
+                needSystem.SetDepletionRate(0.25f);
             }
         }
 
@@ -316,6 +336,7 @@ namespace Guest
                     needSystem.ChangeMood(eventData.moodCost);
                     break;
                 case PartyEventType.FoodBurning:
+                    // Too Harsh!
                     // needSystem.ChangeMood(eventData.moodCost);
                     break;
                 case PartyEventType.PowerOutage:
@@ -427,7 +448,7 @@ namespace Guest
 
         public Transform GetDestinationTransform()
         {
-            return AssignedTableSeat.GetDestinationTransform();
+            return AssignedTableSeat != null ? AssignedTableSeat.GetDestinationTransform() : null;
         }
     }
 }

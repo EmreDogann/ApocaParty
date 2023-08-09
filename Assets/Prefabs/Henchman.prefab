@@ -839,6 +839,7 @@ GameObject:
   - component: {fileID: 5299949603845958435}
   - component: {fileID: 5299949603845958432}
   - component: {fileID: 5299949603845958434}
+  - component: {fileID: 7059363426505779130}
   m_Layer: 8
   m_Name: Henchman
   m_TagString: Untagged
@@ -944,7 +945,7 @@ MonoBehaviour:
   walkToDrinksChance: 0.07
   consumeProgressBar: {fileID: 1569825453185458515}
   errorSound: {fileID: 11400000, guid: f8fd129a4287464468c4df9881d51013, type: 2}
-  <AssignedTableSeat>k__BackingField: {fileID: 0}
+  rushHourModeEvent: {fileID: 7059363426505779130}
 --- !u!114 &5299949603845958432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -993,6 +994,22 @@ MonoBehaviour:
     hunger: 0.7
     thirst: 0.7
     enjoyment: 0.7
+--- !u!114 &7059363426505779130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5299949603845958439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 345dcdae017073843b108e899327952e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 262b54e7efb6ec64f91bb82fc6178896, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5299949604277073571
 GameObject:
   m_ObjectHideFlags: 0

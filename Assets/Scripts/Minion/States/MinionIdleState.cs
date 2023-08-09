@@ -122,26 +122,23 @@ namespace Minion.States
                     _stateMachine.ChangeState(MinionStateID.Moving);
                     break;
                 case GuestInteractable guestInteractable:
-                    // if (guestInteractable.WaiterTarget.HasUnknownRequest() ||
-                    //     !guestInteractable.WaiterTarget.HasConsumable() && minion.HoldingConsumable != null)
-                    // {
                     if (guestInteractable.WaiterTarget.HasUnknownRequest() ||
                         minion.HoldingConsumable != null &&
                         guestInteractable.WaiterTarget.HasNeed(minion.HoldingConsumable.GetConsumeData().needType))
                     {
-                        minion.SetDestinationAndDisplayPath(guestInteractable.WaiterTarget.GetDestinationTransform()
-                            .position);
-                        minion.WaiterTarget = guestInteractable.WaiterTarget;
-                        minion.WaiterTarget.GiveWaiterID(minion.WaiterID);
+                        if (guestInteractable.WaiterTarget.GetDestinationTransform() != null)
+                        {
+                            minion.SetDestinationAndDisplayPath(guestInteractable.WaiterTarget.GetDestinationTransform()
+                                .position);
+                            minion.WaiterTarget = guestInteractable.WaiterTarget;
+                            minion.WaiterTarget.GiveWaiterID(minion.WaiterID);
 
-                        _stateMachine.ChangeState(MinionStateID.Moving);
+                            _stateMachine.ChangeState(MinionStateID.Moving);
+                            return;
+                        }
                     }
 
-                    // }
-                    // else
-                    // {
-                    //     minion.errorSound.Play2D();
-                    // }
+                    minion.errorSound.Play2D();
 
                     break;
                 case FoodPileInteractable foodPileInteractable:

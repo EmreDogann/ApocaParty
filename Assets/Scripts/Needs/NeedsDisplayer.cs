@@ -48,6 +48,7 @@ namespace Needs
 
                 _unknownRequestTween = DOTween.Sequence();
                 _unknownRequestTween
+                    .PrependInterval(0.85f)
                     .Append(unresolvedRequestImage.rectTransform
                         .DOJumpAnchorPos(unresolvedRequestImage.rectTransform.anchoredPosition, 75.0f, 1, 0.8f)
                         .SetEase(Ease.OutBounce))

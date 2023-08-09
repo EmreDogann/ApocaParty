@@ -158,15 +158,17 @@ namespace Player
                     //     !guestInteractable.WaiterTarget.HasConsumable() &&
                     //     _holdingConsumable != null)
                     // {
-                    _waiterTarget = guestInteractable.WaiterTarget;
-                    SetDestinationAndDisplayPath(_waiterTarget.GetDestinationTransform().position);
+                    if (guestInteractable.WaiterTarget.GetDestinationTransform() != null)
+                    {
+                        _waiterTarget = guestInteractable.WaiterTarget;
+                        SetDestinationAndDisplayPath(_waiterTarget.GetDestinationTransform().position);
+                        _waiterTarget.GiveWaiterID(_waiterID);
+                    }
 
-                    _waiterTarget.GiveWaiterID(_waiterID);
-                    // }
-                    // else
-                    // {
-                    //     errorSound.Play2D();
-                    // }
+                    else
+                    {
+                        errorSound.Play2D();
+                    }
 
                     break;
                 case FoodPileInteractable foodPileInteractable:
