@@ -377,7 +377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   needsDisplayer: {fileID: 8640276869176962233}
-  needCooldown: 5
+  needCooldown: 4
   enableMoods: 1
   mood:
     _spriteRenderer: {fileID: 8640276869995758086}
@@ -389,9 +389,9 @@ MonoBehaviour:
     thirst: 0.6
     enjoyment: 0.3
   _metricsDepletionRate:
-    hunger: 0.005
-    thirst: 0.005
-    enjoyment: 0.005
+    hunger: 0.007
+    thirst: 0.007
+    enjoyment: 0.007
   _currentMetrics:
     hunger: 0.7
     thirst: 0.7
@@ -2177,7 +2177,7 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 1
+  m_DrawMode: 0
   m_Size: {x: 9.06, y: 8.45}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0

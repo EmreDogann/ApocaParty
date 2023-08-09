@@ -129,9 +129,9 @@ MonoBehaviour:
     needType: 2
     moodPoints: 1
     needMetrics:
-      hunger: 0.1
-      thirst: 0.4
-      enjoyment: 0.15
+      hunger: 0
+      thirst: 0.2
+      enjoyment: 0
   spillSprite: {fileID: 21300000, guid: 3f945dc164e74ea47af35e7da2315077, type: 3}
   spillSound: {fileID: 11400000, guid: 36b06a9db8cd538488a00557f344dafa, type: 2}
   spillSortingLayer: 0

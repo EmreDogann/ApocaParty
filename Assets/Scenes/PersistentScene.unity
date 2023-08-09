@@ -310,7 +310,7 @@ MonoBehaviour:
   sceneToLoad:
     sceneAsset: {fileID: 102900000, guid: 1e6b791b1057d5643b3a2eb3279232a9, type: 3}
     scenePath: Assets/Scenes/MainMenu.unity
-  loadOnAwake: 0
+  loadOnAwake: 1
 --- !u!1 &340755186
 GameObject:
   m_ObjectHideFlags: 0

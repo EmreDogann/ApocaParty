@@ -157,7 +157,7 @@ namespace Guest
         {
             if (_guestType != GuestType.Henchmen)
             {
-                VibeMeter.ChangeVibe.Invoke(15, !TutorialMode);
+                VibeMeter.ChangeVibe.Invoke(12, !TutorialMode);
             }
             else
             {
@@ -173,7 +173,7 @@ namespace Guest
             }
             else
             {
-                VibeMeter.ChangeVibe.Invoke(-2, !TutorialMode);
+                VibeMeter.ChangeVibe.Invoke(-3, !TutorialMode);
             }
         }
 
@@ -321,11 +321,11 @@ namespace Guest
 
                     if (_guestType == GuestType.Famine)
                     {
-                        VibeMeter.ChangeVibe.Invoke(12, false);
+                        VibeMeter.ChangeVibe.Invoke(10, false);
                     }
                     else
                     {
-                        VibeMeter.ChangeVibe.Invoke(-3, !TutorialMode);
+                        VibeMeter.ChangeVibe.Invoke(-4, !TutorialMode);
                     }
 
                     return;
@@ -347,14 +347,7 @@ namespace Guest
                     break;
             }
 
-            if (_guestType != GuestType.Henchmen)
-            {
-                VibeMeter.ChangeVibe.Invoke(-5, !TutorialMode);
-            }
-            else
-            {
-                VibeMeter.ChangeVibe.Invoke(-3, !TutorialMode);
-            }
+            VibeMeter.ChangeVibe.Invoke(-5, !TutorialMode);
         }
 
         private void OnWaiterInteractDialogueFinished()

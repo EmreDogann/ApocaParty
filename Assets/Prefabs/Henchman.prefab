@@ -822,7 +822,7 @@ MonoBehaviour:
     hunger: 0
     thirst: -0.3
     enjoyment: 0
-  expirationTime: 45
+  expirationTime: 40
   randomConversations: {fileID: 0}
 --- !u!1 &5299949603845958439
 GameObject:
@@ -987,9 +987,9 @@ MonoBehaviour:
     thirst: 0.6
     enjoyment: 0.325
   _metricsDepletionRate:
-    hunger: 0.003
-    thirst: 0.003
-    enjoyment: 0.003
+    hunger: 0.004
+    thirst: 0.004
+    enjoyment: 0.004
   _currentMetrics:
     hunger: 0.7
     thirst: 0.7
@@ -1058,7 +1058,7 @@ MonoBehaviour:
     hunger: 0
     thirst: 0
     enjoyment: -0.3
-  expirationTime: 45
+  expirationTime: 40
   randomConversations: {fileID: 0}
 --- !u!1 &5299949604327381274
 GameObject:
@@ -1270,7 +1270,7 @@ MonoBehaviour:
     hunger: -0.3
     thirst: 0
     enjoyment: 0
-  expirationTime: 45
+  expirationTime: 40
   randomConversations: {fileID: 0}
 --- !u!1 &5299949604859386390
 GameObject:

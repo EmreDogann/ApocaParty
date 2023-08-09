@@ -127,8 +127,6 @@ namespace Needs
         private List<INeed> _availableNeeds;
         private List<INeed> _currentNeeds;
 
-        private readonly float _needCheckFrequency = 3.0f;
-        private float _currentTime;
         private float _needTimer;
         public bool TutorialMode { get; private set; }
 
@@ -144,7 +142,6 @@ namespace Needs
 
             _currentMetrics = _metricsThreshold * Random.Range(0.8f, 1.2f);
 
-            _currentTime = 0.0f;
             _needTimer = 0.0f;
         }
 
@@ -188,13 +185,10 @@ namespace Needs
                 return;
             }
 
-            _currentTime += Time.deltaTime;
-            if (_currentTime >= _needCheckFrequency || TutorialMode)
+            if (TutorialMode)
             {
                 return;
             }
-
-            _currentTime = 0.0f;
 
             if (_currentMetrics.hunger < _metricsThreshold.hunger)
             {
@@ -246,16 +240,13 @@ namespace Needs
                     switch (needType)
                     {
                         case NeedType.Food:
-                            _currentMetrics.hunger = _metricsThreshold.hunger + Random.Range(0.0f, 0.15f) +
-                                                     metricsReward.hunger;
+                            _currentMetrics.hunger = _metricsThreshold.hunger + metricsReward.hunger;
                             break;
                         case NeedType.Drink:
-                            _currentMetrics.thirst = _metricsThreshold.thirst + Random.Range(0.0f, 0.15f) +
-                                                     metricsReward.thirst;
+                            _currentMetrics.thirst = _metricsThreshold.thirst + metricsReward.thirst;
                             break;
                         case NeedType.Music:
-                            _currentMetrics.enjoyment = _metricsThreshold.enjoyment + Random.Range(0.0f, 0.15f) +
-                                                        metricsReward.enjoyment;
+                            _currentMetrics.enjoyment = _metricsThreshold.enjoyment + metricsReward.enjoyment;
                             break;
                     }
 
@@ -268,7 +259,6 @@ namespace Needs
 
                     OnNeedFulfilled?.Invoke(need.GetNeedType());
 
-                    _currentTime = 0.0f;
                     _needTimer = needCooldown;
                     break;
                 }
