@@ -74,10 +74,6 @@ crashlytics-build.properties
 # JetBrains Rider files
 /.idea/*
 
-# Ignore Art assets for now (temporary)
-/[Aa]ssets/[Aa]rt/*
-/[Aa]ssets/[Aa]udio/*
-
 # Plugins
 /[Aa]ssets/VFX_Klaus/*
 /[Aa]ssets/Fullscreen/*
