@@ -18,5 +18,5 @@ Right-click (RMB) -> Command closest free minion
 [Eleanor](https://www.linkedin.com/in/caesarinohs/) - 2D Artist  
 [Amber](https://www.linkedin.com/in/highlandtaurus/) - 2D Artist  
 [Jessica](https://404-personnotfound.itch.io/) - Programmer, 2D Artist  
-Emre - Programmer  
+[Emre](https://emredogan.itch.io/) - Programmer  
 [Aum](https://github.com/AumPatel2208) - Narrative, Programmer 
