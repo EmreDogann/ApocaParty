@@ -1,14 +1,14 @@
 # ApocaParty
 Summer Slow Jams 2023: Narrative Submission about being the party planner for the end of the world.
 
+![Screenshot-1](https://github.com/EmreDogann/ApocaParty/assets/48212096/bc983db7-c7f2-47e3-98aa-5927f531c843)
+![Screenshot-2](https://github.com/EmreDogann/ApocaParty/assets/48212096/ce3ea1cc-b884-412e-8cd9-0e37a182100d) 
+
 # Visit the [itch.io page](https://ayperosia.itch.io/apocaparty) for more information!
 
 ## Controls
-Left-click (LMB) -> Move/command player
+Left-click (LMB) -> Move/command player  
 Right-click (RMB) -> Command closest free minion
-
-![Screenshot-1](https://github.com/EmreDogann/ApocaParty/assets/48212096/bc983db7-c7f2-47e3-98aa-5927f531c843)
-![Screenshot-2](https://github.com/EmreDogann/ApocaParty/assets/48212096/ce3ea1cc-b884-412e-8cd9-0e37a182100d) 
 
 ## Authors
 [Robyn](https://www.linkedin.com/in/robyn-crawford-a5092b230/) - Production  
